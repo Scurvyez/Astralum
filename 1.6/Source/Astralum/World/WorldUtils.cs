@@ -1,0 +1,21 @@
+﻿using Astralum.Astronomy.Stars;
+using Verse;
+
+namespace Astralum.World
+{
+    public static class WorldUtils
+    {
+        public static SavedStar CurrentStar
+        {
+            get
+            {
+                RimWorld.Planet.World world = Find.World;
+                
+                if (world == null) return null;
+                AstralumWorldComponent comp = world.GetComponent<AstralumWorldComponent>();
+                
+                return comp?.Star;
+            }
+        }
+    }
+}
