@@ -30,14 +30,16 @@
 # Ignore generated Unity data
 # =========================================
 
+/Astralum/.idea/
 /Astralum/Library/
 /Astralum/Logs/
-/Astralum/MemoryCaptures/
-/Astralum/Obj/
 /Astralum/Packages/
 /Astralum/ProjectSettings/
-/Astralum/Temp/
 /Astralum/UserSettings/
+/Astralum/obj/
+/Astralum/Temp/
+/Astralum/Build/
+/Astralum/Builds/
 
 # Ignore build artifacts
 *.csproj
@@ -54,6 +56,16 @@
 # Ignore Rider / VS
 .idea/
 .vs/
+*.sln.iml
+bin/
+obj/
+*.user
+*.csproj.user
+*.suo
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
 
 # =========================================
 # Keep RimWorld mod folders
