@@ -25,34 +25,36 @@ namespace Astralum.Astronomy.Stars
         {
             string systemName = StellarNamingUtil.GenerateSystemName();
             string starName = StellarNamingUtil.GenerateStarName(systemName);
-            
             SpectralClass spectralClass = GenerateRandomSpectralClass();
             double age = StellarAgeUtil.GenerateAge(spectralClass);
             float temperatureKelvin = StellarTemperatureUtil.GenerateTemperatureKelvin(spectralClass);
-            float rotation = StellarRotationUtil.GenerateRotation(spectralClass);
             float magneticField = StellarMagneticFieldUtil.GenerateMagneticField(spectralClass);
-            
-            var variability = StellarVariabilityUtil.GenerateVariability(spectralClass);
-            StellarVariabilityUtil.StellarVariabilityType variabilityType = variability.Type;
-            float variabilityAmount = variability.Amount;
-            
             float radius = StellarRadiusUtil.GenerateRadius(spectralClass);
             float luminosity = StellarLuminosityUtil.GenerateLuminosity(radius, temperatureKelvin);
             float mass = StellarMassUtil.GenerateMass(radius);
-            
-            Color chromaticity = StellarChromaticityUtil.GenerateChromaticity(spectralClass);
-
+            var variability = StellarVariabilityUtil.GenerateVariability(spectralClass);
+            StellarVariabilityUtil.StellarVariabilityType variabilityType = variability.Type;
+            float variabilityAmount = variability.Amount;
+            float variabilitySpeed = StellarVariabilityUtil.GenerateVariabilitySpeed();
             float coronaIntensity = StellarCoronaUtil.GenerateCoronaIntensity(
                 temperatureKelvin, magneticField, variabilityType, variabilityAmount, age, luminosity);
-            Color coronaColor = StellarCoronaUtil.GenerateCoronaColor(
+            
+            Color chromaticity = StellarChromaticityUtil.GenerateChromaticity(spectralClass);
+            Color corona = StellarCoronaUtil.GenerateCoronaColor(
                 chromaticity, temperatureKelvin, magneticField, variabilityType, variabilityAmount, age, 
                 luminosity, coronaIntensity);
+            float rotation = StellarRotationUtil.GenerateRotation(spectralClass);
+            float chromaticityIntensity = StellarChromaticityUtil.GenerateChromaticityIntensity();
+            float outerCoronaIntensity = StellarCoronaUtil.GenerateCoronaOuterIntensity();
+            float chromaticityFalloffPower = StellarChromaticityUtil.GenerateChromaticityFalloffPower();
+            float coronaPower = StellarCoronaUtil.GenerateCoronaPower();
+            float outerCoronaPower = StellarCoronaUtil.GenerateOuterCoronaPower();
+            float surfaceNoiseStrength = StellarChromaticityUtil.GenerateSurfaceNoiseStrength();
             
-            return new GeneratedStar(systemName, starName,
-                spectralClass, age, temperatureKelvin, rotation, magneticField,
-                variabilityType, variabilityAmount, radius, luminosity, mass, chromaticity, coronaColor,
-                chromaticityIntensity: 1f, coronaIntensity: 1f, radiusPower: 1f, glowPower: 5f
-            );
+            return new GeneratedStar(systemName, starName, spectralClass, age, temperatureKelvin, magneticField,
+                radius, luminosity, mass, variabilityType, chromaticity, corona, rotation, chromaticityIntensity, 
+                coronaIntensity, outerCoronaIntensity, chromaticityFalloffPower, coronaPower, outerCoronaPower,
+                surfaceNoiseStrength, variabilityAmount, variabilitySpeed);
         }
     }
 }

@@ -10,9 +10,7 @@ namespace Astralum.World
             get
             {
                 RimWorld.Planet.World world = Find.World;
-                
-                if (world == null) return null;
-                AstralumWorldComponent comp = world.GetComponent<AstralumWorldComponent>();
+                AstralumWorldComponent comp = world?.GetComponent<AstralumWorldComponent>();
                 
                 return comp?.Star;
             }

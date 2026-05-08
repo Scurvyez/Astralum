@@ -4,53 +4,64 @@ namespace Astralum.Astronomy.Stars
 {
     public readonly struct GeneratedStar
     {
+        #region Star/System Informational Properties
         public readonly string SystemName;
         public readonly string StarName;
-        
         public readonly SpectralClass SpectralClass;
         public readonly double Age;
         public readonly float TemperatureKelvin;
-        public readonly float Rotation;
         public readonly float MagneticField;
-        public readonly StellarVariabilityUtil.StellarVariabilityType VariabilityType;
-        public readonly float VariabilityAmount;
         public readonly float Radius;
         public readonly float Luminosity;
         public readonly float Mass;
+        public readonly StellarVariabilityUtil.StellarVariabilityType VariabilityType;
+        #endregion
+        
+        #region Star/System Visual Properties
         public readonly Color Chromaticity;
-        public readonly Color CoronaColor;
+        public readonly Color Corona;
+        public readonly float Rotation;
         public readonly float ChromaticityIntensity;
         public readonly float CoronaIntensity;
+        public readonly float OuterCoronaIntensity;
+        public readonly float ChromaticityFalloffPower;
+        public readonly float CoronaPower;
+        public readonly float OuterCoronaPower;
+        public readonly float SurfaceNoiseStrength;
+        public readonly float VariabilityAmount;
+        public readonly float VariabilitySpeed;
+        #endregion
         
-        public readonly float RadiusPower;
-        public readonly float GlowPower;
-        
-        public GeneratedStar(string systemName, string starName,
-            SpectralClass spectralClass, double age, float temperatureKelvin, float rotation,
-            float magneticField, StellarVariabilityUtil.StellarVariabilityType variabilityType, float variabilityAmount,
-            float radius, float luminosity, float mass, Color chromaticity, Color coronaColor, 
-            float chromaticityIntensity, float coronaIntensity, float radiusPower, float glowPower)
+        public GeneratedStar(string systemName, string starName, SpectralClass spectralClass, double age, 
+            float temperatureKelvin, float magneticField, float radius, float luminosity, float mass, 
+            StellarVariabilityUtil.StellarVariabilityType variabilityType, Color chromaticity, Color corona, 
+            float rotation, float chromaticityIntensity, float coronaIntensity, float outerCoronaIntensity,
+            float chromaticityFalloffPower, float coronaPower, float outerCoronaPower, float surfaceNoiseStrength,
+            float variabilityAmount, float variabilitySpeed)
         {
             SystemName = systemName;
             StarName = starName;
-            
             SpectralClass = spectralClass;
             Age = age;
             TemperatureKelvin = temperatureKelvin;
-            Rotation = rotation;
             MagneticField = magneticField;
-            VariabilityType = variabilityType;
-            VariabilityAmount = variabilityAmount;
             Radius = radius;
             Luminosity = luminosity;
             Mass = mass;
+            VariabilityType = variabilityType;
+            
             Chromaticity = chromaticity;
-            CoronaColor = coronaColor;
+            Corona = corona;
+            Rotation = rotation;
             ChromaticityIntensity = chromaticityIntensity;
             CoronaIntensity = coronaIntensity;
-            
-            RadiusPower = radiusPower;
-            GlowPower = glowPower;
+            OuterCoronaIntensity = outerCoronaIntensity;
+            ChromaticityFalloffPower = chromaticityFalloffPower;
+            CoronaPower = coronaPower;
+            OuterCoronaPower = outerCoronaPower;
+            SurfaceNoiseStrength = surfaceNoiseStrength;
+            VariabilityAmount = variabilityAmount;
+            VariabilitySpeed = variabilitySpeed;
         }
     }
 }

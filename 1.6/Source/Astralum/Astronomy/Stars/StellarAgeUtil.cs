@@ -6,7 +6,7 @@ namespace Astralum.Astronomy.Stars
     {
         private const double MillionYears = 1_000_000d;
         private const double BillionYears = 1_000_000_000d;
-
+        
         private static double GetAge(SpectralClass spectralClass)
         {
             return spectralClass switch
@@ -26,7 +26,7 @@ namespace Astralum.Astronomy.Stars
         {
             return GetAge(spectralClass);
         }
-
+        
         public static string FormatAge(double years)
         {
             return years switch

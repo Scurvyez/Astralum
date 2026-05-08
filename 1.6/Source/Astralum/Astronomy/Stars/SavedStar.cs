@@ -5,26 +5,33 @@ namespace Astralum.Astronomy.Stars
 {
     public class SavedStar : IExposable
     {
+        #region Star/System Informational Properties
         public string systemName;
         public string starName;
-        
         public SpectralClass spectralClass;
         public double age;
         public float temperatureKelvin;
-        public float rotation;
         public float magneticField;
-        public StellarVariabilityUtil.StellarVariabilityType variabilityType;
-        public float variabilityAmount;
         public float radius;
         public float luminosity;
         public float mass;
-        public Color chromaticity;
-        public Color coronaColor;
-        public float coronaIntensity = 1f;
-        public float chromaticityIntensity = 1f;
+        public StellarVariabilityUtil.StellarVariabilityType variabilityType;
+        #endregion
         
-        public float radiusPower = 1f;
-        public float glowPower = 5f;
+        #region Star/System Visual Properties
+        public Color chromaticity;
+        public Color corona;
+        public float rotation;
+        public float chromaticityIntensity = 1f;
+        public float coronaIntensity = 1f;
+        public float outerCoronaIntensity = 0.25f;
+        public float chromaticityFalloffPower = 2f;
+        public float coronaPower = 5f;
+        public float outerCoronaPower = 6f;
+        public float surfaceNoiseStrength;
+        public float variabilityAmount;
+        public float variabilitySpeed;
+        #endregion
         
         public SavedStar()
         {
@@ -35,48 +42,56 @@ namespace Astralum.Astronomy.Stars
         {
             systemName = generatedStar.SystemName;
             starName = generatedStar.StarName;
-            
             spectralClass = generatedStar.SpectralClass;
             age = generatedStar.Age;
             temperatureKelvin = generatedStar.TemperatureKelvin;
-            rotation = generatedStar.Rotation;
             magneticField = generatedStar.MagneticField;
-            variabilityType = generatedStar.VariabilityType;
-            variabilityAmount = generatedStar.VariabilityAmount;
             radius = generatedStar.Radius;
             luminosity = generatedStar.Luminosity;
             mass = generatedStar.Mass;
+            variabilityType = generatedStar.VariabilityType;
+            
             chromaticity = generatedStar.Chromaticity;
-            coronaColor = generatedStar.CoronaColor;
+            corona = generatedStar.Corona;
+            rotation = generatedStar.Rotation;
             chromaticityIntensity = generatedStar.ChromaticityIntensity;
             coronaIntensity = generatedStar.CoronaIntensity;
-            
-            radiusPower = generatedStar.RadiusPower;
-            glowPower = generatedStar.GlowPower;
+            outerCoronaIntensity = generatedStar.OuterCoronaIntensity;
+            chromaticityFalloffPower = generatedStar.ChromaticityFalloffPower;
+            coronaPower = generatedStar.CoronaPower;
+            outerCoronaPower = generatedStar.OuterCoronaPower;
+            surfaceNoiseStrength = generatedStar.SurfaceNoiseStrength;
+            variabilityAmount = generatedStar.VariabilityAmount;
+            variabilitySpeed = generatedStar.VariabilitySpeed;
         }
         
         public void ExposeData()
         {
             Scribe_Values.Look(ref systemName, "systemName");
             Scribe_Values.Look(ref starName, "starName");
-            
             Scribe_Values.Look(ref spectralClass, "spectralClass", SpectralClass.G);
             Scribe_Values.Look(ref age, "age", 7500000000);
             Scribe_Values.Look(ref temperatureKelvin, "temperatureKelvin", 5800f);
-            Scribe_Values.Look(ref rotation, "rotation", 0.5f);
             Scribe_Values.Look(ref magneticField, "magneticField", 0.002f);
-            Scribe_Values.Look(ref variabilityType, "variabilityType");
-            Scribe_Values.Look(ref variabilityAmount, "variabilityAmount");
             Scribe_Values.Look(ref radius, "radius", 1f);
             Scribe_Values.Look(ref luminosity, "luminosity", 1f);
             Scribe_Values.Look(ref mass, "mass", 1f);
-            Scribe_Values.Look(ref chromaticity, "chromaticity", new Color(1f, 0.93f, 0.89f, 1f));
-            Scribe_Values.Look(ref coronaColor, "coronaColor", new Color(1f, 0.93f, 0.89f, 1f));
+            Scribe_Values.Look(ref variabilityType, "variabilityType");
+            
+            Scribe_Values.Look(ref chromaticity, "chromaticity", 
+                new Color(1f, 0.93f, 0.89f, 1f));
+            Scribe_Values.Look(ref corona, "coronaColor", 
+                new Color(1f, 0.93f, 0.89f, 1f));
+            Scribe_Values.Look(ref rotation, "rotation", 0.5f);
             Scribe_Values.Look(ref chromaticityIntensity, "chromaticityIntensity", 1f);
             Scribe_Values.Look(ref coronaIntensity, "coronaIntensity", 1f);
-            
-            Scribe_Values.Look(ref radiusPower, "radiusPower", 1f);
-            Scribe_Values.Look(ref glowPower, "glowPower", 5f);
+            Scribe_Values.Look(ref outerCoronaIntensity, "outerCoronaIntensity", 0.25f);
+            Scribe_Values.Look(ref chromaticityFalloffPower, "chromaticityFalloffPower", 2f);
+            Scribe_Values.Look(ref coronaPower, "coronaPower", 5f);
+            Scribe_Values.Look(ref outerCoronaPower, "outerCoronaPower", 6f);
+            Scribe_Values.Look(ref surfaceNoiseStrength, "surfaceNoiseStrength", 0.025f);
+            Scribe_Values.Look(ref variabilityAmount, "variabilityAmount");
+            Scribe_Values.Look(ref variabilitySpeed, "variabilitySpeed");
         }
     }
 }

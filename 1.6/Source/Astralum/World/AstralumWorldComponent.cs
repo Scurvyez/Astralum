@@ -1,5 +1,4 @@
 ﻿using Astralum.Astronomy.Stars;
-using Astralum.Debugging;
 using Astralum.Materials;
 using RimWorld.Planet;
 using Verse;
@@ -59,10 +58,6 @@ namespace Astralum.World
         {
             GeneratedStar generatedStar = StarGenerator.GenerateRandomStar();
             _star = new SavedStar(generatedStar);
-
-            AstraLog.Message(
-                $"Generated world star: Class={_star.spectralClass}, Temp={_star.temperatureKelvin:0}K"
-            );
         }
     }
 }

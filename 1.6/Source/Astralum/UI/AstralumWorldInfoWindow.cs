@@ -67,7 +67,7 @@ namespace Astralum.UI
                 new StarInfoLine($"Mass: {StellarMassUtil.FormatMass(star.mass)}"),
 
                 new StarInfoLine("Chromaticity:", star.chromaticity),
-                new StarInfoLine("Corona Glow:", star.coronaColor),
+                new StarInfoLine("Corona Glow:", star.corona),
                 new StarInfoLine($"Corona Intensity: {StellarCoronaUtil.FormatCoronaIntensity(star.coronaIntensity)}")
             ];
         }

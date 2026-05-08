@@ -24,6 +24,21 @@ namespace Astralum.Astronomy.Stars
             return GetChromaticity(spectralClass);
         }
         
+        public static float GenerateChromaticityIntensity()
+        {
+            return 1f;
+        }
+        
+        public static float GenerateChromaticityFalloffPower()
+        {
+            return 2f;
+        }
+
+        public static float GenerateSurfaceNoiseStrength()
+        {
+            return 0.025f;
+        }
+        
         public static string FormatChromaticity(Color chromaticity)
         {
             return

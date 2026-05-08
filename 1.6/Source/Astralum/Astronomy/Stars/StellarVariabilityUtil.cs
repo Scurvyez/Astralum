@@ -42,6 +42,11 @@ namespace Astralum.Astronomy.Stars
             };
         }
         
+        public static float GenerateVariabilitySpeed()
+        {
+            return 0f;
+        }
+        
         public static GeneratedStellarVariability GenerateVariability(SpectralClass spectralClass)
         {
             // about 40% have no visible variability

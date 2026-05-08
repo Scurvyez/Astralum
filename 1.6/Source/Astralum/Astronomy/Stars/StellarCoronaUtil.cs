@@ -53,6 +53,21 @@ namespace Astralum.Astronomy.Stars
             
             return ClampColor01(coronaColor);
         }
+
+        public static float GenerateCoronaOuterIntensity()
+        {
+            return 0.25f;
+        }
+
+        public static float GenerateCoronaPower()
+        {
+            return 5f;
+        }
+        
+        public static float GenerateOuterCoronaPower()
+        {
+            return 6f;
+        }
         
         public static string FormatCoronaIntensity(float coronaIntensity)
         {

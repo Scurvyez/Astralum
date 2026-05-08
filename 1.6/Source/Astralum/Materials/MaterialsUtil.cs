@@ -67,8 +67,8 @@ namespace Astralum.Materials
             
             string signature =
                 $"{star.chromaticity.r:0.000}_{star.chromaticity.g:0.000}_{star.chromaticity.b:0.000}_" +
-                $"{star.coronaColor.r:0.000}_{star.coronaColor.g:0.000}_{star.coronaColor.b:0.000}_" +
-                $"{star.coronaIntensity:0.000}_{star.glowPower:0.000}";
+                $"{star.corona.r:0.000}_{star.corona.g:0.000}_{star.corona.b:0.000}_" +
+                $"{star.coronaIntensity:0.000}_{star.coronaPower:0.000}";
             
             if (!force && signature == _lastAppliedStarSignature)
                 return;
@@ -76,14 +76,16 @@ namespace Astralum.Materials
             _lastAppliedStarSignature = signature;
             
             mat.SetColor(InternalShaderPropertyIds.Chromaticity, star.chromaticity);
-            mat.SetColor(InternalShaderPropertyIds.Corona, star.coronaColor);
+            mat.SetColor(InternalShaderPropertyIds.Corona, star.corona);
             
-            mat.SetFloat(InternalShaderPropertyIds.ChromaticityIntensity, 1f);
+            mat.SetFloat(InternalShaderPropertyIds.CoronaRotationSpeed, star.rotation);
+            mat.SetFloat(InternalShaderPropertyIds.ChromaticityIntensity, star.chromaticityIntensity);
             mat.SetFloat(InternalShaderPropertyIds.CoronaIntensity, star.coronaIntensity);
+            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaIntensity, star.outerCoronaIntensity);
             
-            mat.SetFloat(InternalShaderPropertyIds.ChromaticityFalloffPower, 2f);
-            mat.SetFloat(InternalShaderPropertyIds.RadiusPower, star.radiusPower);
-            mat.SetFloat(InternalShaderPropertyIds.CoronaPower, star.glowPower);
+            mat.SetFloat(InternalShaderPropertyIds.ChromaticityFalloffPower, star.chromaticityFalloffPower);
+            mat.SetFloat(InternalShaderPropertyIds.CoronaPower, star.coronaPower);
+            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaPower, star.outerCoronaPower);
             
             bool intrinsicVariable =
                 star.variabilityType == StellarVariabilityUtil.StellarVariabilityType.Intrinsic &&
@@ -92,10 +94,8 @@ namespace Astralum.Materials
             mat.SetFloat(InternalShaderPropertyIds.VariabilityAmount,
                 intrinsicVariable ? star.variabilityAmount : 0f);
             
-            mat.SetFloat(InternalShaderPropertyIds.VariabilitySpeed,
+            mat.SetFloat(InternalShaderPropertyIds.VariabilitySpeed, 
                 intrinsicVariable ? 1f : 0f);
-            
-            AstraLog.Message($"Applied world star to material. Class={star.spectralClass}");
         }
         
         private static void ApplyFallbackStar(Material mat)
@@ -112,12 +112,15 @@ namespace Astralum.Materials
             mat.SetColor(InternalShaderPropertyIds.Chromaticity, new Color(1f, 0.93f, 0.89f, 1f));
             mat.SetColor(InternalShaderPropertyIds.Corona, new Color(1f, 0.82f, 0.47f, 1f));
             
+            mat.SetFloat(InternalShaderPropertyIds.CoronaRotationSpeed, 0.5f);
             mat.SetFloat(InternalShaderPropertyIds.ChromaticityIntensity, 1f);
             mat.SetFloat(InternalShaderPropertyIds.CoronaIntensity, 1f);
+            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaIntensity, 0.25f);
             
             mat.SetFloat(InternalShaderPropertyIds.ChromaticityFalloffPower, 2f);
-            mat.SetFloat(InternalShaderPropertyIds.RadiusPower, 1f);
             mat.SetFloat(InternalShaderPropertyIds.CoronaPower, 5f);
+            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaPower, 6f);
+            
             mat.SetFloat(InternalShaderPropertyIds.VariabilityAmount, 0f);
             mat.SetFloat(InternalShaderPropertyIds.VariabilitySpeed, 0f);
         }
