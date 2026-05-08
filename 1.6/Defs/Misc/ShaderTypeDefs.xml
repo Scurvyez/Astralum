@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <ShaderTypeDef>
+        <defName>Astra_Sun01</defName>
+        <shaderPath>Sun01</shaderPath>
+    </ShaderTypeDef>
+
+</Defs>
