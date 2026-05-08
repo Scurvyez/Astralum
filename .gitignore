@@ -40,6 +40,10 @@
 /Astralum/Temp/
 /Astralum/Build/
 /Astralum/Builds/
+/Astralum/Assets/Dev (Unity)/
+/Astralum/Assets/Dev (Unity).meta
+/Astralum/Assets/Scenes/
+/Astralum/Assets/Scenes.meta
 
 # Ignore build artifacts
 *.csproj
