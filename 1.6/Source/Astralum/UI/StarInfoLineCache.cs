@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Astralum.Astronomy.Stars;
 
 namespace Astralum.UI
@@ -36,30 +37,37 @@ namespace Astralum.UI
         
         private static List<StarInfoLine> BuildLines(SavedStar star)
         {
-            return
+            List<StarInfoLine> lines =
             [
-                new StarInfoLine(StellarNamingUtil.SafeName(star.starName, "Unknown Star")),
-                new StarInfoLine($"System: {StellarNamingUtil.SafeName(
-                    star.systemName, "Unknown System")}"),
+                new(StellarNamingUtil.SafeName(star.starName, "Unknown Star")),
+                new($"System: {StellarNamingUtil.SafeName(star.systemName, "Unknown System")}"),
                 
-                new StarInfoLine($"Class: {star.spectralClass}"),
-                new StarInfoLine($"Age: {StellarAgeUtil.FormatAge(star.age)}"),
-                new StarInfoLine($"Temperature: {StellarTemperatureUtil.FormatTemperature(
-                    star.temperatureKelvin)}"),
-                new StarInfoLine($"Rotation: {StellarRotationUtil.FormatRotation(star.rotation)}"),
-                new StarInfoLine($"Magnetic Field: {StellarMagneticFieldUtil.FormatMagneticField(
-                    star.magneticField)}"),
-                new StarInfoLine($"Variability: {StellarVariabilityUtil.FormatVariability(
+                new($"Class: {star.spectralClass}"),
+                new($"Age: {StellarAgeUtil.FormatAge(star.age)}"),
+                new($"Temperature: {StellarTemperatureUtil.FormatTemperature(star.temperatureKelvin)}"),
+                new($"Rotation: {StellarRotationUtil.FormatRotation(star.rotation)}"),
+                new($"Magnetic Field: {StellarMagneticFieldUtil.FormatMagneticField(star.magneticField)}"),
+                new($"Variability: {StellarVariabilityUtil.FormatVariability(
                     star.variabilityType, star.variabilityAmount)}"),
-                new StarInfoLine($"Radius: {StellarRadiusUtil.FormatRadius(star.radius)}"),
-                new StarInfoLine($"Luminosity: {StellarLuminosityUtil.FormatLuminosity(star.luminosity)}"),
-                new StarInfoLine($"Mass: {StellarMassUtil.FormatMass(star.mass)}"),
-                
-                new StarInfoLine("Chromaticity:", star.chromaticity),
-                new StarInfoLine("Corona Glow:", star.corona),
-                new StarInfoLine($"Corona Intensity: {StellarCoronaUtil.FormatCoronaIntensity(
-                    star.coronaIntensity)}")
+                new($"Radius: {StellarRadiusUtil.FormatRadius(star.radius)}"),
+                new($"Luminosity: {StellarLuminosityUtil.FormatLuminosity(star.luminosity)}"),
+                new($"Mass: {StellarMassUtil.FormatMass(star.mass)}"),
+                new($"Metallicity: {StellarCompositionUtil.FormatMetallicity(star.metallicity)}"),
+                new("Composition:")
             ];
+            
+            foreach (string compositionLine in StellarCompositionUtil.FormatCompositionLines(
+                         star.composition, 3))
+            {
+                lines.Add(new StarInfoLine($"  {compositionLine}"));
+            }
+            
+            lines.Add(new StarInfoLine("Chromaticity:", star.chromaticity));
+            lines.Add(new StarInfoLine("Corona Glow:", star.corona));
+            lines.Add(new StarInfoLine($"Corona Intensity: " +
+                                       $"{StellarCoronaUtil.FormatCoronaIntensity(star.coronaIntensity)}"));
+            
+            return lines;
         }
     }
 }

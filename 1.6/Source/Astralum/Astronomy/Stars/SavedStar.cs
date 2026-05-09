@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Astralum.Astronomy.Stars
@@ -15,6 +16,8 @@ namespace Astralum.Astronomy.Stars
         public float radius;
         public float luminosity;
         public float mass;
+        public Dictionary<string, float> composition;
+        public float metallicity;
         public StellarVariabilityUtil.StellarVariabilityType variabilityType;
         #endregion
         
@@ -49,6 +52,8 @@ namespace Astralum.Astronomy.Stars
             radius = generatedStar.Radius;
             luminosity = generatedStar.Luminosity;
             mass = generatedStar.Mass;
+            composition = generatedStar.Composition;
+            metallicity = generatedStar.Metallicity;
             variabilityType = generatedStar.VariabilityType;
             
             chromaticity = generatedStar.Chromaticity;
@@ -76,6 +81,8 @@ namespace Astralum.Astronomy.Stars
             Scribe_Values.Look(ref radius, "radius", 1f);
             Scribe_Values.Look(ref luminosity, "luminosity", 1f);
             Scribe_Values.Look(ref mass, "mass", 1f);
+            Scribe_Collections.Look(ref composition, "compositionElements", LookMode.Value, LookMode.Value);
+            Scribe_Values.Look(ref metallicity, "metallicity", 2f);
             Scribe_Values.Look(ref variabilityType, "variabilityType");
             
             Scribe_Values.Look(ref chromaticity, "chromaticity", 
@@ -92,6 +99,17 @@ namespace Astralum.Astronomy.Stars
             Scribe_Values.Look(ref surfaceNoiseStrength, "surfaceNoiseStrength", 0.025f);
             Scribe_Values.Look(ref variabilityAmount, "variabilityAmount");
             Scribe_Values.Look(ref variabilitySpeed, "variabilitySpeed");
+
+            if (Scribe.mode == LoadSaveMode.PostLoadInit && composition == null)
+            {
+                composition = new Dictionary<string, float>
+                {
+                    { "H", 74f },
+                    { "He", 24f },
+                    { "O", 1f },
+                    { "Fe", 1f }
+                };
+            }
         }
     }
 }

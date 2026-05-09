@@ -76,8 +76,8 @@ namespace Astralum.Materials
                 $"{star.corona.r:0.000}_{star.corona.g:0.000}_{star.corona.b:0.000}_" +
                 $"{star.coronaIntensity:0.000}_{star.coronaPower:0.000}";
             
-            if (!force && signature == _lastAppliedStarSignature)
-                return;
+            //if (!force && signature == _lastAppliedStarSignature)
+                //return;
             
             _lastAppliedStarSignature = signature;
             

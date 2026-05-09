@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using Verse;
 
 namespace Astralum.Astronomy.Stars
@@ -32,6 +33,9 @@ namespace Astralum.Astronomy.Stars
             float radius = StellarRadiusUtil.GenerateRadius(spectralClass);
             float luminosity = StellarLuminosityUtil.GenerateLuminosity(radius, temperatureKelvin);
             float mass = StellarMassUtil.GenerateMass(luminosity);
+            GeneratedStellarComposition compositionRaw = StellarCompositionUtil.GenerateComposition(spectralClass);
+            Dictionary<string, float> composition = compositionRaw.Elements;
+            float metallicity = compositionRaw.Metallicity;
             var variability = StellarVariabilityUtil.GenerateVariability(spectralClass);
             StellarVariabilityUtil.StellarVariabilityType variabilityType = variability.Type;
             float variabilityAmount = variability.Amount;
@@ -52,9 +56,9 @@ namespace Astralum.Astronomy.Stars
             float surfaceNoiseStrength = StellarChromaticityUtil.GenerateSurfaceNoiseStrength();
             
             return new GeneratedStar(systemName, starName, spectralClass, age, temperatureKelvin, magneticField,
-                radius, luminosity, mass, variabilityType, chromaticity, corona, rotation, chromaticityIntensity, 
-                coronaIntensity, outerCoronaIntensity, chromaticityFalloffPower, coronaPower, outerCoronaPower,
-                surfaceNoiseStrength, variabilityAmount, variabilitySpeed);
+                radius, luminosity, mass, composition, metallicity, variabilityType, chromaticity, corona, rotation, 
+                chromaticityIntensity, coronaIntensity, outerCoronaIntensity, chromaticityFalloffPower, 
+                coronaPower, outerCoronaPower, surfaceNoiseStrength, variabilityAmount, variabilitySpeed);
         }
     }
 }

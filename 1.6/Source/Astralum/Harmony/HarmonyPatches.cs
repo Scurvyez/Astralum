@@ -14,13 +14,13 @@ namespace Astralum.Harmony
     [StaticConstructorOnStartup]
     public static class HarmonyPatches
     {
-        // TODO:
-        // Organize. Clean up.
         static HarmonyPatches()
         {
             HarmonyLib.Harmony harmony = new (id: "scurvyez.astralum.rimworld");
 
-            MethodInfo regenerate = AccessTools.Method(typeof(GlobalDrawLayer_Sun), nameof(GlobalDrawLayer_Sun.Regenerate));
+            MethodInfo regenerate = AccessTools.Method(
+                typeof(GlobalDrawLayer_Sun), nameof(GlobalDrawLayer_Sun.Regenerate));
+            
             MethodInfo moveNext = AccessTools.EnumeratorMoveNext(regenerate);
             MethodInfo extraOnGUI = AccessTools.Method(typeof(Page_SelectStartingSite), "ExtraOnGUI");
             
@@ -55,9 +55,12 @@ namespace Astralum.Harmony
         {
             List<CodeInstruction> codes = instructions.ToList();
             
-            MethodInfo vanillaSunGetter = AccessTools.PropertyGetter(typeof(WorldMaterials), nameof(WorldMaterials.Sun));
+            MethodInfo vanillaSunGetter = AccessTools.PropertyGetter(
+                typeof(WorldMaterials), nameof(WorldMaterials.Sun));
             FieldInfo vanillaSunField = AccessTools.Field(typeof(WorldMaterials), nameof(WorldMaterials.Sun));
-            MethodInfo astralumSunGetter = AccessTools.PropertyGetter(typeof(MaterialsUtil), nameof(MaterialsUtil.Sun01Mat));
+            
+            MethodInfo astralumSunGetter = AccessTools.PropertyGetter(
+                typeof(MaterialsUtil), nameof(MaterialsUtil.Sun01Mat));
             
             if (astralumSunGetter == null)
             {
@@ -92,7 +95,8 @@ namespace Astralum.Harmony
             {
                 AstraLog.Warning(
                     "Sun transpiler made 0 replacements. " +
-                    "The IL may not reference WorldMaterials.Sun in the expected way."
+                    "The IL may not reference WorldMaterials.Sun in the expected way." +
+                    "Check your shit Steve..."
                 );
             }
             return codes;

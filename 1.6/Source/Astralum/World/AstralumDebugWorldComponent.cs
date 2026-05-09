@@ -41,7 +41,7 @@ namespace Astralum.World
         [TweakValue(TVCategory, 0f, 5f)]
         private static float SurfaceNoiseStrength = 0.03f;
         
-        [TweakValue(TVCategory, -5f, 5f)]
+        [TweakValue(TVCategory, -50f, 50f)]
         private static float CoronaRotationSpeed = 0f;
         
         [TweakValue(TVCategory, 0f, 2f)]
@@ -79,6 +79,12 @@ namespace Astralum.World
             
             EnsureInitializedFromCurrentStar();
             ApplyTweaks();
+        }
+        
+        public static void ResetTweaksFromCurrentStar()
+        {
+            _initializedFromStar = false;
+            EnsureInitializedFromCurrentStar();
         }
         
         private static void ApplyTweaks()

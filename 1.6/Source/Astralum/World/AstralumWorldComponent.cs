@@ -21,7 +21,7 @@ namespace Astralum.World
         public AstralumWorldComponent(RimWorld.Planet.World world) : base(world)
         {
         }
-
+        
         public override void FinalizeInit(bool fromLoad)
         {
             base.FinalizeInit(fromLoad);
@@ -29,7 +29,7 @@ namespace Astralum.World
             EnsureStarExists();
             MaterialsUtil.RefreshSun01Mat();
         }
-
+        
         public override void ExposeData()
         {
             base.ExposeData();
@@ -45,6 +45,7 @@ namespace Astralum.World
                 
                 UI.StarInfoLineCache.Rebuild(_star);
                 MaterialsUtil.RefreshSun01Mat();
+                AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
             }
         }
         
@@ -63,6 +64,7 @@ namespace Astralum.World
             
             UI.StarInfoLineCache.Rebuild(_star);
             MaterialsUtil.RefreshSun01Mat();
+            AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
         }
     }
 }

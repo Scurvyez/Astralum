@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using RimWorld.BaseGen;
+using UnityEngine;
 
 namespace Astralum.Astronomy.Stars
 {
@@ -14,6 +16,8 @@ namespace Astralum.Astronomy.Stars
         public readonly float Radius;
         public readonly float Luminosity;
         public readonly float Mass;
+        public readonly Dictionary<string, float> Composition;
+        public readonly float Metallicity;
         public readonly StellarVariabilityUtil.StellarVariabilityType VariabilityType;
         #endregion
         
@@ -34,6 +38,7 @@ namespace Astralum.Astronomy.Stars
         
         public GeneratedStar(string systemName, string starName, SpectralClass spectralClass, double age, 
             float temperatureKelvin, float magneticField, float radius, float luminosity, float mass, 
+            Dictionary<string, float> composition, float metallicity,
             StellarVariabilityUtil.StellarVariabilityType variabilityType, Color chromaticity, Color corona, 
             float rotation, float chromaticityIntensity, float coronaIntensity, float outerCoronaIntensity,
             float chromaticityFalloffPower, float coronaPower, float outerCoronaPower, float surfaceNoiseStrength,
@@ -48,6 +53,8 @@ namespace Astralum.Astronomy.Stars
             Radius = radius;
             Luminosity = luminosity;
             Mass = mass;
+            Composition = composition;
+            Metallicity = metallicity;
             VariabilityType = variabilityType;
             
             Chromaticity = chromaticity;
