@@ -38,26 +38,31 @@ namespace Astralum.World
                 EnsureStarExists();
 
             Scribe_Deep.Look(ref _star, "astralumStar");
-
+            
             if (Scribe.mode == LoadSaveMode.PostLoadInit)
             {
                 EnsureStarExists();
+                
+                UI.StarInfoLineCache.Rebuild(_star);
                 MaterialsUtil.RefreshSun01Mat();
             }
         }
-
+        
         private void EnsureStarExists()
         {
             if (_star != null)
                 return;
-
+            
             GenerateStar();
         }
-
+        
         private void GenerateStar()
         {
             GeneratedStar generatedStar = StarGenerator.GenerateRandomStar();
             _star = new SavedStar(generatedStar);
+            
+            UI.StarInfoLineCache.Rebuild(_star);
+            MaterialsUtil.RefreshSun01Mat();
         }
     }
 }

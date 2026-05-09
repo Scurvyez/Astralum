@@ -80,7 +80,7 @@ namespace Astralum.Astronomy.Stars
             
             Scribe_Values.Look(ref chromaticity, "chromaticity", 
                 new Color(1f, 0.93f, 0.89f, 1f));
-            Scribe_Values.Look(ref corona, "coronaColor", 
+            Scribe_Values.Look(ref corona, "corona", 
                 new Color(1f, 0.93f, 0.89f, 1f));
             Scribe_Values.Look(ref rotation, "rotation", 0.5f);
             Scribe_Values.Look(ref chromaticityIntensity, "chromaticityIntensity", 1f);

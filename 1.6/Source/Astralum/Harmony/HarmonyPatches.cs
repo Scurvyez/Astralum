@@ -14,15 +14,10 @@ namespace Astralum.Harmony
     [StaticConstructorOnStartup]
     public static class HarmonyPatches
     {
+        // TODO:
+        // Organize. Clean up.
         static HarmonyPatches()
         {
-            // TODO: make mod settings
-            // TODO: make data window draggable
-            // TODO: look into planetary atmospheric composition (new world layer(?), maybe update existing world layer?
-            // TODO: look into planet sky color change
-            // TODO: look into pawn skin color change
-            // TODO: CLEAN UP CODE, FOR THE LOVE OF EVERYTHING UNHOLY...
-            
             HarmonyLib.Harmony harmony = new (id: "scurvyez.astralum.rimworld");
 
             MethodInfo regenerate = AccessTools.Method(typeof(GlobalDrawLayer_Sun), nameof(GlobalDrawLayer_Sun.Regenerate));
@@ -105,12 +100,12 @@ namespace Astralum.Harmony
         
         public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
         {
-            UI.AstralumWorldInfoWindow.DrawOnGUI(requirePlaying: true);
+            UI.AstralumWorldInfoWindowManager.Update(requirePlaying: true);
         }
         
         public static void Page_SelectStartingSite_ExtraOnGUI_Postfix()
         {
-            UI.AstralumWorldInfoWindow.DrawOnGUI(requirePlaying: false);
+            UI.AstralumWorldInfoOverlay.DrawOnGUI(requirePlaying: false);
         }
     }
 }

@@ -65,6 +65,12 @@ namespace Astralum.Materials
                 return;
             }
             
+            // TODO:
+            // The signature only includes chromaticity, corona, corona intensity, and corona power,
+            // but the material application also depends on rotation, chromaticity intensity, outer corona
+            // intensity, falloff powers, variability amount/speed, and surface noise.
+            // Either include all applied values in the signature or remove the signature optimization until
+            // the shader data model settles.
             string signature =
                 $"{star.chromaticity.r:0.000}_{star.chromaticity.g:0.000}_{star.chromaticity.b:0.000}_" +
                 $"{star.corona.r:0.000}_{star.corona.g:0.000}_{star.corona.b:0.000}_" +
@@ -86,6 +92,7 @@ namespace Astralum.Materials
             mat.SetFloat(InternalShaderPropertyIds.ChromaticityFalloffPower, star.chromaticityFalloffPower);
             mat.SetFloat(InternalShaderPropertyIds.CoronaPower, star.coronaPower);
             mat.SetFloat(InternalShaderPropertyIds.OuterCoronaPower, star.outerCoronaPower);
+            mat.SetFloat(InternalShaderPropertyIds.SurfaceNoiseStrength, star.surfaceNoiseStrength);
             
             bool intrinsicVariable =
                 star.variabilityType == StellarVariabilityUtil.StellarVariabilityType.Intrinsic &&
@@ -95,7 +102,7 @@ namespace Astralum.Materials
                 intrinsicVariable ? star.variabilityAmount : 0f);
             
             mat.SetFloat(InternalShaderPropertyIds.VariabilitySpeed, 
-                intrinsicVariable ? 1f : 0f);
+                intrinsicVariable ? star.variabilitySpeed : 0f);
         }
         
         private static void ApplyFallbackStar(Material mat)

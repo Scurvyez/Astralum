@@ -6,6 +6,11 @@ using UnityEngine;
 
 namespace Astralum.World
 {
+    // TODO:
+    // This debug world component should be gated before release.
+    // This updates the material every WorldComponentUpdate() and overwrites shader values with TweakValue fields.
+    // That is perfect for development, but it should be disabled, #if DEBUG-guarded,
+    // or controlled by a setting before release.
     public class AstralumDebugWorldComponent : WorldComponent
     {
         private const string TVCategory = "Astralum";

@@ -31,7 +31,7 @@ namespace Astralum.Astronomy.Stars
             float magneticField = StellarMagneticFieldUtil.GenerateMagneticField(spectralClass);
             float radius = StellarRadiusUtil.GenerateRadius(spectralClass);
             float luminosity = StellarLuminosityUtil.GenerateLuminosity(radius, temperatureKelvin);
-            float mass = StellarMassUtil.GenerateMass(radius);
+            float mass = StellarMassUtil.GenerateMass(luminosity);
             var variability = StellarVariabilityUtil.GenerateVariability(spectralClass);
             StellarVariabilityUtil.StellarVariabilityType variabilityType = variability.Type;
             float variabilityAmount = variability.Amount;
