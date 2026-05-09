@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Verse;
 
 namespace Astralum.Astronomy.Stars
 {
@@ -31,14 +31,14 @@ namespace Astralum.Astronomy.Stars
         {
             return spectralClass switch
             {
-                SpectralClass.O => Random.Range(0.05f, 0.15f),
-                SpectralClass.B => Random.Range(0.03f, 0.10f),
-                SpectralClass.A => Random.Range(0.02f, 0.08f),
-                SpectralClass.F => Random.Range(0.01f, 0.06f),
-                SpectralClass.G => Random.Range(0.01f, 0.05f),
-                SpectralClass.K => Random.Range(0.01f, 0.03f),
-                SpectralClass.M => Random.Range(0.01f, 0.02f),
-                _ => Random.Range(0.01f, 0.05f)
+                SpectralClass.O => Rand.Range(0.05f, 0.15f),
+                SpectralClass.B => Rand.Range(0.03f, 0.10f),
+                SpectralClass.A => Rand.Range(0.02f, 0.08f),
+                SpectralClass.F => Rand.Range(0.01f, 0.06f),
+                SpectralClass.G => Rand.Range(0.01f, 0.05f),
+                SpectralClass.K => Rand.Range(0.01f, 0.03f),
+                SpectralClass.M => Rand.Range(0.01f, 0.02f),
+                _ => Rand.Range(0.01f, 0.05f)
             };
         }
         
@@ -50,10 +50,10 @@ namespace Astralum.Astronomy.Stars
         public static GeneratedStellarVariability GenerateVariability(SpectralClass spectralClass)
         {
             // about 40% have no visible variability
-            if (Random.Range(0f, 1f) < 0.4f)
+            if (Rand.Range(0f, 1f) < 0.4f)
                 return new GeneratedStellarVariability(StellarVariabilityType.None, 0f);
 
-            StellarVariabilityType type = Random.Range(0, 2) == 0
+            StellarVariabilityType type = Rand.Range(0, 2) == 0
                 ? StellarVariabilityType.Extrinsic
                 : StellarVariabilityType.Intrinsic;
 

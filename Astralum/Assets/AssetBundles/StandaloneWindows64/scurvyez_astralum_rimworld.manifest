@@ -1,20 +1,27 @@
 ManifestFileVersion: 0
-CRC: 3228855625
+CRC: 360198703
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4abc26c0ae1c0d0e27b31dbbc829098c
+    Hash: 6f3ff90ab309ab71c6f23e9437200688
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 0df1dec30b5d061d422d3e6493d27647
+    Hash: b4f2efbdb85a500017afd875df75d980
   IncrementalBuildHash:
     serializedVersion: 2
-    Hash: 4abc26c0ae1c0d0e27b31dbbc829098c
+    Hash: 6f3ff90ab309ab71c6f23e9437200688
 HashAppended: 0
 ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Astralum/Starfield/Starfield02.jpg
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Astralum/Starfield/Starfield01.jpg
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Astralum/Starfield/Starfield04.jpg
+- Assets/Data/scurvyez.astralum.rimworld/Materials/Starfield01.shader
 - Assets/Data/scurvyez.astralum.rimworld/Materials/Sun01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Astralum/Starfield/Starfield03.jpg
 Dependencies: []

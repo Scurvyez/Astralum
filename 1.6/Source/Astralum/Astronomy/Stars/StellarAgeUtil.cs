@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿using Verse;
 
 namespace Astralum.Astronomy.Stars
 {
@@ -11,14 +11,14 @@ namespace Astralum.Astronomy.Stars
         {
             return spectralClass switch
             {
-                SpectralClass.O => Random.Range(5_000_000, 10_000_000),
-                SpectralClass.B => Random.Range(50_000_000, 100_000_000),
-                SpectralClass.A => Random.Range(500_000_000, 1_000_000_000),
-                SpectralClass.F => Random.Range(2_500_000_000, 5_000_000_000),
-                SpectralClass.G => Random.Range(5_000_000_000, 10_000_000_000),
-                SpectralClass.K => Random.Range(25_000_000_000, 50_000_000_000),
-                SpectralClass.M => Random.Range(50_000_000_000, 100_000_000_000),
-                _ => Random.Range(5_000_000_000, 10_000_000_000),
+                SpectralClass.O => Rand.Range(5_000_000, 10_000_000),
+                SpectralClass.B => Rand.Range(50_000_000, 100_000_000),
+                SpectralClass.A => Rand.Range(500_000_000, 1_000_000_000),
+                SpectralClass.F => Rand.Range(2_500_000_000, 5_000_000_000),
+                SpectralClass.G => Rand.Range(5_000_000_000, 10_000_000_000),
+                SpectralClass.K => Rand.Range(25_000_000_000, 50_000_000_000),
+                SpectralClass.M => Rand.Range(50_000_000_000, 100_000_000_000),
+                _ => Rand.Range(5_000_000_000, 10_000_000_000),
             };
         }
         

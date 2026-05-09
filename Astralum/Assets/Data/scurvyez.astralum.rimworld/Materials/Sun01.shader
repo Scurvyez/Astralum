@@ -18,6 +18,8 @@ Shader "Astralum/Sun01"
         
         _VariabilityAmount ("Variability Amount", Range(0,0.5)) = 0
         _VariabilitySpeed ("Variability Speed", Range(0,5)) = 1
+        
+        _ScalingFactor ("Scaling Factor", Range(0,2)) = 0.65
     }
     
     SubShader
@@ -55,6 +57,8 @@ Shader "Astralum/Sun01"
             
             float _VariabilityAmount;
             float _VariabilitySpeed;
+            
+            float _ScalingFactor;
             
             struct vertInput
             {
@@ -104,6 +108,7 @@ Shader "Astralum/Sun01"
             fixed4 frag (vertOutput input) : SV_Target
             {
                 float2 centeredUv = input.uv - float2(0.5,0.5);
+                centeredUv /= _ScalingFactor;
                 float dist = length(centeredUv);
                 
                 float baseRadial = saturate(1.0 - dist * 2.0);

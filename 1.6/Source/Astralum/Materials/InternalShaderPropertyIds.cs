@@ -4,6 +4,7 @@ namespace Astralum.Materials
 {
     public static class InternalShaderPropertyIds
     {
+        #region Star Properties
         public static readonly int Chromaticity = Shader.PropertyToID("_Chromaticity");
         public static readonly int Corona = Shader.PropertyToID("_Corona");
         
@@ -20,5 +21,13 @@ namespace Astralum.Materials
         
         public static readonly int VariabilityAmount = Shader.PropertyToID("_VariabilityAmount");
         public static readonly int VariabilitySpeed = Shader.PropertyToID("_VariabilitySpeed");
+        #endregion
+        
+        #region Starfield Properties
+        public static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        public static readonly int Tint = Shader.PropertyToID("_Tint");
+        public static readonly int Intensity = Shader.PropertyToID("_Intensity");
+        public static readonly int Rotation = Shader.PropertyToID("_Rotation");
+        #endregion
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Verse;
 
 namespace Astralum.Astronomy.Stars
 {
@@ -12,78 +12,78 @@ namespace Astralum.Astronomy.Stars
             {
                 SpectralClass.O => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(74f, 76f) },
-                    { "He", Random.Range(24f, 26f) }
+                    { "H", Rand.Range(74f, 76f) },
+                    { "He", Rand.Range(24f, 26f) }
                 },
                 
                 SpectralClass.B => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(58f, 70f) },
-                    { "He", Random.Range(28f, 42f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(58f, 70f) },
+                    { "He", Rand.Range(28f, 42f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) }
                 },
                 
                 SpectralClass.A => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(71f, 74f) },
-                    { "He", Random.Range(25f, 28f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) },
-                    { "Ne", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(71f, 74f) },
+                    { "He", Rand.Range(25f, 28f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) },
+                    { "Ne", Rand.Range(0.1f, 2f) }
                 },
                 
                 SpectralClass.F => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(54f, 64f) },
-                    { "He", Random.Range(35f, 45f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) },
-                    { "Ne", Random.Range(0.1f, 2f) },
-                    { "Fe", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(54f, 64f) },
+                    { "He", Rand.Range(35f, 45f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) },
+                    { "Ne", Rand.Range(0.1f, 2f) },
+                    { "Fe", Rand.Range(0.1f, 2f) }
                 },
                 
                 SpectralClass.G => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(74f, 84f) },
-                    { "He", Random.Range(14f, 24f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) },
-                    { "Ne", Random.Range(0.1f, 2f) },
-                    { "Fe", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(74f, 84f) },
+                    { "He", Rand.Range(14f, 24f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) },
+                    { "Ne", Rand.Range(0.1f, 2f) },
+                    { "Fe", Rand.Range(0.1f, 2f) }
                 },
                 
                 SpectralClass.K => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(56f, 64f) },
-                    { "He", Random.Range(36f, 44f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) },
-                    { "Ne", Random.Range(0.1f, 2f) },
-                    { "Fe", Random.Range(0.1f, 2f) },
-                    { "Si", Random.Range(0.1f, 2f) },
-                    { "Mg", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(56f, 64f) },
+                    { "He", Rand.Range(36f, 44f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) },
+                    { "Ne", Rand.Range(0.1f, 2f) },
+                    { "Fe", Rand.Range(0.1f, 2f) },
+                    { "Si", Rand.Range(0.1f, 2f) },
+                    { "Mg", Rand.Range(0.1f, 2f) }
                 },
                 
                 SpectralClass.M => new Dictionary<string, float>
                 {
-                    { "H", Random.Range(36f, 56f) },
-                    { "He", Random.Range(44f, 64f) },
-                    { "C", Random.Range(0.1f, 2f) },
-                    { "N", Random.Range(0.1f, 2f) },
-                    { "O", Random.Range(0.1f, 2f) },
-                    { "Ne", Random.Range(0.1f, 2f) },
-                    { "Fe", Random.Range(0.1f, 2f) },
-                    { "Si", Random.Range(0.1f, 2f) },
-                    { "Mg", Random.Range(0.1f, 2f) },
-                    { "S", Random.Range(0.1f, 2f) },
-                    { "Cl", Random.Range(0.1f, 2f) },
-                    { "K", Random.Range(0.1f, 2f) }
+                    { "H", Rand.Range(36f, 56f) },
+                    { "He", Rand.Range(44f, 64f) },
+                    { "C", Rand.Range(0.1f, 2f) },
+                    { "N", Rand.Range(0.1f, 2f) },
+                    { "O", Rand.Range(0.1f, 2f) },
+                    { "Ne", Rand.Range(0.1f, 2f) },
+                    { "Fe", Rand.Range(0.1f, 2f) },
+                    { "Si", Rand.Range(0.1f, 2f) },
+                    { "Mg", Rand.Range(0.1f, 2f) },
+                    { "S", Rand.Range(0.1f, 2f) },
+                    { "Cl", Rand.Range(0.1f, 2f) },
+                    { "K", Rand.Range(0.1f, 2f) }
                 },
                 
                 _ => new Dictionary<string, float>

@@ -89,7 +89,7 @@ namespace Astralum.World
         
         private static void ApplyTweaks()
         {
-            Material mat = MaterialsUtil.Sun01Mat;
+            Material mat = StarMaterialsUtil.Star01Mat;
             
             if (mat == null)
                 return;

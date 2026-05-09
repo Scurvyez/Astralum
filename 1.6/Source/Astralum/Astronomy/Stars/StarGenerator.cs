@@ -6,20 +6,36 @@ namespace Astralum.Astronomy.Stars
 {
     public static class StarGenerator
     {
-        private static readonly SpectralClass[] RandomSpectralClasses =
+        private static readonly SpectralClassWeight[] SpectralClassWeights =
         [
-            SpectralClass.O, 
-            SpectralClass.B, 
-            SpectralClass.A, 
-            SpectralClass.F, 
-            SpectralClass.G, 
-            SpectralClass.K,
-            SpectralClass.M
+            new(SpectralClass.O, 2f),
+            new(SpectralClass.B, 4f),
+            new(SpectralClass.A, 6f),
+            new(SpectralClass.F, 10f),
+            new(SpectralClass.G, 18f),
+            new(SpectralClass.K, 25f),
+            new(SpectralClass.M, 35f)
         ];
         
         private static SpectralClass GenerateRandomSpectralClass()
         {
-            return RandomSpectralClasses.RandomElement();
+            float totalWeight = 0f;
+            
+            foreach (SpectralClassWeight weight in SpectralClassWeights)
+                totalWeight += weight.Weight;
+            
+            float random = Rand.Range(0f, totalWeight);
+            float cumulativeWeight = 0f;
+            
+            foreach (SpectralClassWeight weight in SpectralClassWeights)
+            {
+                cumulativeWeight += weight.Weight;
+                
+                if (random <= cumulativeWeight)
+                    return weight.SpectralClass;
+            }
+            
+            return SpectralClass.M;
         }
         
         public static GeneratedStar GenerateRandomStar()

@@ -26,7 +26,7 @@ namespace Astralum.Astronomy.Stars
                 variabilityFactor * 0.25f +
                 ageFactor * 0.15f;
             
-            return Mathf.Clamp(intensity, 0.4f, 2.5f);
+            return Mathf.Clamp(intensity, 0.1f, 1.5f);
         }
         
         public static Color GenerateCoronaColor(Color chromaticity, float temperatureKelvin, float magneticField,

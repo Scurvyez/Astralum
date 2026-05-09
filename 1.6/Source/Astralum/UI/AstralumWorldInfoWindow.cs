@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.Stars;
 using Astralum.World;
-using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -21,6 +20,7 @@ namespace Astralum.UI
             draggable = true;
             doCloseX = false;
             doCloseButton = false;
+            closeOnCancel = false;
             absorbInputAroundWindow = false;
             closeOnClickedOutside = false;
             preventCameraMotion = false;
@@ -33,6 +33,8 @@ namespace Astralum.UI
             
             if (star == null)
                 return;
+            
+            SaveCurrentWindowPos();
             
             List<StarInfoLine> lines = StarInfoLineCache.GetLines(star);
             
@@ -57,7 +59,12 @@ namespace Astralum.UI
         public override void PreOpen()
         {
             base.PreOpen();
-            windowRect = GetDefaultWindowRect();
+            
+            AstralumStarWorldComponent comp = Find.World.GetComponent<AstralumStarWorldComponent>();
+            
+            windowRect = comp.HasSavedStarInfoWindowPos
+                ? new Rect(comp.StarInfoWindowPos.x, comp.StarInfoWindowPos.y, WindowWidth, GetWindowHeight())
+                : GetDefaultWindowRect();
         }
         
         public void RefreshSize()
@@ -84,6 +91,12 @@ namespace Astralum.UI
         {
             Text.Font = GameFont.Small;
             return Text.LineHeight;
+        }
+        
+        private void SaveCurrentWindowPos()
+        {
+            AstralumStarWorldComponent comp = Find.World.GetComponent<AstralumStarWorldComponent>();
+            comp?.StarInfoWindowPos = windowRect.position;
         }
         
         private static void DrawInfoLine(Rect rect, StarInfoLine line)

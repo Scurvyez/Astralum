@@ -26,7 +26,7 @@ namespace Astralum.Astronomy.Stars
         
         public static string GenerateSystemName()
         {
-            return Random.Range(0, 100) < 8
+            return Rand.Range(0, 100) < 8
                 ? GenerateSemiUniqueSystemName()
                 : GenerateGenericSystemName();
         }
@@ -41,7 +41,7 @@ namespace Astralum.Astronomy.Stars
         
         private static string GenerateSemiUniqueSystemName()
         {
-            int nameLength = Random.Range(3, 8);
+            int nameLength = Rand.Range(3, 8);
             StringBuilder builder = new();
             
             for (int i = 0; i < nameLength; i++)
@@ -55,7 +55,7 @@ namespace Astralum.Astronomy.Stars
             
             string name = char.ToUpperInvariant(builder[0]) + builder.ToString().Substring(1);
             
-            if (Random.Range(0, 100) < 50)
+            if (Rand.Range(0, 100) < 50)
                 return name;
             
             return $"{name}-{RomanNumerals.RandomElement()}";
@@ -63,7 +63,7 @@ namespace Astralum.Astronomy.Stars
         
         private static string GenerateGenericSystemName()
         {
-            int nameLength = Random.Range(3, 8);
+            int nameLength = Rand.Range(3, 8);
             int splitIndex = nameLength / 2;
             
             StringBuilder builder = new();
@@ -74,8 +74,8 @@ namespace Astralum.Astronomy.Stars
                     builder.Append("-");
                 
                 builder.Append(i < splitIndex
-                    ? Letters[Random.Range(0, Letters.Length)]
-                    : Numbers[Random.Range(0, Numbers.Length)]);
+                    ? Letters[Rand.Range(0, Letters.Length)]
+                    : Numbers[Rand.Range(0, Numbers.Length)]);
             }
             
             return builder.ToString();

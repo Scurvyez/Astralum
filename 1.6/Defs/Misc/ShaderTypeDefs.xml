@@ -6,4 +6,9 @@
         <shaderPath>Sun01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_Starfield01</defName>
+        <shaderPath>Starfield01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>
