@@ -6,23 +6,10 @@
 /Astralum/*
 
 # =========================================
-# Keep specific Unity folders
-# =========================================
-
-!/Astralum/Assets/
-!/Astralum/Assets/AssetBundles/
-!/Astralum/Assets/AssetBundles.meta
-
-!/Astralum/Assets/Data/
-!/Astralum/Assets/Data.meta
-
-!/Astralum/Assets/Editor/
-!/Astralum/Assets/Editor.meta
-
-# =========================================
 # Keep shader source files
 # =========================================
 
+!/Astralum/Assets/
 !/Astralum/Assets/**/*.shader
 !/Astralum/Assets/**/*.shader.meta
 
