@@ -2,14 +2,16 @@
 # Unity
 # =========================================
 
-# Ignore everything inside the Unity project
-/Astralum/*
+# Ignore everything in Unity project
+/Astralum/**
 
-# =========================================
-# Keep shader source files
-# =========================================
-
+# Allow traversal into Assets so shaders can be found
 !/Astralum/Assets/
+
+# Ignore everything inside Assets again
+/Astralum/Assets/**
+
+# Keep ONLY shader source files
 !/Astralum/Assets/**/*.shader
 !/Astralum/Assets/**/*.shader.meta
 
