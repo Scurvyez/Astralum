@@ -5,15 +5,20 @@
 # Ignore everything in Unity project
 /Astralum/**
 
-# Allow traversal into Assets so shaders can be found
+# Allow traversal into Assets
 !/Astralum/Assets/
 
 # Ignore everything inside Assets again
 /Astralum/Assets/**
 
+# Allow traversal into shader source path
+!/Astralum/Assets/Data/
+!/Astralum/Assets/Data/scurvyez.astralum.rimworld/
+!/Astralum/Assets/Data/scurvyez.astralum.rimworld/Materials/
+
 # Keep ONLY shader source files
-!/Astralum/Assets/**/*.shader
-!/Astralum/Assets/**/*.shader.meta
+!/Astralum/Assets/Data/scurvyez.astralum.rimworld/Materials/*.shader
+!/Astralum/Assets/Data/scurvyez.astralum.rimworld/Materials/*.shader.meta
 
 # =========================================
 # Ignore generated Unity data
