@@ -56,7 +56,7 @@ namespace Astralum.Astronomy.Stars
 
         public static float GenerateCoronaOuterIntensity()
         {
-            return 0.25f;
+            return 1.5f;
         }
 
         public static float GenerateCoronaPower()

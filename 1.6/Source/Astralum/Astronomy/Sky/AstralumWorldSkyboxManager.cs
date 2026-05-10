@@ -13,6 +13,8 @@ namespace Astralum.Astronomy.Sky
         private static bool _applied;
         private static Material _skyboxMaterial;
         
+        public static Material StarfieldMaterial => SkyboxMaterial;
+        
         public static void Apply()
         {
             if (_applied)
@@ -64,7 +66,7 @@ namespace Astralum.Astronomy.Sky
                 return null;
             }
             
-            Texture2D texture = ContentFinder<Texture2D>.Get("Astralum/Starfield/Starfield04");
+            Texture2D texture = ContentFinder<Texture2D>.Get("Astralum/Starfield/Starfield06");
             
             if (texture == null)
             {

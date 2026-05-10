@@ -13,7 +13,7 @@ namespace Astralum.Materials
         private static Material _star01Mat;
         private static string _lastAppliedStarSignature;
         
-        public static Color SkyColor = new(0.0627451f, 0.09019608f, 0.11764706f);
+        public static Material Sun01Mat => _star01Mat;
         
         public static Material Star01Mat
         {

@@ -17,17 +17,30 @@ namespace Astralum.Astronomy.Stars
             new(SpectralClass.M, 35f)
         ];
         
+        // TODO:
+        // revert back for release
+        private static readonly SpectralClassWeight[] SpectralClassWeights_DEV =
+        [
+            new(SpectralClass.O, 1f),
+            new(SpectralClass.B, 1f),
+            new(SpectralClass.A, 1f),
+            new(SpectralClass.F, 1f),
+            new(SpectralClass.G, 1f),
+            new(SpectralClass.K, 1f),
+            new(SpectralClass.M, 1f)
+        ];
+        
         private static SpectralClass GenerateRandomSpectralClass()
         {
             float totalWeight = 0f;
             
-            foreach (SpectralClassWeight weight in SpectralClassWeights)
+            foreach (SpectralClassWeight weight in SpectralClassWeights_DEV)
                 totalWeight += weight.Weight;
             
             float random = Rand.Range(0f, totalWeight);
             float cumulativeWeight = 0f;
             
-            foreach (SpectralClassWeight weight in SpectralClassWeights)
+            foreach (SpectralClassWeight weight in SpectralClassWeights_DEV)
             {
                 cumulativeWeight += weight.Weight;
                 
