@@ -79,6 +79,9 @@ obj/
 !About/
 !Textures/
 
+# Ignore built AssetBundles
+/1.6/AssetBundles/
+
 # =========================================
 # OS junk
 # =========================================
