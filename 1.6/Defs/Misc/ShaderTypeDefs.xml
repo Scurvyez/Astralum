@@ -7,11 +7,6 @@
     </ShaderTypeDef>
 
     <ShaderTypeDef>
-        <defName>Astra_Starfield01</defName>
-        <shaderPath>Starfield01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
         <defName>Astra_ConstellationStar01</defName>
         <shaderPath>ConstellationStar01</shaderPath>
     </ShaderTypeDef>

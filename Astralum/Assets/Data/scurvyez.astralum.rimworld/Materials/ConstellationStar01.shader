@@ -49,12 +49,10 @@ Shader "Astralum/ConstellationStar01"
             {
                 vertOutput output;
                 
-                float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
-                float3 worldDir = normalize(worldPos);
+                float4 worldPos = mul(unity_ObjectToWorld, input.vertex);
+                worldPos.xyz += _WorldSpaceCameraPos;
                 
-                float3 skyPos = _WorldSpaceCameraPos + worldDir;
-                
-                output.pos = mul(UNITY_MATRIX_VP, float4(skyPos, 1.0));
+                output.pos = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = input.uv;
                 
                 return output;

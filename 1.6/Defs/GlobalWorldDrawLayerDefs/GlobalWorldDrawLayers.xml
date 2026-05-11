@@ -6,4 +6,9 @@
         <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
     </GlobalWorldDrawLayerDef>
 
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_ColoredStars</defName>
+        <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_ColoredStars</worldDrawLayer>
+    </GlobalWorldDrawLayerDef>
+
 </Defs>
