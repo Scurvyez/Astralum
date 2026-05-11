@@ -43,7 +43,7 @@ namespace Astralum.World
             base.FinalizeInit(fromLoad);
             
             EnsureStarExists();
-            StarMaterialsUtil.RefreshSun01Mat();
+            StarsMaterialsUtil.RefreshSun01Mat();
         }
         
         public override void ExposeData()
@@ -63,7 +63,7 @@ namespace Astralum.World
                 EnsureStarExists();
                 
                 UI.StarInfoLineCache.Rebuild(_star);
-                StarMaterialsUtil.RefreshSun01Mat();
+                StarsMaterialsUtil.RefreshSun01Mat();
                 AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
             }
         }
@@ -82,7 +82,7 @@ namespace Astralum.World
             _star = new SavedStar(generatedStar);
             
             UI.StarInfoLineCache.Rebuild(_star);
-            StarMaterialsUtil.RefreshSun01Mat();
+            StarsMaterialsUtil.RefreshSun01Mat();
             AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
         }
     }

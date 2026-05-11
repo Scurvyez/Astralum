@@ -8,7 +8,7 @@ using Verse;
 namespace Astralum.Materials
 {
     [StaticConstructorOnStartup]
-    public static class StarMaterialsUtil
+    public static class StarsMaterialsUtil
     {
         private static Material _star01Mat;
         private static bool _star01MatDirty = true;

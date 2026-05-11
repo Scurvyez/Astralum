@@ -12,20 +12,18 @@ namespace Astralum.Astronomy.Constellations
         
         static ConstellationsMaterialsUtil()
         {
-            /*ConstellationStar = MaterialPool.MatFrom(
-                "Astralum/Constellations/constellationStar01", 
-                InternalDefOf.Astra_ConstellationStar01.Shader);*/
+            Shader conStarShader = InternalDefOf.Astra_ConstellationStar01.Shader;
+            Shader conLineShader = InternalDefOf.Astra_ConstellationLine01.Shader;
             
-            Shader shader = InternalDefOf.Astra_ConstellationStar01.Shader;
-
-            ConstellationStar = new Material(shader)
+            ConstellationStar = new Material(conStarShader)
             {
                 name = "Astralum_ConstellationStar01"
             };
-            
-            ConstellationLine = MaterialPool.MatFrom(
-                "Astralum/Constellations/constellationLine01", 
-                InternalDefOf.Astra_ConstellationLine01.Shader);
+
+            ConstellationLine = new Material(conLineShader)
+            {
+                name = "Astralum_ConstellationLine01"
+            };
         }
     }
 }

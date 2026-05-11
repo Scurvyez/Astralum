@@ -6,8 +6,6 @@ Shader "Astralum/ConstellationStar01"
         _Intensity ("Intensity", Range(0, 5)) = 1
         _CorePower ("Core Power", Range(0.5, 20)) = 8
         _GlowPower ("Glow Power", Range(0.5, 20)) = 2
-        
-        _SkyProjectionDistance ("Sky Projection Distance", Range(1,10000)) = 5000
     }
     
     SubShader
@@ -35,8 +33,6 @@ Shader "Astralum/ConstellationStar01"
             float _CorePower;
             float _GlowPower;
             
-            float _SkyProjectionDistance;
-            
             struct vertInput
             {
                 float4 vertex : POSITION;
@@ -56,7 +52,7 @@ Shader "Astralum/ConstellationStar01"
                 float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
                 float3 worldDir = normalize(worldPos);
                 
-                float3 skyPos = _WorldSpaceCameraPos + worldDir * _SkyProjectionDistance;
+                float3 skyPos = _WorldSpaceCameraPos + worldDir;
                 
                 output.pos = mul(UNITY_MATRIX_VP, float4(skyPos, 1.0));
                 output.uv = input.uv;

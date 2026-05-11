@@ -19,12 +19,13 @@ namespace Astralum.Harmony
             HarmonyLib.Harmony harmony = new (id: "scurvyez.astralum.rimworld");
             
             PatchSunRegenerate(harmony);
-            PatchSunRenderLayer(harmony);
-            PatchStarsRegenerate(harmony);
             PatchWorldInterfaceOnGUI(harmony);
             PatchStartingSiteExtraOnGUI(harmony);
         }
         
+        /// <summary>
+        /// Replaces the sun material with the astralum sun material.
+        /// </summary>
         private static void PatchSunRegenerate(HarmonyLib.Harmony harmony)
         {
             MethodInfo regenerateSun = HarmonyPatchesUtil.RequiredMethod(
@@ -50,47 +51,9 @@ namespace Astralum.Harmony
             );
         }
         
-        private static void PatchSunRenderLayer(HarmonyLib.Harmony harmony)
-        {
-            MethodInfo renderLayerGetter = AccessTools.PropertyGetter(typeof(GlobalDrawLayer_Sun), "RenderLayer");
-            
-            if (renderLayerGetter == null)
-            {
-                AstraLog.Warning("Could not find GlobalDrawLayer_Sun.RenderLayer getter. Sun render layer patch was not applied.");
-                return;
-            }
-            
-            harmony.Patch(
-                original: renderLayerGetter,
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_RenderLayer_Postfix))
-            );
-        }
-        
-        private static void PatchStarsRegenerate(HarmonyLib.Harmony harmony)
-        {
-            MethodInfo regenerateStars = HarmonyPatchesUtil.RequiredMethod(
-                typeof(GlobalDrawLayer_Stars), nameof(GlobalDrawLayer_Stars.Regenerate),
-                "Stars patch");
-            
-            MethodInfo moveNextStars = HarmonyPatchesUtil.EnumeratorMoveNext(
-                regenerateStars, "GlobalDrawLayer_Stars.Regenerate",
-                "Stars patch");
-            
-            if (moveNextStars == null)
-            {
-                AstraLog.Warning("Could not find GlobalDrawLayer_Stars.Regenerate MoveNext. Stars patch was not applied.");
-                return;
-            }
-            
-            if (HarmonyPatchesUtil.Missing(moveNextStars))
-                return;
-            
-            harmony.Patch(
-                original: moveNextStars,
-                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Stars_Regenerate_Prefix))
-            );
-        }
-        
+        /// <summary>
+        /// Patches the world interface to draw the world info window.
+        /// </summary>
         private static void PatchWorldInterfaceOnGUI(HarmonyLib.Harmony harmony)
         {
             MethodInfo worldInterfaceOnGUI = HarmonyPatchesUtil.Method(
@@ -103,6 +66,9 @@ namespace Astralum.Harmony
             );
         }
         
+        /// <summary>
+        /// Patches the starting site extra on GUI to draw the world info overlay.
+        /// </summary>
         private static void PatchStartingSiteExtraOnGUI(HarmonyLib.Harmony harmony)
         {
             MethodInfo extraOnGUI = HarmonyPatchesUtil.Method(
@@ -128,7 +94,7 @@ namespace Astralum.Harmony
             FieldInfo vanillaSunField = AccessTools.Field(typeof(WorldMaterials), nameof(WorldMaterials.Sun));
             
             MethodInfo astralumSunGetter = AccessTools.PropertyGetter(
-                typeof(StarMaterialsUtil), nameof(StarMaterialsUtil.Star01Mat));
+                typeof(StarsMaterialsUtil), nameof(StarsMaterialsUtil.Star01Mat));
             
             if (astralumSunGetter == null)
             {
@@ -168,16 +134,6 @@ namespace Astralum.Harmony
                 );
             }
             return codes;
-        }
-        
-        public static void GlobalDrawLayer_Sun_RenderLayer_Postfix(ref int __result)
-        {
-            __result = WorldCameraManager.WorldLayer;
-        }
-        
-        public static bool GlobalDrawLayer_Stars_Regenerate_Prefix()
-        {
-            return false;
         }
         
         public static void WorldInterface_WorldInterfaceOnGUI_Postfix()

@@ -122,7 +122,7 @@ namespace Astralum.World
             star.variabilityAmount = VariabilityAmount;
             star.variabilitySpeed = VariabilitySpeed;
             
-            StarMaterialsUtil.RefreshSun01Mat();
+            StarsMaterialsUtil.RefreshSun01Mat();
         }
         
         private static void EnsureInitializedFromCurrentStar()

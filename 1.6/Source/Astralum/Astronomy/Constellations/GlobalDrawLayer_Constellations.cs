@@ -7,23 +7,22 @@ namespace Astralum.Astronomy.Constellations
 {
     public class GlobalDrawLayer_Constellations : WorldDrawLayerBase
     {
-        private const float DistanceToConstellations = 5000f;
+        private const float DistanceToConstellations = 20f;
 
-        private const int ConstellationCount = 24;
+        private const int ConstellationCount = 12;
         private const int MinStarsPerConstellation = 4;
-        private const int MaxStarsPerConstellation = 7;
+        private const int MaxStarsPerConstellation = 9;
         
-        private const float ConstellationStarSize = 100f;
-        private const float ConstellationLineWidth = 0.35f;
+        private const float ConstellationStarSize = 1.25f;
+        private const float ConstellationLineWidth = 0.0075f;
         
         private bool calculatedForStaticRotation;
         private PlanetTile calculatedForStartingTile = PlanetTile.Invalid;
         
-        protected override int RenderLayer => WorldCameraManager.WorldLayer;
+        protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+        protected override Quaternion Rotation => Quaternion.identity;
         
         private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-        
-        protected override Quaternion Rotation => Quaternion.identity;
         
         public override bool ShouldRegenerate
         {

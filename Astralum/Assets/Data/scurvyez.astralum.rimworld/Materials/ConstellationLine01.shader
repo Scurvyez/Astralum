@@ -4,8 +4,6 @@ Shader "Astralum/ConstellationLine01"
     {
         _Color ("Color", Color) = (0.45, 0.6, 1.0, 0.25)
         _Intensity ("Intensity", Range(0, 5)) = 1
-        
-        _SkyProjectionDistance ("Sky Projection Distance", Range(1,10000)) = 5000
     }
     
     SubShader
@@ -31,8 +29,6 @@ Shader "Astralum/ConstellationLine01"
             fixed4 _Color;
             float _Intensity;
             
-            float _SkyProjectionDistance;
-            
             struct vertInput
             {
                 float4 vertex : POSITION;
@@ -52,7 +48,7 @@ Shader "Astralum/ConstellationLine01"
                 float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
                 float3 worldDir = normalize(worldPos);
                 
-                float3 skyPos = _WorldSpaceCameraPos + worldDir * _SkyProjectionDistance;
+                float3 skyPos = _WorldSpaceCameraPos + worldDir;
                 
                 output.pos = mul(UNITY_MATRIX_VP, float4(skyPos, 1.0));
                 output.uv = input.uv;
