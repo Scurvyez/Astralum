@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_Constellations</defName>
+        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
+    </GlobalWorldDrawLayerDef>
+
+</Defs>

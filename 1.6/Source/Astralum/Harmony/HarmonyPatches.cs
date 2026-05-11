@@ -18,13 +18,23 @@ namespace Astralum.Harmony
         {
             HarmonyLib.Harmony harmony = new (id: "scurvyez.astralum.rimworld");
             
+            PatchSunRegenerate(harmony);
+            PatchSunRenderLayer(harmony);
+            PatchStarsRegenerate(harmony);
+            PatchWorldInterfaceOnGUI(harmony);
+            PatchStartingSiteExtraOnGUI(harmony);
+        }
+        
+        private static void PatchSunRegenerate(HarmonyLib.Harmony harmony)
+        {
             MethodInfo regenerateSun = HarmonyPatchesUtil.RequiredMethod(
-                typeof(GlobalDrawLayer_Sun), nameof(GlobalDrawLayer_Sun.Regenerate), 
+                typeof(GlobalDrawLayer_Sun), nameof(GlobalDrawLayer_Sun.Regenerate),
                 "Sun patch");
             
             MethodInfo moveNextSun = HarmonyPatchesUtil.EnumeratorMoveNext(
-                regenerateSun, "GlobalDrawLayer_Sun.Regenerate", 
+                regenerateSun, "GlobalDrawLayer_Sun.Regenerate",
                 "Sun patch");
+            
             if (moveNextSun == null)
             {
                 AstraLog.Warning("Could not find GlobalDrawLayer_Sun.Regenerate MoveNext. Sun patch was not applied.");
@@ -34,19 +44,30 @@ namespace Astralum.Harmony
             if (HarmonyPatchesUtil.Missing(moveNextSun))
                 return;
             
-            harmony.Patch(original: moveNextSun,
-                transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Transpiler)));
-            
+            harmony.Patch(
+                original: moveNextSun,
+                transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Transpiler))
+            );
+        }
+        
+        private static void PatchSunRenderLayer(HarmonyLib.Harmony harmony)
+        {
             MethodInfo renderLayerGetter = AccessTools.PropertyGetter(typeof(GlobalDrawLayer_Sun), "RenderLayer");
+            
             if (renderLayerGetter == null)
             {
                 AstraLog.Warning("Could not find GlobalDrawLayer_Sun.RenderLayer getter. Sun render layer patch was not applied.");
                 return;
             }
             
-            harmony.Patch(original: renderLayerGetter,
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_RenderLayer_Postfix)));
-            
+            harmony.Patch(
+                original: renderLayerGetter,
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_RenderLayer_Postfix))
+            );
+        }
+        
+        private static void PatchStarsRegenerate(HarmonyLib.Harmony harmony)
+        {
             MethodInfo regenerateStars = HarmonyPatchesUtil.RequiredMethod(
                 typeof(GlobalDrawLayer_Stars), nameof(GlobalDrawLayer_Stars.Regenerate),
                 "Stars patch");
@@ -54,6 +75,7 @@ namespace Astralum.Harmony
             MethodInfo moveNextStars = HarmonyPatchesUtil.EnumeratorMoveNext(
                 regenerateStars, "GlobalDrawLayer_Stars.Regenerate",
                 "Stars patch");
+            
             if (moveNextStars == null)
             {
                 AstraLog.Warning("Could not find GlobalDrawLayer_Stars.Regenerate MoveNext. Stars patch was not applied.");
@@ -63,28 +85,39 @@ namespace Astralum.Harmony
             if (HarmonyPatchesUtil.Missing(moveNextStars))
                 return;
             
-            harmony.Patch(original: moveNextStars,
-                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Stars_Regenerate_Prefix)));
-            
+            harmony.Patch(
+                original: moveNextStars,
+                prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Stars_Regenerate_Prefix))
+            );
+        }
+        
+        private static void PatchWorldInterfaceOnGUI(HarmonyLib.Harmony harmony)
+        {
             MethodInfo worldInterfaceOnGUI = HarmonyPatchesUtil.Method(
-                typeof(WorldInterface), "WorldInterfaceOnGUI", 
+                typeof(WorldInterface), "WorldInterfaceOnGUI",
                 "World interface GUI patch");
             
-            harmony.Patch(original: worldInterfaceOnGUI,
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix)));
-            
-            MethodInfo extraOnGUI = HarmonyPatchesUtil.Method(
-                typeof(Page_SelectStartingSite), "ExtraOnGUI", 
-                "Starting site star UI patch");
-            if (!HarmonyPatchesUtil.Missing(extraOnGUI))
-            {
-                harmony.Patch(
-                    original: extraOnGUI,
-                    postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(Page_SelectStartingSite_ExtraOnGUI_Postfix))
-                );
-            }
+            harmony.Patch(
+                original: worldInterfaceOnGUI,
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix))
+            );
         }
-
+        
+        private static void PatchStartingSiteExtraOnGUI(HarmonyLib.Harmony harmony)
+        {
+            MethodInfo extraOnGUI = HarmonyPatchesUtil.Method(
+                typeof(Page_SelectStartingSite), "ExtraOnGUI",
+                "Starting site star UI patch");
+            
+            if (HarmonyPatchesUtil.Missing(extraOnGUI))
+                return;
+            
+            harmony.Patch(
+                original: extraOnGUI,
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(Page_SelectStartingSite_ExtraOnGUI_Postfix))
+            );
+        }
+        
         public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
             IEnumerable<CodeInstruction> instructions)
         {

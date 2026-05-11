@@ -6,6 +6,8 @@ namespace Astralum
     [StaticConstructorOnStartup]
     public static class AstralumEntry
     {
+        public const bool EnableDebugTweaks = true;
+        
         static AstralumEntry()
         {
             AstraLog.Message("Astralum loaded.");
@@ -14,7 +16,7 @@ namespace Astralum
             // TODO: look into planetary atmospheric composition (new world layer(?), maybe update existing world layer?
             // TODO: look into planet sky color change
             // TODO: look into pawn skin color change
-            // TODO: CLEAN UP CODE, FOR THE LOVE OF EVERYTHING UNHOLY...
+            // TODO: constellations??? :)
         }
     }
 }

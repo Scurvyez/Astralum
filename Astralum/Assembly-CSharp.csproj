@@ -41,6 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\ConstellationStar01.shader" />
+    <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\ConstellationLine01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\Starfield01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\Sun01.shader" />
     <Reference Include="UnityEngine">

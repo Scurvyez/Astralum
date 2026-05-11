@@ -17,9 +17,9 @@ Shader "Astralum/Starfield01"
             "PreviewType" = "Skybox"
         }
         
-        Cull Off
+        Cull Back
         ZWrite Off
-        ZTest Always
+        ZTest LEqual
         
         Pass
         {

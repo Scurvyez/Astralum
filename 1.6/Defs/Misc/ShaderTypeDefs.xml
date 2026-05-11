@@ -11,4 +11,14 @@
         <shaderPath>Starfield01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_ConstellationStar01</defName>
+        <shaderPath>ConstellationStar01</shaderPath>
+    </ShaderTypeDef>
+
+    <ShaderTypeDef>
+        <defName>Astra_ConstellationLine01</defName>
+        <shaderPath>ConstellationLine01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>

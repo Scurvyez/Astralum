@@ -11,29 +11,43 @@ namespace Astralum.Materials
     public static class StarMaterialsUtil
     {
         private static Material _star01Mat;
-        private static string _lastAppliedStarSignature;
-        
-        public static Material Sun01Mat => _star01Mat;
+        private static bool _star01MatDirty = true;
         
         public static Material Star01Mat
         {
             get
             {
-                if (_star01Mat != null)
-                    return _star01Mat;
+                if (_star01Mat == null)
+                {
+                    _star01Mat = CreateSun01Mat();
+                    _star01MatDirty = true;
+                }
                 
-                _star01Mat = CreateSun01Mat();
-                
+                ApplyCurrentStarToMaterialIfDirty(_star01Mat);
                 return _star01Mat;
             }
+        }
+
+        public static void MarkSun01MatDirty()
+        {
+            _star01MatDirty = true;
         }
         
         public static void RefreshSun01Mat()
         {
+            MarkSun01MatDirty();
+            
+            if (_star01Mat != null)
+                ApplyCurrentStarToMaterialIfDirty(_star01Mat);
+        }
+        
+        public static void ForceRefreshSun01Mat()
+        {
             if (_star01Mat == null)
                 return;
             
-            ApplyCurrentStarToMaterial(_star01Mat, force: true);
+            ApplyCurrentStarToMaterial(_star01Mat);
+            _star01MatDirty = false;
         }
         
         private static Material CreateSun01Mat()
@@ -52,13 +66,20 @@ namespace Astralum.Materials
                 renderQueue = WorldMaterials.Sun.renderQueue
             };
             
-            ApplyCurrentStarToMaterial(mat, force: true);
             Object.DontDestroyOnLoad(mat);
-            
             return mat;
         }
         
-        private static void ApplyCurrentStarToMaterial(Material mat, bool force = false)
+        private static void ApplyCurrentStarToMaterialIfDirty(Material mat)
+        {
+            if (!_star01MatDirty)
+                return;
+            
+            ApplyCurrentStarToMaterial(mat);
+            _star01MatDirty = false;
+        }
+        
+        private static void ApplyCurrentStarToMaterial(Material mat)
         {
             SavedStar star = World.WorldUtils.CurrentStar;
             
@@ -67,22 +88,6 @@ namespace Astralum.Materials
                 ApplyFallbackStar(mat);
                 return;
             }
-            
-            // TODO:
-            // The signature only includes chromaticity, corona, corona intensity, and corona power,
-            // but the material application also depends on rotation, chromaticity intensity, outer corona
-            // intensity, falloff powers, variability amount/speed, and surface noise.
-            // Either include all applied values in the signature or remove the signature optimization until
-            // the shader data model settles.
-            string signature =
-                $"{star.chromaticity.r:0.000}_{star.chromaticity.g:0.000}_{star.chromaticity.b:0.000}_" +
-                $"{star.corona.r:0.000}_{star.corona.g:0.000}_{star.corona.b:0.000}_" +
-                $"{star.coronaIntensity:0.000}_{star.coronaPower:0.000}";
-            
-            //if (!force && signature == _lastAppliedStarSignature)
-                //return;
-            
-            _lastAppliedStarSignature = signature;
             
             mat.SetColor(InternalShaderPropertyIds.Chromaticity, star.chromaticity);
             mat.SetColor(InternalShaderPropertyIds.Corona, star.corona);
@@ -115,13 +120,6 @@ namespace Astralum.Materials
         
         private static void ApplyFallbackStar(Material mat)
         {
-            const string fallbackSignature = "Fallback_G";
-            
-            if (_lastAppliedStarSignature == fallbackSignature)
-                return;
-            
-            _lastAppliedStarSignature = fallbackSignature;
-            
             AstraLog.Warning("No saved world star found. Using fallback G-class values.");
             
             mat.SetColor(InternalShaderPropertyIds.Chromaticity, new Color(1f, 0.93f, 0.89f, 1f));

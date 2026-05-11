@@ -66,7 +66,7 @@ namespace Astralum.Astronomy.Sky
                 return null;
             }
             
-            Texture2D texture = ContentFinder<Texture2D>.Get("Astralum/Starfield/Starfield06");
+            Texture2D texture = ContentFinder<Texture2D>.Get("Astralum/Starfield/Starfield01");
             
             if (texture == null)
             {

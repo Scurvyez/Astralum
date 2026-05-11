@@ -6,16 +6,12 @@ using UnityEngine;
 
 namespace Astralum.World
 {
-    // TODO:
-    // This debug world component should be gated before release.
-    // This updates the material every WorldComponentUpdate() and overwrites shader values with TweakValue fields.
-    // That is perfect for development, but it should be disabled, #if DEBUG-guarded,
-    // or controlled by a setting before release.
     public class AstralumDebugWorldComponent : WorldComponent
     {
         private const string TVCategory = "Astralum";
         
         private static bool _initializedFromStar;
+        private static string _lastAppliedDebugSignature;
         
         #region Color Properties
         [TweakValue(TVCategory, 0f, 1f)] 
@@ -76,6 +72,9 @@ namespace Astralum.World
         public override void WorldComponentUpdate()
         {
             base.WorldComponentUpdate();
+
+            if (!AstralumEntry.EnableDebugTweaks)
+                return;
             
             EnsureInitializedFromCurrentStar();
             ApplyTweaks();
@@ -83,31 +82,47 @@ namespace Astralum.World
         
         public static void ResetTweaksFromCurrentStar()
         {
+            if (!AstralumEntry.EnableDebugTweaks)
+                return;
+            
             _initializedFromStar = false;
             EnsureInitializedFromCurrentStar();
         }
-        
+
         private static void ApplyTweaks()
         {
-            Material mat = StarMaterialsUtil.Star01Mat;
-            
-            if (mat == null)
+            SavedStar star = WorldUtils.CurrentStar;
+
+            if (star == null)
                 return;
             
-            Color chromaCol = new Color(ChromaColR, ChromaColG, ChromaColB, 1f);
-            Color coronaCol = new Color(CoronaColR, CoronaColG, CoronaColB, 1f);
-            mat.SetColor(InternalShaderPropertyIds.Chromaticity, chromaCol);
-            mat.SetColor(InternalShaderPropertyIds.Corona, coronaCol);
-            mat.SetFloat(InternalShaderPropertyIds.CoronaRotationSpeed, CoronaRotationSpeed);
-            mat.SetFloat(InternalShaderPropertyIds.ChromaticityIntensity, ChromaticityIntensity);
-            mat.SetFloat(InternalShaderPropertyIds.CoronaIntensity, CoronaIntensity);
-            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaIntensity, OuterCoronaIntensity);
-            mat.SetFloat(InternalShaderPropertyIds.ChromaticityFalloffPower, ChromaticityFalloffPower);
-            mat.SetFloat(InternalShaderPropertyIds.CoronaPower, CoronaPower);
-            mat.SetFloat(InternalShaderPropertyIds.OuterCoronaPower, OuterCoronaPower);
-            mat.SetFloat(InternalShaderPropertyIds.SurfaceNoiseStrength, SurfaceNoiseStrength);
-            mat.SetFloat(InternalShaderPropertyIds.VariabilityAmount, VariabilityAmount);
-            mat.SetFloat(InternalShaderPropertyIds.VariabilitySpeed, VariabilitySpeed);
+            string signature =
+                $"{ChromaColR:F4}|{ChromaColG:F4}|{ChromaColB:F4}|" +
+                $"{CoronaColR:F4}|{CoronaColG:F4}|{CoronaColB:F4}|" +
+                $"{SurfaceNoiseStrength:F4}|{CoronaRotationSpeed:F4}|" +
+                $"{ChromaticityIntensity:F4}|{CoronaIntensity:F4}|{OuterCoronaIntensity:F4}|" +
+                $"{ChromaticityFalloffPower:F4}|{CoronaPower:F4}|{OuterCoronaPower:F4}|" +
+                $"{VariabilityAmount:F4}|{VariabilitySpeed:F4}";
+            
+            if (signature == _lastAppliedDebugSignature)
+                return;
+            
+            _lastAppliedDebugSignature = signature;
+            
+            star.chromaticity = new Color(ChromaColR, ChromaColG, ChromaColB, 1f);
+            star.corona = new Color(CoronaColR, CoronaColG, CoronaColB, 1f);
+            star.rotation = CoronaRotationSpeed;
+            star.chromaticityIntensity = ChromaticityIntensity;
+            star.coronaIntensity = CoronaIntensity;
+            star.outerCoronaIntensity = OuterCoronaIntensity;
+            star.chromaticityFalloffPower = ChromaticityFalloffPower;
+            star.coronaPower = CoronaPower;
+            star.outerCoronaPower = OuterCoronaPower;
+            star.surfaceNoiseStrength = SurfaceNoiseStrength;
+            star.variabilityAmount = VariabilityAmount;
+            star.variabilitySpeed = VariabilitySpeed;
+            
+            StarMaterialsUtil.RefreshSun01Mat();
         }
         
         private static void EnsureInitializedFromCurrentStar()
