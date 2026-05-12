@@ -2,7 +2,7 @@
 using System.Linq;
 using Verse;
 
-namespace Astralum.Astronomy.Stars
+namespace Astralum.Astronomy.LocalSystem.Stars
 {
     public static class StellarCompositionUtil
     {

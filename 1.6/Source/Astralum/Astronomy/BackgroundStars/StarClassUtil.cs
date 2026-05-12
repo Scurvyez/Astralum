@@ -1,4 +1,4 @@
-﻿using Astralum.Astronomy.Stars;
+﻿using Astralum.Astronomy.LocalSystem.Stars;
 using Verse;
 
 namespace Astralum.Astronomy.BackgroundStars
@@ -11,12 +11,12 @@ namespace Astralum.Astronomy.BackgroundStars
             
             return value switch
             {
-                < 0.015f => SpectralClass.O,
-                < 0.040f => SpectralClass.B,
-                < 0.070f => SpectralClass.A,
-                < 0.110f => SpectralClass.F,
-                < 0.180f => SpectralClass.G,
-                < 0.300f => SpectralClass.K,
+                < 0.005f => SpectralClass.O,
+                < 0.025f => SpectralClass.B,
+                < 0.080f => SpectralClass.A,
+                < 0.180f => SpectralClass.F,
+                < 0.360f => SpectralClass.G,
+                < 0.620f => SpectralClass.K,
                 _ => SpectralClass.M
             };
         }

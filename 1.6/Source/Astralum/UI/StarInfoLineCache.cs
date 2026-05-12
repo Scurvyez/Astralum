@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Astralum.Astronomy.Stars;
+using Astralum.Astronomy.LocalSystem.Stars;
 
 namespace Astralum.UI
 {

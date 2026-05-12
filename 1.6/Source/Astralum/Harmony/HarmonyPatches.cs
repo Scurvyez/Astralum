@@ -94,7 +94,7 @@ namespace Astralum.Harmony
             FieldInfo vanillaSunField = AccessTools.Field(typeof(WorldMaterials), nameof(WorldMaterials.Sun));
             
             MethodInfo astralumSunGetter = AccessTools.PropertyGetter(
-                typeof(StarsMaterialsUtil), nameof(StarsMaterialsUtil.Star01Mat));
+                typeof(LocalSystemStarMatsUtil), nameof(LocalSystemStarMatsUtil.Star01Mat));
             
             if (astralumSunGetter == null)
             {

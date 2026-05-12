@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Astralum.Astronomy.BackgroundStars;
-using Astralum.Astronomy.Stars;
+using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Debugging;
+using Astralum.Materials;
+using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -10,25 +13,52 @@ namespace Astralum.Astronomy.Constellations
 {
     public class GlobalDrawLayer_Constellations : WorldDrawLayerBase
     {
+        private readonly struct BuiltConstellation
+        {
+            public readonly Vector3[] points;
+            public readonly int[] connections;
+            
+            public bool Valid => points is { Length: >= 2 } && connections is { Length: >= 2 };
+            
+            public BuiltConstellation(Vector3[] points, int[] connections)
+            {
+                this.points = points;
+                this.connections = connections;
+            }
+        }
+        
         private const float DistanceToConstellations = 20f;
         
-        private const int ConstellationCount = 12;
+        private const int ConstellationCount = 10;
         private const int MaxPlacementAttempts = 80;
         
-        private const float MinCenterAngularDistance = 0.32f;
-        private const float MaxLineAngularDistance = 0.26f;
+        private const float MinCenterAngularDistance = 0.75f;
         
         private const float BaseStarSize = 0.35f;
         private const float BrightStarSize = 0.95f;
-        private const float ConstellationLineWidth = 0.01f;
+        private const float PrintedStarChance = 0.25f;
+        private const float ConstellationLineWidth = 0.05f;
         
-        private const float TemplateScaleMin = 0.08f;
-        private const float TemplateScaleMax = 0.18f;
+        private const float TemplateScaleMin = 0.075f;
+        private const float TemplateScaleMax = 0.0925f;
         
+        private bool calculatedForStaticRotation;
         private PlanetTile calculatedForStartingTile = PlanetTile.Invalid;
         
         protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-        protected override Quaternion Rotation => Quaternion.identity;
+        
+        private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+        
+        protected override Quaternion Rotation
+        {
+            get
+            {
+                if (UseStaticRotation)
+                    return Quaternion.identity;
+                
+                return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+            }
+        }
         
         public override bool ShouldRegenerate
         {
@@ -37,8 +67,10 @@ namespace Astralum.Astronomy.Constellations
                 if (base.ShouldRegenerate)
                     return true;
                 
-                return Find.GameInitData != null &&
-                       Find.GameInitData.startingTile != calculatedForStartingTile;
+                if (Find.GameInitData != null && Find.GameInitData.startingTile != calculatedForStartingTile)
+                    return true;
+                
+                return UseStaticRotation != calculatedForStaticRotation;
             }
         }
         
@@ -50,7 +82,7 @@ namespace Astralum.Astronomy.Constellations
             Rand.PushState();
             Rand.Seed = Find.World.info.Seed ^ 0x5A17A11;
             
-            LayerSubMesh lineSubMesh = GetSubMesh(ConstellationsMaterialsUtil.ConstellationLine);
+            LayerSubMesh lineSubMesh = GetSubMesh(ConstellationsMatsUtil.ConstellationLine);
             
             List<Vector3> usedCenters = [];
             
@@ -63,6 +95,8 @@ namespace Astralum.Astronomy.Constellations
             calculatedForStartingTile = Find.GameInitData != null
                 ? Find.GameInitData.startingTile
                 : PlanetTile.Invalid;
+            
+            calculatedForStaticRotation = UseStaticRotation;
             
             Rand.PopState();
             FinalizeMesh(MeshParts.All);
@@ -82,8 +116,13 @@ namespace Astralum.Astronomy.Constellations
                 ConstellationTemplate template = RandomTemplate();
                 float scale = Rand.Range(TemplateScaleMin, TemplateScaleMax);
                 
-                Vector3[] points = BuildTemplatePoints(centerDir, template, scale);
-                int[] connections = BuildConnectionPath(points);
+                BuiltConstellation constellation = BuildConstellation(centerDir, template, scale);
+
+                if (!constellation.Valid)
+                    continue;
+
+                Vector3[] points = constellation.points;
+                int[] connections = constellation.connections;
                 
                 usedCenters.Add(centerDir);
                 
@@ -135,30 +174,82 @@ namespace Astralum.Astronomy.Constellations
             return false;
         }
         
-        private static Vector3[] BuildTemplatePoints(
+        private static BuiltConstellation BuildConstellation(
             Vector3 centerDir,
             ConstellationTemplate template,
             float scale)
         {
             GetTangentBasis(centerDir, out Vector3 tangentA, out Vector3 tangentB);
-            
-            Vector2[] localPoints = GetTemplateLocalPoints(template);
+
+            Vector2[] localPoints;
+            int[] connections;
+
+            if (ModsConfig.IdeologyActive)
+            {
+                Texture2D mask = ConstellationMaskUtil.RandomMask();
+
+                if (mask == null)
+                {
+                    AstraLog.Message("Could not find any constellation masks.");
+                    return default;
+                }
+
+                ConstellationMaskUtil.MaskConstellationData maskData =
+                    ConstellationMaskUtil.GenerateShapeFromMask(mask);
+
+                if (maskData.Valid)
+                {
+                    localPoints = maskData.points;
+                    connections = maskData.connections;
+                }
+                else
+                {
+                    localPoints = GetTemplateLocalPoints(template);
+                    connections = BuildTemplatePath(localPoints.Length, closed: false);
+                }
+            }
+            else
+            {
+                localPoints = GetTemplateLocalPoints(template);
+                connections = BuildTemplatePath(localPoints.Length, closed: false);
+            }
+
             Vector3[] result = new Vector3[localPoints.Length];
-            
+
             for (int i = 0; i < localPoints.Length; i++)
             {
                 Vector2 local = localPoints[i];
-                
-                // small imperfection so templates do not look copy/pasted
-                local += Rand.InsideUnitCircle * 0.025f;
-                
+
                 Vector3 dir = centerDir +
                               tangentA * local.x * scale +
                               tangentB * local.y * scale;
-                
+
                 result[i] = dir.normalized * DistanceToConstellations;
             }
-            return result;
+
+            return new BuiltConstellation(result, connections);
+        }
+        
+        private static int[] BuildTemplatePath(int pointCount, bool closed)
+        {
+            if (pointCount < 2)
+                return [];
+            
+            List<int> connections = [];
+            
+            for (int i = 0; i < pointCount - 1; i++)
+            {
+                connections.Add(i);
+                connections.Add(i + 1);
+            }
+            
+            if (closed && pointCount > 2)
+            {
+                connections.Add(pointCount - 1);
+                connections.Add(0);
+            }
+            
+            return connections.ToArray();
         }
         
         private static void GetTangentBasis(Vector3 centerDir, out Vector3 tangentA, out Vector3 tangentB)
@@ -178,71 +269,16 @@ namespace Astralum.Astronomy.Constellations
             tangentB = rot * tangentB;
         }
         
-        private static int[] BuildConnectionPath(Vector3[] points)
-        {
-            // lightweight stand-in for Delaunay:
-            // connect each point to its nearest unvisited neighbor,
-            // rejecting overly long angular spans
-            List<int> path = new List<int>();
-            
-            bool[] used = new bool[points.Length];
-            int current = 0;
-            
-            path.Add(current);
-            used[current] = true;
-            
-            for (int step = 1; step < points.Length; step++)
-            {
-                int next = FindNearestUnusedPoint(current, points, used);
-                
-                if (next < 0)
-                    break;
-                
-                float angularDistance = Vector3.Angle(
-                    points[current].normalized,
-                    points[next].normalized
-                ) * Mathf.Deg2Rad;
-                
-                if (angularDistance > MaxLineAngularDistance)
-                    break;
-                
-                path.Add(next);
-                used[next] = true;
-                current = next;
-            }
-            return path.ToArray();
-        }
-        
-        private static int FindNearestUnusedPoint(int current, Vector3[] points, bool[] used)
-        {
-            int bestIndex = -1;
-            float bestDistance = float.MaxValue;
-            
-            Vector3 currentDir = points[current].normalized;
-            
-            for (int i = 0; i < points.Length; i++)
-            {
-                if (used[i])
-                    continue;
-                
-                float distance = Vector3.Angle(currentDir, points[i].normalized);
-                
-                if (distance >= bestDistance)
-                    continue;
-                
-                bestDistance = distance;
-                bestIndex = i;
-            }
-            return bestIndex;
-        }
-        
         private void PrintConstellationStars(Vector3[] points)
         {
             for (int i = 0; i < points.Length; i++)
             {
+                if (Rand.Value > PrintedStarChance)
+                    continue;
+                
                 SpectralClass spectralClass = StarClassUtil.RandomConstellationStarClass();
                 
-                Material material = BackgroundStarMaterialsUtil.For(spectralClass);
+                Material material = BackgroundStarMatsUtil.For(spectralClass);
                 LayerSubMesh subMesh = GetSubMesh(material);
                 
                 float brightness = RandomMagnitudeBrightness();
@@ -261,13 +297,19 @@ namespace Astralum.Astronomy.Constellations
         
         private static void PrintConstellationLines(
             Vector3[] points,
-            int[] path,
+            int[] connections,
             LayerSubMesh lineSubMesh)
         {
-            for (int i = 0; i < path.Length - 1; i++)
+            for (int i = 0; i < connections.Length - 1; i += 2)
             {
-                Vector3 a = points[path[i]];
-                Vector3 b = points[path[i + 1]];
+                int aIndex = connections[i];
+                int bIndex = connections[i + 1];
+                
+                if (aIndex < 0 || bIndex < 0 || aIndex >= points.Length || bIndex >= points.Length)
+                    continue;
+                
+                Vector3 a = points[aIndex];
+                Vector3 b = points[bIndex];
                 
                 PrintSkyLine(a, b, ConstellationLineWidth, lineSubMesh);
             }
@@ -343,7 +385,7 @@ namespace Astralum.Astronomy.Constellations
             }
         }
         
-        private static void PrintSkyLine(Vector3 a, Vector3 b, float width, LayerSubMesh subMesh)
+        public static void PrintSkyLine(Vector3 a, Vector3 b, float width, LayerSubMesh subMesh)
         {
             Vector3 center = ((a + b) * 0.5f).normalized * DistanceToConstellations;
             

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Astralum.Astronomy.Stars
+namespace Astralum.Astronomy.LocalSystem.Stars
 {
     public readonly struct GeneratedStellarComposition
     {

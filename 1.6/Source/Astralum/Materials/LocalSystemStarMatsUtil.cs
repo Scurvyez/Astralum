@@ -1,4 +1,4 @@
-﻿using Astralum.Astronomy.Stars;
+﻿using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using RimWorld.Planet;
@@ -8,7 +8,7 @@ using Verse;
 namespace Astralum.Materials
 {
     [StaticConstructorOnStartup]
-    public static class StarsMaterialsUtil
+    public static class LocalSystemStarMatsUtil
     {
         private static Material _star01Mat;
         private static bool _star01MatDirty = true;

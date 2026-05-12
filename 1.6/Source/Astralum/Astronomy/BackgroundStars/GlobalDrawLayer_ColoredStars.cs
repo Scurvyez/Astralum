@@ -1,5 +1,8 @@
 ﻿using System.Collections;
-using Astralum.Astronomy.Stars;
+using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Materials;
+using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -10,7 +13,7 @@ namespace Astralum.Astronomy.BackgroundStars
     public class GlobalDrawLayer_ColoredStars : WorldDrawLayerBase
     {
         private const float DistanceToStars = 20f;
-        private const int StarCount = 10000;
+        private const int StarCount = 50000;
         
         private static FloatRange StarSizeRange = new(0.175f, 0.85f);
         
@@ -66,8 +69,48 @@ namespace Astralum.Astronomy.BackgroundStars
             calculatedForStaticRotation = UseStaticRotation;
             
             Rand.PopState();
+
+            if (AstralumEntry.EnableDebugGalacticPlane)
+            {
+                DrawDebugGalacticPlane();
+            }
             
             FinalizeMesh(MeshParts.All);
+        }
+        
+        private void DrawDebugGalacticPlane()
+        {
+            const int segments = 256;
+            const float width = 0.02f;
+
+            LayerSubMesh lineSubMesh = GetSubMesh(ConstellationsMatsUtil.ConstellationLine);
+
+            Quaternion planeRotation =
+                Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
+
+            Vector3 previousPoint = Vector3.zero;
+
+            for (int i = 0; i <= segments; i++)
+            {
+                float t = i / (float)segments;
+                float angle = t * Mathf.PI * 2f;
+
+                Vector3 localPoint = new Vector3(
+                    Mathf.Cos(angle),
+                    0f,
+                    Mathf.Sin(angle)
+                );
+
+                Vector3 worldPoint =
+                    (planeRotation * localPoint).normalized * DistanceToStars;
+
+                if (i > 0)
+                {
+                    GlobalDrawLayer_Constellations.PrintSkyLine(previousPoint, worldPoint, width, lineSubMesh);
+                }
+
+                previousPoint = worldPoint;
+            }
         }
 
         private void PrintColoredStar()
@@ -77,7 +120,7 @@ namespace Astralum.Astronomy.BackgroundStars
             Vector3 dir = RandomDensityWeightedDirection(spectralClass);
             Vector3 pos = dir * DistanceToStars;
             
-            Material material = BackgroundStarMaterialsUtil.For(spectralClass);
+            Material material = BackgroundStarMatsUtil.For(spectralClass);
             LayerSubMesh subMesh = GetSubMesh(material);
             
             float size = RandomStarSize(spectralClass);
@@ -102,41 +145,65 @@ namespace Astralum.Astronomy.BackgroundStars
                     return dir;
             }
             
-            return Rand.UnitVector3.normalized;
+            return RandomGalacticPlaneDirection();
+        }
+        
+        private static Vector3 RandomGalacticPlaneDirection()
+        {
+            float angle = Rand.Range(0f, Mathf.PI * 2f);
+            float localY = Rand.Range(-0.12f, 0.12f);
+            
+            float radius = Mathf.Sqrt(1f - localY * localY);
+            
+            Vector3 localDir = new Vector3(
+                Mathf.Cos(angle) * radius,
+                localY,
+                Mathf.Sin(angle) * radius
+            ).normalized;
+            
+            Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
+            
+            return (planeRotation * localDir).normalized;
         }
         
         private static float StarDensity(Vector3 dir, SpectralClass spectralClass)
         {
-            float galacticLatitude = Mathf.Abs(dir.y);
+            float galacticLatitude = Mathf.Abs(Vector3.Dot(dir.normalized,
+                WorldUtils.GalacticPole.normalized));
             float galacticPlane = 1f - galacticLatitude;
             
-            float spectralPlaneBias = spectralClass switch
+            // higher = sharper plane concentration
+            float planeBias = spectralClass switch
             {
-                SpectralClass.O => Mathf.Pow(galacticPlane, 7.0f),
-                SpectralClass.B => Mathf.Pow(galacticPlane, 5.5f),
-                SpectralClass.A => Mathf.Pow(galacticPlane, 4.0f),
-                SpectralClass.F => Mathf.Pow(galacticPlane, 2.8f),
-                SpectralClass.G => Mathf.Pow(galacticPlane, 1.8f),
-                SpectralClass.K => Mathf.Pow(galacticPlane, 1.2f),
-                SpectralClass.M => Mathf.Pow(galacticPlane, 0.65f),
+                SpectralClass.O => Mathf.Pow(galacticPlane, 18.0f),
+                SpectralClass.B => Mathf.Pow(galacticPlane, 14.0f),
+                SpectralClass.A => Mathf.Pow(galacticPlane, 10.0f),
+                SpectralClass.F => Mathf.Pow(galacticPlane, 7.0f),
+                SpectralClass.G => Mathf.Pow(galacticPlane, 4.5f),
+                SpectralClass.K => Mathf.Pow(galacticPlane, 3.0f),
+                SpectralClass.M => Mathf.Pow(galacticPlane, 2.0f),
                 _ => galacticPlane
             };
             
             float clusterNoise = GalacticClusterNoise(dir, spectralClass);
             
-            float baseDensity = spectralClass switch
+            // multiply by plane bias so off-plane areas actually thin out
+            float density = planeBias * Mathf.Lerp(0.35f, 1.0f, clusterNoise);
+            
+            // small background population so poles are not totally empty
+            float backgroundFloor = spectralClass switch
             {
-                SpectralClass.O => 0.02f,
-                SpectralClass.B => 0.04f,
-                SpectralClass.A => 0.07f,
-                SpectralClass.F => 0.10f,
-                SpectralClass.G => 0.14f,
-                SpectralClass.K => 0.18f,
-                SpectralClass.M => 0.26f,
-                _ => 0.1f
+                SpectralClass.O => 0.0001f,
+                SpectralClass.B => 0.0001f,
+                SpectralClass.A => 0.0002f,
+                SpectralClass.F => 0.0006f,
+                SpectralClass.G => 0.0012f,
+                SpectralClass.K => 0.0020f,
+                SpectralClass.M => 0.0030f,
+                _ => 0.002f
             };
             
-            return Mathf.Clamp01(baseDensity + spectralPlaneBias * 0.7f + clusterNoise * 0.35f);
+            return Mathf.Clamp01(backgroundFloor + density);
         }
         
         private static float GalacticClusterNoise(Vector3 dir, SpectralClass spectralClass)

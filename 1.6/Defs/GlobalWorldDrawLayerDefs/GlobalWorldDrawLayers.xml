@@ -11,4 +11,9 @@
         <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_ColoredStars</worldDrawLayer>
     </GlobalWorldDrawLayerDef>
 
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_Nebulae</defName>
+        <worldDrawLayer>Astralum.Astronomy.Nebulae.GlobalDrawLayer_Nebulae</worldDrawLayer>
+    </GlobalWorldDrawLayerDef>
+
 </Defs>

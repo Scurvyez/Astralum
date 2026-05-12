@@ -7,13 +7,18 @@
     </ShaderTypeDef>
 
     <ShaderTypeDef>
-        <defName>Astra_ConstellationStar01</defName>
-        <shaderPath>ConstellationStar01</shaderPath>
+        <defName>Astra_BackgroundStar01</defName>
+        <shaderPath>BackgroundStar01</shaderPath>
     </ShaderTypeDef>
 
     <ShaderTypeDef>
         <defName>Astra_ConstellationLine01</defName>
         <shaderPath>ConstellationLine01</shaderPath>
+    </ShaderTypeDef>
+
+    <ShaderTypeDef>
+        <defName>Astra_Nebulae01</defName>
+        <shaderPath>Nebulae01</shaderPath>
     </ShaderTypeDef>
 
 </Defs>

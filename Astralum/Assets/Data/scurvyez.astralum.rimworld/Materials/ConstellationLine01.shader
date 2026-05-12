@@ -4,6 +4,8 @@ Shader "Astralum/ConstellationLine01"
     {
         _Color ("Color", Color) = (0.45, 0.6, 1.0, 0.25)
         _Intensity ("Intensity", Range(0, 5)) = 1
+        _BlurStrength ("Blur Strength", Range(0.001, 1)) = 0.25
+        _CoreStrength ("Core Strength", Range(0, 1)) = 0.15
     }
     
     SubShader
@@ -28,6 +30,8 @@ Shader "Astralum/ConstellationLine01"
             
             fixed4 _Color;
             float _Intensity;
+            float _BlurStrength;
+            float _CoreStrength;
             
             struct vertInput
             {
@@ -56,7 +60,18 @@ Shader "Astralum/ConstellationLine01"
             
             fixed4 frag (vertOutput input) : SV_Target
             {
-                return fixed4(_Color.rgb * _Intensity, _Color.a);
+                float dist = abs(input.uv.y - 0.5) * 2.0;
+                
+                // soft falloff
+                float alpha = 1.0 - smoothstep(
+                    _CoreStrength,
+                    _CoreStrength + _BlurStrength,
+                    dist
+                );
+                
+                fixed3 color = _Color.rgb * _Intensity;
+                
+                return fixed4(color * alpha, _Color.a * alpha);
             }
             ENDHLSL
         }

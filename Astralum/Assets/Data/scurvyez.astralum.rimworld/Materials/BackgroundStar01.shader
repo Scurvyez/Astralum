@@ -1,4 +1,4 @@
-Shader "Astralum/ConstellationStar01"
+Shader "Astralum/BackgroundStar01"
 {
     Properties
     {

@@ -1,4 +1,4 @@
-﻿using Astralum.Astronomy.Stars;
+﻿using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.Materials;
 using RimWorld.Planet;
 using UnityEngine;
@@ -43,7 +43,7 @@ namespace Astralum.World
             base.FinalizeInit(fromLoad);
             
             EnsureStarExists();
-            StarsMaterialsUtil.RefreshSun01Mat();
+            LocalSystemStarMatsUtil.RefreshSun01Mat();
         }
         
         public override void ExposeData()
@@ -63,7 +63,7 @@ namespace Astralum.World
                 EnsureStarExists();
                 
                 UI.StarInfoLineCache.Rebuild(_star);
-                StarsMaterialsUtil.RefreshSun01Mat();
+                LocalSystemStarMatsUtil.RefreshSun01Mat();
                 AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
             }
         }
@@ -82,7 +82,7 @@ namespace Astralum.World
             _star = new SavedStar(generatedStar);
             
             UI.StarInfoLineCache.Rebuild(_star);
-            StarsMaterialsUtil.RefreshSun01Mat();
+            LocalSystemStarMatsUtil.RefreshSun01Mat();
             AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
         }
     }

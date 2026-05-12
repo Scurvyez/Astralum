@@ -1,4 +1,4 @@
-﻿using Astralum.Astronomy.Stars;
+﻿using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.Materials;
 using LudeonTK;
 using RimWorld.Planet;
@@ -122,7 +122,7 @@ namespace Astralum.World
             star.variabilityAmount = VariabilityAmount;
             star.variabilitySpeed = VariabilitySpeed;
             
-            StarsMaterialsUtil.RefreshSun01Mat();
+            LocalSystemStarMatsUtil.RefreshSun01Mat();
         }
         
         private static void EnsureInitializedFromCurrentStar()

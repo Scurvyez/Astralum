@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Astralum.Astronomy.Stars
+namespace Astralum.Astronomy.LocalSystem.Stars
 {
     public static class StellarCoronaUtil
     {

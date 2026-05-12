@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
-using Astralum.Astronomy.Stars;
+using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.DefOfs;
 using UnityEngine;
 using Verse;
 
-namespace Astralum.Astronomy.BackgroundStars
+namespace Astralum.Materials
 {
     [StaticConstructorOnStartup]
-    public static class BackgroundStarMaterialsUtil
+    public static class BackgroundStarMatsUtil
     {
         private static readonly Dictionary<SpectralClass, Material> Materials = new();
         
-        static BackgroundStarMaterialsUtil()
+        static BackgroundStarMatsUtil()
         {
             CreateMaterial(SpectralClass.O, new Color(0.62f, 0.78f, 1f, 1f));
             CreateMaterial(SpectralClass.B, new Color(0.70f, 0.85f, 1f, 1f));
@@ -29,7 +29,7 @@ namespace Astralum.Astronomy.BackgroundStars
 
         private static void CreateMaterial(SpectralClass spectralClass, Color color)
         {
-            Shader shader = InternalDefOf.Astra_ConstellationStar01.Shader;
+            Shader shader = InternalDefOf.Astra_BackgroundStar01.Shader;
 
             Material material = new Material(shader)
             {
