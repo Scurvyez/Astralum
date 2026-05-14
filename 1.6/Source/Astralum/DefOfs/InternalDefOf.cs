@@ -14,12 +14,14 @@ namespace Astralum.DefOfs
         public static ShaderTypeDef Astra_ConstellationHoverRing01;
         public static ShaderTypeDef Astra_Nebulae01;
         public static ShaderTypeDef Astra_ShootingStar01;
+        public static ShaderTypeDef Astra_SkyCoordinateGrid01;
         #endregion
         
         #region GlobalWorldDrawLayerDefs
         public static GlobalWorldDrawLayerDef Astra_BackgroundStars;
         public static GlobalWorldDrawLayerDef Astra_Constellations;
         public static GlobalWorldDrawLayerDef Astra_Nebulae;
+        public static GlobalWorldDrawLayerDef Astra_ShootingStars;
         #endregion
         
         #region ConfigDefs

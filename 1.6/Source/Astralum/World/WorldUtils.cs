@@ -1,5 +1,7 @@
 ﻿using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.SkyGrid;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -7,9 +9,12 @@ namespace Astralum.World
 {
     public static class WorldUtils
     {
+        public const float NorthernSkyThreshold = 0.15f;
+        public const float SouthernSkyThreshold = -0.15f;
+        
         public static Vector3 GalacticPole => Quaternion.Euler(
             GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
-
+        
         public readonly struct SkyCoord
         {
             public readonly float rightAscensionHours;
@@ -21,7 +26,7 @@ namespace Astralum.World
                 this.declinationDegrees = declinationDegrees;
             }
         }
-
+        
         public static SkyCoord DirectionToSkyCoord(Vector3 direction)
         {
             direction.Normalize();
@@ -36,7 +41,7 @@ namespace Astralum.World
             
             return new SkyCoord(raHours, declinationDegrees);
         }
-
+        
         public static string FormatRightAscension(float hours)
         {
             hours = Mathf.Repeat(hours, 24f);
@@ -57,15 +62,15 @@ namespace Astralum.World
             
             return $"{sign}{d:00}° {m:00}'";
         }
-
+        
         public static string SkyHemisphere(Vector3 direction)
         {
             direction.Normalize();
 
             return direction.y switch
             {
-                > 0.15f => "Northern Sky",
-                < -0.15f => "Southern Sky",
+                > NorthernSkyThreshold => "Northern Sky",
+                < SouthernSkyThreshold => "Southern Sky",
                 _ => "Equatorial Sky"
             };
         }
@@ -79,6 +84,29 @@ namespace Astralum.World
                 
                 return comp?.Star;
             }
+        }
+        
+        public static bool ShouldDrawGUI()
+        {
+            if (!SkyGridSettings.DrawGrid)
+                return false;
+            
+            if (Current.ProgramState != ProgramState.Playing)
+                return false;
+            
+            if (Find.World == null)
+                return false;
+            
+            if (Find.WorldCamera == null || !Find.WorldCamera.gameObject.activeInHierarchy)
+                return false;
+            
+            if (!WorldRendererUtility.WorldSelected)
+                return false;
+            
+            if (Find.UIRoot?.screenshotMode?.FiltersCurrentEvent == true)
+                return false;
+            
+            return true;
         }
     }
 }

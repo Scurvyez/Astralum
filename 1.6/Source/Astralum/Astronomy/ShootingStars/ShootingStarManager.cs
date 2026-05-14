@@ -14,13 +14,8 @@ namespace Astralum.Astronomy.ShootingStars
         public static IReadOnlyList<ShootingStar> ActiveStars => Active;
         
         public static bool Dirty { get; private set; }
-
-        static ShootingStarManager()
-        {
-            
-        }
         
-        public static void Tick()
+        public static void Tick(ModExt_ShootingStars ext)
         {
             bool changed = false;
             
@@ -33,9 +28,9 @@ namespace Astralum.Astronomy.ShootingStars
                     Active.RemoveAt(i);
             }
             
-            if (Rand.MTBEventOccurs(20f, 1f, Time.deltaTime))
+            if (Rand.MTBEventOccurs(ext.mTBIntervalSeconds, 1f, Time.deltaTime))
             {
-                SpawnRandom();
+                SpawnRandom(ext);
                 changed = true;
             }
             
@@ -54,9 +49,9 @@ namespace Astralum.Astronomy.ShootingStars
             Dirty = false;
         }
         
-        private static void SpawnRandom()
+        private static void SpawnRandom(ModExt_ShootingStars ext)
         {
-            Vector3 dir = RandomGalacticPlaneDirection();
+            Vector3 dir = RandomGalacticPlaneDirection(ext);
             Vector3 origin = dir * DistanceToShootingStars;
             
             Vector3 tangent = Vector3.Cross(dir, Rand.UnitVector3);
@@ -75,19 +70,19 @@ namespace Astralum.Astronomy.ShootingStars
                 travelDir = tangent,
                 
                 age = 0f,
-                lifetime = Rand.Range(0.45f, 2.875f),
-                travelDistance = Rand.Range(5.0f, 65.0f),
-                length = Rand.Range(0.5f, 2.1f),
-                width = Rand.Range(0.035f, 0.085f)
+                lifetime = ext.lifetime.RandomInRange,
+                travelDistance = ext.travelDistance.RandomInRange,
+                length = ext.length.RandomInRange,
+                width = ext.width.RandomInRange
             };
             
             Active.Add(star);
         }
         
-        private static Vector3 RandomGalacticPlaneDirection()
+        private static Vector3 RandomGalacticPlaneDirection(ModExt_ShootingStars ext)
         {
             float angle = Rand.Range(0f, Mathf.PI * 2f);
-            float localY = Rand.Range(-0.16f, 0.16f);
+            float localY = ext.galacticPlaneBounds.RandomInRange;
             
             float radius = Mathf.Sqrt(1f - localY * localY);
             

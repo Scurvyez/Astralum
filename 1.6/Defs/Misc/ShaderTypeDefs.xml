@@ -31,4 +31,9 @@
         <shaderPath>ShootingStar01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_SkyCoordinateGrid01</defName>
+        <shaderPath>SkyCoordinateGrid01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>

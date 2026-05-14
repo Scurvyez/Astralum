@@ -41,6 +41,7 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\SkyCoordinateGrid01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\BackgroundStar01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\ShootingStar01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\Nebulae01.shader" />

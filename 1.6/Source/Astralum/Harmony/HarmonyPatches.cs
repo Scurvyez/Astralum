@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
 using Astralum.Materials;
 using HarmonyLib;
@@ -21,6 +22,7 @@ namespace Astralum.Harmony
             PatchSunRegenerate(harmony);
             PatchWorldInterfaceOnGUI(harmony);
             PatchStartingSiteExtraOnGUI(harmony);
+            PatchPlaySettings(harmony);
         }
         
         /// <summary>
@@ -47,8 +49,7 @@ namespace Astralum.Harmony
             
             harmony.Patch(
                 original: moveNextSun,
-                transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Transpiler))
-            );
+                transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Transpiler)));
         }
         
         /// <summary>
@@ -62,8 +63,7 @@ namespace Astralum.Harmony
             
             harmony.Patch(
                 original: worldInterfaceOnGUI,
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix))
-            );
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix)));
         }
         
         /// <summary>
@@ -80,8 +80,24 @@ namespace Astralum.Harmony
             
             harmony.Patch(
                 original: extraOnGUI,
-                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(Page_SelectStartingSite_ExtraOnGUI_Postfix))
-            );
+                postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(Page_SelectStartingSite_ExtraOnGUI_Postfix)));
+        }
+        
+        /// <summary>
+        /// Patches the play settings to add a toggleable sky coordinate grid.
+        /// </summary>
+        private static void PatchPlaySettings(HarmonyLib.Harmony harmony)
+        {
+            MethodInfo doWorldViewControls = HarmonyPatchesUtil.Method(
+                typeof(PlaySettings), "DoWorldViewControls",
+                "Play settings patch");
+            
+            if (HarmonyPatchesUtil.Missing(doWorldViewControls))
+                return;
+            
+            harmony.Patch(
+                    original: doWorldViewControls,
+                    postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoWorldViewControls_Postfix)));
         }
         
         public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
@@ -144,6 +160,16 @@ namespace Astralum.Harmony
         public static void Page_SelectStartingSite_ExtraOnGUI_Postfix()
         {
             UI.AstralumWorldInfoOverlay.DrawOnGUI(requirePlaying: false);
+        }
+        
+        public static void PlaySettings_DoWorldViewControls_Postfix(WidgetRow row)
+        {
+            row.ToggleableIcon(
+                ref SkyGridSettings.DrawGrid,
+                SkyCoordinateGridMatsUtil.ToggleIcon,
+                "Toggle Astralum sky coordinate grid",
+                SoundDefOf.Mouseover_ButtonToggle
+            );
         }
     }
 }

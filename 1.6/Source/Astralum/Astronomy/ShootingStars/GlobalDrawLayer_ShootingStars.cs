@@ -12,6 +12,7 @@ namespace Astralum.Astronomy.ShootingStars
         private bool _calculatedForStaticRotation;
         private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
         
+        
         protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
         
         private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
