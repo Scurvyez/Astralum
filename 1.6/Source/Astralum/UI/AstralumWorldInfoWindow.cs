@@ -60,7 +60,7 @@ namespace Astralum.UI
         {
             base.PreOpen();
             
-            AstralumStarWorldComponent comp = Find.World.GetComponent<AstralumStarWorldComponent>();
+            WorldComponent_LocalStar comp = Find.World.GetComponent<WorldComponent_LocalStar>();
             
             windowRect = comp.HasSavedStarInfoWindowPos
                 ? new Rect(comp.StarInfoWindowPos.x, comp.StarInfoWindowPos.y, WindowWidth, GetWindowHeight())
@@ -95,7 +95,7 @@ namespace Astralum.UI
         
         private void SaveCurrentWindowPos()
         {
-            AstralumStarWorldComponent comp = Find.World.GetComponent<AstralumStarWorldComponent>();
+            WorldComponent_LocalStar comp = Find.World.GetComponent<WorldComponent_LocalStar>();
             comp?.StarInfoWindowPos = windowRect.position;
         }
         

@@ -12,13 +12,23 @@
     </ShaderTypeDef>
 
     <ShaderTypeDef>
-        <defName>Astra_ConstellationLine01</defName>
-        <shaderPath>ConstellationLine01</shaderPath>
+        <defName>Astra_Constellation01</defName>
+        <shaderPath>Constellation01</shaderPath>
+    </ShaderTypeDef>
+
+    <ShaderTypeDef>
+        <defName>Astra_ConstellationHoverRing01</defName>
+        <shaderPath>ConstellationHoverRing01</shaderPath>
     </ShaderTypeDef>
 
     <ShaderTypeDef>
         <defName>Astra_Nebulae01</defName>
         <shaderPath>Nebulae01</shaderPath>
+    </ShaderTypeDef>
+
+    <ShaderTypeDef>
+        <defName>Astra_ShootingStar01</defName>
+        <shaderPath>ShootingStar01</shaderPath>
     </ShaderTypeDef>
 
 </Defs>

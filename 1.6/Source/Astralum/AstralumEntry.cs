@@ -17,7 +17,6 @@ namespace Astralum
             // TODO: look into planetary atmospheric composition (new world layer(?), maybe update existing world layer?
             // TODO: look into planet sky color change
             // TODO: look into pawn skin color change
-            // TODO: constellations??? :)
         }
     }
 }

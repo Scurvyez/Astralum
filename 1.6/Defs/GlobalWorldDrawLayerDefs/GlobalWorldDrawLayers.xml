@@ -2,18 +2,52 @@
 <Defs>
 
     <GlobalWorldDrawLayerDef>
-        <defName>Astra_Constellations</defName>
-        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
-    </GlobalWorldDrawLayerDef>
-
-    <GlobalWorldDrawLayerDef>
-        <defName>Astra_ColoredStars</defName>
-        <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_ColoredStars</worldDrawLayer>
+        <defName>Astra_BackgroundStars</defName>
+        <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_BackgroundStars</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.BackgroundStars.ModExt_BackgroundStars">
+                <starCount>100000</starCount>
+                <starSizeRange>0.085~0.85</starSizeRange>
+            </li>
+        </modExtensions>
     </GlobalWorldDrawLayerDef>
 
     <GlobalWorldDrawLayerDef>
         <defName>Astra_Nebulae</defName>
         <worldDrawLayer>Astralum.Astronomy.Nebulae.GlobalDrawLayer_Nebulae</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.Nebulae.ModExt_Nebulae">
+                <nebulaCount>15</nebulaCount>
+                <nebulaSizeRange>6~15</nebulaSizeRange>
+            </li>
+        </modExtensions>
+    </GlobalWorldDrawLayerDef>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_Constellations</defName>
+        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.Constellations.ModExt_Constellations">
+                <constellationCount>13</constellationCount>
+                <maxPlacementAttempts>80</maxPlacementAttempts>
+                <baseStarSize>0.25</baseStarSize>
+                <brightStarSize>0.85</brightStarSize>
+                <constellationSizeMin>3.1</constellationSizeMin>
+                <constellationSizeMax>3.5</constellationSizeMax>
+                <minViewRotationAngle>160</minViewRotationAngle>
+                <maxViewRotationAngle>200</maxViewRotationAngle>
+            </li>
+        </modExtensions>
+    </GlobalWorldDrawLayerDef>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_ConstellationHoverRing</defName>
+        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_ConstellationHoverRing</worldDrawLayer>
+    </GlobalWorldDrawLayerDef>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_ShootingStars</defName>
+        <worldDrawLayer>Astralum.Astronomy.ShootingStars.GlobalDrawLayer_ShootingStars</worldDrawLayer>
     </GlobalWorldDrawLayerDef>
 
 </Defs>

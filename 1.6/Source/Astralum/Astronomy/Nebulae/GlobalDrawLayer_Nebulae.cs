@@ -1,4 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using Astralum.Debugging;
+using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.World;
 using RimWorld;
@@ -12,27 +15,22 @@ namespace Astralum.Astronomy.Nebulae
     {
         private const float DistanceToNebulae = 20f;
         
-        private const int NebulaCount = 13;
+        private int _nebulaCount = 13;
+        private FloatRange _nebulaSizeRange = new(6f, 18f);
         
-        private static readonly FloatRange NebulaSizeRange = new(6f, 18f);
-        
-        private bool calculatedForStaticRotation;
-        private PlanetTile calculatedForStartingTile = PlanetTile.Invalid;
-        
-        protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+        private bool _calculatedForStaticRotation;
+        private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
+        private GlobalWorldDrawLayerDef _def;
+        private ModExt_Nebulae _ext;
         
         private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
         
-        protected override Quaternion Rotation
-        {
-            get
-            {
-                if (UseStaticRotation)
-                    return Quaternion.identity;
-                
-                return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-            }
-        }
+        protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+        
+        protected override Quaternion Rotation => 
+            UseStaticRotation 
+                ? Quaternion.identity 
+                : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
         
         public override bool ShouldRegenerate
         {
@@ -41,11 +39,26 @@ namespace Astralum.Astronomy.Nebulae
                 if (base.ShouldRegenerate)
                     return true;
                 
-                if (Find.GameInitData != null && Find.GameInitData.startingTile != calculatedForStartingTile)
+                if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
                     return true;
                 
-                return UseStaticRotation != calculatedForStaticRotation;
+                return UseStaticRotation != _calculatedForStaticRotation;
             }
+        }
+        
+        public GlobalDrawLayer_Nebulae()
+        {
+            _def = InternalDefOf.Astra_Nebulae;
+            _ext = _def?.GetModExtension<ModExt_Nebulae>();
+            
+            if (_ext == null)
+            {
+                AstraLog.Warning("Astra_Nebulae is missing ModExt_Nebulae. Using fallback values.");
+                return;
+            }
+            
+            _nebulaCount = Mathf.Max(0, _ext.nebulaCount);
+            _nebulaSizeRange = _ext.nebulaSizeRange;
         }
         
         public override IEnumerable Regenerate()
@@ -53,39 +66,69 @@ namespace Astralum.Astronomy.Nebulae
             foreach (object item in base.Regenerate())
                 yield return item;
             
-            Rand.PushState();
-            Rand.Seed = Find.World.info.Seed ^ 0x4E384C41;
+            WorldComponent_NebulaeData data = NebulaDataUtil.Data;
             
-            for (int i = 0; i < NebulaCount; i++)
-            {
-                Material material = NebulaeMatsUtil.For(i);
-                NebulaeMatsUtil.ApplyRandomNebulaProperties(material);
-                
-                LayerSubMesh subMesh = GetSubMesh(material);
-                PrintNebula(subMesh);
-            }
+            if (!data.HasGeneratedNebulae)
+                GenerateAndSaveNebulae(data);
             
-            calculatedForStartingTile = Find.GameInitData != null
+            PrintSavedNebulae(data.nebulae);
+            
+            _calculatedForStartingTile = Find.GameInitData != null
                 ? Find.GameInitData.startingTile
                 : PlanetTile.Invalid;
             
-            calculatedForStaticRotation = UseStaticRotation;
-            
-            Rand.PopState();
+            _calculatedForStaticRotation = UseStaticRotation;
             
             FinalizeMesh(MeshParts.All);
         }
         
-        private static void PrintNebula(LayerSubMesh subMesh)
+        private void GenerateAndSaveNebulae(WorldComponent_NebulaeData data)
         {
-            Vector3 dir = RandomNebulaDirection();
-            Vector3 pos = dir * DistanceToNebulae;
+            data.Clear();
             
-            float size = NebulaSizeRange.RandomInRange;
+            Rand.PushState();
+            Rand.Seed = Find.World.info.Seed ^ 0x4E384C41;
             
-            WorldRendererUtility.PrintQuadTangentialToPlanet(pos, size, 0f, subMesh, 
-                counterClockwise: true, Rand.Range(0f, 360f)
-            );
+            for (int i = 0; i < _nebulaCount; i++)
+            {
+                Vector3 localSkyPos = RandomNebulaDirection() * DistanceToNebulae;
+                float size = _nebulaSizeRange.RandomInRange;
+                float rotationDegrees = Rand.Range(0f, 360f);
+                
+                data.nebulae.Add(NebulaDataUtil.CreateRandom(
+                    i,
+                    localSkyPos,
+                    size,
+                    rotationDegrees
+                ));
+            }
+            
+            Rand.PopState();
+        }
+        
+        private void PrintSavedNebulae(List<SavedNebula> nebulae)
+        {
+            if (nebulae.NullOrEmpty())
+                return;
+            
+            for (int i = 0; i < nebulae.Count; i++)
+            {
+                SavedNebula nebula = nebulae[i];
+                
+                Material material = NebulaeMatsUtil.For(nebula.materialIndex);
+                NebulaDataUtil.ApplyToMaterial(material, nebula);
+                
+                LayerSubMesh subMesh = GetSubMesh(material);
+                
+                WorldRendererUtility.PrintQuadTangentialToPlanet(
+                    nebula.localSkyPos,
+                    nebula.size,
+                    0f,
+                    subMesh,
+                    counterClockwise: true,
+                    nebula.rotationDegrees
+                );
+            }
         }
         
         private static Vector3 RandomNebulaDirection()
@@ -102,7 +145,7 @@ namespace Astralum.Astronomy.Nebulae
                 Mathf.Cos(angle) * radius,
                 localY,
                 Mathf.Sin(angle) * radius).normalized;
-
+            
             Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
             
             return (planeRotation * localDir).normalized;

@@ -1,26 +1,26 @@
-Shader "Astralum/ConstellationLine01"
+Shader "Astralum/ShootingStar01"
 {
     Properties
     {
-        _Color ("Color", Color) = (0.45, 0.6, 1.0, 0.25)
-        _Intensity ("Intensity", Range(0, 5)) = 1
-        _BlurStrength ("Blur Strength", Range(0.001, 1)) = 0.25
-        _CoreStrength ("Core Strength", Range(0, 1)) = 0.15
+        _Color ("Color", Color) = (0.75, 0.9, 1.0, 1)
+        _Intensity ("Intensity", Range(0, 10)) = 2
+        _CorePower ("Core Power", Range(0.5, 16)) = 4
+        _TailPower ("Tail Power", Range(0.5, 16)) = 2
     }
     
     SubShader
     {
         Tags
         {
-            "Queue" = "Background+1"
-            "RenderType" = "Background"
+            "Queue" = "Background+8"
+            "RenderType" = "Transparent"
         }
         
         Blend SrcAlpha One
         ZWrite Off
         ZTest LEqual
         Cull Off
-        
+
         Pass
         {
             HLSLPROGRAM
@@ -30,8 +30,8 @@ Shader "Astralum/ConstellationLine01"
             
             fixed4 _Color;
             float _Intensity;
-            float _BlurStrength;
-            float _CoreStrength;
+            float _CorePower;
+            float _TailPower;
             
             struct vertInput
             {
@@ -45,7 +45,7 @@ Shader "Astralum/ConstellationLine01"
                 float2 uv : TEXCOORD0;
             };
             
-            vertOutput vert (vertInput input)
+            vertOutput vert(vertInput input)
             {
                 vertOutput output;
                 
@@ -58,20 +58,20 @@ Shader "Astralum/ConstellationLine01"
                 return output;
             }
             
-            fixed4 frag (vertOutput input) : SV_Target
+            fixed4 frag(vertOutput input) : SV_Target
             {
-                float dist = abs(input.uv.y - 0.5) * 2.0;
+                // uv.x: 0 = tail, 1 = head
+                // uv.y: 0/1 = vertical edge, 0.5 = center
+                float along = saturate(input.uv.x);
+                float across = abs(input.uv.y - 0.5) * 2.0;
                 
-                // soft falloff
-                float alpha = 1.0 - smoothstep(
-                    _CoreStrength,
-                    _CoreStrength + _BlurStrength,
-                    dist
-                );
+                float tail = pow(along, _TailPower);
+                float core = pow(saturate(1.0 - across), _CorePower);
                 
-                fixed3 color = _Color.rgb * _Intensity;
+                float alpha = tail * core * _Color.a;
+                float3 color = _Color.rgb * alpha * _Intensity;
                 
-                return fixed4(color * alpha, _Color.a * alpha);
+                return fixed4(color, alpha);
             }
             ENDHLSL
         }

@@ -1,4 +1,5 @@
-﻿using Astralum.DefOfs;
+﻿using System.Collections.Generic;
+using Astralum.DefOfs;
 using UnityEngine;
 using Verse;
 
@@ -7,22 +8,34 @@ namespace Astralum.Materials
     [StaticConstructorOnStartup]
     public static class ConstellationsMatsUtil
     {
-        public static readonly Material ConstellationLine;
+        private static readonly Dictionary<Texture2D, Material> MaterialsByTexture = new();
         
-        static ConstellationsMatsUtil()
+
+        public static Material For(Texture2D texture)
         {
-            Shader conLineShader = InternalDefOf.Astra_ConstellationLine01.Shader;
+            if (texture == null)
+                return null;
             
-            ConstellationLine = new Material(conLineShader)
+            if (MaterialsByTexture.TryGetValue(texture, out Material material))
+                return material;
+            
+            Shader shader = InternalDefOf.Astra_Constellation01.Shader;
+            
+            material = new Material(shader)
             {
-                name = "Astralum_ConstellationLine01"
+                name = $"Astralum_ConstellationTexture01_{texture.name}",
+                mainTexture = texture
             };
             
-            ConstellationLine.SetFloat("_Intensity", 0.875f);
-            ConstellationLine.SetFloat("_BlurStrength", 0.45f);
-            ConstellationLine.SetFloat("_CoreStrength", 0.15f);
+            material.SetTexture(InternalShaderPropertyIds.MainTex, texture);
+            material.SetColor(ShaderPropertyIDs.Color, new Color(0.45f, 0.60f, 1.0f, 0.35f));
+            material.SetFloat(InternalShaderPropertyIds.Intensity, 0.875f);
+            material.SetFloat(InternalShaderPropertyIds.BlurStrength, 0.45f);
             
-            Object.DontDestroyOnLoad(ConstellationLine);
+            Object.DontDestroyOnLoad(material);
+            
+            MaterialsByTexture[texture] = material;
+            return material;
         }
     }
 }

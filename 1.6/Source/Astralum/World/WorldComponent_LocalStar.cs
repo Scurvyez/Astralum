@@ -6,7 +6,7 @@ using Verse;
 
 namespace Astralum.World
 {
-    public class AstralumStarWorldComponent : WorldComponent
+    public class WorldComponent_LocalStar : WorldComponent
     {
         private SavedStar _star;
 
@@ -34,7 +34,7 @@ namespace Astralum.World
             }
         }
         
-        public AstralumStarWorldComponent(RimWorld.Planet.World world) : base(world)
+        public WorldComponent_LocalStar(RimWorld.Planet.World world) : base(world)
         {
         }
         
@@ -64,7 +64,7 @@ namespace Astralum.World
                 
                 UI.StarInfoLineCache.Rebuild(_star);
                 LocalSystemStarMatsUtil.RefreshSun01Mat();
-                AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
+                WorldComponent_Debug.ResetTweaksFromCurrentStar();
             }
         }
         
@@ -83,7 +83,7 @@ namespace Astralum.World
             
             UI.StarInfoLineCache.Rebuild(_star);
             LocalSystemStarMatsUtil.RefreshSun01Mat();
-            AstralumDebugWorldComponent.ResetTweaksFromCurrentStar();
+            WorldComponent_Debug.ResetTweaksFromCurrentStar();
         }
     }
 }

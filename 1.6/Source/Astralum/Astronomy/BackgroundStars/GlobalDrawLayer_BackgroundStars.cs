@@ -1,6 +1,7 @@
 ﻿using System.Collections;
-using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Debugging;
+using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.World;
 using RimWorld;
@@ -10,30 +11,26 @@ using Verse;
 
 namespace Astralum.Astronomy.BackgroundStars
 {
-    public class GlobalDrawLayer_ColoredStars : WorldDrawLayerBase
+    public class GlobalDrawLayer_BackgroundStars : WorldDrawLayerBase
     {
         private const float DistanceToStars = 20f;
-        private const int StarCount = 50000;
         
-        private static FloatRange StarSizeRange = new(0.175f, 0.85f);
+        private int _starCount = 50000;
+        private FloatRange _starSizeRange = new(0.085f, 0.85f);
         
-        private bool calculatedForStaticRotation;
-        private PlanetTile calculatedForStartingTile = PlanetTile.Invalid;
-        
-        protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+        private bool _calculatedForStaticRotation;
+        private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
+        private GlobalWorldDrawLayerDef _def;
+        private ModExt_BackgroundStars _ext;
         
         private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
         
-        protected override Quaternion Rotation
-        {
-            get
-            {
-                if (UseStaticRotation)
-                    return Quaternion.identity;
-                
-                return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-            }
-        }
+        protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+        
+        protected override Quaternion Rotation =>
+            UseStaticRotation 
+                ? Quaternion.identity 
+                : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
         
         public override bool ShouldRegenerate
         {
@@ -42,11 +39,26 @@ namespace Astralum.Astronomy.BackgroundStars
                 if (base.ShouldRegenerate)
                     return true;
                 
-                if (Find.GameInitData != null && Find.GameInitData.startingTile != calculatedForStartingTile)
+                if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
                     return true;
                 
-                return UseStaticRotation != calculatedForStaticRotation;
+                return UseStaticRotation != _calculatedForStaticRotation;
             }
+        }
+        
+        public GlobalDrawLayer_BackgroundStars()
+        {
+            _def = InternalDefOf.Astra_BackgroundStars;
+            _ext = _def?.GetModExtension<ModExt_BackgroundStars>();
+            
+            if (_ext == null)
+            {
+                AstraLog.Warning("Astra_BackgroundStars is missing ModExt_BackgroundStars. Using fallback values.");
+                return;
+            }
+            
+            _starCount = Mathf.Max(0, _ext.starCount);
+            _starSizeRange = _ext.starSizeRange;
         }
         
         public override IEnumerable Regenerate()
@@ -57,62 +69,22 @@ namespace Astralum.Astronomy.BackgroundStars
             Rand.PushState();
             Rand.Seed = Find.World.info.Seed ^ 0x71C04ED;
 
-            for (int i = 0; i < StarCount; i++)
+            for (int i = 0; i < _starCount; i++)
             {
                 PrintColoredStar();
             }
             
-            calculatedForStartingTile = Find.GameInitData != null
+            _calculatedForStartingTile = Find.GameInitData != null
                 ? Find.GameInitData.startingTile
                 : PlanetTile.Invalid;
             
-            calculatedForStaticRotation = UseStaticRotation;
+            _calculatedForStaticRotation = UseStaticRotation;
             
             Rand.PopState();
 
-            if (AstralumEntry.EnableDebugGalacticPlane)
-            {
-                DrawDebugGalacticPlane();
-            }
-            
             FinalizeMesh(MeshParts.All);
         }
         
-        private void DrawDebugGalacticPlane()
-        {
-            const int segments = 256;
-            const float width = 0.02f;
-
-            LayerSubMesh lineSubMesh = GetSubMesh(ConstellationsMatsUtil.ConstellationLine);
-
-            Quaternion planeRotation =
-                Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
-
-            Vector3 previousPoint = Vector3.zero;
-
-            for (int i = 0; i <= segments; i++)
-            {
-                float t = i / (float)segments;
-                float angle = t * Mathf.PI * 2f;
-
-                Vector3 localPoint = new Vector3(
-                    Mathf.Cos(angle),
-                    0f,
-                    Mathf.Sin(angle)
-                );
-
-                Vector3 worldPoint =
-                    (planeRotation * localPoint).normalized * DistanceToStars;
-
-                if (i > 0)
-                {
-                    GlobalDrawLayer_Constellations.PrintSkyLine(previousPoint, worldPoint, width, lineSubMesh);
-                }
-
-                previousPoint = worldPoint;
-            }
-        }
-
         private void PrintColoredStar()
         {
             SpectralClass spectralClass = StarClassUtil.RandomBackgroundStarClass();
@@ -125,14 +97,8 @@ namespace Astralum.Astronomy.BackgroundStars
             
             float size = RandomStarSize(spectralClass);
             
-            WorldRendererUtility.PrintQuadTangentialToPlanet(
-                pos,
-                size,
-                0f,
-                subMesh,
-                counterClockwise: true,
-                Rand.Range(0f, 360f)
-            );
+            WorldRendererUtility.PrintQuadTangentialToPlanet(pos, size, 0f,
+                subMesh, counterClockwise: true, Rand.Range(0f, 360f));
         }
         
         private static Vector3 RandomDensityWeightedDirection(SpectralClass spectralClass)
@@ -235,7 +201,7 @@ namespace Astralum.Astronomy.BackgroundStars
             return Mathf.Pow(noise, 1.4f);
         }
         
-        private static float RandomStarSize(SpectralClass spectralClass)
+        private float RandomStarSize(SpectralClass spectralClass)
         {
             float apparentMagnitude = spectralClass switch
             {
@@ -261,7 +227,7 @@ namespace Astralum.Astronomy.BackgroundStars
             // decrease power to exaggerate size variance and make brighter stars even larger
             visual = Mathf.Pow(visual, 0.75f);
             
-            return StarSizeRange.LerpThroughRange(visual);
+            return _starSizeRange.LerpThroughRange(visual);
         }
     }
 }

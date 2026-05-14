@@ -36,8 +36,8 @@ namespace Astralum.Materials
                 name = $"Astralum_BackgroundStar{spectralClass}"
             };
             
-            material.SetColor("_Color", color);
-            material.SetFloat("_Intensity", 1f);
+            material.SetColor(ShaderPropertyIDs.Color, color);
+            material.SetFloat(InternalShaderPropertyIds.Intensity, 1f);
             
             Object.DontDestroyOnLoad(material);
             

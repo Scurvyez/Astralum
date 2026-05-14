@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Astralum.World
 {
-    public class AstralumDebugWorldComponent : WorldComponent
+    public class WorldComponent_Debug : WorldComponent
     {
         private const string TVCategory = "Astralum";
         
@@ -65,7 +65,7 @@ namespace Astralum.World
         private static float VariabilitySpeed = 0f;
         #endregion
         
-        public AstralumDebugWorldComponent(RimWorld.Planet.World world) : base(world)
+        public WorldComponent_Debug(RimWorld.Planet.World world) : base(world)
         {
         }
         
