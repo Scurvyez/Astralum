@@ -6,7 +6,7 @@ namespace Astralum.Astronomy.Nebulae
     public class SavedNebula : IExposable
     {
         public string name;
-        public int materialIndex;
+        public int nebulaId;
         public Vector3 localSkyPos;
         public float size;
         public float rotationDegrees;
@@ -44,7 +44,7 @@ namespace Astralum.Astronomy.Nebulae
         public void ExposeData()
         {
             Scribe_Values.Look(ref name, "name");
-            Scribe_Values.Look(ref materialIndex, "materialIndex");
+            Scribe_Values.Look(ref nebulaId, "nebulaId");
             Scribe_Values.Look(ref localSkyPos, "localSkyPos");
             Scribe_Values.Look(ref size, "size");
             Scribe_Values.Look(ref rotationDegrees, "rotationDegrees");

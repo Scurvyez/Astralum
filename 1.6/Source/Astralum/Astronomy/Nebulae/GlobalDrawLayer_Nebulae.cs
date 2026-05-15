@@ -95,12 +95,7 @@ namespace Astralum.Astronomy.Nebulae
                 float size = _nebulaSizeRange.RandomInRange;
                 float rotationDegrees = Rand.Range(0f, 360f);
                 
-                data.nebulae.Add(NebulaDataUtil.CreateRandom(
-                    i,
-                    localSkyPos,
-                    size,
-                    rotationDegrees
-                ));
+                data.nebulae.Add(NebulaDataUtil.CreateRandom(i, localSkyPos, size, rotationDegrees));
             }
             
             Rand.PopState();
@@ -115,19 +110,12 @@ namespace Astralum.Astronomy.Nebulae
             {
                 SavedNebula nebula = nebulae[i];
                 
-                Material material = NebulaeMatsUtil.For(nebula.materialIndex);
+                Material material = NebulaeMatsUtil.For(nebula.nebulaId);
                 NebulaDataUtil.ApplyToMaterial(material, nebula);
-                
                 LayerSubMesh subMesh = GetSubMesh(material);
                 
-                WorldRendererUtility.PrintQuadTangentialToPlanet(
-                    nebula.localSkyPos,
-                    nebula.size,
-                    0f,
-                    subMesh,
-                    counterClockwise: true,
-                    nebula.rotationDegrees
-                );
+                WorldRendererUtility.PrintQuadTangentialToPlanet(nebula.localSkyPos, nebula.size, 0f,
+                    subMesh, counterClockwise: true, nebula.rotationDegrees);
             }
         }
         

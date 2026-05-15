@@ -27,11 +27,13 @@ namespace Astralum.Astronomy.BackgroundStars
             
             return value switch
             {
-                < 0.01f => SpectralClass.O, // 1%
-                < 0.08f => SpectralClass.B, // 7%
-                < 0.38f => SpectralClass.A, // 30%
-                < 0.78f => SpectralClass.F, // 40%
-                _ => SpectralClass.G  // 22%
+                < 0.001f => SpectralClass.O, // 0.1%
+                < 0.041f => SpectralClass.B, // 4.0%
+                < 0.221f => SpectralClass.A, // 18.0%
+                < 0.461f => SpectralClass.F, // 24.0%
+                < 0.681f => SpectralClass.G, // 22.0%
+                < 0.921f => SpectralClass.K, // 24.0%
+                _ => SpectralClass.M         // 7.9%
             };
         }
     }

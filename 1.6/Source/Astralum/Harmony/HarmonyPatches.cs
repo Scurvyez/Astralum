@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
 using Astralum.Materials;
@@ -164,10 +165,27 @@ namespace Astralum.Harmony
         
         public static void PlaySettings_DoWorldViewControls_Postfix(WidgetRow row)
         {
+            // TODO:
+            // created keyed strings in XML for these...
+            string tooltip = SkyGridSettings.DrawGrid 
+                ? "Disable Astralum sky coordinate grid" 
+                : "Enable Astralum sky coordinate grid";
+            
             row.ToggleableIcon(
                 ref SkyGridSettings.DrawGrid,
-                SkyCoordinateGridMatsUtil.ToggleIcon,
-                "Toggle Astralum sky coordinate grid",
+                SkyCoordinateGridMatsUtil.ShowSkyGridIcon,
+                tooltip,
+                SoundDefOf.Mouseover_ButtonToggle
+            );
+            
+            string constellationLinesTooltip = ConstellationSettings.DrawConstellationLines
+                ? "Disable Astralum constellation lines"
+                : "Enable Astralum constellation lines";
+            
+            row.ToggleableIcon(
+                ref ConstellationSettings.DrawConstellationLines,
+                ConstellationsMatsUtil.ShowConstellationLinesIcon,
+                constellationLinesTooltip,
                 SoundDefOf.Mouseover_ButtonToggle
             );
         }

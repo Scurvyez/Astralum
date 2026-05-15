@@ -19,7 +19,7 @@ namespace Astralum.World
         
         public override void WorldComponentOnGUI()
         {
-            if (!WorldUtils.ShouldDrawGUI())
+            if (!WorldUtils.ShouldDrawGUI() || !SkyGridSettings.DrawGrid)
                 return;
             
             Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;

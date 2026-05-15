@@ -9,11 +9,8 @@ namespace Astralum.Materials
     {
         public static readonly Material Line;
         
-        private static Texture2D _toggleIcon;
-        
-        public static Texture2D ToggleIcon =>
-            _toggleIcon ??= ContentFinder<Texture2D>.Get("UI/Icons/AstralumSkyGrid", reportFailure: false)
-                            ?? TexButton.Info;
+        public static readonly Texture2D ShowSkyGridIcon =
+            ContentFinder<Texture2D>.Get("Astralum/UI/Icons/ShowSkyGrid", reportFailure: false);
         
         static SkyCoordinateGridMatsUtil()
         {

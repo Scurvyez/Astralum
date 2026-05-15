@@ -105,7 +105,7 @@ namespace Astralum.Astronomy.LocalSystem.Stars
             
             string name = Capitalize(builder.ToString());
             
-            if (Rand.Range(0, 100) < 35)
+            if (Rand.Range(0, 100) < 20)
                 return $"{name}-{RomanNumerals.RandomElement()}";
             
             return name;
@@ -129,11 +129,6 @@ namespace Astralum.Astronomy.LocalSystem.Stars
             }
             
             return builder.ToString();
-        }
-        
-        public static string GenerateConstellationName()
-        {
-            return GenerateSemiUniqueSystemName();
         }
         
         public static string GenerateConstellationStarName(float uniqueNameChance)

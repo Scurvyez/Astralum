@@ -88,9 +88,6 @@ namespace Astralum.World
         
         public static bool ShouldDrawGUI()
         {
-            if (!SkyGridSettings.DrawGrid)
-                return false;
-            
             if (Current.ProgramState != ProgramState.Playing)
                 return false;
             

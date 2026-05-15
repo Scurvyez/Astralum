@@ -14,7 +14,7 @@ namespace Astralum.World
         public WorldComponent_NebulaeData(RimWorld.Planet.World world) : base(world)
         {
         }
-
+        
         public override void ExposeData()
         {
             base.ExposeData();

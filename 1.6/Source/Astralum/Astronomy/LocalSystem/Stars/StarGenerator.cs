@@ -53,6 +53,22 @@ namespace Astralum.Astronomy.LocalSystem.Stars
         
         public static GeneratedStar GenerateRandomStar()
         {
+            // TODO:
+            // overhaul for realism...
+            
+            // 1. birth environment / population
+            // 2. initial mass
+            // 3. metallicity
+            // 4. age
+            // 5. evolutionary stage
+            // 6. luminosity
+            // 7. effective temperature
+            // 8. radius
+            // 9. spectral class / chromaticity
+            // 10. surface gravity
+            // 12. rotation, activity, flares, magnetic field
+            // 13. end state prediction (white dwarf, neutron star, black hole, etc.)
+            
             string systemName = StellarNamingUtil.GenerateSystemName();
             string starName = StellarNamingUtil.GenerateStarName(systemName);
             SpectralClass spectralClass = GenerateRandomSpectralClass();

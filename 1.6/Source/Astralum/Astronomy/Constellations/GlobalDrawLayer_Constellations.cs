@@ -27,6 +27,7 @@ namespace Astralum.Astronomy.Constellations
         private float _minViewRotationAngle = 160f;
         private float _maxViewRotationAngle = 200f;
         
+        private bool _calculatedForDrawConstellationLines;
         private bool _calculatedForStaticRotation;
         private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
         private GlobalWorldDrawLayerDef _def;
@@ -51,7 +52,10 @@ namespace Astralum.Astronomy.Constellations
                 if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
                     return true;
                 
-                return UseStaticRotation != _calculatedForStaticRotation;
+                if (UseStaticRotation != _calculatedForStaticRotation)
+                    return true;
+                
+                return ConstellationSettings.DrawConstellationLines != _calculatedForDrawConstellationLines;
             }
         }
 
@@ -94,8 +98,6 @@ namespace Astralum.Astronomy.Constellations
             if (!data.HasGeneratedConstellations)
                 GenerateAndSaveConstellations(data);
             
-            // TODO:
-            // add a play setting so players can easily disable constellation lines(?)
             PrintSavedConstellations(data.constellations);
             
             _calculatedForStartingTile = Find.GameInitData != null
@@ -103,6 +105,9 @@ namespace Astralum.Astronomy.Constellations
                 : PlanetTile.Invalid;
             
             _calculatedForStaticRotation = UseStaticRotation;
+            
+            _calculatedForStaticRotation = UseStaticRotation;
+            _calculatedForDrawConstellationLines = ConstellationSettings.DrawConstellationLines;
             
             FinalizeMesh(MeshParts.All);
         }
@@ -228,27 +233,34 @@ namespace Astralum.Astronomy.Constellations
             for (int i = 0; i < savedConstellations.Count; i++)
             {
                 SavedConstellation saved = savedConstellations[i];
-                Texture2D mask = ConstellationMaskUtil.GetMaskByName(saved.maskName);
-
-                if (mask == null)
-                    continue;
                 
-                Material material = ConstellationsMatsUtil.For(mask);
-                
-                if (material == null)
-                    continue;
-                
-                LayerSubMesh lineSubMesh = GetSubMesh(material);
-                
-                PrintConstellationQuad(
-                    saved.centerDir,
-                    saved.size,
-                    saved.rotationDegrees,
-                    lineSubMesh
-                );
+                if (ConstellationSettings.DrawConstellationLines)
+                    PrintSavedConstellationLines(saved);
                 
                 PrintSavedStars(saved);
             }
+        }
+        
+        private void PrintSavedConstellationLines(SavedConstellation saved)
+        {
+            Texture2D mask = ConstellationMaskUtil.GetMaskByName(saved.maskName);
+            
+            if (mask == null)
+                return;
+            
+            Material material = ConstellationsMatsUtil.For(mask);
+    
+            if (material == null)
+                return;
+            
+            LayerSubMesh lineSubMesh = GetSubMesh(material);
+    
+            PrintConstellationQuad(
+                saved.centerDir,
+                saved.size,
+                saved.rotationDegrees,
+                lineSubMesh
+            );
         }
         
         private void PrintSavedStars(SavedConstellation constellation)
