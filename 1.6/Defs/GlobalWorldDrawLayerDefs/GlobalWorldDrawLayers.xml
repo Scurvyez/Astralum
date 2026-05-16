@@ -8,6 +8,7 @@
             <li Class="Astralum.Astronomy.BackgroundStars.ModExt_BackgroundStars">
                 <starCount>100000</starCount>
                 <starSizeRange>0.085~0.85</starSizeRange>
+                <galacticPlaneBounds>-0.12~0.12</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -17,8 +18,9 @@
         <worldDrawLayer>Astralum.Astronomy.Nebulae.GlobalDrawLayer_Nebulae</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Nebulae.ModExt_Nebulae">
-                <nebulaCount>15</nebulaCount>
-                <nebulaSizeRange>6~15</nebulaSizeRange>
+                <nebulaCount>1~100</nebulaCount>
+                <nebulaSizeRange>4~12</nebulaSizeRange>
+                <galacticPlaneBounds>-0.17~0.17</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -55,7 +57,7 @@
                 <travelDistance>5.0~65.0</travelDistance>
                 <length>0.5~2.1</length>
                 <width>0.035~0.085</width>
-                <galacticPlaneBounds>-0.16~0.16</galacticPlaneBounds>
+                <galacticPlaneBounds>-0.22~0.22</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -63,6 +65,11 @@
     <GlobalWorldDrawLayerDef>
         <defName>Astra_SkyCoordinateGrid</defName>
         <worldDrawLayer>Astralum.Astronomy.SkyGrid.GlobalDrawLayer_SkyCoordinateGrid</worldDrawLayer>
+    </GlobalWorldDrawLayerDef>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_Pulsars</defName>
+        <worldDrawLayer>Astralum.Astronomy.Pulsars.GlobalDrawLayer_Pulsars</worldDrawLayer>
     </GlobalWorldDrawLayerDef>
 
 </Defs>

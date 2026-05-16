@@ -36,4 +36,9 @@
         <shaderPath>SkyCoordinateGrid01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_Pulsar01</defName>
+        <shaderPath>Pulsar01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>

@@ -177,23 +177,25 @@ Shader "Astralum/Nebulae01"
                 float stopB = min(_ColorStopB, _ColorStopC - 0.01);
                 float stopC = max(_ColorStopC, stopB + 0.01);
                 
-                if (t < stopB)
-                {
-                    float u = saturate(t / stopB);
-                    u = pow(u, _ColorBandSharpness);
-                    return lerp(_ColorA.rgb, _ColorB.rgb, u);
-                }
+                float inBC = step(stopB, t);
+                float inCD = step(stopC, t);
                 
-                if (t < stopC)
-                {
-                    float u = saturate((t - stopB) / (stopC - stopB));
-                    u = pow(u, _ColorBandSharpness);
-                    return lerp(_ColorB.rgb, _ColorC.rgb, u);
-                }
+                float bandStart = lerp(0.0, stopB, inBC);
+                bandStart = lerp(bandStart, stopC, inCD);
                 
-                float u = saturate((t - stopC) / (1.0 - stopC));
+                float bandEnd = lerp(stopB, stopC, inBC);
+                bandEnd = lerp(bandEnd, 1.0, inCD);
+                
+                float3 colorStart = lerp(_ColorA.rgb, _ColorB.rgb, inBC);
+                colorStart = lerp(colorStart, _ColorC.rgb, inCD);
+                
+                float3 colorEnd = lerp(_ColorB.rgb, _ColorC.rgb, inBC);
+                colorEnd = lerp(colorEnd, _ColorD.rgb, inCD);
+                
+                float u = saturate((t - bandStart) / max(bandEnd - bandStart, 0.0001));
                 u = pow(u, _ColorBandSharpness);
-                return lerp(_ColorC.rgb, _ColorD.rgb, u);
+                
+                return lerp(colorStart, colorEnd, u);
             }
             
             fixed4 frag (vertOutput input) : SV_Target
@@ -230,8 +232,12 @@ Shader "Astralum/Nebulae01"
                 
                 float mask = cloud * softShape * _NoiseStrength;
 
-                float colorT = saturate(detail * 0.65 + cloud * 0.35);
-                colorT = pow(colorT, 0.5);
+                float colorNoise = Fbm(
+                    warpedUv * _NoiseScale * 0.65
+                    + _SeedOffset.zw
+                    + _Seed * 0.593);;
+                
+                float colorT = saturate((colorNoise - 0.5) * 1.75 + 0.5);
                 float3 color = NebulaGradient(colorT);
                 
                 float alpha = saturate(mask * _Alpha);

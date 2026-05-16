@@ -2,39 +2,39 @@
 
 namespace Astralum.Astronomy.LocalSystem.Stars
 {
-    public static class StellarAgeUtil
+  public static class StellarAgeUtil
+  {
+    private const double MillionYears = 1_000_000d;
+    private const double BillionYears = 1_000_000_000d;
+
+    private static double GetAge(SpectralClass spectralClass)
     {
-        private const double MillionYears = 1_000_000d;
-        private const double BillionYears = 1_000_000_000d;
-        
-        private static double GetAge(SpectralClass spectralClass)
-        {
-            return spectralClass switch
-            {
-                SpectralClass.O => Rand.Range(5_000_000, 10_000_000),
-                SpectralClass.B => Rand.Range(50_000_000, 100_000_000),
-                SpectralClass.A => Rand.Range(500_000_000, 1_000_000_000),
-                SpectralClass.F => Rand.Range(2_500_000_000, 5_000_000_000),
-                SpectralClass.G => Rand.Range(5_000_000_000, 10_000_000_000),
-                SpectralClass.K => Rand.Range(25_000_000_000, 50_000_000_000),
-                SpectralClass.M => Rand.Range(50_000_000_000, 100_000_000_000),
-                _ => Rand.Range(5_000_000_000, 10_000_000_000),
-            };
-        }
-        
-        public static double GenerateAge(SpectralClass spectralClass)
-        {
-            return GetAge(spectralClass);
-        }
-        
-        public static string FormatAge(double years)
-        {
-            return years switch
-            {
-                >= BillionYears => $"{years / BillionYears:0.0} Gyr",
-                >= MillionYears => $"{years / MillionYears:0.0} Myr",
-                _ => $"{years:0} years"
-            };
-        }
+      return spectralClass switch
+      {
+        SpectralClass.O => Rand.Range(5_000_000, 10_000_000),
+        SpectralClass.B => Rand.Range(50_000_000, 100_000_000),
+        SpectralClass.A => Rand.Range(500_000_000, 1_000_000_000),
+        SpectralClass.F => Rand.Range(2_500_000_000, 5_000_000_000),
+        SpectralClass.G => Rand.Range(5_000_000_000, 10_000_000_000),
+        SpectralClass.K => Rand.Range(25_000_000_000, 50_000_000_000),
+        SpectralClass.M => Rand.Range(50_000_000_000, 100_000_000_000),
+        _ => Rand.Range(5_000_000_000, 10_000_000_000)
+      };
     }
+
+    public static double GenerateAge(SpectralClass spectralClass)
+    {
+      return GetAge(spectralClass);
+    }
+
+    public static string FormatAge(double years)
+    {
+      return years switch
+      {
+        >= BillionYears => $"{years / BillionYears:0.0} Gyr",
+        >= MillionYears => $"{years / MillionYears:0.0} Myr",
+        _ => $"{years:0} years"
+      };
+    }
+  }
 }
