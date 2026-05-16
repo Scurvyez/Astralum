@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Abstract</defName>
+        <categoryId>Abstract</categoryId>
+        <folderPath>Constellations/Abstract</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Abstract</defName>
+        <categoryId>Abstract</categoryId>
+
+        <descriptors>
+            <li>Broken</li>
+            <li>Hidden</li>
+            <li>Nameless</li>
+            <li>Veiled</li>
+            <li>Shifting</li>
+            <li>Forgotten</li>
+            <li>Silent</li>
+            <li>Faded</li>
+            <li>Endless</li>
+            <li>Unknown</li>
+            <li>Distorted</li>
+            <li>Ancient</li>
+            <li>Unseen</li>
+            <li>Hollow</li>
+        </descriptors>
+
+        <titles>
+            <li>Watcher</li>
+            <li>Witness</li>
+            <li>Dreamer</li>
+            <li>Seeker</li>
+            <li>Bearer</li>
+            <li>Speaker</li>
+            <li>Wanderer</li>
+            <li>Observer</li>
+            <li>Keeper</li>
+            <li>Listener</li>
+            <li>Shaper</li>
+            <li>Remnant</li>
+        </titles>
+
+        <nouns>
+            <li>Mark</li>
+            <li>Sign</li>
+            <li>Glyph</li>
+            <li>Omen</li>
+            <li>Pattern</li>
+            <li>Symbol</li>
+            <li>Trace</li>
+            <li>Fragment</li>
+            <li>Shape</li>
+            <li>Echo</li>
+            <li>Whisper</li>
+            <li>Cipher</li>
+            <li>Shade</li>
+            <li>Figure</li>
+            <li>Rune</li>
+        </nouns>
+
+        <objects>
+            <li>Sigil</li>
+            <li>Mark</li>
+            <li>Veil</li>
+            <li>Seal</li>
+            <li>Fragment</li>
+            <li>Echo</li>
+            <li>Mask</li>
+            <li>Mirror</li>
+            <li>Trace</li>
+            <li>Symbol</li>
+            <li>Shade</li>
+            <li>Whisper</li>
+            <li>Rune</li>
+        </objects>
+
+        <concepts>
+            <li>Mystery</li>
+            <li>Memory</li>
+            <li>Silence</li>
+            <li>Meaning</li>
+            <li>Dreams</li>
+            <li>Echoes</li>
+            <li>Absence</li>
+            <li>Infinity</li>
+            <li>Truth</li>
+            <li>Secrets</li>
+            <li>Oblivion</li>
+            <li>Thought</li>
+            <li>Stillness</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

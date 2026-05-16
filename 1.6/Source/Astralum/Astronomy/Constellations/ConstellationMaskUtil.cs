@@ -8,60 +8,64 @@ namespace Astralum.Astronomy.Constellations
     [StaticConstructorOnStartup]
     public static class ConstellationMaskUtil
     {
-        private const string MaskFolder = "Astralum/Astronomy/Constellations";
-        
         private const float StarAlphaThreshold = 0.95f;
         private const int MinStarPoints = 5;
         private const int MaxStarPoints = 7;
         private const float MinPointSpacingNormalized = 0.25f;
         
-        private static readonly List<Texture2D> CachedMasks = [];
+        private static readonly List<ConstellationMaskInfo> CachedMasks = [];
+        private static readonly Dictionary<string, ConstellationMaskInfo> MaskInfoByName = [];
         private static readonly Dictionary<(Texture2D Mask, int StarCount), Vector2[]> StarPointCache = new();
-
-        public static List<Texture2D> CreateShuffledMaskPool()
-        {
-            List<Texture2D> pool = new(CachedMasks);
-            pool.Shuffle();
-            return pool;
-        }
+        
+        public static bool HasMasks => !CachedMasks.NullOrEmpty();
         
         static ConstellationMaskUtil()
         {
-            IEnumerable<Texture2D> textures = ContentFinder<Texture2D>.GetAllInFolder(MaskFolder);
-            
-            foreach (Texture2D texture in textures)
+            foreach (ConstellationMaskCategoryDef categoryDef 
+                     in DefDatabase<ConstellationMaskCategoryDef>.AllDefs)
             {
-                if (texture != null)
-                    CachedMasks.Add(texture);
+                if (categoryDef.folderPath.NullOrEmpty())
+                    continue;
+                
+                IEnumerable<Texture2D> textures =
+                    ContentFinder<Texture2D>.GetAllInFolder(categoryDef.folderPath);
+                
+                foreach (Texture2D texture in textures)
+                {
+                    if (texture == null)
+                        continue;
+                    
+                    ConstellationMaskInfo info = new(texture, categoryDef.categoryId);
+                    
+                    CachedMasks.Add(info);
+                    MaskInfoByName[texture.name] = info;
+                }
             }
             
             AstraLog.Message($"Loaded {CachedMasks.Count} constellation masks.");
         }
         
-        public static bool HasMasks => !CachedMasks.NullOrEmpty();
-        
-        public static Texture2D RandomMask()
+        public static List<ConstellationMaskInfo> CreateShuffledMaskPool()
         {
-            if (CachedMasks.NullOrEmpty())
-                return null;
-            
-            return CachedMasks.RandomElement();
+            List<ConstellationMaskInfo> pool = new(CachedMasks);
+            pool.Shuffle();
+            return pool;
         }
         
         public static Texture2D GetMaskByName(string maskName)
         {
-            if (maskName.NullOrEmpty())
-                return null;
+            return TryGetMaskInfo(maskName, out ConstellationMaskInfo info)
+                ? info.texture
+                : null;
+        }
+        
+        public static bool TryGetMaskInfo(string maskName, out ConstellationMaskInfo info)
+        {
+            if (!maskName.NullOrEmpty() && MaskInfoByName.TryGetValue(maskName, out info))
+                return true;
             
-            for (int i = 0; i < CachedMasks.Count; i++)
-            {
-                Texture2D mask = CachedMasks[i];
-                
-                if (mask != null && mask.name == maskName)
-                    return mask;
-            }
-            
-            return null;
+            info = default;
+            return false;
         }
         
         public static Vector2[] GetStarPoints(Texture2D mask, int starCount)

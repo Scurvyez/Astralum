@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Geometric</defName>
+        <categoryId>Geometric</categoryId>
+        <folderPath>Constellations/Geometric</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Geometric</defName>
+        <categoryId>Geometric</categoryId>
+
+        <descriptors>
+            <li>Perfect</li>
+            <li>Measured</li>
+            <li>Hidden</li>
+            <li>Prime</li>
+            <li>Ordered</li>
+            <li>Precise</li>
+            <li>Balanced</li>
+            <li>Symmetrical</li>
+            <li>Immutable</li>
+            <li>Structured</li>
+            <li>Aligned</li>
+            <li>Infinite</li>
+            <li>Harmonic</li>
+            <li>Celestial</li>
+            <li>Silent</li>
+            <li>Unified</li>
+        </descriptors>
+
+        <titles>
+            <li>Architect</li>
+            <li>Surveyor</li>
+            <li>Observer</li>
+            <li>Keeper</li>
+            <li>Navigator</li>
+            <li>Cartographer</li>
+            <li>Witness</li>
+            <li>Designer</li>
+            <li>Watcher</li>
+            <li>Seeker</li>
+            <li>Scholar</li>
+            <li>Warden</li>
+        </titles>
+
+        <nouns>
+            <li>Lattice</li>
+            <li>Axis</li>
+            <li>Measure</li>
+            <li>Compass</li>
+            <li>Grid</li>
+            <li>Vector</li>
+            <li>Pattern</li>
+            <li>Structure</li>
+            <li>Framework</li>
+            <li>Alignment</li>
+            <li>Prism</li>
+            <li>Facet</li>
+            <li>Construct</li>
+            <li>Diagram</li>
+            <li>Sequence</li>
+            <li>Order</li>
+        </nouns>
+
+        <objects>
+            <li>Compass</li>
+            <li>Scale</li>
+            <li>Vector</li>
+            <li>Prism</li>
+            <li>Grid</li>
+            <li>Facet</li>
+            <li>Axis</li>
+            <li>Lattice</li>
+            <li>Frame</li>
+            <li>Measure</li>
+            <li>Diagram</li>
+            <li>Pattern</li>
+            <li>Sequence</li>
+            <li>Alignment</li>
+        </objects>
+
+        <concepts>
+            <li>Order</li>
+            <li>Truth</li>
+            <li>Symmetry</li>
+            <li>Balance</li>
+            <li>Precision</li>
+            <li>Logic</li>
+            <li>Calculation</li>
+            <li>Harmony</li>
+            <li>Alignment</li>
+            <li>Structure</li>
+            <li>Reason</li>
+            <li>Equilibrium</li>
+            <li>Design</li>
+            <li>Continuity</li>
+            <li>Proportion</li>
+            <li>Celestial Order</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

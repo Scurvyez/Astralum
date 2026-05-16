@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Circles</defName>
+        <categoryId>Circles</categoryId>
+        <folderPath>Constellations/Circles</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Circles</defName>
+        <categoryId>Circles</categoryId>
+
+        <descriptors>
+            <li>Endless</li>
+            <li>Hollow</li>
+            <li>Radiant</li>
+            <li>Perfect</li>
+            <li>Golden</li>
+            <li>Silent</li>
+            <li>Ancient</li>
+            <li>Shining</li>
+            <li>Infinite</li>
+            <li>Unbroken</li>
+            <li>Celestial</li>
+            <li>Veiled</li>
+            <li>Eternal</li>
+            <li>Turning</li>
+            <li>Sacred</li>
+            <li>Luminous</li>
+        </descriptors>
+
+        <titles>
+            <li>Watcher</li>
+            <li>Keeper</li>
+            <li>Bearer</li>
+            <li>Guardian</li>
+            <li>Witness</li>
+            <li>Wanderer</li>
+            <li>Observer</li>
+            <li>Herald</li>
+            <li>Seeker</li>
+            <li>Pilgrim</li>
+            <li>Traveler</li>
+            <li>Sentinel</li>
+        </titles>
+
+        <nouns>
+            <li>Ring</li>
+            <li>Halo</li>
+            <li>Circle</li>
+            <li>Wheel</li>
+            <li>Crown</li>
+            <li>Orbit</li>
+            <li>Loop</li>
+            <li>Disc</li>
+            <li>Cycle</li>
+            <li>Arc</li>
+            <li>Band</li>
+            <li>Corona</li>
+            <li>Horizon</li>
+            <li>Threshold</li>
+            <li>Path</li>
+        </nouns>
+
+        <objects>
+            <li>Halo</li>
+            <li>Wheel</li>
+            <li>Ring</li>
+            <li>Orbit</li>
+            <li>Corona</li>
+            <li>Disc</li>
+            <li>Band</li>
+            <li>Loop</li>
+            <li>Circle</li>
+            <li>Arc</li>
+            <li>Crown</li>
+            <li>Threshold</li>
+            <li>Path</li>
+            <li>Horizon</li>
+        </objects>
+
+        <concepts>
+            <li>Eternity</li>
+            <li>Return</li>
+            <li>Cycles</li>
+            <li>Infinity</li>
+            <li>Balance</li>
+            <li>Harmony</li>
+            <li>Repetition</li>
+            <li>Stillness</li>
+            <li>Time</li>
+            <li>Heavens</li>
+            <li>Horizon</li>
+            <li>Unity</li>
+            <li>Renewal</li>
+            <li>Continuity</li>
+            <li>Passage</li>
+            <li>Celestial Motion</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

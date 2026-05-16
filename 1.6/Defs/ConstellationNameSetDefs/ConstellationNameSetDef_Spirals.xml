@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Spirals</defName>
+        <categoryId>Spirals</categoryId>
+        <folderPath>Constellations/Spirals</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Spirals</defName>
+        <categoryId>Spirals</categoryId>
+
+        <descriptors>
+            <li>Turning</li>
+            <li>Radiant</li>
+            <li>Burning</li>
+            <li>Dancing</li>
+            <li>Shifting</li>
+            <li>Endless</li>
+            <li>Twisting</li>
+            <li>Celestial</li>
+            <li>Glowing</li>
+            <li>Ancient</li>
+            <li>Whirling</li>
+            <li>Brilliant</li>
+            <li>Luminous</li>
+            <li>Expanding</li>
+            <li>Flowing</li>
+            <li>Infinite</li>
+        </descriptors>
+
+        <titles>
+            <li>Dancer</li>
+            <li>Wanderer</li>
+            <li>Traveler</li>
+            <li>Herald</li>
+            <li>Watcher</li>
+            <li>Seeker</li>
+            <li>Bearer</li>
+            <li>Pilgrim</li>
+            <li>Strider</li>
+            <li>Caller</li>
+            <li>Dreamer</li>
+            <li>Harbinger</li>
+        </titles>
+
+        <nouns>
+            <li>Spiral</li>
+            <li>Star</li>
+            <li>Wheel</li>
+            <li>Vortex</li>
+            <li>Bloom</li>
+            <li>Flare</li>
+            <li>Whorl</li>
+            <li>Corona</li>
+            <li>Current</li>
+            <li>Beacon</li>
+            <li>Flame</li>
+            <li>Galaxy</li>
+            <li>Storm</li>
+            <li>Ember</li>
+            <li>Arc</li>
+        </nouns>
+
+        <objects>
+            <li>Wheel</li>
+            <li>Flame</li>
+            <li>Star</li>
+            <li>Vortex</li>
+            <li>Corona</li>
+            <li>Arc</li>
+            <li>Beacon</li>
+            <li>Current</li>
+            <li>Flare</li>
+            <li>Trail</li>
+            <li>Bloom</li>
+            <li>Whorl</li>
+            <li>Storm</li>
+            <li>Ember</li>
+        </objects>
+
+        <concepts>
+            <li>Creation</li>
+            <li>First Light</li>
+            <li>Deep Sky</li>
+            <li>Motion</li>
+            <li>Radiance</li>
+            <li>Transformation</li>
+            <li>Infinity</li>
+            <li>Stars</li>
+            <li>Dawn</li>
+            <li>Fire</li>
+            <li>The Heavens</li>
+            <li>Expansion</li>
+            <li>Celestial Winds</li>
+            <li>Light</li>
+            <li>Awakening</li>
+            <li>Emergence</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

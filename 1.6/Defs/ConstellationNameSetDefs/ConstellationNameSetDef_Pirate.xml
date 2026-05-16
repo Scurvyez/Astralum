@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Pirate</defName>
+        <categoryId>Pirate</categoryId>
+        <folderPath>Constellations/Pirate</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Pirate</defName>
+        <categoryId>Pirate</categoryId>
+
+        <descriptors>
+            <li>Black</li>
+            <li>Grinning</li>
+            <li>Dead</li>
+            <li>Ragged</li>
+            <li>Lost</li>
+            <li>Forgotten</li>
+            <li>Burning</li>
+            <li>Ghostly</li>
+            <li>Silent</li>
+            <li>Wandering</li>
+            <li>Broken</li>
+            <li>Bloodied</li>
+            <li>Hidden</li>
+            <li>Cursed</li>
+            <li>Shadowed</li>
+            <li>Lawless</li>
+        </descriptors>
+
+        <titles>
+            <li>Captain</li>
+            <li>Corsair</li>
+            <li>Raider</li>
+            <li>Reaver</li>
+            <li>Marauder</li>
+            <li>Wanderer</li>
+            <li>Outcast</li>
+            <li>Harbinger</li>
+            <li>Smuggler</li>
+            <li>Ravager</li>
+            <li>Freebooter</li>
+            <li>Drifter</li>
+        </titles>
+
+        <nouns>
+            <li>Skull</li>
+            <li>Raider</li>
+            <li>Captain</li>
+            <li>Reaver</li>
+            <li>Corsair</li>
+            <li>Marauder</li>
+            <li>Outcast</li>
+            <li>Wanderer</li>
+            <li>Fleet</li>
+            <li>Ravager</li>
+            <li>Harbinger</li>
+            <li>Ghost</li>
+            <li>Drifter</li>
+            <li>Banner</li>
+            <li>Wreck</li>
+        </nouns>
+
+        <objects>
+            <li>Banner</li>
+            <li>Flag</li>
+            <li>Anchor</li>
+            <li>Blade</li>
+            <li>Wreck</li>
+            <li>Beacon</li>
+            <li>Wake</li>
+            <li>Crossing</li>
+            <li>Path</li>
+            <li>Signal</li>
+            <li>Lantern</li>
+            <li>Chain</li>
+            <li>Hull</li>
+            <li>Mark</li>
+        </objects>
+
+        <concepts>
+            <li>Plunder</li>
+            <li>Lost Gold</li>
+            <li>Exile</li>
+            <li>Mutiny</li>
+            <li>Black Horizon</li>
+            <li>Storms</li>
+            <li>The Frontier</li>
+            <li>Raiders</li>
+            <li>Freedom</li>
+            <li>Ghost Fleet</li>
+            <li>Dark Waters</li>
+            <li>Ashes</li>
+            <li>The Void</li>
+            <li>Wreckage</li>
+            <li>Smugglers</li>
+            <li>Nightfall</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

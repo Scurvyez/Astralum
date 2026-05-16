@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Archotech</defName>
+        <categoryId>Archotech</categoryId>
+        <folderPath>Constellations/Archotech</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Archotech</defName>
+        <categoryId>Archotech</categoryId>
+
+        <descriptors>
+            <li>Ancient</li>
+            <li>Silent</li>
+            <li>Awakened</li>
+            <li>Forbidden</li>
+            <li>Endless</li>
+            <li>Hidden</li>
+            <li>Forgotten</li>
+            <li>Synthetic</li>
+            <li>Transcendent</li>
+            <li>Dormant</li>
+            <li>Cold</li>
+            <li>Immutable</li>
+            <li>Prime</li>
+            <li>Eternal</li>
+            <li>Veiled</li>
+            <li>Ascendant</li>
+        </descriptors>
+
+        <titles>
+            <li>Architect</li>
+            <li>Overseer</li>
+            <li>Observer</li>
+            <li>Custodian</li>
+            <li>Mediator</li>
+            <li>Harbinger</li>
+            <li>Executor</li>
+            <li>Warden</li>
+            <li>Speaker</li>
+            <li>Keeper</li>
+            <li>Intelligence</li>
+            <li>Consciousness</li>
+        </titles>
+
+        <nouns>
+            <li>Machine</li>
+            <li>Mind</li>
+            <li>Oracle</li>
+            <li>Engine</li>
+            <li>Monolith</li>
+            <li>Architect</li>
+            <li>Construct</li>
+            <li>Overseer</li>
+            <li>Directive</li>
+            <li>Archive</li>
+            <li>Matrix</li>
+            <li>Observer</li>
+            <li>Consciousness</li>
+            <li>Intelligence</li>
+            <li>Continuum</li>
+            <li>Signal</li>
+        </nouns>
+
+        <objects>
+            <li>Core</li>
+            <li>Spire</li>
+            <li>Signal</li>
+            <li>Obelisk</li>
+            <li>Relay</li>
+            <li>Nexus</li>
+            <li>Beacon</li>
+            <li>Protocol</li>
+            <li>Array</li>
+            <li>Node</li>
+            <li>Vault</li>
+            <li>Conduit</li>
+            <li>Archive</li>
+            <li>Threshold</li>
+            <li>Gateway</li>
+        </objects>
+
+        <concepts>
+            <li>Calculation</li>
+            <li>Ascension</li>
+            <li>Machine God</li>
+            <li>First Signal</li>
+            <li>Integration</li>
+            <li>Transcendence</li>
+            <li>Convergence</li>
+            <li>Ancient Network</li>
+            <li>Prime Directive</li>
+            <li>Deep Archive</li>
+            <li>Synthetic Dreams</li>
+            <li>Silent Process</li>
+            <li>Continuity</li>
+            <li>Eternity</li>
+            <li>The Pattern</li>
+            <li>The Signal</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

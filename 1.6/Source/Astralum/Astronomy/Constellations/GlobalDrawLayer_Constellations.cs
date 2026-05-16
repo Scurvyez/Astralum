@@ -120,7 +120,7 @@ namespace Astralum.Astronomy.Constellations
             Rand.Seed = Find.World.info.Seed ^ 0x5A17A11;
 
             List<Vector3> usedCenters = [];
-            List<Texture2D> unusedMasks = ConstellationMaskUtil.CreateShuffledMaskPool();
+            List<ConstellationMaskInfo> unusedMasks = ConstellationMaskUtil.CreateShuffledMaskPool();
 
             int count = Mathf.Min(_constellationCount, unusedMasks.Count);
 
@@ -131,7 +131,7 @@ namespace Astralum.Astronomy.Constellations
         }
         
         private bool TryCreateSavedConstellation(List<SavedConstellation> savedConstellations,
-            List<Vector3> usedCenters, List<Texture2D> unusedMasks)
+            List<Vector3> usedCenters, List<ConstellationMaskInfo> unusedMasks)
         {
             if (unusedMasks.NullOrEmpty())
                 return false;
@@ -143,7 +143,10 @@ namespace Astralum.Astronomy.Constellations
                 if (OverlapsExistingConstellation(centerDir, usedCenters))
                     continue;
                 
-                Texture2D mask = unusedMasks[unusedMasks.Count - 1];
+                ConstellationMaskInfo maskInfo = unusedMasks[unusedMasks.Count - 1];
+                unusedMasks.RemoveAt(unusedMasks.Count - 1);
+                
+                Texture2D mask = maskInfo.texture;
                 unusedMasks.RemoveAt(unusedMasks.Count - 1);
                 
                 float size = Rand.Range(_constellationSizeMin, _constellationSizeMax);
@@ -153,7 +156,8 @@ namespace Astralum.Astronomy.Constellations
                 
                 SavedConstellation saved = new()
                 {
-                    name = ConstellationNameGenerator.Generate(mask.name, usedNames),
+                    name = ConstellationNameGenerator.Generate(maskInfo.categoryId, usedNames),
+                    categoryId = maskInfo.categoryId,
                     maskName = mask.name,
                     centerDir = centerDir,
                     size = size,

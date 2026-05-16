@@ -7,6 +7,7 @@ namespace Astralum.Astronomy.Constellations
     public class SavedConstellation : IExposable
     {
         public string name;
+        public string categoryId;
         public string maskName;
         public Vector3 centerDir;
         public float size;
@@ -16,6 +17,7 @@ namespace Astralum.Astronomy.Constellations
         public void ExposeData()
         {
             Scribe_Values.Look(ref name, "name");
+            Scribe_Values.Look(ref categoryId, "categoryId");
             Scribe_Values.Look(ref maskName, "maskName");
             Scribe_Values.Look(ref centerDir, "centerDir");
             Scribe_Values.Look(ref size, "size");

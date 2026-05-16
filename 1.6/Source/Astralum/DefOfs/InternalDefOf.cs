@@ -1,5 +1,4 @@
-﻿using Astralum.Astronomy.Constellations;
-using RimWorld;
+﻿using RimWorld;
 using Verse;
 
 namespace Astralum.DefOfs
@@ -22,10 +21,6 @@ namespace Astralum.DefOfs
         public static GlobalWorldDrawLayerDef Astra_Constellations;
         public static GlobalWorldDrawLayerDef Astra_Nebulae;
         public static GlobalWorldDrawLayerDef Astra_ShootingStars;
-        #endregion
-        
-        #region ConfigDefs
-        public static ConstellationNameSetDef Astra_ConstellationNames;
         #endregion
         
         static InternalDefOf()

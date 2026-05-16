@@ -1,51 +1,49 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalSystem.Stars;
-using Astralum.DefOfs;
 using Verse;
 
 namespace Astralum.Astronomy.Constellations
 {
     public static class ConstellationNameGenerator
     {
-        private static ConstellationNameSetDef _nameSet;
+        private static readonly Dictionary<string, ConstellationNameSetDef> SetsByCategory = [];
+        private static ConstellationNameSetDef _fallback;
         
         static ConstellationNameGenerator()
         {
-            _nameSet = InternalDefOf.Astra_ConstellationNames;
+            foreach (ConstellationNameSetDef def in DefDatabase<ConstellationNameSetDef>.AllDefs)
+            {
+                if (def.isFallback)
+                    _fallback = def;
+                
+                if (!def.categoryId.NullOrEmpty())
+                    SetsByCategory[def.categoryId] = def;
+            }
         }
         
-        public static string Generate(string maskName, HashSet<string> usedNames)
+        public static string Generate(string categoryId, HashSet<string> usedNames)
         {
-            ConstellationNameCategory category = GetCategoryFromMaskName(maskName);
-            
             return StellarNamingUtil.GenerateUniqueName(
                 usedNames,
-                () => GenerateRaw(category)
+                () => GenerateRaw(categoryId)
             );
         }
         
-        private static string GenerateRaw(ConstellationNameCategory category)
+        private static string GenerateRaw(string categoryId)
         {
-            ConstellationNameSetDef set = _nameSet;
+            ConstellationNameSetDef set = GetSet(categoryId);
+            ConstellationNameSetDef generic = _fallback;
             
             if (set == null)
                 return StellarNamingUtil.GenerateSemiUniqueSystemName();
             
-            ConstellationCategoryNameSet categorySet = set.GetCategorySet(category);
-            
-            if (categorySet == null)
-                categorySet = set.GetCategorySet(ConstellationNameCategory.Generic);
-            
-            if (categorySet == null)
-                return StellarNamingUtil.GenerateSemiUniqueSystemName();
-            
             int pattern = Rand.RangeInclusive(0, 8);
             
-            string descriptor = Pick(categorySet.descriptors, set.sharedDescriptors);
-            string title = Pick(set.sharedTitles, categorySet.nouns);
-            string noun = Pick(categorySet.nouns, set.sharedObjects);
-            string concept = Pick(categorySet.concepts, set.sharedConcepts);
-            string obj = Pick(categorySet.objects, set.sharedObjects);
+            string descriptor = Pick(set.descriptors, generic?.descriptors);
+            string title = Pick(set.titles, generic?.titles);
+            string noun = Pick(set.nouns, generic?.nouns);
+            string concept = Pick(set.concepts, generic?.concepts);
+            string obj = Pick(set.objects, generic?.objects);
             
             return pattern switch
             {
@@ -61,37 +59,29 @@ namespace Astralum.Astronomy.Constellations
             };
         }
         
-        private static string Pick(List<string> primary, List<string> fallback)
+        private static ConstellationNameSetDef GetSet(string categoryId)
         {
-            if (!primary.NullOrEmpty() && Rand.Value < 0.75f)
-                return primary.RandomElement();
+            if (!categoryId.NullOrEmpty() &&
+                SetsByCategory.TryGetValue(categoryId, out ConstellationNameSetDef set))
+            {
+                return set;
+            }
             
-            if (!fallback.NullOrEmpty())
-                return fallback.RandomElement();
-            
-            return !primary.NullOrEmpty() 
-                ? primary.RandomElement() 
-                : "Unknown";
+            return _fallback;
         }
         
-        public static ConstellationNameCategory GetCategoryFromMaskName(string maskName)
+        private static string Pick(List<string> primary, List<string> generic = null, float primaryChance = 0.75f)
         {
-            if (maskName.NullOrEmpty())
-                return ConstellationNameCategory.Generic;
+            if (!primary.NullOrEmpty() && (generic.NullOrEmpty() || Rand.Value < primaryChance))
+                return primary.RandomElement();
             
-            string lower = maskName.ToLowerInvariant();
+            if (!generic.NullOrEmpty())
+                return generic.RandomElement();
             
-            if (lower.Contains("abstract")) return ConstellationNameCategory.Abstract;
-            if (lower.Contains("animals")) return ConstellationNameCategory.Animals;
-            if (lower.Contains("archotech")) return ConstellationNameCategory.Archotech;
-            if (lower.Contains("circles")) return ConstellationNameCategory.Circles;
-            if (lower.Contains("geometric")) return ConstellationNameCategory.Geometric;
-            if (lower.Contains("nature")) return ConstellationNameCategory.Nature;
-            if (lower.Contains("pirate")) return ConstellationNameCategory.Pirate;
-            if (lower.Contains("round")) return ConstellationNameCategory.Round;
-            if (lower.Contains("spirals")) return ConstellationNameCategory.Spirals;
+            if (!primary.NullOrEmpty())
+                return primary.RandomElement();
             
-            return ConstellationNameCategory.Generic;
+            return "Unknown";
         }
     }
 }

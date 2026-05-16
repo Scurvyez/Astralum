@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+        <defName>Astra_ConstellationMasks_Animals</defName>
+        <categoryId>Animals</categoryId>
+        <folderPath>Constellations/Animals</folderPath>
+    </Astralum.Astronomy.Constellations.ConstellationMaskCategoryDef>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Animals</defName>
+        <categoryId>Animals</categoryId>
+
+        <descriptors>
+            <li>Wild</li>
+            <li>Sleeping</li>
+            <li>Great</li>
+            <li>Ancient</li>
+            <li>Ravenous</li>
+            <li>Roaming</li>
+            <li>Shadowed</li>
+            <li>Feral</li>
+            <li>Howling</li>
+            <li>Restless</li>
+            <li>Silent</li>
+            <li>Endless</li>
+            <li>Untamed</li>
+            <li>Wandering</li>
+            <li>Hungry</li>
+            <li>Stalking</li>
+        </descriptors>
+
+        <titles>
+            <li>Hunter</li>
+            <li>Watcher</li>
+            <li>Wanderer</li>
+            <li>Guardian</li>
+            <li>Stalker</li>
+            <li>Drifter</li>
+            <li>Roamer</li>
+            <li>Chaser</li>
+            <li>Lurker</li>
+            <li>Caller</li>
+            <li>Sleeper</li>
+            <li>Strider</li>
+        </titles>
+
+        <nouns>
+            <li>Beast</li>
+            <li>Titan</li>
+            <li>Creature</li>
+            <li>Leviathan</li>
+            <li>Hunter</li>
+            <li>Predator</li>
+            <li>Stalker</li>
+            <li>Ravager</li>
+            <li>Guardian</li>
+            <li>Wanderer</li>
+            <li>Pack</li>
+            <li>Watcher</li>
+            <li>Drifter</li>
+            <li>Strider</li>
+            <li>Roamer</li>
+        </nouns>
+
+        <objects>
+            <li>Trail</li>
+            <li>Tracks</li>
+            <li>Path</li>
+            <li>Den</li>
+            <li>Roar</li>
+            <li>Call</li>
+            <li>Shadow</li>
+            <li>Echo</li>
+            <li>Wake</li>
+            <li>Crossing</li>
+            <li>Howl</li>
+            <li>Prowl</li>
+            <li>Trace</li>
+        </objects>
+
+        <concepts>
+            <li>Hunt</li>
+            <li>Wilds</li>
+            <li>Moonlight</li>
+            <li>Instinct</li>
+            <li>Nightfall</li>
+            <li>Storms</li>
+            <li>Shadows</li>
+            <li>Survival</li>
+            <li>Migration</li>
+            <li>Silence</li>
+            <li>Wilderness</li>
+            <li>Deep Forest</li>
+            <li>Open Plains</li>
+            <li>Dusk</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+
+</Defs>

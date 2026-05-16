@@ -10,7 +10,7 @@ namespace Astralum.Materials
         public static readonly Material Line;
         
         public static readonly Texture2D ShowSkyGridIcon =
-            ContentFinder<Texture2D>.Get("Astralum/UI/Icons/ShowSkyGrid", reportFailure: false);
+            ContentFinder<Texture2D>.Get("UI/Icons/ShowSkyGrid", reportFailure: false);
         
         static SkyCoordinateGridMatsUtil()
         {
