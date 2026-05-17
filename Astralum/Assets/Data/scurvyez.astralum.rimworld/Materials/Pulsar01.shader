@@ -1,4 +1,4 @@
-Shader "Unlit/Pulsar01"
+Shader "Astralum/Pulsar01"
 {
     Properties
     {

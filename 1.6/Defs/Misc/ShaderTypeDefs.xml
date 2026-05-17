@@ -41,4 +41,9 @@
         <shaderPath>Pulsar01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_BlackHole01</defName>
+        <shaderPath>BlackHole01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>

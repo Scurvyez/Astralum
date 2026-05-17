@@ -70,6 +70,25 @@
     <GlobalWorldDrawLayerDef>
         <defName>Astra_Pulsars</defName>
         <worldDrawLayer>Astralum.Astronomy.Pulsars.GlobalDrawLayer_Pulsars</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.Pulsars.ModExt_Pulsars">
+                <pulsarChance>0.05</pulsarChance>
+                <pulsarSize>0.8</pulsarSize>
+                <pulsarCount>1</pulsarCount>
+            </li>
+        </modExtensions>
+    </GlobalWorldDrawLayerDef>
+
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_BlackHoles</defName>
+        <worldDrawLayer>Astralum.Astronomy.BlackHoles.GlobalDrawLayer_BlackHoles</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
+                <blackHoleChance>0.05</blackHoleChance>
+                <blackHoleSize>0.5~2.0</blackHoleSize>
+                <blackHoleCount>1</blackHoleCount>
+            </li>
+        </modExtensions>
     </GlobalWorldDrawLayerDef>
 
 </Defs>

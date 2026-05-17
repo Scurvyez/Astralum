@@ -16,30 +16,27 @@ namespace Astralum.Astronomy.Nebulae
     private const float DistanceToNebulae = 20f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_Nebulae _ext;
-
+    
     private readonly int _nebulaCount = 10;
     private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
-
     private bool _calculatedForStaticRotation;
     private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private FloatRange _nebulaSizeRange = new(6f, 18f);
-
+    
     public GlobalDrawLayer_Nebulae()
     {
       _def = InternalDefOf.Astra_Nebulae;
       _ext = _def?.GetModExtension<ModExt_Nebulae>();
-
+      
       if (_ext == null)
       {
         AstraLog.Warning("Astra_Nebulae is missing ModExt_Nebulae. Using fallback values.");
         return;
       }
-
+      
       _nebulaCount = _ext.nebulaCount.RandomInRange;
       _nebulaSizeRange = _ext.nebulaSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
-
-      AstraLog.Message($"GlobalDrawLayer_Nebulae: {_nebulaCount} nebulae active.");
     }
 
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;

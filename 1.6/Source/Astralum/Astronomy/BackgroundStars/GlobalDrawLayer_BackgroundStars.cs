@@ -35,7 +35,7 @@ namespace Astralum.Astronomy.BackgroundStars
         return;
       }
 
-      _starCount = Mathf.Max(0, _ext.starCount);
+      _starCount = Mathf.Clamp(_ext.starCount, 0, 300000);
       _starSizeRange = _ext.starSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
     }

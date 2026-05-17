@@ -261,26 +261,16 @@ namespace Astralum.Astronomy.Constellations
 
       LayerSubMesh lineSubMesh = GetSubMesh(material);
 
-      PrintConstellationQuad(
-        saved.centerDir,
-        saved.size,
-        saved.rotationDegrees,
-        lineSubMesh
-      );
+      PrintConstellationQuad(saved.centerDir, saved.size, saved.rotationDegrees, lineSubMesh);
     }
 
     private void PrintSavedStars(SavedConstellation constellation)
     {
       if (constellation.stars.NullOrEmpty())
         return;
-
-      GetConstellationSkyInfo(
-        constellation,
-        out string hemisphere,
-        out string rightAscension,
-        out string declination
-      );
-
+      
+      GetConstellationSkyInfo(constellation, out string hemisphere, out string rightAscension, out string declination);
+      
       for (int i = 0; i < constellation.stars.Count; i++)
       {
         SavedConstellationStar star = constellation.stars[i];

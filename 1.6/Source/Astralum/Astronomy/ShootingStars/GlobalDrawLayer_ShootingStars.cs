@@ -11,34 +11,33 @@ namespace Astralum.Astronomy.ShootingStars
   {
     private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation;
-
-
+    
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
+    
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-
+    
     protected override Quaternion Rotation =>
       UseStaticRotation
         ? Quaternion.identity
         : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-
+    
     public override bool ShouldRegenerate
     {
       get
       {
         if (base.ShouldRegenerate)
           return true;
-
+        
         if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
           return true;
-
+        
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
-
+        
         return ShootingStarManager.Dirty;
       }
     }
-
+    
     public override IEnumerable Regenerate()
     {
       foreach (object item in base.Regenerate())

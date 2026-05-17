@@ -49,6 +49,7 @@
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\Constellation01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\ConstellationHoverRing01.shader" />
     <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\Sun01.shader" />
+    <None Include="Assets\Data\scurvyez.astralum.rimworld\Materials\BlackHole01.shader" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.35f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>

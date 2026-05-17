@@ -21,6 +21,7 @@ namespace Astralum.DefOfs
     public static ShaderTypeDef Astra_ShootingStar01;
     public static ShaderTypeDef Astra_SkyCoordinateGrid01;
     public static ShaderTypeDef Astra_Pulsar01;
+    public static ShaderTypeDef Astra_BlackHole01;
 
     #endregion
 
@@ -30,6 +31,8 @@ namespace Astralum.DefOfs
     public static GlobalWorldDrawLayerDef Astra_Constellations;
     public static GlobalWorldDrawLayerDef Astra_Nebulae;
     public static GlobalWorldDrawLayerDef Astra_ShootingStars;
+    public static GlobalWorldDrawLayerDef Astra_Pulsars;
+    public static GlobalWorldDrawLayerDef Astra_BlackHoles;
 
     #endregion
   }

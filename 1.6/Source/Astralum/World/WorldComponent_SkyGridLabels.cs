@@ -74,13 +74,6 @@ namespace Astralum.World
         guiPos
       );
 
-      Rect unscaledRect = new(
-        guiPos.x - size.x * 0.5f / label.scale,
-        guiPos.y - size.y * 0.5f / label.scale,
-        size.x / label.scale,
-        size.y / label.scale
-      );
-
       Widgets.Label(rect, label.text);
       GUI.matrix = oldMatrix;
     }

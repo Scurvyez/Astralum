@@ -8,7 +8,7 @@ namespace Astralum.Astronomy.BackgroundStars
     public static SpectralClass RandomBackgroundStarClass()
     {
       float value = Rand.Value;
-
+      
       return value switch
       {
         < 0.005f => SpectralClass.O,
@@ -20,11 +20,11 @@ namespace Astralum.Astronomy.BackgroundStars
         _ => SpectralClass.M
       };
     }
-
+    
     public static SpectralClass RandomConstellationStarClass()
     {
       float value = Rand.Value;
-
+      
       return value switch
       {
         < 0.001f => SpectralClass.O, // 0.1%
