@@ -24,6 +24,24 @@ namespace Astralum.World
         return comp?.Star;
       }
     }
+    
+    public static Vector3 RandomGalacticPlaneDirection(FloatRange bounds = default)
+    {
+      float angle = Rand.Range(0f, Mathf.PI * 2f);
+      float localY = bounds.RandomInRange;
+      
+      float radius = Mathf.Sqrt(1f - localY * localY);
+      
+      Vector3 localDir = new Vector3(
+        Mathf.Cos(angle) * radius,
+        localY,
+        Mathf.Sin(angle) * radius
+      ).normalized;
+      
+      Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, GalacticPole.normalized);
+      
+      return (planeRotation * localDir).normalized;
+    }
 
     public static SkyCoord DirectionToSkyCoord(Vector3 direction)
     {

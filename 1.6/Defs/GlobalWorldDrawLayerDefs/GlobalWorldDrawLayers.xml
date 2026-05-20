@@ -84,9 +84,10 @@
         <worldDrawLayer>Astralum.Astronomy.BlackHoles.GlobalDrawLayer_BlackHoles</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
+                <galacticPlaneBounds>-0.18~0.18</galacticPlaneBounds>
                 <blackHoleChance>0.05</blackHoleChance>
                 <blackHoleSize>0.5~2.0</blackHoleSize>
-                <blackHoleCount>1</blackHoleCount>
+                <blackHoleCount>1~3</blackHoleCount>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>

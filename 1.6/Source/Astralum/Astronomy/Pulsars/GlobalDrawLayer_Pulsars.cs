@@ -21,7 +21,7 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
 
   private readonly float _pulsarCanvasScale = 1f;
   private readonly float _pulsarChance = 0.05f;
-  private readonly int _pulsarCount = 1;
+  private IntRange _pulsarCount = new(0, 1);
   private readonly float _pulsarSize = 0.8f;
 
   public GlobalDrawLayer_Pulsars()
@@ -34,11 +34,11 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
       AstraLog.Warning("Astra_Pulsars is missing ModExt_Pulsars. Using fallback values.");
       return;
     }
-
+    
     _pulsarChance = Mathf.Clamp01(_ext.pulsarChance);
     _pulsarSize = Mathf.Clamp(_ext.pulsarSize, 0.1f, 10f);
     _pulsarCanvasScale = _pulsarSize * 2f;
-    _pulsarCount = Mathf.Clamp(_ext.pulsarCount, 0, 10);
+    _pulsarCount = _ext.pulsarCount;
   }
 
   private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
@@ -72,6 +72,8 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
     Rand.PushState();
     Rand.Seed = Find.World.info.Seed ^ 0x7115A2;
     
+    int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
+    
     try
     {
       if (Rand.Value > _pulsarChance)
@@ -79,7 +81,7 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
       
       LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
       
-      for (int i = 0; i < _pulsarCount; i++)
+      for (int i = 0; i < pulsarCount; i++)
       {
         Vector3 dir = RandomPulsarDirection();
         

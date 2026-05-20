@@ -111,27 +111,9 @@ namespace Astralum.Astronomy.BackgroundStars
           return dir;
       }
 
-      return RandomGalacticPlaneDirection();
+      return WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds);
     }
-
-    private Vector3 RandomGalacticPlaneDirection()
-    {
-      float angle = Rand.Range(0f, Mathf.PI * 2f);
-      float localY = _galacticPlaneBounds.RandomInRange;
-
-      float radius = Mathf.Sqrt(1f - localY * localY);
-
-      Vector3 localDir = new Vector3(
-        Mathf.Cos(angle) * radius,
-        localY,
-        Mathf.Sin(angle) * radius
-      ).normalized;
-
-      Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
-
-      return (planeRotation * localDir).normalized;
-    }
-
+    
     private static float StarDensity(Vector3 dir, SpectralClass spectralClass)
     {
       float galacticLatitude = Mathf.Abs(Vector3.Dot(dir.normalized,

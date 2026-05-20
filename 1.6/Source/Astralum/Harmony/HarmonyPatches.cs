@@ -164,11 +164,9 @@ namespace Astralum.Harmony
 
     public static void PlaySettings_DoWorldViewControls_Postfix(WidgetRow row)
     {
-      // TODO:
-      // created keyed strings in XML for these...
       string tooltip = SkyGridSettings.DrawGrid
-        ? "Disable Astralum sky coordinate grid"
-        : "Enable Astralum sky coordinate grid";
+        ? "Astra_DisableSkyGridToggleLabel".Translate()
+        : "Astra_EnableSkyGridToggleLabel".Translate();
 
       row.ToggleableIcon(
         ref SkyGridSettings.DrawGrid,
@@ -178,8 +176,8 @@ namespace Astralum.Harmony
       );
 
       string constellationLinesTooltip = ConstellationSettings.DrawConstellationLines
-        ? "Disable Astralum constellation lines"
-        : "Enable Astralum constellation lines";
+        ? "Astra_DisableConstellationLinesToggleLabel".Translate()
+        : "Astra_EnableConstellationLinesToggleLabel".Translate();
 
       row.ToggleableIcon(
         ref ConstellationSettings.DrawConstellationLines,

@@ -51,7 +51,7 @@ namespace Astralum.Astronomy.ShootingStars
 
     private static void SpawnRandom(ModExt_ShootingStars ext)
     {
-      Vector3 dir = RandomGalacticPlaneDirection(ext);
+      Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(ext.galacticPlaneBounds);
       Vector3 origin = dir * DistanceToShootingStars;
 
       Vector3 tangent = Vector3.Cross(dir, Rand.UnitVector3);
@@ -77,27 +77,6 @@ namespace Astralum.Astronomy.ShootingStars
       };
 
       Active.Add(star);
-    }
-
-    private static Vector3 RandomGalacticPlaneDirection(ModExt_ShootingStars ext)
-    {
-      float angle = Rand.Range(0f, Mathf.PI * 2f);
-      float localY = ext.galacticPlaneBounds.RandomInRange;
-
-      float radius = Mathf.Sqrt(1f - localY * localY);
-
-      Vector3 localDir = new(
-        Mathf.Cos(angle) * radius,
-        localY,
-        Mathf.Sin(angle) * radius
-      );
-
-      Quaternion planeRotation = Quaternion.FromToRotation(
-        Vector3.up,
-        WorldUtils.GalacticPole.normalized
-      );
-
-      return (planeRotation * localDir).normalized;
     }
   }
 }

@@ -74,10 +74,9 @@ namespace Astralum.Astronomy.LocalSystem.Stars
 
     public static string GenerateStarName(string systemName, int starIndex = 0)
     {
-      if (starIndex <= 0)
-        return systemName;
-
-      return $"{systemName} {GetStarLetterSuffix(starIndex)}";
+      return starIndex <= 0 
+        ? systemName 
+        : $"{systemName} {GetStarLetterSuffix(starIndex)}";
     }
 
     public static string GenerateSemiUniqueSystemName()
@@ -105,10 +104,9 @@ namespace Astralum.Astronomy.LocalSystem.Stars
 
       string name = Capitalize(builder.ToString());
 
-      if (Rand.Range(0, 100) < 20)
-        return $"{name}-{RomanNumerals.RandomElement()}";
-
-      return name;
+      return Rand.Range(0, 100) < 20 
+        ? $"{name}-{RomanNumerals.RandomElement()}" 
+        : name;
     }
 
     public static string GenerateGenericSystemName()
@@ -154,11 +152,10 @@ namespace Astralum.Astronomy.LocalSystem.Stars
 
       if (atStart)
         return StartingConsonantChunks.RandomElement();
-
-      if (nearEnd)
-        return EndingConsonantChunks.RandomElement();
-
-      return MiddleConsonantChunks.RandomElement();
+      
+      return nearEnd 
+        ? EndingConsonantChunks.RandomElement() 
+        : MiddleConsonantChunks.RandomElement();
     }
 
     private static string Capitalize(string value)

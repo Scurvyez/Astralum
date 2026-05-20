@@ -84,76 +84,80 @@ namespace Astralum.Astronomy.Constellations
     {
       foreach (object item in base.Regenerate())
         yield return item;
-
-      if (!ConstellationMaskUtil.HasMasks)
+      
+      try
       {
-        AstraLog.Warning("No constellation masks found.");
-        yield break;
+        if (!ConstellationMaskUtil.HasMasks)
+        {
+          AstraLog.Warning("No constellation masks found.");
+          yield break;
+        }
+        
+        ConstellationInteractionRegistry.Clear();
+        WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
+        
+        if (data == null)
+          yield break;
+        
+        if (!data.HasGeneratedConstellations)
+          GenerateAndSaveConstellations(data);
+        
+        PrintSavedConstellations(data.constellations);
       }
-
-      ConstellationInteractionRegistry.Clear();
-
-      WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
-
-      if (!data.HasGeneratedConstellations)
-        GenerateAndSaveConstellations(data);
-
-      PrintSavedConstellations(data.constellations);
-
-      _calculatedForStartingTile = Find.GameInitData != null
-        ? Find.GameInitData.startingTile
-        : PlanetTile.Invalid;
-
-      _calculatedForStaticRotation = UseStaticRotation;
-
-      _calculatedForStaticRotation = UseStaticRotation;
-      _calculatedForDrawConstellationLines = ConstellationSettings.DrawConstellationLines;
-
-      FinalizeMesh(MeshParts.All);
+      finally
+      {
+        _calculatedForStartingTile = Find.GameInitData != null
+          ? Find.GameInitData.startingTile
+          : PlanetTile.Invalid;
+        
+        _calculatedForStaticRotation = UseStaticRotation;
+        _calculatedForDrawConstellationLines = ConstellationSettings.DrawConstellationLines;
+        
+        FinalizeMesh(MeshParts.All);
+      }
     }
-
+    
     private void GenerateAndSaveConstellations(WorldComponent_ConstellationData data)
     {
       data.Clear();
-
+      
       Rand.PushState();
       Rand.Seed = Find.World.info.Seed ^ 0x5A17A11;
-
+      
       List<Vector3> usedCenters = [];
       List<ConstellationMaskInfo> unusedMasks = ConstellationMaskUtil.CreateShuffledMaskPool();
-
+      
       int count = Mathf.Min(_constellationCount, unusedMasks.Count);
-
+      
       for (int i = 0; i < count; i++)
         TryCreateSavedConstellation(data.constellations, usedCenters, unusedMasks);
-
+      
       Rand.PopState();
     }
-
-    private bool TryCreateSavedConstellation(List<SavedConstellation> savedConstellations,
+    
+    private void TryCreateSavedConstellation(List<SavedConstellation> savedConstellations,
       List<Vector3> usedCenters, List<ConstellationMaskInfo> unusedMasks)
     {
-      if (unusedMasks.NullOrEmpty())
-        return false;
+      if (unusedMasks.NullOrEmpty()) return;
 
       for (int attempt = 0; attempt < _maxPlacementAttempts; attempt++)
       {
         Vector3 centerDir = RandomDensityWeightedSkyDirection();
-
+        
         if (OverlapsExistingConstellation(centerDir, usedCenters))
           continue;
-
+        
         ConstellationMaskInfo maskInfo = unusedMasks[unusedMasks.Count - 1];
         unusedMasks.RemoveAt(unusedMasks.Count - 1);
-
+        
         Texture2D mask = maskInfo.texture;
         unusedMasks.RemoveAt(unusedMasks.Count - 1);
-
+        
         float size = Rand.Range(_constellationSizeMin, _constellationSizeMax);
         float rotation = Rand.Range(_minViewRotationAngle, _maxViewRotationAngle);
-
+        
         HashSet<string> usedNames = ConstellationDataUtil.Data.GetUsedNames();
-
+        
         SavedConstellation saved = new()
         {
           name = ConstellationNameGenerator.Generate(maskInfo.categoryId, usedNames),
@@ -164,61 +168,54 @@ namespace Astralum.Astronomy.Constellations
           rotationDegrees = rotation,
           stars = []
         };
-
+        
         int starCount = ConstellationMaskUtil.RandomStarPointCount();
         Vector2[] starPoints = ConstellationMaskUtil.GetStarPoints(mask, starCount);
-
+        
         BuildSavedStars(saved, starPoints);
-
+        
         savedConstellations.Add(saved);
         usedCenters.Add(centerDir);
 
-        return true;
+        return;
       }
-
-      return false;
     }
 
     private void BuildSavedStars(SavedConstellation constellation, Vector2[] uvPoints)
     {
       if (uvPoints.NullOrEmpty())
         return;
-
+      
       Vector3 center = constellation.centerDir.normalized * DistanceToConstellations;
-
-      GetConstellationBasis(
-        constellation.centerDir,
-        constellation.rotationDegrees,
-        out Vector3 tangentA,
-        out Vector3 tangentB
-      );
-
+      
+      GetConstellationBasis(constellation.centerDir, constellation.rotationDegrees,
+        out Vector3 tangentA, out Vector3 tangentB);
+      
       HashSet<string> usedNames = ConstellationDataUtil.Data.GetUsedNames();
-
+      
       for (int i = 0; i < uvPoints.Length; i++)
       {
         Vector2 uv = uvPoints[i];
         Vector2 local = new(uv.x * 2f - 1f, uv.y * 2f - 1f);
-
+        
         Vector3 starPos =
           center +
           tangentA * local.x * constellation.size * 0.5f +
           tangentB * local.y * constellation.size * 0.5f;
-
+        
         SpectralClass spectralClass = StarClassUtil.RandomConstellationStarClass();
         float brightness = RandomMagnitudeBrightness(spectralClass);
         float visualSize = Mathf.Lerp(_baseStarSize, _brightStarSize, brightness);
-
+        
         // very dim stars = 15% chance for unique name
         // medium dim stars = 50% chance for unique name
         // bright stars = 90% chance for unique name
         float uniqueNameChance = Mathf.Lerp(0.15f, 0.90f, brightness);
-
+        
         string starName = StellarNamingUtil.GenerateUniqueName(
           usedNames,
-          () => StellarNamingUtil.GenerateConstellationStarName(uniqueNameChance)
-        );
-
+          () => StellarNamingUtil.GenerateConstellationStarName(uniqueNameChance));
+        
         constellation.stars.Add(new SavedConstellationStar
         {
           name = starName,
@@ -250,20 +247,20 @@ namespace Astralum.Astronomy.Constellations
     private void PrintSavedConstellationLines(SavedConstellation saved)
     {
       Texture2D mask = ConstellationMaskUtil.GetMaskByName(saved.maskName);
-
+      
       if (mask == null)
         return;
-
+      
       Material material = ConstellationsMatsUtil.For(mask);
-
+      
       if (material == null)
         return;
-
+      
       LayerSubMesh lineSubMesh = GetSubMesh(material);
-
+      
       PrintConstellationQuad(saved.centerDir, saved.size, saved.rotationDegrees, lineSubMesh);
     }
-
+    
     private void PrintSavedStars(SavedConstellation constellation)
     {
       if (constellation.stars.NullOrEmpty())
@@ -274,32 +271,18 @@ namespace Astralum.Astronomy.Constellations
       for (int i = 0; i < constellation.stars.Count; i++)
       {
         SavedConstellationStar star = constellation.stars[i];
-
+        
         Material material = BackgroundStarMatsUtil.For(star.spectralClass);
         LayerSubMesh subMesh = GetSubMesh(material);
-
-        ConstellationInteractionRegistry.RegisterStar(
-          star.name,
-          star.localSkyPos,
-          star.spectralClass,
-          star.visualSize * 0.5f,
-          constellation.name,
-          hemisphere,
-          rightAscension,
-          declination
-        );
-
-        WorldRendererUtility.PrintQuadTangentialToPlanet(
-          star.localSkyPos,
-          star.visualSize,
-          0f,
-          subMesh,
-          true,
-          star.rotationDegrees
-        );
+        
+        ConstellationInteractionRegistry.RegisterStar(star.name, star.localSkyPos, star.spectralClass,
+          star.visualSize * 0.5f, constellation.name, hemisphere, rightAscension, declination);
+        
+        WorldRendererUtility.PrintQuadTangentialToPlanet(star.localSkyPos, star.visualSize, 0f,
+          subMesh, true, star.rotationDegrees);
       }
     }
-
+    
     private static void GetConstellationBasis(Vector3 centerDir, float rotationDegrees,
       out Vector3 tangentA, out Vector3 tangentB)
     {

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
@@ -14,13 +15,15 @@ namespace Astralum.Astronomy.BlackHoles
   {
     private const float CameraRotationRegenerateThreshold = 0.25f;
     private const float DistanceToBlackHoles = 20f;
+    private const float MinApartDistance = 3f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_BlackHoles _ext;
     
-    private float _blackHoleCanvasScale = 1f;
-    private float _blackHoleChance = 0.05f;
-    private float _blackHoleSize = 0.8f;
-    private int _blackHoleCount = 1;
+    private readonly float _blackHoleCanvasScale = 1f;
+    private readonly float _blackHoleChance = 0.05f;
+    private FloatRange _blackHoleSize = new(0.5f, 2f);
+    private IntRange _blackHoleCount = new(0, 1);
+    private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation = true;
     private Quaternion _calculatedForCameraRotation = Quaternion.identity;
@@ -37,10 +40,17 @@ namespace Astralum.Astronomy.BlackHoles
         return;
       }
       
+      _blackHoleCanvasScale = 4f;
+      _galacticPlaneBounds = _ext.galacticPlaneBounds;
       _blackHoleChance = Mathf.Clamp01(_ext.blackHoleChance);
-      _blackHoleSize = Mathf.Clamp(_ext.blackHoleSize.RandomInRange, 0.5f, 2f);
-      _blackHoleCanvasScale = _blackHoleSize * 2f;
-      _blackHoleCount = Mathf.Clamp(_ext.blackHoleCount, 0, 3);
+      _blackHoleSize = new FloatRange(
+        Mathf.Clamp(_ext.blackHoleSize.min, 0.5f, 2f),
+        Mathf.Clamp(_ext.blackHoleSize.max, 0.5f, 2f)
+      );
+      _blackHoleCount = new IntRange(
+        Mathf.Clamp(_ext.blackHoleCount.min, 0, 10),
+        Mathf.Clamp(_ext.blackHoleCount.max, 0, 10)
+      );
     }
     
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
@@ -94,17 +104,17 @@ namespace Astralum.Astronomy.BlackHoles
         
         LayerSubMesh subMesh = GetSubMesh(BlackHoleMatsUtil.BlackHole);
         
-        for (int i = 0; i < _blackHoleCount; i++)
+        List<PlacedBlackHole> placed = [];
+        int blackHoleCount = _blackHoleCount.RandomInRange;
+        
+        for (int i = 0; i < blackHoleCount; i++)
         {
-          Vector3 dir = RandomBlackHoleDirection();
-          float size = _blackHoleSize * _blackHoleCanvasScale;
+          if (!TryPlaceBlackHole(placed, out Vector3 dir, out float size))
+            continue;
           
-          PrintBlackHoleBillboard(
-            dir * DistanceToBlackHoles,
-            size,
-            subMesh,
-            Rotation
-          );
+          placed.Add(new PlacedBlackHole(dir, size));
+          
+          PrintBlackHoleBillboard(dir * DistanceToBlackHoles, size, subMesh, Rotation);
         }
       }
       finally
@@ -131,23 +141,6 @@ namespace Astralum.Astronomy.BlackHoles
         
         FinalizeMesh(MeshParts.All);
       }
-    }
-    
-    private static Vector3 RandomBlackHoleDirection()
-    {
-      float angle = Rand.Range(0f, Mathf.PI * 2f);
-      float localY = Rand.Range(-0.18f, 0.18f);
-      float radius = Mathf.Sqrt(1f - localY * localY);
-      
-      Vector3 localDir = new(
-        Mathf.Cos(angle) * radius,
-        localY,
-        Mathf.Sin(angle) * radius
-      );
-      
-      Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
-      
-      return (planeRotation * localDir).normalized;
     }
     
     private static void PrintBlackHoleBillboard(Vector3 localSkyPos, float size, LayerSubMesh subMesh, 
@@ -191,6 +184,55 @@ namespace Astralum.Astronomy.BlackHoles
       subMesh.tris.Add(baseIndex + 0);
       subMesh.tris.Add(baseIndex + 2);
       subMesh.tris.Add(baseIndex + 3);
+    }
+    
+    private bool TryPlaceBlackHole(List<PlacedBlackHole> placed, out Vector3 dir, out float size)
+    {
+      const int MaxPlacementAttempts = 40;
+      
+      for (int attempt = 0; attempt < MaxPlacementAttempts; attempt++)
+      {
+        //dir = RandomBlackHoleDirection();
+        dir = WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds);
+        size = _blackHoleSize.RandomInRange * _blackHoleCanvasScale;
+        
+        if (!OverlapsExistingBlackHole(dir, size, placed))
+          return true;
+      }
+      
+      dir = default;
+      size = 0f;
+      return false;
+    }
+    
+    private static bool OverlapsExistingBlackHole(Vector3 dir, float size, List<PlacedBlackHole> placed)
+    {
+      for (int i = 0; i < placed.Count; i++)
+      {
+        float angularDistance = Vector3.Angle(dir, placed[i].dir) * Mathf.Deg2Rad;
+        
+        float thisAngularRadius = Mathf.Atan((size * 0.5f) / MinApartDistance);
+        float otherAngularRadius = Mathf.Atan((placed[i].size * 0.5f) / MinApartDistance);
+        
+        float requiredDistance = thisAngularRadius + otherAngularRadius;
+        
+        if (angularDistance < requiredDistance)
+          return true;
+      }
+      
+      return false;
+    }
+    
+    private readonly struct PlacedBlackHole
+    {
+      public readonly Vector3 dir;
+      public readonly float size;
+      
+      public PlacedBlackHole(Vector3 dir, float size)
+      {
+        this.dir = dir.normalized;
+        this.size = size;
+      }
     }
   }
 }

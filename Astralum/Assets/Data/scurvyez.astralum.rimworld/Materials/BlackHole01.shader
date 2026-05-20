@@ -25,11 +25,14 @@ Shader "Astralum/BlackHole01"
             "RenderType" = "Transparent"
         }
         
-        GrabPass { }
+        GrabPass
+        {
+            "_AstralumBlackHoleGrabTexture"
+        }
         
         Pass
         {
-            Blend One Zero
+            Blend SrcAlpha OneMinusSrcAlpha
             ZWrite Off
             ZTest LEqual
             Cull Off
@@ -39,7 +42,7 @@ Shader "Astralum/BlackHole01"
             #pragma fragment frag
             #include "UnityCG.cginc"
             
-            sampler2D _GrabTexture;
+            sampler2D _AstralumBlackHoleGrabTexture;
             
             float _EffectActive;
             float _CanvasScale;
@@ -156,7 +159,7 @@ Shader "Astralum/BlackHole01"
                 float4 grabUV = input.grabPos;
                 grabUV.xy += uvDelta * grabUV.w;
                 
-                fixed4 color = tex2Dproj(_GrabTexture, UNITY_PROJ_COORD(grabUV));
+                fixed4 color = tex2Dproj(_AstralumBlackHoleGrabTexture, UNITY_PROJ_COORD(grabUV));
                 
                 // DEBUGGING: shows the distortion mask
                 //float2 debugUV = distortedUV;

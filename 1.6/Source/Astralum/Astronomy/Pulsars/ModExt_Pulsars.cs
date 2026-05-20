@@ -6,6 +6,6 @@ namespace Astralum.Astronomy.Pulsars
   {
     public float pulsarChance = 0.05f;
     public float pulsarSize = 0.8f;
-    public int pulsarCount = 1;
+    public IntRange pulsarCount = new(0, 1);
   }
 }
