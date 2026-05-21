@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
-using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -15,16 +14,14 @@ namespace Astralum.Astronomy.BlackHoles
   {
     private const float CameraRotationRegenerateThreshold = 0.25f;
     private const float DistanceToBlackHoles = 20f;
-    private const float MinApartDistance = 3f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_BlackHoles _ext;
     
     private readonly float _blackHoleCanvasScale = 1f;
     private readonly float _blackHoleChance = 0.05f;
-    private FloatRange _blackHoleSize = new(0.5f, 2f);
+    private readonly FloatRange _blackHoleSize = new(0.5f, 2f);
+    private readonly FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private IntRange _blackHoleCount = new(0, 1);
-    private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
-    private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation = true;
     private Quaternion _calculatedForCameraRotation = Quaternion.identity;
     private bool _hasCalculatedCameraRotation;
@@ -69,10 +66,6 @@ namespace Astralum.Astronomy.BlackHoles
         if (base.ShouldRegenerate)
           return true;
         
-        if (Find.GameInitData != null &&
-            Find.GameInitData.startingTile != _calculatedForStartingTile)
-          return true;
-        
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
         
@@ -109,7 +102,8 @@ namespace Astralum.Astronomy.BlackHoles
         
         for (int i = 0; i < blackHoleCount; i++)
         {
-          if (!TryPlaceBlackHole(placed, out Vector3 dir, out float size))
+          if (!BlackHolesUtil.TryPlaceBlackHole(placed, out Vector3 dir, out float size, _galacticPlaneBounds,
+                _blackHoleSize, _blackHoleCanvasScale))
             continue;
           
           placed.Add(new PlacedBlackHole(dir, size));
@@ -132,10 +126,6 @@ namespace Astralum.Astronomy.BlackHoles
         {
           _hasCalculatedCameraRotation = false;
         }
-        
-        _calculatedForStartingTile = Find.GameInitData != null
-          ? Find.GameInitData.startingTile
-          : PlanetTile.Invalid;
         
         _calculatedForStaticRotation = UseStaticRotation;
         
@@ -184,55 +174,6 @@ namespace Astralum.Astronomy.BlackHoles
       subMesh.tris.Add(baseIndex + 0);
       subMesh.tris.Add(baseIndex + 2);
       subMesh.tris.Add(baseIndex + 3);
-    }
-    
-    private bool TryPlaceBlackHole(List<PlacedBlackHole> placed, out Vector3 dir, out float size)
-    {
-      const int MaxPlacementAttempts = 40;
-      
-      for (int attempt = 0; attempt < MaxPlacementAttempts; attempt++)
-      {
-        //dir = RandomBlackHoleDirection();
-        dir = WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds);
-        size = _blackHoleSize.RandomInRange * _blackHoleCanvasScale;
-        
-        if (!OverlapsExistingBlackHole(dir, size, placed))
-          return true;
-      }
-      
-      dir = default;
-      size = 0f;
-      return false;
-    }
-    
-    private static bool OverlapsExistingBlackHole(Vector3 dir, float size, List<PlacedBlackHole> placed)
-    {
-      for (int i = 0; i < placed.Count; i++)
-      {
-        float angularDistance = Vector3.Angle(dir, placed[i].dir) * Mathf.Deg2Rad;
-        
-        float thisAngularRadius = Mathf.Atan((size * 0.5f) / MinApartDistance);
-        float otherAngularRadius = Mathf.Atan((placed[i].size * 0.5f) / MinApartDistance);
-        
-        float requiredDistance = thisAngularRadius + otherAngularRadius;
-        
-        if (angularDistance < requiredDistance)
-          return true;
-      }
-      
-      return false;
-    }
-    
-    private readonly struct PlacedBlackHole
-    {
-      public readonly Vector3 dir;
-      public readonly float size;
-      
-      public PlacedBlackHole(Vector3 dir, float size)
-      {
-        this.dir = dir.normalized;
-        this.size = size;
-      }
     }
   }
 }

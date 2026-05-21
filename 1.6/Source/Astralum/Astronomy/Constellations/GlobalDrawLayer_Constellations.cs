@@ -17,20 +17,18 @@ namespace Astralum.Astronomy.Constellations
   {
     private const float DistanceToConstellations = 20f;
     private const float MinCenterAngularDistance = 0.75f;
+    private readonly GlobalWorldDrawLayerDef _def;
+    private readonly ModExt_Constellations _ext;
+    
     private readonly float _baseStarSize = 0.25f;
     private readonly float _brightStarSize = 0.85f;
-
     private readonly int _constellationCount = 13;
     private readonly float _constellationSizeMax = 3.5f;
     private readonly float _constellationSizeMin = 3.0f;
-    private readonly GlobalWorldDrawLayerDef _def;
-    private readonly ModExt_Constellations _ext;
     private readonly int _maxPlacementAttempts = 80;
     private readonly float _maxViewRotationAngle = 200f;
     private readonly float _minViewRotationAngle = 160f;
-
     private bool _calculatedForDrawConstellationLines;
-    private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation;
 
     public GlobalDrawLayer_Constellations()
@@ -70,9 +68,6 @@ namespace Astralum.Astronomy.Constellations
         if (base.ShouldRegenerate)
           return true;
 
-        if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-          return true;
-
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
 
@@ -106,10 +101,6 @@ namespace Astralum.Astronomy.Constellations
       }
       finally
       {
-        _calculatedForStartingTile = Find.GameInitData != null
-          ? Find.GameInitData.startingTile
-          : PlanetTile.Invalid;
-        
         _calculatedForStaticRotation = UseStaticRotation;
         _calculatedForDrawConstellationLines = ConstellationSettings.DrawConstellationLines;
         
@@ -203,7 +194,7 @@ namespace Astralum.Astronomy.Constellations
           tangentA * local.x * constellation.size * 0.5f +
           tangentB * local.y * constellation.size * 0.5f;
         
-        SpectralClass spectralClass = StarClassUtil.RandomConstellationStarClass();
+        SpectralClass spectralClass = BackgroundStarsUtil.RandomConstellationStarClass();
         float brightness = RandomMagnitudeBrightness(spectralClass);
         float visualSize = Mathf.Lerp(_baseStarSize, _brightStarSize, brightness);
         
@@ -403,8 +394,8 @@ namespace Astralum.Astronomy.Constellations
       for (int i = 0; i < constellation.stars.Count; i++)
       {
         Vector3 dir = constellation.stars[i].localSkyPos.normalized;
-        WorldUtils.SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
-
+        SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+        
         minRa = Mathf.Min(minRa, coord.rightAscensionHours);
         maxRa = Mathf.Max(maxRa, coord.rightAscensionHours);
         minDec = Mathf.Min(minDec, coord.declinationDegrees);

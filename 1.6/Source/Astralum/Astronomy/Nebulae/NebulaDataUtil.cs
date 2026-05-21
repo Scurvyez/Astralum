@@ -10,7 +10,15 @@ namespace Astralum.Astronomy.Nebulae
     public static WorldComponent_NebulaeData Data =>
       Find.World.GetComponent<WorldComponent_NebulaeData>();
 
-    public static SavedNebula CreateRandom(int index, Vector3 localSkyPos, float size, float rotationDegrees)
+    /// <summary>
+    /// Creates a randomly generated nebula with specified parameters.
+    /// </summary>
+    /// <param name="index">The unique index of the nebula.</param>
+    /// <param name="localSkyPos">The position of the nebula in local sky coordinates.</param>
+    /// <param name="size">The size of the nebula.</param>
+    /// <param name="rotationDegrees">The rotation angle of the nebula in degrees.</param>
+    /// <returns>A new <see cref="SavedNebula"/> instance representing the generated nebula.</returns>
+    public static SavedNebula CreateRandomNebula(int index, Vector3 localSkyPos, float size, float rotationDegrees)
     {
       Color[] palette = NebulaeColorUtil.RandomNebulaPalette();
 

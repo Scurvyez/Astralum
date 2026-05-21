@@ -9,7 +9,6 @@ namespace Astralum.Astronomy.ShootingStars
 {
   public class GlobalDrawLayer_ShootingStars : WorldDrawLayerBase
   {
-    private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation;
     
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
@@ -28,13 +27,7 @@ namespace Astralum.Astronomy.ShootingStars
         if (base.ShouldRegenerate)
           return true;
         
-        if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-          return true;
-        
-        if (UseStaticRotation != _calculatedForStaticRotation)
-          return true;
-        
-        return ShootingStarManager.Dirty;
+        return UseStaticRotation != _calculatedForStaticRotation || ShootingStarManager.Dirty;
       }
     }
     
@@ -49,10 +42,6 @@ namespace Astralum.Astronomy.ShootingStars
         PrintShootingStar(star, subMesh);
 
       ShootingStarManager.ClearDirty();
-
-      _calculatedForStartingTile = Find.GameInitData != null
-        ? Find.GameInitData.startingTile
-        : PlanetTile.Invalid;
 
       _calculatedForStaticRotation = UseStaticRotation;
 

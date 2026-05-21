@@ -15,10 +15,8 @@ namespace Astralum.Astronomy.Constellations
     {
       bool changed =
         CurrentStar.HasValue != star.HasValue ||
-        (CurrentStar.HasValue &&
-         star.HasValue &&
-         CurrentStar.Value.localSkyPos != star.Value.localSkyPos);
-
+        (CurrentStar.HasValue && star.HasValue && CurrentStar.Value.localSkyPos != star.Value.localSkyPos);
+      
       if (!changed)
         return;
 

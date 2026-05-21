@@ -15,7 +15,6 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
   private const float DistanceToPulsars = 20f;
   private readonly GlobalWorldDrawLayerDef _def;
   private readonly ModExt_Pulsars _ext;
-  private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
 
   private bool _calculatedForStaticRotation;
 
@@ -57,9 +56,6 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
       if (base.ShouldRegenerate)
         return true;
 
-      if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-        return true;
-
       return UseStaticRotation != _calculatedForStaticRotation;
     }
   }
@@ -94,10 +90,6 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
     finally
     {
       Rand.PopState();
-      
-      _calculatedForStartingTile = Find.GameInitData != null
-        ? Find.GameInitData.startingTile
-        : PlanetTile.Invalid;
       
       _calculatedForStaticRotation = UseStaticRotation;
       

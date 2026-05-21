@@ -15,7 +15,6 @@ public class GlobalDrawLayer_SkyCoordinateGrid : WorldDrawLayerBase
   private const float MinorWidth = 0.0125f;
 
   private bool _calculatedForDrawGrid;
-  private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
   private bool _calculatedForStaticRotation;
 
   protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
@@ -34,9 +33,6 @@ public class GlobalDrawLayer_SkyCoordinateGrid : WorldDrawLayerBase
       if (base.ShouldRegenerate)
         return true;
 
-      if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-        return true;
-
       if (UseStaticRotation != _calculatedForStaticRotation)
         return true;
 
@@ -51,10 +47,6 @@ public class GlobalDrawLayer_SkyCoordinateGrid : WorldDrawLayerBase
 
     if (!SkyGridSettings.DrawGrid)
     {
-      _calculatedForStartingTile = Find.GameInitData != null
-        ? Find.GameInitData.startingTile
-        : PlanetTile.Invalid;
-
       _calculatedForStaticRotation = UseStaticRotation;
       _calculatedForDrawGrid = SkyGridSettings.DrawGrid;
 
@@ -85,10 +77,6 @@ public class GlobalDrawLayer_SkyCoordinateGrid : WorldDrawLayerBase
 
     // tick marks along the equator
     SkyGridDrawUtil.PrintEquatorTicks(subMesh, pole, 24, 0.045f, MajorWidth);
-
-    _calculatedForStartingTile = Find.GameInitData != null
-      ? Find.GameInitData.startingTile
-      : PlanetTile.Invalid;
 
     _calculatedForStaticRotation = UseStaticRotation;
     _calculatedForDrawGrid = SkyGridSettings.DrawGrid;

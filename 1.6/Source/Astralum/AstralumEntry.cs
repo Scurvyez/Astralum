@@ -7,7 +7,6 @@ namespace Astralum
   public static class AstralumEntry
   {
     public const bool EnableDebugTweaks = false;
-    public const bool EnableDebugGalacticPlane = false;
 
     static AstralumEntry()
     {

@@ -2,7 +2,6 @@
 using Astralum.Astronomy.Constellations;
 using Astralum.Materials;
 using Astralum.UI;
-using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -12,8 +11,6 @@ namespace Astralum.World
   public class WorldComponent_ConstellationHover : WorldComponent
   {
     private const float DistanceToConstellations = 20f;
-
-    private const float PlanetRadius = 100f;
     private const float HoverRadiusMultiplier = 0.65f;
     private const float MinHoverRadius = 0.25f;
     private const float TooltipPaddingX = 12f;
@@ -50,7 +47,7 @@ namespace Astralum.World
         return;
 
       Vector3 localHit =
-        Quaternion.Inverse(GetCurrentConstellationRotation()) *
+        Quaternion.Inverse(WorldUtils.GetCurrentRotationForWorldSpace()) *
         (hitWorld - skyboxCamera.transform.position);
 
       ConstellationInteractionRegistry.HoverStar? hovered = null;
@@ -73,7 +70,7 @@ namespace Astralum.World
         hovered = star;
       }
 
-      if (hovered == null || MouseIsOverPlanetDisk())
+      if (hovered == null || WorldUtils.MouseIsOverPlanetDisk())
       {
         ConstellationHoverState.Clear();
         return;
@@ -107,17 +104,9 @@ namespace Astralum.World
         width = Mathf.Max(width, textSize.x + TooltipPaddingX * 2f);
       }
 
-      float height = Mathf.Max(
-        TooltipMinHeight,
-        lines.Count * lineHeight + TooltipPaddingY * 2f
-      );
+      float height = Mathf.Max(TooltipMinHeight, lines.Count * lineHeight + TooltipPaddingY * 2f);
 
-      Rect rect = new(
-        tooltipPos.x,
-        tooltipPos.y,
-        width,
-        height
-      );
+      Rect rect = new(tooltipPos.x, tooltipPos.y, width, height);
 
       Widgets.DrawMenuSection(rect);
 
@@ -125,12 +114,7 @@ namespace Astralum.World
 
       for (int i = 0; i < lines.Count; i++)
       {
-        Rect lineRect = new(
-          rect.x + TooltipPaddingX,
-          y,
-          rect.width - TooltipPaddingX * 2f,
-          lineHeight
-        );
+        Rect lineRect = new(rect.x + TooltipPaddingX, y, rect.width - TooltipPaddingX * 2f, lineHeight);
 
         DrawTooltipLine(lineRect, lines[i]);
 
@@ -152,19 +136,11 @@ namespace Astralum.World
       const float swatchSize = 12f;
       const float swatchGap = 6f;
 
-      Rect labelRect = new(
-        rect.x,
-        rect.y,
-        rect.width - swatchSize - swatchGap,
-        rect.height
-      );
+      Rect labelRect = new(rect.x, rect.y, 
+        rect.width - swatchSize - swatchGap, rect.height);
 
-      Rect swatchRect = new(
-        rect.xMax - swatchSize,
-        rect.y + (rect.height - swatchSize) / 2f,
-        swatchSize,
-        swatchSize
-      );
+      Rect swatchRect = new(rect.xMax - swatchSize, rect.y + (rect.height - swatchSize) / 2f,
+        swatchSize, swatchSize);
 
       Widgets.Label(labelRect, line.Text);
 
@@ -203,42 +179,6 @@ namespace Astralum.World
 
       hit = ray.origin + ray.direction * t;
       return true;
-    }
-
-    private static bool MouseIsOverPlanetDisk()
-    {
-      Camera worldCamera = Find.WorldCamera;
-
-      if (worldCamera == null)
-        return false;
-
-      Vector2 mousePos = Event.current.mousePosition;
-
-      Vector3 planetCenter = Vector3.zero;
-      Vector3 planetEdge = planetCenter + worldCamera.transform.right * PlanetRadius;
-
-      Vector3 centerScreen = worldCamera.WorldToScreenPoint(planetCenter);
-      Vector3 edgeScreen = worldCamera.WorldToScreenPoint(planetEdge);
-
-      Vector2 centerGui = GUIUtility.ScreenToGUIPoint(
-        new Vector2(centerScreen.x, Screen.height - centerScreen.y)
-      );
-
-      Vector2 edgeGui = GUIUtility.ScreenToGUIPoint(
-        new Vector2(edgeScreen.x, Screen.height - edgeScreen.y)
-      );
-
-      float planetScreenRadius = Vector2.Distance(centerGui, edgeGui);
-
-      return Vector2.Distance(mousePos, centerGui) <= planetScreenRadius;
-    }
-
-    private static Quaternion GetCurrentConstellationRotation()
-    {
-      if (Current.ProgramState == ProgramState.Entry)
-        return Quaternion.identity;
-
-      return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
     }
   }
 }

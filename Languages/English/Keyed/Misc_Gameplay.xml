@@ -2,6 +2,7 @@
 <LanguageData>
 
     <Astra_ModName>Astralum</Astra_ModName>
+
     <Astra_DisableSkyGridToggleLabel>Disable Astralum sky coordinate grid.</Astra_DisableSkyGridToggleLabel>
     <Astra_EnableSkyGridToggleLabel>Enable Astralum sky coordinate grid.</Astra_EnableSkyGridToggleLabel>
     <Astra_DisableConstellationLinesToggleLabel>Disable Astralum constellation lines.</Astra_DisableConstellationLinesToggleLabel>

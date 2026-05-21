@@ -5,6 +5,13 @@ namespace Astralum.Astronomy.Nebulae
 {
   public static class NebulaeColorUtil
   {
+    /// <summary>
+    /// Generates and returns a random color palette for nebulae visualization
+    /// by selecting one of several predefined palettes, each consisting of four colors.
+    /// </summary>
+    /// <returns>
+    /// An array of four <c>Color</c> objects representing the selected nebula palette.
+    /// </returns>
     public static Color[] RandomNebulaPalette()
     {
       int palette = Rand.RangeInclusive(0, 11);

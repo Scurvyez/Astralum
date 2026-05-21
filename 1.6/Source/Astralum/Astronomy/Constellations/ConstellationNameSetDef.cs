@@ -5,14 +5,12 @@ namespace Astralum.Astronomy.Constellations
 {
   public class ConstellationNameSetDef : Def
   {
-    public string categoryId;
-    public List<string> concepts = [];
-
-    public List<string> descriptors = [];
-
     public bool isFallback;
+    public string categoryId;
+    public List<string> descriptors = [];
+    public List<string> titles = [];
     public List<string> nouns = [];
     public List<string> objects = [];
-    public List<string> titles = [];
+    public List<string> concepts = [];
   }
 }

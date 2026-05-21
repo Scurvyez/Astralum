@@ -9,7 +9,6 @@ namespace Astralum.Astronomy.Constellations
 {
   public class GlobalDrawLayer_ConstellationHoverRing : WorldDrawLayerBase
   {
-    private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation;
 
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
@@ -28,13 +27,7 @@ namespace Astralum.Astronomy.Constellations
         if (base.ShouldRegenerate)
           return true;
 
-        if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-          return true;
-
-        if (UseStaticRotation != _calculatedForStaticRotation)
-          return true;
-
-        return ConstellationHoverState.Dirty;
+        return UseStaticRotation != _calculatedForStaticRotation || ConstellationHoverState.Dirty;
       }
     }
 
@@ -55,10 +48,6 @@ namespace Astralum.Astronomy.Constellations
         LayerSubMesh subMesh = GetSubMesh(ConstellationHoverMatsUtil.Ring);
         ConstellationHoverRingRenderer.PrintRing(star.localSkyPos, subMesh);
       }
-
-      _calculatedForStartingTile = Find.GameInitData != null
-        ? Find.GameInitData.startingTile
-        : PlanetTile.Invalid;
 
       _calculatedForStaticRotation = UseStaticRotation;
 

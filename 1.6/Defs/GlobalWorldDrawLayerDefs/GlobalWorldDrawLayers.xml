@@ -6,7 +6,7 @@
         <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_BackgroundStars</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BackgroundStars.ModExt_BackgroundStars">
-                <starCount>100000</starCount>
+                <starCount>10000~100000</starCount>
                 <starSizeRange>0.085~0.85</starSizeRange>
                 <galacticPlaneBounds>-0.12~0.12</galacticPlaneBounds>
             </li>
@@ -72,7 +72,7 @@
         <worldDrawLayer>Astralum.Astronomy.Pulsars.GlobalDrawLayer_Pulsars</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Pulsars.ModExt_Pulsars">
-                <pulsarChance>0.05</pulsarChance>
+                <pulsarChance>0.025</pulsarChance>
                 <pulsarSize>0.8</pulsarSize>
                 <pulsarCount>1</pulsarCount>
             </li>
@@ -85,7 +85,7 @@
         <modExtensions>
             <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
                 <galacticPlaneBounds>-0.18~0.18</galacticPlaneBounds>
-                <blackHoleChance>0.05</blackHoleChance>
+                <blackHoleChance>0.025</blackHoleChance>
                 <blackHoleSize>0.5~2.0</blackHoleSize>
                 <blackHoleCount>1~3</blackHoleCount>
             </li>

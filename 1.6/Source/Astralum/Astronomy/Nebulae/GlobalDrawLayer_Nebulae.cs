@@ -18,7 +18,6 @@ namespace Astralum.Astronomy.Nebulae
     private readonly ModExt_Nebulae _ext;
     
     private IntRange _nebulaCount = new(10, 13);
-    private PlanetTile _calculatedForStartingTile = PlanetTile.Invalid;
     private bool _calculatedForStaticRotation;
     private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private FloatRange _nebulaSizeRange = new(6f, 18f);
@@ -54,10 +53,7 @@ namespace Astralum.Astronomy.Nebulae
       {
         if (base.ShouldRegenerate)
           return true;
-
-        if (Find.GameInitData != null && Find.GameInitData.startingTile != _calculatedForStartingTile)
-          return true;
-
+        
         return UseStaticRotation != _calculatedForStaticRotation;
       }
     }
@@ -81,10 +77,6 @@ namespace Astralum.Astronomy.Nebulae
       }
       finally
       {
-        _calculatedForStartingTile = Find.GameInitData != null
-          ? Find.GameInitData.startingTile
-          : PlanetTile.Invalid;
-
         _calculatedForStaticRotation = UseStaticRotation;
 
         FinalizeMesh(MeshParts.All);
@@ -111,7 +103,7 @@ namespace Astralum.Astronomy.Nebulae
           float rotationDegrees = Rand.Range(0f, 360f);
 
           data.nebulae.Add(
-            NebulaDataUtil.CreateRandom(i, localSkyPos, size, rotationDegrees)
+            NebulaDataUtil.CreateRandomNebula(i, localSkyPos, size, rotationDegrees)
           );
         }
       }

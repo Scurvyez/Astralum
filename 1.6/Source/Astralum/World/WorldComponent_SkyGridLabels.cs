@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.SkyGrid;
-using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -9,13 +8,12 @@ namespace Astralum.World
 {
   public class WorldComponent_SkyGridLabels : WorldComponent
   {
-    private const float PlanetRadius = 100f;
     private static List<SkyGridLabel> _cachedLabels;
-
+    
     public WorldComponent_SkyGridLabels(RimWorld.Planet.World world) : base(world)
     {
     }
-
+    
     public override void WorldComponentOnGUI()
     {
       if (!WorldUtils.ShouldDrawGUI() || !SkyGridSettings.DrawGrid)
@@ -42,7 +40,7 @@ namespace Astralum.World
     {
       Vector3 worldPos =
         skyboxCamera.transform.position +
-        GetCurrentGridRotation() * label.localSkyPos;
+        WorldUtils.GetCurrentRotationForWorldSpace() * label.localSkyPos;
 
       Vector3 screen = skyboxCamera.WorldToScreenPoint(worldPos);
 
@@ -53,68 +51,24 @@ namespace Astralum.World
         new Vector2(screen.x, Screen.height - screen.y)
       ) + label.guiOffset;
 
-      if (GuiPointIsOverPlanetDisk(guiPos, label.guiOffset))
+      if (WorldUtils.GuiPointIsOverPlanetDisk(guiPos, label.guiOffset))
         return;
 
       GUI.color = new Color(0.65f, 0.85f, 1f, 0.85f);
 
       Vector2 size = Text.CalcSize(label.text) * label.scale;
-
-      Rect rect = new(
-        guiPos.x - size.x * 0.5f,
-        guiPos.y - size.y * 0.5f,
-        size.x,
-        size.y
-      );
-
+      Rect rect = new(guiPos.x - size.x * 0.5f, guiPos.y - size.y * 0.5f, size.x, size.y);
       Matrix4x4 oldMatrix = GUI.matrix;
 
-      GUIUtility.ScaleAroundPivot(
-        new Vector2(label.scale, label.scale),
-        guiPos
-      );
+      GUIUtility.ScaleAroundPivot(new Vector2(label.scale, label.scale), guiPos);
 
       Widgets.Label(rect, label.text);
       GUI.matrix = oldMatrix;
     }
-
-    private static Quaternion GetCurrentGridRotation()
-    {
-      if (Current.ProgramState == ProgramState.Entry)
-        return Quaternion.identity;
-
-      return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-    }
-
+    
     public static void ClearCache()
     {
       _cachedLabels = null;
-    }
-
-    private static bool GuiPointIsOverPlanetDisk(Vector2 guiPos, Vector2 guiOffset)
-    {
-      Camera worldCamera = Find.WorldCamera;
-
-      if (worldCamera == null)
-        return false;
-
-      Vector3 planetCenter = Vector3.zero;
-      Vector3 planetEdge = planetCenter + worldCamera.transform.right * PlanetRadius;
-
-      Vector3 centerScreen = worldCamera.WorldToScreenPoint(planetCenter);
-      Vector3 edgeScreen = worldCamera.WorldToScreenPoint(planetEdge);
-
-      Vector2 centerGui = GUIUtility.ScreenToGUIPoint(
-        new Vector2(centerScreen.x, Screen.height - centerScreen.y)
-      );
-
-      Vector2 edgeGui = GUIUtility.ScreenToGUIPoint(
-        new Vector2(edgeScreen.x, Screen.height - edgeScreen.y)
-      );
-
-      float planetScreenRadius = Vector2.Distance(centerGui, edgeGui);
-
-      return Vector2.Distance(guiPos - guiOffset, centerGui) <= planetScreenRadius;
     }
   }
 }
