@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Astralum.Astronomy.BackgroundStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
@@ -89,8 +90,22 @@ namespace Astralum.Astronomy.Nebulae
 
       Rand.PushState();
       Rand.Seed = Find.World.info.Seed ^ 0x4E384C41;
-
-      int nebulaCount = _nebulaCount.RandomInRange;
+      
+      GlobalWorldDrawLayerDef backgroundStarsDef = InternalDefOf.Astra_BackgroundStars;
+      ModExt_BackgroundStars backgroundStarsExt = backgroundStarsDef?.GetModExtension<ModExt_BackgroundStars>();
+      
+      IntRange backgroundStarCountRange = BackgroundStarsUtil.ResolvedStarCountRange(backgroundStarsExt);
+      
+      BackgroundStarsGenerationData backgroundStarsGenerationData =
+        BackgroundStarsUtil.GetGenerationData(Find.World.info.Seed, backgroundStarCountRange);
+      
+      int nebulaCount = Mathf.RoundToInt(
+        Mathf.Lerp(_nebulaCount.min, _nebulaCount.max, backgroundStarsGenerationData.NormalizedStarCount));
+      
+      AstraLog.Message($"Generating {_nebulaCount.min} to {_nebulaCount.max} nebulae, " +
+                       $"based on {backgroundStarCountRange.min} to {backgroundStarCountRange.max} background stars.");
+      
+      AstraLog.Message($"Nebula count: {nebulaCount}");
       
       try
       {

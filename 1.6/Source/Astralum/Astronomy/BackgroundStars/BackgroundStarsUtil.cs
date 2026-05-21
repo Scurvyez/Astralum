@@ -7,6 +7,39 @@ namespace Astralum.Astronomy.BackgroundStars
 {
   public static class BackgroundStarsUtil
   {
+    public static IntRange ResolvedStarCountRange(ModExt_BackgroundStars ext)
+    {
+      if (ext == null)
+        return new IntRange(10000, 50000);
+      
+      return new IntRange(
+        Mathf.Clamp(ext.starCount.min, 10000, 50000),
+        Mathf.Clamp(ext.starCount.max, 10000, 100000));
+    }
+    
+    public static BackgroundStarsGenerationData GetGenerationData(int worldSeed, IntRange starCountRange)
+    {
+      Rand.PushState();
+
+      try
+      {
+        Rand.Seed = worldSeed ^ 0x71C04ED;
+        
+        bool useNonUniformGalacticPlaneBand = Rand.Chance(0.5f);
+        float galacticPlaneBandMaskOffset = Rand.Value;
+        int starCount = starCountRange.RandomInRange;
+        
+        float normalizedStarCount = Mathf.InverseLerp(starCountRange.min, starCountRange.max, starCount);
+        
+        return new BackgroundStarsGenerationData(starCount, normalizedStarCount, useNonUniformGalacticPlaneBand,
+          galacticPlaneBandMaskOffset);
+      }
+      finally
+      {
+        Rand.PopState();
+      }
+    }
+    
     /// <summary>
     /// Selects a random spectral class for a background star, based on predefined probabilities
     /// that represent the relative abundance and distribution of each spectral class in the galaxy.
@@ -106,6 +139,36 @@ namespace Astralum.Astronomy.BackgroundStars
     }
 
     /// <summary>
+    /// Generates a random direction in space influenced by normal galactic density and an additional
+    /// horizontal density mask along the galactic plane.
+    /// </summary>
+    /// <param name="spectralClass">The spectral class of stars, used to calculate the star density weighting for the direction.</param>
+    /// <param name="galacticPlaneBounds">The y-axis bounds that define the region of the galactic plane to use when falling back to a random direction.</param>
+    /// <param name="galacticPlaneMaskOffset">A normalized 0..1 offset that rotates the horizontal mask around the galactic plane.</param>
+    /// <returns>A normalized Vector3 representing the weighted random direction in space.</returns>
+    public static Vector3 RandomDensityWeightedDirection(SpectralClass spectralClass, FloatRange galacticPlaneBounds,
+      float galacticPlaneMaskOffset)
+    {
+      for (int i = 0; i < 32; i++)
+      {
+        Vector3 dir = Rand.UnitVector3.normalized;
+    
+        if (Rand.Value <= StarDensity(dir, spectralClass, galacticPlaneMaskOffset))
+          return dir;
+      }
+      
+      for (int i = 0; i < 32; i++)
+      {
+        Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+
+        if (Rand.Value <= GalacticPlaneBandMask(dir, galacticPlaneMaskOffset))
+          return dir;
+      }
+      
+      return WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+    }
+
+    /// <summary>
     /// Calculates the density of stars in a given direction based on the spectral class
     /// and their distribution relative to the galactic plane and cluster patterns.
     /// </summary>
@@ -150,6 +213,87 @@ namespace Astralum.Astronomy.BackgroundStars
       };
 
       return Mathf.Clamp01(backgroundFloor + density);
+    }
+    
+    /// <summary>
+    /// Calculates the density of stars in a given direction, with an additional horizontal mask
+    /// that can create gaps or faded regions along the galactic plane.
+    /// </summary>
+    /// <param name="dir">The direction vector where the star density is being calculated.</param>
+    /// <param name="spectralClass">The spectral class of stars, influencing the density distribution and plane concentration.</param>
+    /// <param name="galacticPlaneMaskOffset">A normalized 0..1 offset that rotates the horizontal mask around the galactic plane.</param>
+    /// <returns>A float value between 0 and 1 representing the relative density of stars in the specified direction.</returns>
+    private static float StarDensity(Vector3 dir, SpectralClass spectralClass, float galacticPlaneMaskOffset)
+    {
+      float density = StarDensity(dir, spectralClass);
+      float horizontalMask = GalacticPlaneBandMask(dir, galacticPlaneMaskOffset);
+      
+      return Mathf.Clamp01(density * horizontalMask);
+    }
+    
+    /// <summary>
+    /// Calculates a normalized horizontal coordinate along the galactic plane.
+    /// The result wraps from 0 to 1 around the sky.
+    /// </summary>
+    /// <param name="dir">The world-space direction to evaluate.</param>
+    /// <param name="offset">A normalized 0..1 offset that rotates the coordinate around the galactic plane.</param>
+    /// <returns>A normalized value from 0 to 1 representing position along the galactic plane.</returns>
+    private static float GalacticPlaneLongitude01(Vector3 dir, float offset = 0f)
+    {
+      Vector3 pole = WorldUtils.GalacticPole.normalized;
+      Vector3 reference = Vector3.ProjectOnPlane(Vector3.forward, pole).normalized;
+      
+      if (reference.sqrMagnitude <= 0.0001f)
+        reference = Vector3.ProjectOnPlane(Vector3.right, pole).normalized;
+      
+      Vector3 tangent = Vector3.Cross(pole, reference).normalized;
+      Vector3 projectedDir = Vector3.ProjectOnPlane(dir.normalized, pole).normalized;
+      
+      float x = Vector3.Dot(projectedDir, reference);
+      float y = Vector3.Dot(projectedDir, tangent);
+      
+      float angle = Mathf.Atan2(y, x);
+      float longitude = Mathf.Repeat(angle / (Mathf.PI * 2f), 1f);
+      
+      return Mathf.Repeat(longitude + offset, 1f);
+    }
+    
+    /// <summary>
+    /// Returns a density multiplier for a direction based on its horizontal position along the galactic plane.
+    /// This can be used to create empty gaps, soft fades, or denser horizon regions.
+    /// </summary>
+    /// <param name="dir">The world-space direction to evaluate.</param>
+    /// <param name="offset">A normalized 0..1 offset that rotates the mask around the galactic plane.</param>
+    /// <returns>A density multiplier between 0 and 1.</returns>
+    private static float GalacticPlaneBandMask(Vector3 dir, float offset = 0f)
+    {
+      float longitude = GalacticPlaneLongitude01(dir, offset);
+      float mask = 1f;
+      
+      mask *= GalacticPlaneGap(longitude, 0.12f, 0.05f, 0.00f);
+      mask *= GalacticPlaneGap(longitude, 0.43f, 0.08f, 0.25f);
+      mask *= GalacticPlaneGap(longitude, 0.76f, 0.04f, 0.10f);
+      
+      float wave = Mathf.PerlinNoise(longitude * 6f, 19.37f);
+      mask *= Mathf.Lerp(0.65f, 1.35f, wave);
+      
+      return Mathf.Clamp(mask, 0f, 1.35f);
+    }
+
+    /// <summary>
+    /// Creates a soft horizontal density gap around a normalized galactic-plane longitude.
+    /// </summary>
+    /// <param name="longitude">The normalized 0..1 longitude currently being evaluated.</param>
+    /// <param name="center">The normalized 0..1 center of the gap.</param>
+    /// <param name="halfWidth">The half-width of the gap in normalized 0..1 galactic-plane space.</param>
+    /// <param name="minimumDensity">The density multiplier at the center of the gap.</param>
+    /// <returns>A density multiplier between minimumDensity and 1.</returns>
+    private static float GalacticPlaneGap(float longitude, float center, float halfWidth, float minimumDensity)
+    {
+      float distance = Mathf.Abs(Mathf.DeltaAngle(longitude * 360f, center * 360f)) / 360f;
+      float fade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(distance / halfWidth));
+      
+      return Mathf.Lerp(minimumDensity, 1f, fade);
     }
     
     /// <summary>

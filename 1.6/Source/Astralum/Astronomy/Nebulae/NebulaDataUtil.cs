@@ -23,8 +23,8 @@ namespace Astralum.Astronomy.Nebulae
       Color[] palette = NebulaeColorUtil.RandomNebulaPalette();
 
       float colorStopB = Rand.Range(0.18f, 0.48f);
-      float randStopC_A = colorStopB + 0.15f;
-      float colorStopC = Rand.Range(colorStopB + 0.15f, Mathf.Max(randStopC_A + 0.2f, 1f));
+      float randStopCA = colorStopB + 0.15f;
+      float colorStopC = Rand.Range(colorStopB + 0.15f, Mathf.Max(randStopCA + 0.2f, 1f));
 
       return new SavedNebula
       {
@@ -52,8 +52,8 @@ namespace Astralum.Astronomy.Nebulae
 
         seed = Rand.Value * 1000f,
 
-        intensity = Rand.Range(1f, 2.9f),
-        alpha = Rand.Range(0.25f, 1f),
+        intensity = Rand.Range(1f, 4.1f),
+        alpha = Rand.Range(0.3f, 1f),
 
         noiseScale = Rand.Range(3.25f, 7.5f),
         noiseStrength = Rand.Range(0.8f, 1.35f),

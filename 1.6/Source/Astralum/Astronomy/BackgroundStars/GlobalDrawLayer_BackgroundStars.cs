@@ -17,6 +17,8 @@ namespace Astralum.Astronomy.BackgroundStars
     private readonly ModExt_BackgroundStars _ext;
 
     private bool _calculatedForStaticRotation;
+    private bool _useNonUniformGalacticPlaneBand;
+    private float _galacticPlaneBandMaskOffset;
     private FloatRange _galacticPlaneBounds = new(-0.16f, 0.16f);
     private FloatRange _starSizeRange = new(0.085f, 0.85f);
     private IntRange _starCount = new(10000, 50000);
@@ -34,10 +36,7 @@ namespace Astralum.Astronomy.BackgroundStars
       
       _starSizeRange = _ext.starSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
-      _starCount = new IntRange(
-        Mathf.Clamp(_ext.starCount.min, 10000, 50000),
-        Mathf.Clamp(_ext.starCount.max, 10000, 100000)
-      );
+      _starCount = BackgroundStarsUtil.ResolvedStarCountRange(_ext);
     }
 
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
@@ -64,27 +63,39 @@ namespace Astralum.Astronomy.BackgroundStars
     {
       foreach (object item in base.Regenerate())
         yield return item;
-
-      Rand.PushState();
-      Rand.Seed = Find.World.info.Seed ^ 0x71C04ED;
-
-      int starCount = _starCount.RandomInRange;
       
-      for (int i = 0; i < starCount; i++) 
+      BackgroundStarsGenerationData generationData =
+        BackgroundStarsUtil.GetGenerationData(Find.World.info.Seed, _starCount);
+      
+      AstraLog.Message($"Generating {_starCount.min} to {_starCount.max} stars.");
+      AstraLog.Message($"Star count: {generationData.StarCount}");
+      
+      Rand.PushState();
+      Rand.Seed = Find.World.info.Seed ^ 0x71C04ED ^ 0x51A75123;
+      
+      _useNonUniformGalacticPlaneBand = generationData.UseNonUniformGalacticPlaneBand;
+      _galacticPlaneBandMaskOffset = generationData.GalacticPlaneBandMaskOffset;
+      
+      for (int i = 0; i < generationData.StarCount; i++) 
         PrintColoredStar();
-
+      
       _calculatedForStaticRotation = UseStaticRotation;
-
+      
       Rand.PopState();
-
+      
       FinalizeMesh(MeshParts.All);
     }
 
     private void PrintColoredStar()
     {
       SpectralClass spectralClass = BackgroundStarsUtil.RandomBackgroundStarClass();
-
-      Vector3 dir = BackgroundStarsUtil.RandomDensityWeightedDirection(spectralClass, _galacticPlaneBounds);
+      
+      Vector3 dir = _useNonUniformGalacticPlaneBand
+        ? BackgroundStarsUtil.RandomDensityWeightedDirection(
+          spectralClass, _galacticPlaneBounds, _galacticPlaneBandMaskOffset)
+        : BackgroundStarsUtil.RandomDensityWeightedDirection(
+          spectralClass, _galacticPlaneBounds);
+      
       Vector3 pos = dir * DistanceToStars;
 
       Material material = BackgroundStarMatsUtil.For(spectralClass);
