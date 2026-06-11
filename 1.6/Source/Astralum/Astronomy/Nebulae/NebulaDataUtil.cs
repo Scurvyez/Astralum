@@ -52,7 +52,7 @@ namespace Astralum.Astronomy.Nebulae
 
         seed = Rand.Value * 1000f,
 
-        intensity = Rand.Range(1f, 4.1f),
+        intensity = Rand.Range(1f, 3f),
         alpha = Rand.Range(0.3f, 1f),
 
         noiseScale = Rand.Range(3.25f, 7.5f),

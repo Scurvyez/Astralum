@@ -5,6 +5,7 @@ using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
@@ -33,6 +34,9 @@ namespace Astralum.Astronomy.Constellations
 
     public GlobalDrawLayer_Constellations()
     {
+      if (!AstraSettings.RenderConstellations)
+        return;
+      
       _def = InternalDefOf.Astra_Constellations;
       _ext = _def?.GetModExtension<ModExt_Constellations>();
 
@@ -79,6 +83,9 @@ namespace Astralum.Astronomy.Constellations
     {
       foreach (object item in base.Regenerate())
         yield return item;
+      
+      if (!AstraSettings.RenderConstellations)
+        yield break;
       
       try
       {

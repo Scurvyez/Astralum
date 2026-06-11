@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
+using Astralum.Settings;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -28,6 +29,9 @@ namespace Astralum.Astronomy.BlackHoles
     
     public GlobalDrawLayer_BlackHoles()
     {
+      if (!AstraSettings.RenderBlackholes)
+        return;
+      
       _def = InternalDefOf.Astra_BlackHoles;
       _ext = _def?.GetModExtension<ModExt_BlackHoles>();
       
@@ -86,6 +90,9 @@ namespace Astralum.Astronomy.BlackHoles
     {
       foreach (object item in base.Regenerate())
         yield return item;
+      
+      if (!AstraSettings.RenderBlackholes)
+        yield break;
       
       Rand.PushState();
       Rand.Seed = Find.World.info.Seed ^ 0xB1A64C;

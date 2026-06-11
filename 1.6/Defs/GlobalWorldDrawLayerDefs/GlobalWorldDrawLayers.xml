@@ -6,9 +6,9 @@
         <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_BackgroundStars</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BackgroundStars.ModExt_BackgroundStars">
-                <starCount>25000~100000</starCount>
+                <starCount>25000~60000</starCount>
                 <starSizeRange>0.085~0.85</starSizeRange>
-                <galacticPlaneBounds>-0.12~0.12</galacticPlaneBounds>
+                <galacticPlaneBounds>-0.13~0.13</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -18,9 +18,9 @@
         <worldDrawLayer>Astralum.Astronomy.Nebulae.GlobalDrawLayer_Nebulae</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Nebulae.ModExt_Nebulae">
-                <nebulaCount>1~100</nebulaCount>
-                <nebulaSizeRange>4~12</nebulaSizeRange>
-                <galacticPlaneBounds>-0.12~0.12</galacticPlaneBounds>
+                <nebulaCount>1~50</nebulaCount>
+                <nebulaSizeRange>4~14</nebulaSizeRange>
+                <galacticPlaneBounds>-0.18~0.18</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>

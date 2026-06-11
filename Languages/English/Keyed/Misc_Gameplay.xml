@@ -8,4 +8,28 @@
     <Astra_DisableConstellationLinesToggleLabel>Disable Astralum constellation lines.</Astra_DisableConstellationLinesToggleLabel>
     <Astra_EnableConstellationLinesToggleLabel>Enable Astralum constellation lines.</Astra_EnableConstellationLinesToggleLabel>
 
+    <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
+    <Astra_Deterministic> (Deterministic via world seed.)</Astra_Deterministic>
+
+    <Astra_RenderAdditionalBackgroundsStars>Render Additional Background Stars</Astra_RenderAdditionalBackgroundsStars>
+    <Astra_RenderAdditionalBackgroundsStarsDesc>Toggle to render many, many, MANY more procedurally generated background stars in the world view.</Astra_RenderAdditionalBackgroundsStarsDesc>
+
+    <Astra_RenderNebulae>Render Nebulae</Astra_RenderNebulae>
+    <Astra_RenderNebulaeDesc>Toggle to render some potentially gorgeous procedurally generated nebulae in the world view.</Astra_RenderNebulaeDesc>
+
+    <Astra_RenderConstellations>Render Constellations</Astra_RenderConstellations>
+    <Astra_RenderConstellationsDesc>Toggle to allow the rendering and interaction of constellations and their stars in the world view.</Astra_RenderConstellationsDesc>
+
+    <Astra_RenderBlackholes>Render Black Holes</Astra_RenderBlackholes>
+    <Astra_RenderBlackholesDesc>Toggle to render black holes in the world view. These are very rare, but that doesn't mean there can't be up to three at a time.</Astra_RenderBlackholesDesc>
+
+    <Astra_RenderPulsars>Render Pulsars</Astra_RenderPulsars>
+    <Astra_RenderPulsarsDesc>Toggle to render pulsars in the world view. These are also extremely rare.</Astra_RenderPulsarsDesc>
+
+    <Astra_RenderShootingStars>Render Shooting Stars</Astra_RenderShootingStars>
+    <Astra_RenderShootingStarsDesc>Toggle to render intermittent shooting stars in the world view.</Astra_RenderShootingStarsDesc>
+
+    <Astra_OverrideVanillaSun>Override Vanilla Sun</Astra_OverrideVanillaSun>
+    <Astra_OverrideVanillaSunDesc>Toggle to replace the vanilla sun with a procedurally generated star using realistic, yet random stellar data. All main sequence star types [O, B, A, F, G, K, M] are possible for generation.</Astra_OverrideVanillaSunDesc>
+
 </LanguageData>

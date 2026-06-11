@@ -4,6 +4,7 @@ using Astralum.Astronomy.BackgroundStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
@@ -25,6 +26,9 @@ namespace Astralum.Astronomy.Nebulae
     
     public GlobalDrawLayer_Nebulae()
     {
+      if (!AstraSettings.RenderNebulae)
+        return;
+      
       _def = InternalDefOf.Astra_Nebulae;
       _ext = _def?.GetModExtension<ModExt_Nebulae>();
       
@@ -63,6 +67,9 @@ namespace Astralum.Astronomy.Nebulae
     {
       foreach (object item in base.Regenerate())
         yield return item;
+      
+      if (!AstraSettings.RenderNebulae)
+        yield break;
 
       try
       {

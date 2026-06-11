@@ -1,6 +1,7 @@
 ﻿using Astralum.Astronomy.ShootingStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
+using Astralum.Settings;
 using RimWorld.Planet;
 
 namespace Astralum.World
@@ -11,6 +12,9 @@ namespace Astralum.World
 
     public WorldComponent_ShootingStars(RimWorld.Planet.World world) : base(world)
     {
+      if (!AstraSettings.RenderShootingStars)
+        return;
+      
       _ext = InternalDefOf.Astra_ShootingStars?.GetModExtension<ModExt_ShootingStars>();
 
       if (_ext != null) return;
@@ -19,6 +23,9 @@ namespace Astralum.World
 
     public override void WorldComponentTick()
     {
+      if (!AstraSettings.RenderShootingStars)
+        return;
+      
       ShootingStarManager.Tick(_ext);
     }
   }

@@ -6,6 +6,7 @@ using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.UI;
 using HarmonyLib;
 using RimWorld;
@@ -105,6 +106,9 @@ namespace Astralum.Harmony
     public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
       IEnumerable<CodeInstruction> instructions)
     {
+      if (!AstraSettings.OverrideVanillaSun)
+        return instructions;
+      
       List<CodeInstruction> codes = instructions.ToList();
 
       MethodInfo vanillaSunGetter = AccessTools.PropertyGetter(

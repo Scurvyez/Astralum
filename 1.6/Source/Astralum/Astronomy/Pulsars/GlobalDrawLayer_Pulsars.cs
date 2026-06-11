@@ -2,6 +2,7 @@
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
@@ -25,6 +26,9 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
 
   public GlobalDrawLayer_Pulsars()
   {
+    if (!AstraSettings.RenderPulsars)
+      return;
+    
     _def = InternalDefOf.Astra_Pulsars;
     _ext = _def?.GetModExtension<ModExt_Pulsars>();
 
@@ -64,6 +68,9 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
   {
     foreach (var item in base.Regenerate())
       yield return item;
+    
+    if (!AstraSettings.RenderPulsars)
+      yield break;
 
     Rand.PushState();
     Rand.Seed = Find.World.info.Seed ^ 0x7115A2;

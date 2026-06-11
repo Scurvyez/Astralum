@@ -259,41 +259,59 @@ namespace Astralum.Astronomy.BackgroundStars
     }
     
     /// <summary>
-    /// Returns a density multiplier for a direction based on its horizontal position along the galactic plane.
-    /// This can be used to create empty gaps, soft fades, or denser horizon regions.
+    /// Returns a density multiplier for a direction based on local patches around the galactic plane.
+    /// This can be used to create empty gaps, soft fades, or denser regions without pole-to-pole stripes.
     /// </summary>
     /// <param name="dir">The world-space direction to evaluate.</param>
-    /// <param name="offset">A normalized 0..1 offset that rotates the mask around the galactic plane.</param>
+    /// <param name="offset">A normalized 0..1 seed offset that changes the mask pattern.</param>
     /// <returns>A density multiplier between 0 and 1.</returns>
     private static float GalacticPlaneBandMask(Vector3 dir, float offset = 0f)
     {
-      float longitude = GalacticPlaneLongitude01(dir, offset);
-      float mask = 1f;
-      
-      mask *= GalacticPlaneGap(longitude, 0.12f, 0.05f, 0.00f);
-      mask *= GalacticPlaneGap(longitude, 0.43f, 0.08f, 0.25f);
-      mask *= GalacticPlaneGap(longitude, 0.76f, 0.04f, 0.10f);
-      
-      float wave = Mathf.PerlinNoise(longitude * 6f, 19.37f);
-      mask *= Mathf.Lerp(0.65f, 1.35f, wave);
-      
-      return Mathf.Clamp(mask, 0f, 1.35f);
+      Vector3 normalizedDir = dir.normalized;
+      float latitude = Vector3.Dot(normalizedDir, WorldUtils.GalacticPole.normalized);
+      float longitude = GalacticPlaneLongitude01(normalizedDir, offset);
+      float seed = offset * 997.31f;
+
+      float lowFrequencyNoise = WrappedPlaneNoise(longitude, latitude, 3.5f, seed + 11.17f);
+      float mediumFrequencyNoise = WrappedPlaneNoise(longitude, latitude, 7.0f, seed + 43.91f);
+      float fineNoise = DirectionalNoise(normalizedDir, 5.5f, seed + 77.53f);
+      float pocketNoise = Mathf.Clamp01((lowFrequencyNoise * 0.55f) + (mediumFrequencyNoise * 0.30f) + 
+        (fineNoise * 0.15f));
+
+      float mask = Mathf.Lerp(0.38f, 1.55f, Mathf.SmoothStep(0f, 1f, pocketNoise));
+      float deepGap = Mathf.SmoothStep(0.18f, 0.44f, pocketNoise);
+      float densePatch = Mathf.SmoothStep(0.62f, 0.88f, pocketNoise);
+
+      mask *= Mathf.Lerp(0.22f, 1f, deepGap);
+      mask *= Mathf.Lerp(1f, 1.35f, densePatch);
+
+      return Mathf.Clamp(mask, 0.05f, 1.75f);
     }
 
-    /// <summary>
-    /// Creates a soft horizontal density gap around a normalized galactic-plane longitude.
-    /// </summary>
-    /// <param name="longitude">The normalized 0..1 longitude currently being evaluated.</param>
-    /// <param name="center">The normalized 0..1 center of the gap.</param>
-    /// <param name="halfWidth">The half-width of the gap in normalized 0..1 galactic-plane space.</param>
-    /// <param name="minimumDensity">The density multiplier at the center of the gap.</param>
-    /// <returns>A density multiplier between minimumDensity and 1.</returns>
-    private static float GalacticPlaneGap(float longitude, float center, float halfWidth, float minimumDensity)
+    private static float WrappedPlaneNoise(float longitude, float latitude, float scale, float seed)
     {
-      float distance = Mathf.Abs(Mathf.DeltaAngle(longitude * 360f, center * 360f)) / 360f;
-      float fade = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(distance / halfWidth));
-      
-      return Mathf.Lerp(minimumDensity, 1f, fade);
+      float angle = longitude * Mathf.PI * 2f;
+      float radius = scale * (1f + Mathf.Abs(latitude) * 2.2f);
+      float x = Mathf.Cos(angle) * radius + seed;
+      float y = Mathf.Sin(angle) * radius + latitude * scale * 6f + seed * 0.37f;
+
+      return Mathf.PerlinNoise(x, y);
+    }
+    
+    /// <summary>
+    /// Samples blended Perlin noise from multiple axes of a direction vector to produce a stable,
+    /// seedable directional noise value for localized sky variation.
+    /// </summary>
+    /// <param name="dir">The normalized world-space direction to sample.</param>
+    /// <param name="scale">The frequency multiplier applied to the direction components.</param>
+    /// <param name="seed">The seed offset used to vary the sampled noise pattern.</param>
+    /// <returns>A blended Perlin noise value between 0 and 1.</returns>
+    private static float DirectionalNoise(Vector3 dir, float scale, float seed)
+    {
+      float noiseA = Mathf.PerlinNoise(dir.x * scale + seed, dir.y * scale + seed * 0.31f);
+      float noiseB = Mathf.PerlinNoise(dir.z * scale + seed * 0.73f, dir.x * scale + seed * 0.17f);
+
+      return Mathf.Lerp(noiseA, noiseB, 0.5f);
     }
     
     /// <summary>

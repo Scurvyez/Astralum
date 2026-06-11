@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Astralum.Materials;
+using Astralum.Settings;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -35,6 +36,9 @@ namespace Astralum.Astronomy.ShootingStars
     {
       foreach (object item in base.Regenerate())
         yield return item;
+      
+      if (!AstraSettings.RenderShootingStars)
+        yield break;
 
       LayerSubMesh subMesh = GetSubMesh(ShootingStarMatsUtil.ShootingStar);
 
