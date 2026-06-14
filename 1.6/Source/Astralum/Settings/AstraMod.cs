@@ -9,7 +9,7 @@ namespace Astralum.Settings
     private AstraSettings _settings;
     private float _halfWidth;
     private Vector2 _leftScrollPos = Vector2.zero;
-
+    
     private const int RowPadding = 30;
     private const float MainListingGap = 100f;
     private const float NewSectionGap = 10f;
@@ -20,11 +20,14 @@ namespace Astralum.Settings
     private const float TextFieldWidth = 100f;
     private const float ElementHeight = 25f;
     
+    public static AstraSettings Settings { get; private set; }
+    
     public override string SettingsCategory() => "Astra_ModName".Translate();
     
     public AstraMod(ModContentPack content) : base(content)
     {
       _settings = GetSettings<AstraSettings>();
+      Settings = _settings;
     }
     
     public override void DoSettingsWindowContents(Rect inRect)
@@ -83,7 +86,7 @@ namespace Astralum.Settings
       list1.CheckboxLabeled("Astra_RenderShootingStars".Translate(),
         ref _settings._renderShootingStars,
         "Astra_RenderShootingStarsDesc".Translate());
-      list1.Gap(Spacing);7
+      list1.Gap(Spacing);
       
       list1.CheckboxLabeled("Astra_OverrideVanillaSun".Translate(),
         ref _settings._overrideVanillaSun, 

@@ -46,4 +46,9 @@
         <shaderPath>BlackHole01</shaderPath>
     </ShaderTypeDef>
 
+    <ShaderTypeDef>
+        <defName>Astra_GalacticDustLane01</defName>
+        <shaderPath>GalacticDustLane01</shaderPath>
+    </ShaderTypeDef>
+
 </Defs>

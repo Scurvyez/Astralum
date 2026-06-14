@@ -92,4 +92,22 @@
         </modExtensions>
     </GlobalWorldDrawLayerDef>
 
+    <GlobalWorldDrawLayerDef>
+        <defName>Astra_GalacticDustLanes</defName>
+        <worldDrawLayer>Astralum.Astronomy.GalacticDustLanes.GlobalDrawLayer_GalacticDustLanes</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.GalacticDustLanes.ModExt_GalacticDustLanes">
+                <dustLaneCount>4~7</dustLaneCount>
+                <dustLaneSizeRange>18~36</dustLaneSizeRange>
+                <galacticPlaneBounds>-0.05~0.05</galacticPlaneBounds>
+                <alphaRange>0.08~0.18</alphaRange>
+                <intensityRange>0.35~0.75</intensityRange>
+                <noiseScaleRange>2.5~6.5</noiseScaleRange>
+                <detailScaleRange>12~30</detailScaleRange>
+                <stretchXRange>1.6~3.2</stretchXRange>
+                <stretchYRange>0.35~0.75</stretchYRange>
+            </li>
+        </modExtensions>
+    </GlobalWorldDrawLayerDef>
+
 </Defs>

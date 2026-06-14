@@ -2,16 +2,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
+using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
 using Astralum.UI;
+using Astralum.World;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
 using Verse;
+using Verse.AI;
 
 namespace Astralum.Harmony
 {
@@ -26,7 +30,22 @@ namespace Astralum.Harmony
       PatchWorldInterfaceOnGUI(harmony);
       PatchStartingSiteExtraOnGUI(harmony);
       PatchPlaySettings(harmony);
+      PatchJobDriverGetReport(harmony);
     }
+    
+    private sealed class TelescopeReportData
+    {
+      public readonly bool useConstellationReport;
+      public readonly string constellationName;
+
+      public TelescopeReportData(bool useConstellationReport, string constellationName)
+      {
+        this.useConstellationReport = useConstellationReport;
+        this.constellationName = constellationName;
+      }
+    }
+    
+    private static readonly ConditionalWeakTable<Job, TelescopeReportData> TelescopeReports = new();
 
     /// <summary>
     ///   Replaces the sun material with the astralum sun material.
@@ -101,6 +120,20 @@ namespace Astralum.Harmony
       harmony.Patch(
         doWorldViewControls,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoWorldViewControls_Postfix)));
+    }
+
+    private static void PatchJobDriverGetReport(HarmonyLib.Harmony harmony)
+    {
+      MethodInfo getReport = HarmonyPatchesUtil.Method(
+        typeof(JobDriver), "GetReport",
+        "Get report patch");
+
+      if (HarmonyPatchesUtil.Missing(getReport))
+        return;
+
+      harmony.Patch(
+        getReport,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(JobDriver_GetReport_Postfix)));
     }
 
     public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
@@ -189,6 +222,49 @@ namespace Astralum.Harmony
         constellationLinesTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
+    }
+
+    public static void JobDriver_GetReport_Postfix(JobDriver __instance, ref string __result)
+    {
+      Job job = __instance?.job;
+      
+      if (job?.def != InternalDefOf.UseTelescope)
+        return;
+      
+      TelescopeReportData reportData = TelescopeReports.GetValue(job, _ => CreateTelescopeReportData());
+      
+      if (!reportData.useConstellationReport)
+        return;
+      
+      if (reportData.constellationName.NullOrEmpty())
+        return;
+      
+      __result = $"observing {reportData.constellationName} through a telescope.";
+    }
+    
+    private static TelescopeReportData CreateTelescopeReportData()
+    {
+      if (!Rand.Chance(HarmonyPatchesUtil.ConstellationReportChance))
+        return new TelescopeReportData(false, null);
+      
+      string constellationName = RandomConstellationName();
+      
+      if (constellationName.NullOrEmpty())
+        return new TelescopeReportData(false, null);
+      
+      return new TelescopeReportData(true, constellationName);
+    }
+    
+    private static string RandomConstellationName()
+    {
+      WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
+      
+      if (data?.constellations.NullOrEmpty() != false)
+        return null;
+      
+      SavedConstellation constellation = data.constellations.RandomElement();
+      
+      return constellation?.name;
     }
   }
 }

@@ -128,5 +128,12 @@ namespace Astralum.Materials
     public static readonly int RingFeather = Shader.PropertyToID("_RingFeather");
     
     #endregion
+    
+    #region Galactice Dust Band Properties
+    
+    public static readonly int EdgeFadeStart = Shader.PropertyToID("_EdgeFadeStart");
+    public static readonly int EdgeFadeEnd = Shader.PropertyToID("_EdgeFadeEnd");
+    
+    #endregion
   }
 }

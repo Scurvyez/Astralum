@@ -1,9 +1,25 @@
-﻿using Verse;
+﻿using UnityEngine;
+using Verse;
 
 namespace Astralum.Settings
 {
   public class AstraSettings : ModSettings
   {
+    public float starInfoWindowXPos = -1f;
+    public float starInfoWindowYPos = -1f;
+    
+    public bool HasStarInfoWindowPos => starInfoWindowXPos >= 0f && starInfoWindowYPos >= 0f;
+    
+    public Vector2 StarInfoWindowPos
+    {
+      get => new(starInfoWindowXPos, starInfoWindowYPos);
+      set
+      {
+        starInfoWindowXPos = value.x;
+        starInfoWindowYPos = value.y;
+      }
+    }
+    
     private static AstraSettings _instance;
         
     public AstraSettings()
@@ -63,6 +79,9 @@ namespace Astralum.Settings
     public override void ExposeData()
     {
       base.ExposeData();
+      Scribe_Values.Look(ref starInfoWindowXPos, "starInfoWindowXPos", -1f);
+      Scribe_Values.Look(ref starInfoWindowYPos, "starInfoWindowYPos", -1f);
+      
       Scribe_Values.Look(ref _renderAdditionalBackgroundsStars, "_renderAdditionalBackgroundsStars", true);
       Scribe_Values.Look(ref _renderNebulae, "_renderNebulae", true);
       Scribe_Values.Look(ref _renderBlackholes, "_renderBlackholes", true);

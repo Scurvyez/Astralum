@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Settings;
 using Astralum.World;
 using UnityEngine;
 using Verse;
@@ -59,11 +60,16 @@ namespace Astralum.UI
     public override void PreOpen()
     {
       base.PreOpen();
+      
+      AstraSettings settings = AstraMod.Settings;
 
-      WorldComponent_LocalStar comp = Find.World.GetComponent<WorldComponent_LocalStar>();
-
-      windowRect = comp.HasSavedStarInfoWindowPos
-        ? new Rect(comp.StarInfoWindowPos.x, comp.StarInfoWindowPos.y, WindowWidth, GetWindowHeight())
+      windowRect = settings is { HasStarInfoWindowPos: true }
+        ? new Rect(
+          settings.StarInfoWindowPos.x,
+          settings.StarInfoWindowPos.y,
+          WindowWidth,
+          GetWindowHeight()
+        )
         : GetDefaultWindowRect();
     }
 
@@ -95,8 +101,13 @@ namespace Astralum.UI
 
     private void SaveCurrentWindowPos()
     {
-      WorldComponent_LocalStar comp = Find.World.GetComponent<WorldComponent_LocalStar>();
-      comp?.StarInfoWindowPos = windowRect.position;
+      AstraSettings settings = AstraMod.Settings;
+      
+      if (settings == null)
+        return;
+      
+      settings.StarInfoWindowPos = windowRect.position;
+      settings.Write();
     }
 
     private static void DrawInfoLine(Rect rect, StarInfoLine line)

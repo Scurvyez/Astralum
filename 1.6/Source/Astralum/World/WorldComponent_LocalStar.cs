@@ -11,9 +11,6 @@ namespace Astralum.World
   {
     private SavedStar _star;
 
-    public float starInfoWindowXPos = -1f;
-    public float starInfoWindowYPos = -1f;
-
     public WorldComponent_LocalStar(RimWorld.Planet.World world) : base(world)
     {
     }
@@ -24,18 +21,6 @@ namespace Astralum.World
       {
         EnsureStarExists();
         return _star;
-      }
-    }
-
-    public bool HasSavedStarInfoWindowPos => starInfoWindowXPos >= 0f && starInfoWindowYPos >= 0f;
-
-    public Vector2 StarInfoWindowPos
-    {
-      get => new(starInfoWindowXPos, starInfoWindowYPos);
-      set
-      {
-        starInfoWindowXPos = value.x;
-        starInfoWindowYPos = value.y;
       }
     }
 
@@ -53,12 +38,9 @@ namespace Astralum.World
 
       if (Scribe.mode == LoadSaveMode.Saving)
         EnsureStarExists();
-
+      
       Scribe_Deep.Look(ref _star, "astralumStar");
-
-      Scribe_Values.Look(ref starInfoWindowXPos, "starInfoWindowXPos", -1f);
-      Scribe_Values.Look(ref starInfoWindowYPos, "starInfoWindowYPos", -1f);
-
+      
       if (Scribe.mode == LoadSaveMode.PostLoadInit)
       {
         EnsureStarExists();

@@ -7,6 +7,8 @@ namespace Astralum.Harmony
 {
   public static class HarmonyPatchesUtil
   {
+    public const float ConstellationReportChance = 1f;
+    
     public static MethodInfo Method(Type type, string methodName, string patchDescription)
     {
       MethodInfo method = AccessTools.Method(type, methodName);

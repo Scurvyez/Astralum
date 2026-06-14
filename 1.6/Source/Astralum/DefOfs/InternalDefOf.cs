@@ -10,6 +10,12 @@ namespace Astralum.DefOfs
     {
       DefOfHelper.EnsureInitializedInCtor(typeof(InternalDefOf));
     }
+    
+    #region Jobs
+
+    public static JobDef UseTelescope;
+    
+    #endregion
 
     #region ShaderTypeDefs
 
@@ -22,6 +28,7 @@ namespace Astralum.DefOfs
     public static ShaderTypeDef Astra_SkyCoordinateGrid01;
     public static ShaderTypeDef Astra_Pulsar01;
     public static ShaderTypeDef Astra_BlackHole01;
+    public static ShaderTypeDef Astra_GalacticDustLane01;
 
     #endregion
 
@@ -33,6 +40,7 @@ namespace Astralum.DefOfs
     public static GlobalWorldDrawLayerDef Astra_ShootingStars;
     public static GlobalWorldDrawLayerDef Astra_Pulsars;
     public static GlobalWorldDrawLayerDef Astra_BlackHoles;
+    public static GlobalWorldDrawLayerDef Astra_GalacticDustLanes;
 
     #endregion
   }

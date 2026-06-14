@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Settings;
 using Astralum.World;
 using RimWorld.Planet;
 using UnityEngine;
@@ -31,7 +32,7 @@ namespace Astralum.UI
       Widgets.DrawWindowBackground(rect);
       DrawContents(rect, lines);
     }
-
+    
     private static bool ShouldDraw(bool requirePlaying)
     {
       if (requirePlaying && Current.ProgramState != ProgramState.Playing)
@@ -51,17 +52,28 @@ namespace Astralum.UI
 
       return true;
     }
-
+    
     private static Rect GetRect(List<StarInfoLine> lines)
     {
+      Vector2 position = GetSavedOrDefaultPosition();
+      
       return new Rect(
-        Screen.width - WindowWidth - 16f,
-        120f,
+        position.x,
+        position.y,
         WindowWidth,
         GetHeight(lines)
       );
     }
-
+    
+    private static Vector2 GetSavedOrDefaultPosition()
+    {
+      AstraSettings settings = AstraMod.Settings;
+      
+      return settings is { HasStarInfoWindowPos: true } 
+        ? settings.StarInfoWindowPos 
+        : new Vector2(32f, 32f);
+    }
+    
     private static float GetHeight(List<StarInfoLine> lines)
     {
       return TopPadding + BottomPadding + lines.Count * GetLineHeight();

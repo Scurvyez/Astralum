@@ -1,4 +1,4 @@
-Shader "Unlit/Constellation01"
+Shader "Astralum/Constellation01"
 {
     Properties
     {
