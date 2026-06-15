@@ -33,7 +33,7 @@ namespace Astralum.Astronomy.LocalSystem.Stars
       {
         >= BillionYears => $"{years / BillionYears:0.0} Gyr",
         >= MillionYears => $"{years / MillionYears:0.0} Myr",
-        _ => $"{years:0} years"
+        _ => $"{years:0} " + "Astra_Stars_Years".Translate()
       };
     }
   }

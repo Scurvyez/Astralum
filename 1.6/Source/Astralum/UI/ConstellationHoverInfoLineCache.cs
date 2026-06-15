@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.LocalSystem.Stars;
+using Verse;
 
 namespace Astralum.UI
 {
@@ -32,10 +33,11 @@ namespace Astralum.UI
     {
       return
       [
-        new ConstellationHoverInfoLine(StellarNamingUtil.SafeName(star.name, "Unknown Star")),
-        new ConstellationHoverInfoLine($"Class: {star.spectralClass}"),
-        new ConstellationHoverInfoLine($"Constellation: {star.constellationName}"),
-        new ConstellationHoverInfoLine($"Region: {star.hemisphere}"),
+        new ConstellationHoverInfoLine(StellarNamingUtil.SafeName(
+          star.name, "Astra_Stars_Unknown".Translate())),
+        new ConstellationHoverInfoLine("Astra_Stars_Class".Translate() + $": {star.spectralClass}"),
+        new ConstellationHoverInfoLine("Astra_Stars_Constellation".Translate() + $": {star.constellationName}"),
+        new ConstellationHoverInfoLine("Astra_Stars_Region".Translate() + $": {star.hemisphere}"),
         new ConstellationHoverInfoLine($"RA: {star.rightAscension}"),
         new ConstellationHoverInfoLine($"Dec: {star.declination}")
       ];

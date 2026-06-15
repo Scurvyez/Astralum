@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Astralum.World;
 using UnityEngine;
+using Verse;
 
 namespace Astralum.Astronomy.SkyGrid;
 
@@ -36,8 +37,10 @@ public static class SkyGridLabelUtil
     AddDeclinationLabels(labels, pole, a, b, -30f, DefaultOffset);
     AddDeclinationLabels(labels, pole, a, b, -60f, DefaultOffset);
 
-    labels.Add(new SkyGridLabel("North Sky", pole * DistanceToLabels, NorthSkyOffset, 1.85f));
-    labels.Add(new SkyGridLabel("South Sky", -pole * DistanceToLabels, DefaultOffset, 1.85f));
+    labels.Add(new SkyGridLabel("Astra_Hemisphere_NorthernSky".Translate(),
+      pole * DistanceToLabels, NorthSkyOffset, 1.85f));
+    labels.Add(new SkyGridLabel("Astra_Hemisphere_SouthernSky".Translate(), 
+      -pole * DistanceToLabels, DefaultOffset, 1.85f));
 
     return labels;
   }

@@ -64,37 +64,37 @@ namespace Astralum.Astronomy.Chemistry
       { "Db", 268.0f } /*Dubnium*/, { "Sg", 269.0f } /*Seaborgium*/, { "Bh", 270.0f } /*Bohrium*/,
       { "Hs", 277.0f } /*Hassium*/
     };
-
+    
     public static float GetAtomicMass(string elementSymbol)
     {
       if (string.IsNullOrWhiteSpace(elementSymbol))
         throw new ArgumentException("Element symbol cannot be null or empty.", nameof(elementSymbol));
-
+      
       elementSymbol = NormalizeSymbol(elementSymbol);
-
+      
       if (AtomicMasses.TryGetValue(elementSymbol, out float atomicMass))
         return atomicMass;
-
+      
       throw new ArgumentException($"Element symbol not found: {elementSymbol}", nameof(elementSymbol));
     }
-
+    
     public static bool TryGetAtomicMass(string elementSymbol, out float atomicMass)
     {
       atomicMass = 0f;
-
+      
       if (string.IsNullOrWhiteSpace(elementSymbol))
         return false;
-
+      
       return AtomicMasses.TryGetValue(NormalizeSymbol(elementSymbol), out atomicMass);
     }
-
+    
     private static string NormalizeSymbol(string symbol)
     {
       symbol = symbol.Trim();
-
+      
       if (symbol.Length == 1)
         return symbol.ToUpperInvariant();
-
+      
       return char.ToUpperInvariant(symbol[0]) + symbol.Substring(1).ToLowerInvariant();
     }
   }

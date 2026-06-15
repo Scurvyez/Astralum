@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Verse;
 
 namespace Astralum.Astronomy.LocalSystem.Stars
 {
@@ -73,10 +74,10 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     {
       return coronaIntensity switch
       {
-        >= 2f => $"{coronaIntensity:0.00} intense",
-        >= 1.25f => $"{coronaIntensity:0.00} active",
-        >= 0.75f => $"{coronaIntensity:0.00} stable",
-        _ => $"{coronaIntensity:0.00} weak"
+        >= 2f => $"{coronaIntensity:0.00} " + "Astra_Stars_CoronaIntensity_Intense".Translate(),
+        >= 1.25f => $"{coronaIntensity:0.00} " + "Astra_Stars_CoronaIntensity_Active".Translate(),
+        >= 0.75f => $"{coronaIntensity:0.00} " + "Astra_Stars_CoronaIntensity_Stable".Translate(),
+        _ => $"{coronaIntensity:0.00} " + "Astra_Stars_CoronaIntensity_Weak".Translate()
       };
     }
 

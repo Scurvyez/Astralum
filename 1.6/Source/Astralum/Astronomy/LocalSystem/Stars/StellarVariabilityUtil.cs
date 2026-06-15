@@ -49,7 +49,7 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     public static string FormatVariability(StellarVariabilityType type, float amount)
     {
       if (type == StellarVariabilityType.None || amount <= 0f)
-        return "None";
+        return "Astra_Stars_Variability_None".Translate();
 
       return $"{type} ({amount * 100f:0.#}%)";
     }

@@ -101,9 +101,9 @@ namespace Astralum.World
 
       return direction.y switch
       {
-        > NorthernSkyThreshold => "Northern Sky",
-        < SouthernSkyThreshold => "Southern Sky",
-        _ => "Equatorial Sky"
+        > NorthernSkyThreshold => "Astra_Hemisphere_NorthernSky".Translate(),
+        < SouthernSkyThreshold => "Astra_Hemisphere_SouthernSky".Translate(),
+        _ => "Astra_Hemisphere_EquatorialSky".Translate()
       };
     }
     

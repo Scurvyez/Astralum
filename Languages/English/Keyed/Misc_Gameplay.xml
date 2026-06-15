@@ -3,6 +3,7 @@
 
     <Astra_ModName>Astralum</Astra_ModName>
 
+    <Astra_Settings_GeneralToggles>General Toggles</Astra_Settings_GeneralToggles>
     <Astra_DisableSkyGridToggleLabel>Disable Astralum sky coordinate grid.</Astra_DisableSkyGridToggleLabel>
     <Astra_EnableSkyGridToggleLabel>Enable Astralum sky coordinate grid.</Astra_EnableSkyGridToggleLabel>
     <Astra_DisableConstellationLinesToggleLabel>Disable Astralum constellation lines.</Astra_DisableConstellationLinesToggleLabel>
@@ -31,5 +32,54 @@
 
     <Astra_OverrideVanillaSun>Override Vanilla Sun</Astra_OverrideVanillaSun>
     <Astra_OverrideVanillaSunDesc>Toggle to replace the vanilla sun with a procedurally generated star using realistic, yet random stellar data. All main sequence star types [O, B, A, F, G, K, M] are possible for generation.</Astra_OverrideVanillaSunDesc>
+
+    <Astra_NameGenerator_The>The</Astra_NameGenerator_The>
+    <Astra_NameGenerator_Of>of</Astra_NameGenerator_Of>
+    <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>
+
+    <Astra_Stars_Unknown>Unknown Star</Astra_Stars_Unknown>
+    <Astra_Stars_UnknownSystem>Unknown System</Astra_Stars_UnknownSystem>
+    <Astra_Stars_System>System</Astra_Stars_System>
+    <Astra_Stars_Class>Class</Astra_Stars_Class>
+    <Astra_Stars_Age>Age</Astra_Stars_Age>
+    <Astra_Stars_Temperature>Temperature</Astra_Stars_Temperature>
+    <Astra_Stars_Rotation>Rotation</Astra_Stars_Rotation>
+    <Astra_Stars_Magnetic_Field>Magnetic Field</Astra_Stars_Magnetic_Field>
+    <Astra_Stars_Radius>Radius</Astra_Stars_Radius>
+    <Astra_Stars_Mass>Mass</Astra_Stars_Mass>
+    <Astra_Stars_Luminosity>Luminosity</Astra_Stars_Luminosity>
+    <Astra_Stars_Metallicity>Metallicity</Astra_Stars_Metallicity>
+    <Astra_Stars_Composition>Composition</Astra_Stars_Composition>
+    <Astra_Stars_Chromaticity>Chromaticity</Astra_Stars_Chromaticity>
+    <Astra_Stars_Corona_Glow>Corona Glow</Astra_Stars_Corona_Glow>
+    <Astra_Stars_Constellation>Constellation</Astra_Stars_Constellation>
+    <Astra_Stars_Region>Region</Astra_Stars_Region>
+    <Astra_Stars_Years>years</Astra_Stars_Years>
+    <Astra_Stars_RedChannel>R</Astra_Stars_RedChannel>
+    <Astra_Stars_GreenChannel>G</Astra_Stars_GreenChannel>
+    <Astra_Stars_BlueChannel>B</Astra_Stars_BlueChannel>
+    <Astra_Stars_Corona_Intensity>Corona Intensity</Astra_Stars_Corona_Intensity>
+    <Astra_Stars_CoronaIntensity_Intense>intense</Astra_Stars_CoronaIntensity_Intense>
+    <Astra_Stars_CoronaIntensity_Active>active</Astra_Stars_CoronaIntensity_Active>
+    <Astra_Stars_CoronaIntensity_Stable>stable</Astra_Stars_CoronaIntensity_Stable>
+    <Astra_Stars_CoronaIntensity_Weak>weak</Astra_Stars_CoronaIntensity_Weak>
+    <Astra_Stars_RotationsPerDay_One>rotations/day</Astra_Stars_RotationsPerDay_One>
+    <Astra_Stars_RotationsPerDay_Two>day rotation period</Astra_Stars_RotationsPerDay_Two>
+    <Astra_Stars_Variability>Variability</Astra_Stars_Variability>
+    <Astra_Stars_Variability_None>None</Astra_Stars_Variability_None>
+
+    <Astra_Hemisphere_NorthernSky>Northern Sky</Astra_Hemisphere_NorthernSky>
+    <Astra_Hemisphere_EquatorialSky>Equatorial Sky</Astra_Hemisphere_EquatorialSky>
+    <Astra_Hemisphere_SouthernSky>Southern Sky</Astra_Hemisphere_SouthernSky>
+
+    <Astra_TelescopeReport_Constellation>observing {0} through a telescope.</Astra_TelescopeReport_Constellation>
+    <Astra_TelescopeReport_ConstellationHemisphere>observing {0} in the {1} through a telescope.</Astra_TelescopeReport_ConstellationHemisphere>
+    <Astra_TelescopeReport_ConstellationCoords>charting {0} at {1}, {2} through a telescope.</Astra_TelescopeReport_ConstellationCoords>
+    <Astra_TelescopeReport_ConstellationStar>observing {1} in {0} through a telescope.</Astra_TelescopeReport_ConstellationStar>
+    <Astra_TelescopeReport_TracesStar>tracing {1} across {0} through a telescope.</Astra_TelescopeReport_TracesStar>
+    <Astra_TelescopeReport_StarClass>observing {1}, a class {2} star in {0}, through a telescope.</Astra_TelescopeReport_StarClass>
+    <Astra_TelescopeReport_StarHemisphere>tracking {1} in {0}, high in the {2}.</Astra_TelescopeReport_StarHemisphere>
+    <Astra_TelescopeReport_ConstellationTwoStars>observing {1} and {2} in {0} through a telescope.</Astra_TelescopeReport_ConstellationTwoStars>
+    <Astra_TelescopeReport_TwoStarClasses>comparing {1}, a class {2} star, and {3}, a class {4} star, within {0}.</Astra_TelescopeReport_TwoStarClasses>
 
 </LanguageData>

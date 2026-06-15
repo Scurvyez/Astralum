@@ -16,9 +16,10 @@ namespace Astralum.Astronomy.LocalSystem.Stars
       new(SpectralClass.K, 25f),
       new(SpectralClass.M, 35f)
     ];
-
-    // TODO:
-    // revert back for release
+    
+    /// <summary>
+    ///   FOR DEV PURPOSES ONLY.
+    /// </summary>
     private static readonly SpectralClassWeight[] SpectralClassWeights_DEV =
     [
       new(SpectralClass.O, 1f),
@@ -34,13 +35,13 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     {
       float totalWeight = 0f;
 
-      foreach (SpectralClassWeight weight in SpectralClassWeights_DEV)
+      foreach (SpectralClassWeight weight in SpectralClassWeights)
         totalWeight += weight.Weight;
 
       float random = Rand.Range(0f, totalWeight);
       float cumulativeWeight = 0f;
 
-      foreach (SpectralClassWeight weight in SpectralClassWeights_DEV)
+      foreach (SpectralClassWeight weight in SpectralClassWeights)
       {
         cumulativeWeight += weight.Weight;
 

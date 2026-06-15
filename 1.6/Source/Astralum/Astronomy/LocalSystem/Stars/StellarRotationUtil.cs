@@ -28,9 +28,9 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     {
       return rotationsPerDay switch
       {
-        >= 1f => $"{rotationsPerDay:0.##} rotations/day",
-        >= 0.01f => $"{1f / rotationsPerDay:0.#} day rotation period",
-        _ => $"{1f / rotationsPerDay:0} day rotation period"
+        >= 1f => $"{rotationsPerDay:0.##} " + "Astra_Stars_RotationsPerDay_One".Translate(),
+        >= 0.01f => $"{1f / rotationsPerDay:0.#} " + "Astra_Stars_RotationsPerDay_Two".Translate(),
+        _ => $"{1f / rotationsPerDay:0} " + "Astra_Stars_RotationsPerDay_Two".Translate()
       };
     }
   }

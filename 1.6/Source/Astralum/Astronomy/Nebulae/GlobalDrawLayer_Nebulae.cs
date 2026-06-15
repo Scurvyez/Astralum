@@ -109,11 +109,6 @@ namespace Astralum.Astronomy.Nebulae
       int nebulaCount = Mathf.RoundToInt(
         Mathf.Lerp(_nebulaCount.min, _nebulaCount.max, backgroundStarsGenerationData.NormalizedStarCount));
       
-      AstraLog.Message($"Generating {_nebulaCount.min} to {_nebulaCount.max} nebulae, " +
-                       $"based on {backgroundStarCountRange.min} to {backgroundStarCountRange.max} background stars.");
-      
-      AstraLog.Message($"Nebula count: {nebulaCount}");
-      
       try
       {
         for (int i = 0; i < nebulaCount; i++)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalSystem.Stars;
+using Verse;
 
 namespace Astralum.UI
 {
@@ -38,32 +39,37 @@ namespace Astralum.UI
     {
       List<StarInfoLine> lines =
       [
-        new(StellarNamingUtil.SafeName(star.starName, "Unknown Star")),
-        new($"System: {StellarNamingUtil.SafeName(star.systemName, "Unknown System")}"),
+        new(StellarNamingUtil.SafeName(star.starName, "Astra_Stars_Unknown".Translate())),
+        new("Astra_Stars_System".Translate() + $": {StellarNamingUtil.SafeName(star.systemName, 
+          "Astra_Stars_UnknownSystem".Translate())}"),
 
-        new($"Class: {star.spectralClass}"),
-        new($"Age: {StellarAgeUtil.FormatAge(star.age)}"),
-        new($"Temperature: {StellarTemperatureUtil.FormatTemperature(star.temperatureKelvin)}"),
-        new($"Rotation: {StellarRotationUtil.FormatRotation(star.rotation)}"),
-        new($"Magnetic Field: {StellarMagneticFieldUtil.FormatMagneticField(star.magneticField)}"),
-        new($"Variability: {StellarVariabilityUtil.FormatVariability(
+        new("Astra_Stars_Class".Translate() + $": {star.spectralClass}"),
+        new("Astra_Stars_Age".Translate() + $": {StellarAgeUtil.FormatAge(star.age)}"),
+        new("Astra_Stars_Temperature".Translate() + 
+            $": {StellarTemperatureUtil.FormatTemperature(star.temperatureKelvin)}"),
+        new("Astra_Stars_Rotation".Translate() + $": {StellarRotationUtil.FormatRotation(star.rotation)}"),
+        new("Astra_Stars_Magnetic_Field".Translate() +
+            $": {StellarMagneticFieldUtil.FormatMagneticField(star.magneticField)}"),
+        new("Astra_Stars_Variability".Translate() + $": {StellarVariabilityUtil.FormatVariability(
           star.variabilityType, star.variabilityAmount)}"),
-        new($"Radius: {StellarRadiusUtil.FormatRadius(star.radius)}"),
-        new($"Luminosity: {StellarLuminosityUtil.FormatLuminosity(star.luminosity)}"),
-        new($"Mass: {StellarMassUtil.FormatMass(star.mass)}"),
-        new($"Metallicity: {StellarCompositionUtil.FormatMetallicity(star.metallicity)}"),
-        new("Composition:")
+        new("Astra_Stars_Radius".Translate() + $": {StellarRadiusUtil.FormatRadius(star.radius)}"),
+        new("Astra_Stars_Luminosity".Translate() 
+            + $": {StellarLuminosityUtil.FormatLuminosity(star.luminosity)}"),
+        new("Astra_Stars_Mass".Translate() + $": {StellarMassUtil.FormatMass(star.mass)}"),
+        new("Astra_Stars_Metallicity".Translate() 
+            + $": {StellarCompositionUtil.FormatMetallicity(star.metallicity)}"),
+        new("Astra_Stars_Composition".Translate() + ":")
       ];
-
+      
       foreach (string compositionLine in StellarCompositionUtil.FormatCompositionLines(
                  star.composition, 3))
         lines.Add(new StarInfoLine($"  {compositionLine}"));
-
-      lines.Add(new StarInfoLine("Chromaticity:", star.chromaticity));
-      lines.Add(new StarInfoLine("Corona Glow:", star.corona));
-      lines.Add(new StarInfoLine($"Corona Intensity: " +
+      
+      lines.Add(new StarInfoLine("Astra_Stars_Chromaticity".Translate() + ":", star.chromaticity));
+      lines.Add(new StarInfoLine("Astra_Stars_Corona_Glow".Translate() + ":", star.corona));
+      lines.Add(new StarInfoLine("Astra_Stars_Corona_Intensity".Translate() + ": " +
                                  $"{StellarCoronaUtil.FormatCoronaIntensity(star.coronaIntensity)}"));
-
+      
       return lines;
     }
   }

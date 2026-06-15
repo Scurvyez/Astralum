@@ -108,8 +108,8 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     public static List<string> FormatCompositionLines(Dictionary<string, float> elements, int elementsPerLine = 4)
     {
       if (elements == null || elements.Count == 0)
-        return ["Unknown"];
-
+        return ["Astra_NameGenerator_Unknown".Translate()];
+      
       List<string> parts = elements
         .OrderByDescending(kvp => kvp.Value)
         .Select(kvp => $"{kvp.Key} {kvp.Value:0.#}%")

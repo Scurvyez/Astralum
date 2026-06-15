@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Verse;
 
 namespace Astralum.Astronomy.LocalSystem.Stars
 {
@@ -57,9 +58,9 @@ namespace Astralum.Astronomy.LocalSystem.Stars
     public static string FormatChromaticity(Color chromaticity)
     {
       return
-        $"R {chromaticity.r:0.00}, " +
-        $"G {chromaticity.g:0.00}, " +
-        $"B {chromaticity.b:0.00}";
+        "Astra_Stars_RedChannel".Translate() + $" {chromaticity.r:0.00}, " +
+        "Astra_Stars_GreenChannel".Translate() + $" {chromaticity.g:0.00}, " +
+        "Astra_Stars_BlueChannel".Translate() + $" {chromaticity.b:0.00}";
     }
   }
 }

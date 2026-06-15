@@ -55,7 +55,7 @@ namespace Astralum.Settings
     
     private void DoGeneralToggles(Listing_Standard list1)
     {
-      list1.Label("General Toggles".Colorize(AstraLog.MessageMsgCol));
+      list1.Label("Astra_Settings_GeneralToggles".Translate().Colorize(AstraLog.MessageMsgCol));
       list1.Gap(SectionTitleGap);
       
       list1.CheckboxLabeled("Astra_RenderAdditionalBackgroundsStars".Translate(), 

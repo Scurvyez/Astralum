@@ -10,7 +10,6 @@ using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
 using Astralum.UI;
-using Astralum.World;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
@@ -31,18 +30,6 @@ namespace Astralum.Harmony
       PatchStartingSiteExtraOnGUI(harmony);
       PatchPlaySettings(harmony);
       PatchJobDriverGetReport(harmony);
-    }
-    
-    private sealed class TelescopeReportData
-    {
-      public readonly bool useConstellationReport;
-      public readonly string constellationName;
-
-      public TelescopeReportData(bool useConstellationReport, string constellationName)
-      {
-        this.useConstellationReport = useConstellationReport;
-        this.constellationName = constellationName;
-      }
     }
     
     private static readonly ConditionalWeakTable<Job, TelescopeReportData> TelescopeReports = new();
@@ -121,7 +108,10 @@ namespace Astralum.Harmony
         doWorldViewControls,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoWorldViewControls_Postfix)));
     }
-
+    
+    /// <summary>
+    ///   Patches the "use telescope" job to output the currently viewed constellation or star(s) within. 
+    /// </summary>
     private static void PatchJobDriverGetReport(HarmonyLib.Harmony harmony)
     {
       MethodInfo getReport = HarmonyPatchesUtil.Method(
@@ -231,40 +221,18 @@ namespace Astralum.Harmony
       if (job?.def != InternalDefOf.UseTelescope)
         return;
       
-      TelescopeReportData reportData = TelescopeReports.GetValue(job, _ => CreateTelescopeReportData());
-      
-      if (!reportData.useConstellationReport)
+      if (job == null) 
         return;
       
-      if (reportData.constellationName.NullOrEmpty())
+      TelescopeReportData reportData = TelescopeReports.GetValue(
+        job,
+        _ => HarmonyPatchesUtil.CreateTelescopeReportData(__instance.pawn)
+      );
+      
+      if (!reportData.useConstellationReport || reportData.report.NullOrEmpty())
         return;
       
-      __result = $"observing {reportData.constellationName} through a telescope.";
-    }
-    
-    private static TelescopeReportData CreateTelescopeReportData()
-    {
-      if (!Rand.Chance(HarmonyPatchesUtil.ConstellationReportChance))
-        return new TelescopeReportData(false, null);
-      
-      string constellationName = RandomConstellationName();
-      
-      if (constellationName.NullOrEmpty())
-        return new TelescopeReportData(false, null);
-      
-      return new TelescopeReportData(true, constellationName);
-    }
-    
-    private static string RandomConstellationName()
-    {
-      WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
-      
-      if (data?.constellations.NullOrEmpty() != false)
-        return null;
-      
-      SavedConstellation constellation = data.constellations.RandomElement();
-      
-      return constellation?.name;
+      __result = reportData.report;
     }
   }
 }

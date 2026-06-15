@@ -39,23 +39,26 @@ namespace Astralum.Astronomy.Constellations
 
       int pattern = Rand.RangeInclusive(0, 8);
 
+      string the = "Astra_NameGenerator_The".Translate();
+      string of =  "Astra_NameGenerator_Of".Translate();
+      
       string descriptor = Pick(set.descriptors, generic?.descriptors);
       string title = Pick(set.titles, generic?.titles);
       string noun = Pick(set.nouns, generic?.nouns);
       string concept = Pick(set.concepts, generic?.concepts);
       string obj = Pick(set.objects, generic?.objects);
-
+      
       return pattern switch
       {
-        0 => $"The {descriptor} {noun}",
-        1 => $"The {title}",
-        2 => $"The {obj} of {concept}",
-        3 => $"The {descriptor} {obj}",
-        4 => $"{noun} of {concept}",
-        5 => $"The {title}'s {obj}",
-        6 => $"The {descriptor} {noun} of {concept}",
-        7 => $"The {noun}",
-        _ => $"The {concept} {obj}"
+        0 => $"{the} {descriptor} {noun}",
+        1 => $"{the} {title}",
+        2 => $"{the} {obj} {of} {concept}",
+        3 => $"{the} {descriptor} {obj}",
+        4 => $"{noun} {of} {concept}",
+        5 => $"{the} {title}'s {obj}",
+        6 => $"{the} {descriptor} {noun} {of} {concept}",
+        7 => $"{the} {noun}",
+        _ => $"{the} {concept} {obj}"
       };
     }
 
@@ -78,7 +81,7 @@ namespace Astralum.Astronomy.Constellations
 
       return !primary.NullOrEmpty()
         ? primary.RandomElement()
-        : "Unknown";
+        : "Astra_NameGenerator_Unknown".Translate();
     }
   }
 }
