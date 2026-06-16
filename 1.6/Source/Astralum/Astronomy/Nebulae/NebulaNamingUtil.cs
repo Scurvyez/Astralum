@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.DefOfs;
+using Astralum.World;
 using RimWorld;
+using UnityEngine;
 using Verse;
 using Verse.Grammar;
 
@@ -9,11 +11,11 @@ namespace Astralum.Astronomy.Nebulae
 {
   public static class NebulaNamingUtil
   {
-    public static string GenerateUniqueName(HashSet<string> usedNames, int index)
+    public static string GenerateUniqueName(HashSet<string> usedNames, int index, Vector3 localSkyPos)
     {
       for (int i = 0; i < 100; i++)
       {
-        string name = Generate(index);
+        string name = Generate(index, localSkyPos);
         
         if (!name.NullOrEmpty() && usedNames.Add(name))
           return name;
@@ -23,21 +25,21 @@ namespace Astralum.Astronomy.Nebulae
       
       do
       {
-        fallback = $"Nebula {index + 1}-{Rand.Range(1000, 9999)}";
+        fallback = $"Nebula_{index + 1}-{Rand.Range(1000, 9999)}";
       }
       while (!usedNames.Add(fallback));
       
       return fallback;
     }
     
-    private static string Generate(int index)
+    private static string Generate(int index, Vector3 localSkyPos)
     {
       float roll = Rand.Value;
       
       return roll switch
       {
         < 0.35f => GenerateCatalogName(),
-        < 0.55f => GenerateCoordinateName(),
+        < 0.55f => GenerateCoordinateName(localSkyPos),
         < 0.78f => GenerateFromRulePack(InternalDefOf.Astra_NebulaName_Descriptive),
         < 0.92f => GenerateDiscovererName(),
         _ => GenerateFormalName(index)
@@ -54,14 +56,20 @@ namespace Astralum.Astronomy.Nebulae
       );
     }
     
-    private static string GenerateCoordinateName()
+    private static string GenerateCoordinateName(Vector3 localSkyPos)
     {
-      int raHour = Rand.RangeInclusive(0, 23);
-      int raMinute = Rand.RangeInclusive(0, 59);
+      Vector3 dir = localSkyPos.normalized;
+      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
       
-      string sign = Rand.Value < 0.5f ? "+" : "-";
-      int decDegree = Rand.RangeInclusive(0, 89);
-      int decMinute = Rand.RangeInclusive(0, 59);
+      int raHour = Mathf.FloorToInt(Mathf.Repeat(coord.rightAscensionHours, 24f));
+      int raMinute = Mathf.FloorToInt(
+        (Mathf.Repeat(coord.rightAscensionHours, 24f) - raHour) * 60f);
+      
+      float decAbs = Mathf.Abs(coord.declinationDegrees);
+      string sign = coord.declinationDegrees >= 0f ? "+" : "-";
+      
+      int decDegree = Mathf.FloorToInt(decAbs);
+      int decMinute = Mathf.FloorToInt((decAbs - decDegree) * 60f);
       
       string coordinate = $"J{raHour:00}{raMinute:00}{sign}{decDegree:00}{decMinute:00}";
       

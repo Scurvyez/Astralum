@@ -6,6 +6,10 @@ namespace Astralum.Astronomy.LocalSystem.Stars
 {
   public class SavedStar : IExposable
   {
+    public SavedStar()
+    {
+    }
+    
     public SavedStar(GeneratedStar generatedStar)
     {
       systemName = generatedStar.SystemName;

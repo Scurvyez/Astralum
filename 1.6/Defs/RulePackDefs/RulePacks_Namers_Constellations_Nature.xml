@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+        <defName>Astra_ConstellationNames_Nature</defName>
+        <categoryId>Nature</categoryId>
+        <rulePackDef>Astra_ConstellationNameRules_Nature</rulePackDef>
+    </Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_ConstellationNameRules_Nature</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->The [descriptor] [noun]</li>
+                <li>r_name->The [title]</li>
+                <li>r_name->The [object] of [concept]</li>
+                <li>r_name->The [descriptor] [object]</li>
+                <li>r_name->[noun] of [concept]</li>
+                <li>r_name->The [title]'s [object]</li>
+                <li>r_name->The [descriptor] [noun] of [concept]</li>
+                <li>r_name->The [noun]</li>
+                <li>r_name->The [concept] [object]</li>
+
+                <li>descriptor->Ancient</li>
+                <li>descriptor->Blooming</li>
+                <li>descriptor->Withered</li>
+                <li>descriptor->Verdant</li>
+                <li>descriptor->Wild</li>
+                <li>descriptor->Silent</li>
+                <li>descriptor->Rooted</li>
+                <li>descriptor->Wandering</li>
+                <li>descriptor->Living</li>
+                <li>descriptor->Fertile</li>
+                <li>descriptor->Overgrown</li>
+                <li>descriptor->Hidden</li>
+                <li>descriptor->Untamed</li>
+                <li>descriptor->Endless</li>
+                <li>descriptor->Whispering</li>
+                <li>descriptor->Emerald</li>
+
+                <li>title->Gardener</li>
+                <li>title->Wanderer</li>
+                <li>title->Keeper</li>
+                <li>title->Watcher</li>
+                <li>title->Harvester</li>
+                <li>title->Caretaker</li>
+                <li>title->Seeker</li>
+                <li>title->Speaker</li>
+                <li>title->Guardian</li>
+                <li>title->Roamer</li>
+                <li>title->Sleeper</li>
+                <li>title->Gatherer</li>
+
+                <li>noun->Tree</li>
+                <li>noun->Leaf</li>
+                <li>noun->Grove</li>
+                <li>noun->Root</li>
+                <li>noun->Branch</li>
+                <li>noun->Bloom</li>
+                <li>noun->Canopy</li>
+                <li>noun->Vine</li>
+                <li>noun->Thicket</li>
+                <li>noun->Wildwood</li>
+                <li>noun->Seed</li>
+                <li>noun->Fern</li>
+                <li>noun->Briar</li>
+                <li>noun->Garden</li>
+                <li>noun->Forest</li>
+                <li>noun->Glade</li>
+
+                <li>object->Branch</li>
+                <li>object->Seed</li>
+                <li>object->Root</li>
+                <li>object->Bloom</li>
+                <li>object->Canopy</li>
+                <li>object->Vine</li>
+                <li>object->Trail</li>
+                <li>object->Grove</li>
+                <li>object->Glade</li>
+                <li>object->Thicket</li>
+                <li>object->Path</li>
+                <li>object->Garden</li>
+                <li>object->Fern</li>
+                <li>object->Shade</li>
+
+                <li>concept->Spring</li>
+                <li>concept->Growth</li>
+                <li>concept->Deep Wood</li>
+                <li>concept->Renewal</li>
+                <li>concept->Rainfall</li>
+                <li>concept->Harvest</li>
+                <li>concept->Bloom</li>
+                <li>concept->Silence</li>
+                <li>concept->Wilderness</li>
+                <li>concept->Roots</li>
+                <li>concept->Seasons</li>
+                <li>concept->Dawn</li>
+                <li>concept->Fertility</li>
+                <li>concept->Overgrowth</li>
+                <li>concept->Moonlight</li>
+                <li>concept->Still Waters</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <!--<Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Nature</defName>
+        <categoryId>Nature</categoryId>
+
+        <descriptors>
+            <li>Ancient</li>
+            <li>Blooming</li>
+            <li>Withered</li>
+            <li>Verdant</li>
+            <li>Wild</li>
+            <li>Silent</li>
+            <li>Rooted</li>
+            <li>Wandering</li>
+            <li>Living</li>
+            <li>Fertile</li>
+            <li>Overgrown</li>
+            <li>Hidden</li>
+            <li>Untamed</li>
+            <li>Endless</li>
+            <li>Whispering</li>
+            <li>Emerald</li>
+        </descriptors>
+
+        <titles>
+            <li>Gardener</li>
+            <li>Wanderer</li>
+            <li>Keeper</li>
+            <li>Watcher</li>
+            <li>Harvester</li>
+            <li>Caretaker</li>
+            <li>Seeker</li>
+            <li>Speaker</li>
+            <li>Guardian</li>
+            <li>Roamer</li>
+            <li>Sleeper</li>
+            <li>Gatherer</li>
+        </titles>
+
+        <nouns>
+            <li>Tree</li>
+            <li>Leaf</li>
+            <li>Grove</li>
+            <li>Root</li>
+            <li>Branch</li>
+            <li>Bloom</li>
+            <li>Canopy</li>
+            <li>Vine</li>
+            <li>Thicket</li>
+            <li>Wildwood</li>
+            <li>Seed</li>
+            <li>Fern</li>
+            <li>Briar</li>
+            <li>Garden</li>
+            <li>Forest</li>
+            <li>Glade</li>
+        </nouns>
+
+        <objects>
+            <li>Branch</li>
+            <li>Seed</li>
+            <li>Root</li>
+            <li>Bloom</li>
+            <li>Canopy</li>
+            <li>Vine</li>
+            <li>Trail</li>
+            <li>Grove</li>
+            <li>Glade</li>
+            <li>Thicket</li>
+            <li>Path</li>
+            <li>Garden</li>
+            <li>Fern</li>
+            <li>Shade</li>
+        </objects>
+
+        <concepts>
+            <li>Spring</li>
+            <li>Growth</li>
+            <li>Deep Wood</li>
+            <li>Renewal</li>
+            <li>Rainfall</li>
+            <li>Harvest</li>
+            <li>Bloom</li>
+            <li>Silence</li>
+            <li>Wilderness</li>
+            <li>Roots</li>
+            <li>Seasons</li>
+            <li>Dawn</li>
+            <li>Fertility</li>
+            <li>Overgrowth</li>
+            <li>Moonlight</li>
+            <li>Still Waters</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>-->
+
+</Defs>

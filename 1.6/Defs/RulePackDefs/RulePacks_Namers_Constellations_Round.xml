@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+        <defName>Astra_ConstellationNames_Round</defName>
+        <categoryId>Round</categoryId>
+        <rulePackDef>Astra_ConstellationNameRules_Round</rulePackDef>
+    </Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_ConstellationNameRules_Round</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->The [descriptor] [noun]</li>
+                <li>r_name->The [title]</li>
+                <li>r_name->The [object] of [concept]</li>
+                <li>r_name->The [descriptor] [object]</li>
+                <li>r_name->[noun] of [concept]</li>
+                <li>r_name->The [title]'s [object]</li>
+                <li>r_name->The [descriptor] [noun] of [concept]</li>
+                <li>r_name->The [noun]</li>
+                <li>r_name->The [concept] [object]</li>
+
+                <li>descriptor->Polished</li>
+                <li>descriptor->Silver</li>
+                <li>descriptor->Watching</li>
+                <li>descriptor->Full</li>
+                <li>descriptor->Silent</li>
+                <li>descriptor->Pale</li>
+                <li>descriptor->Shining</li>
+                <li>descriptor->Ancient</li>
+                <li>descriptor->Radiant</li>
+                <li>descriptor->Smooth</li>
+                <li>descriptor->Still</li>
+                <li>descriptor->Golden</li>
+                <li>descriptor->Veiled</li>
+                <li>descriptor->Luminous</li>
+                <li>descriptor->Hidden</li>
+                <li>descriptor->Unbroken</li>
+
+                <li>title->Watcher</li>
+                <li>title->Observer</li>
+                <li>title->Keeper</li>
+                <li>title->Wanderer</li>
+                <li>title->Sentinel</li>
+                <li>title->Witness</li>
+                <li>title->Dreamer</li>
+                <li>title->Traveler</li>
+                <li>title->Guardian</li>
+                <li>title->Pilgrim</li>
+                <li>title->Seeker</li>
+                <li>title->Sleeper</li>
+
+                <li>noun->Orb</li>
+                <li>noun->Moon</li>
+                <li>noun->Sphere</li>
+                <li>noun->Eye</li>
+                <li>noun->Pearl</li>
+                <li>noun->Halo</li>
+                <li>noun->Stone</li>
+                <li>noun->Beacon</li>
+                <li>noun->Lantern</li>
+                <li>noun->Mirror</li>
+                <li>noun->Crown</li>
+                <li>noun->Disc</li>
+                <li>noun->Glow</li>
+                <li>noun->Reflection</li>
+                <li>noun->Horizon</li>
+
+                <li>object->Orb</li>
+                <li>object->Eye</li>
+                <li>object->Pearl</li>
+                <li>object->Mirror</li>
+                <li>object->Lantern</li>
+                <li>object->Disc</li>
+                <li>object->Halo</li>
+                <li>object->Stone</li>
+                <li>object->Glow</li>
+                <li>object->Reflection</li>
+                <li>object->Beacon</li>
+                <li>object->Horizon</li>
+                <li>object->Crown</li>
+                <li>object->Light</li>
+
+                <li>concept->Reflection</li>
+                <li>concept->Wholeness</li>
+                <li>concept->Stillness</li>
+                <li>concept->Moonlight</li>
+                <li>concept->Silence</li>
+                <li>concept->Dawn</li>
+                <li>concept->Night</li>
+                <li>concept->Dreams</li>
+                <li>concept->Calm Waters</li>
+                <li>concept->Harmony</li>
+                <li>concept->Heavens</li>
+                <li>concept->Radiance</li>
+                <li>concept->Twilight</li>
+                <li>concept->Eternity</li>
+                <li>concept->Memory</li>
+                <li>concept->Light</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <!--<Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Round</defName>
+        <categoryId>Round</categoryId>
+
+        <descriptors>
+            <li>Polished</li>
+            <li>Silver</li>
+            <li>Watching</li>
+            <li>Full</li>
+            <li>Silent</li>
+            <li>Pale</li>
+            <li>Shining</li>
+            <li>Ancient</li>
+            <li>Radiant</li>
+            <li>Smooth</li>
+            <li>Still</li>
+            <li>Golden</li>
+            <li>Veiled</li>
+            <li>Luminous</li>
+            <li>Hidden</li>
+            <li>Unbroken</li>
+        </descriptors>
+
+        <titles>
+            <li>Watcher</li>
+            <li>Observer</li>
+            <li>Keeper</li>
+            <li>Wanderer</li>
+            <li>Sentinel</li>
+            <li>Witness</li>
+            <li>Dreamer</li>
+            <li>Traveler</li>
+            <li>Guardian</li>
+            <li>Pilgrim</li>
+            <li>Seeker</li>
+            <li>Sleeper</li>
+        </titles>
+
+        <nouns>
+            <li>Orb</li>
+            <li>Moon</li>
+            <li>Sphere</li>
+            <li>Eye</li>
+            <li>Pearl</li>
+            <li>Halo</li>
+            <li>Stone</li>
+            <li>Beacon</li>
+            <li>Lantern</li>
+            <li>Mirror</li>
+            <li>Crown</li>
+            <li>Disc</li>
+            <li>Glow</li>
+            <li>Reflection</li>
+            <li>Horizon</li>
+        </nouns>
+
+        <objects>
+            <li>Orb</li>
+            <li>Eye</li>
+            <li>Pearl</li>
+            <li>Mirror</li>
+            <li>Lantern</li>
+            <li>Disc</li>
+            <li>Halo</li>
+            <li>Stone</li>
+            <li>Glow</li>
+            <li>Reflection</li>
+            <li>Beacon</li>
+            <li>Horizon</li>
+            <li>Crown</li>
+            <li>Light</li>
+        </objects>
+
+        <concepts>
+            <li>Reflection</li>
+            <li>Wholeness</li>
+            <li>Stillness</li>
+            <li>Moonlight</li>
+            <li>Silence</li>
+            <li>Dawn</li>
+            <li>Night</li>
+            <li>Dreams</li>
+            <li>Calm Waters</li>
+            <li>Harmony</li>
+            <li>Heavens</li>
+            <li>Radiance</li>
+            <li>Twilight</li>
+            <li>Eternity</li>
+            <li>Memory</li>
+            <li>Light</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>-->
+
+</Defs>

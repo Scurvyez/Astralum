@@ -93,45 +93,33 @@ namespace Astralum.Harmony
       switch (pattern)
       {
         case 0:
-          return "Astra_TelescopeReport_Constellation".Translate(
-            constellation.name);
+          return "Astra_TelescopeReport_Constellation".Translate(constellation.name);
         
         case 1:
-          return "Astra_TelescopeReport_ConstellationHemisphere".Translate(
-            constellation.name,
-            hemisphere);
+          return "Astra_TelescopeReport_ConstellationHemisphere".Translate(constellation.name, hemisphere);
         
         case 2:
-          return "Astra_TelescopeReport_ConstellationCoords".Translate(
-            constellation.name,
-            ra,
-            dec);
+          return "Astra_TelescopeReport_ConstellationCoords".Translate(constellation.name, ra, dec);
         
         case 3:
         {
           SavedConstellationStar star = stars.RandomElement();
           
-          return "Astra_TelescopeReport_ConstellationStar".Translate(
-            constellation.name,
-            star.name);
+          return "Astra_TelescopeReport_ConstellationStar".Translate(constellation.name, star.name);
         }
         
         case 4:
         {
           SavedConstellationStar star = stars.RandomElement();
           
-          return "Astra_TelescopeReport_TracesStar".Translate(
-            constellation.name,
-            star.name);
+          return "Astra_TelescopeReport_TracesStar".Translate(constellation.name, star.name);
         }
         
         case 5:
         {
           SavedConstellationStar star = stars.RandomElement();
           
-          return "Astra_TelescopeReport_StarClass".Translate(
-            constellation.name,
-            star.name,
+          return "Astra_TelescopeReport_StarClass".Translate(constellation.name, star.name,
             star.spectralClass.ToString());
         }
         
@@ -139,9 +127,7 @@ namespace Astralum.Harmony
         {
           SavedConstellationStar star = stars.RandomElement();
           
-          return "Astra_TelescopeReport_StarHemisphere".Translate(
-            constellation.name,
-            star.name,
+          return "Astra_TelescopeReport_StarHemisphere".Translate(constellation.name, star.name,
             hemisphere);
         }
         
@@ -149,22 +135,16 @@ namespace Astralum.Harmony
         {
           GetTwoDifferentStars(stars, out SavedConstellationStar a, out SavedConstellationStar b);
           
-          return "Astra_TelescopeReport_ConstellationTwoStars".Translate(
-            constellation.name,
-            a.name,
-            b.name);
+          return "Astra_TelescopeReport_ConstellationTwoStars".Translate(constellation.name, 
+            a.name, b.name);
         }
         
         default:
         {
           GetTwoDifferentStars(stars, out SavedConstellationStar a, out SavedConstellationStar b);
           
-          return "Astra_TelescopeReport_TwoStarClasses".Translate(
-            constellation.name,
-            a.name,
-            a.spectralClass.ToString(),
-            b.name,
-            b.spectralClass.ToString());
+          return "Astra_TelescopeReport_TwoStarClasses".Translate(constellation.name, a.name,
+            a.spectralClass.ToString(), b.name, b.spectralClass.ToString());
         }
       }
     }

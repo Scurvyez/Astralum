@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+        <defName>Astra_ConstellationNames_Circles</defName>
+        <categoryId>Circles</categoryId>
+        <rulePackDef>Astra_ConstellationNameRules_Circles</rulePackDef>
+    </Astralum.Astronomy.Constellations.ConstellationNameRulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_ConstellationNameRules_Circles</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->The [descriptor] [noun]</li>
+                <li>r_name->The [title]</li>
+                <li>r_name->The [object] of [concept]</li>
+                <li>r_name->The [descriptor] [object]</li>
+                <li>r_name->[noun] of [concept]</li>
+                <li>r_name->The [title]'s [object]</li>
+                <li>r_name->The [descriptor] [noun] of [concept]</li>
+                <li>r_name->The [noun]</li>
+                <li>r_name->The [concept] [object]</li>
+
+                <li>descriptor->Endless</li>
+                <li>descriptor->Hollow</li>
+                <li>descriptor->Radiant</li>
+                <li>descriptor->Perfect</li>
+                <li>descriptor->Golden</li>
+                <li>descriptor->Silent</li>
+                <li>descriptor->Ancient</li>
+                <li>descriptor->Shining</li>
+                <li>descriptor->Infinite</li>
+                <li>descriptor->Unbroken</li>
+                <li>descriptor->Celestial</li>
+                <li>descriptor->Veiled</li>
+                <li>descriptor->Eternal</li>
+                <li>descriptor->Turning</li>
+                <li>descriptor->Sacred</li>
+                <li>descriptor->Luminous</li>
+
+                <li>title->Watcher</li>
+                <li>title->Keeper</li>
+                <li>title->Bearer</li>
+                <li>title->Guardian</li>
+                <li>title->Witness</li>
+                <li>title->Wanderer</li>
+                <li>title->Observer</li>
+                <li>title->Herald</li>
+                <li>title->Seeker</li>
+                <li>title->Pilgrim</li>
+                <li>title->Traveler</li>
+                <li>title->Sentinel</li>
+
+                <li>noun->Ring</li>
+                <li>noun->Halo</li>
+                <li>noun->Circle</li>
+                <li>noun->Wheel</li>
+                <li>noun->Crown</li>
+                <li>noun->Orbit</li>
+                <li>noun->Loop</li>
+                <li>noun->Disc</li>
+                <li>noun->Cycle</li>
+                <li>noun->Arc</li>
+                <li>noun->Band</li>
+                <li>noun->Corona</li>
+                <li>noun->Horizon</li>
+                <li>noun->Threshold</li>
+                <li>noun->Path</li>
+
+                <li>object->Halo</li>
+                <li>object->Wheel</li>
+                <li>object->Ring</li>
+                <li>object->Orbit</li>
+                <li>object->Corona</li>
+                <li>object->Disc</li>
+                <li>object->Band</li>
+                <li>object->Loop</li>
+                <li>object->Circle</li>
+                <li>object->Arc</li>
+                <li>object->Crown</li>
+                <li>object->Threshold</li>
+                <li>object->Path</li>
+                <li>object->Horizon</li>
+
+                <li>concept->Eternity</li>
+                <li>concept->Return</li>
+                <li>concept->Cycles</li>
+                <li>concept->Infinity</li>
+                <li>concept->Balance</li>
+                <li>concept->Harmony</li>
+                <li>concept->Repetition</li>
+                <li>concept->Stillness</li>
+                <li>concept->Time</li>
+                <li>concept->Heavens</li>
+                <li>concept->Horizon</li>
+                <li>concept->Unity</li>
+                <li>concept->Renewal</li>
+                <li>concept->Continuity</li>
+                <li>concept->Passage</li>
+                <li>concept->Celestial Motion</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <!--<Astralum.Astronomy.Constellations.ConstellationNameSetDef>
+        <defName>Astra_ConstellationNames_Circles</defName>
+        <categoryId>Circles</categoryId>
+
+        <descriptors>
+            <li>Endless</li>
+            <li>Hollow</li>
+            <li>Radiant</li>
+            <li>Perfect</li>
+            <li>Golden</li>
+            <li>Silent</li>
+            <li>Ancient</li>
+            <li>Shining</li>
+            <li>Infinite</li>
+            <li>Unbroken</li>
+            <li>Celestial</li>
+            <li>Veiled</li>
+            <li>Eternal</li>
+            <li>Turning</li>
+            <li>Sacred</li>
+            <li>Luminous</li>
+        </descriptors>
+
+        <titles>
+            <li>Watcher</li>
+            <li>Keeper</li>
+            <li>Bearer</li>
+            <li>Guardian</li>
+            <li>Witness</li>
+            <li>Wanderer</li>
+            <li>Observer</li>
+            <li>Herald</li>
+            <li>Seeker</li>
+            <li>Pilgrim</li>
+            <li>Traveler</li>
+            <li>Sentinel</li>
+        </titles>
+
+        <nouns>
+            <li>Ring</li>
+            <li>Halo</li>
+            <li>Circle</li>
+            <li>Wheel</li>
+            <li>Crown</li>
+            <li>Orbit</li>
+            <li>Loop</li>
+            <li>Disc</li>
+            <li>Cycle</li>
+            <li>Arc</li>
+            <li>Band</li>
+            <li>Corona</li>
+            <li>Horizon</li>
+            <li>Threshold</li>
+            <li>Path</li>
+        </nouns>
+
+        <objects>
+            <li>Halo</li>
+            <li>Wheel</li>
+            <li>Ring</li>
+            <li>Orbit</li>
+            <li>Corona</li>
+            <li>Disc</li>
+            <li>Band</li>
+            <li>Loop</li>
+            <li>Circle</li>
+            <li>Arc</li>
+            <li>Crown</li>
+            <li>Threshold</li>
+            <li>Path</li>
+            <li>Horizon</li>
+        </objects>
+
+        <concepts>
+            <li>Eternity</li>
+            <li>Return</li>
+            <li>Cycles</li>
+            <li>Infinity</li>
+            <li>Balance</li>
+            <li>Harmony</li>
+            <li>Repetition</li>
+            <li>Stillness</li>
+            <li>Time</li>
+            <li>Heavens</li>
+            <li>Horizon</li>
+            <li>Unity</li>
+            <li>Renewal</li>
+            <li>Continuity</li>
+            <li>Passage</li>
+            <li>Celestial Motion</li>
+        </concepts>
+    </Astralum.Astronomy.Constellations.ConstellationNameSetDef>-->
+
+</Defs>

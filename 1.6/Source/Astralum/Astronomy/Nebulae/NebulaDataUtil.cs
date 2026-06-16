@@ -30,7 +30,7 @@ namespace Astralum.Astronomy.Nebulae
 
       return new SavedNebula
       {
-        name = NebulaNamingUtil.GenerateUniqueName(usedNames, index),
+        name = NebulaNamingUtil.GenerateUniqueName(usedNames, index, localSkyPos),
         nebulaId = index,
         localSkyPos = localSkyPos,
         size = size,
