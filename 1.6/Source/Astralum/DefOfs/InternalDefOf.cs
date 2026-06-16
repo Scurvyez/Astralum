@@ -17,6 +17,16 @@ namespace Astralum.DefOfs
     
     #endregion
 
+    #region RulePacks
+    
+    public static RulePackDef Astra_NebulaName_Catalog;
+    public static RulePackDef Astra_NebulaName_Coordinates;
+    public static RulePackDef Astra_NebulaName_Descriptive;
+    public static RulePackDef Astra_NebulaName_Discoverer;
+    public static RulePackDef Astra_NebulaName_Formal;
+    
+    #endregion
+
     #region ShaderTypeDefs
 
     public static ShaderTypeDef Astra_Sun01;

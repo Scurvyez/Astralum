@@ -20,13 +20,10 @@ namespace Astralum.Astronomy.GalacticDustLanes
     private IntRange _dustLaneCount = new(4, 7);
     private FloatRange _dustLaneSizeRange = new(18f, 36f);
     private FloatRange _galacticPlaneBounds = new(-0.10f, 0.10f);
-    
     private FloatRange _alphaRange = new(0.08f, 0.18f);
     private FloatRange _intensityRange = new(0.35f, 0.75f);
-    
     private FloatRange _noiseScaleRange = new(2.5f, 6.5f);
     private FloatRange _detailScaleRange = new(12f, 30f);
-    
     private FloatRange _stretchXRange = new(1.6f, 3.2f);
     private FloatRange _stretchYRange = new(0.35f, 0.75f);
     
@@ -87,8 +84,8 @@ namespace Astralum.Astronomy.GalacticDustLanes
       
       try
       {
-        int count = Mathf.Clamp(_dustLaneCount.RandomInRange, 0, 20);
-
+        int count = Mathf.Clamp(_dustLaneCount.RandomInRange, 0, 50);
+        
         for (int i = 0; i < count; i++)
           PrintDustLane(i);
       }
@@ -116,7 +113,7 @@ namespace Astralum.Astronomy.GalacticDustLanes
       Vector3 localSkyPos = WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds) * DistanceToDustLanes;
       
       float size = _dustLaneSizeRange.RandomInRange;
-      float rotationDegrees = Rand.Range(0f, 360f);
+      float rotationDegrees = GalacticDustLanesUtil.DustLaneRotationDegrees(localSkyPos.normalized);
       
       WorldRendererUtility.PrintQuadTangentialToPlanet(localSkyPos, size, 0f, subMesh,
         counterClockwise: true, rotationDegrees);
@@ -141,7 +138,7 @@ namespace Astralum.Astronomy.GalacticDustLanes
       material.SetFloat(InternalShaderPropertyIds.EdgeFadeEnd, 0.18f);
       material.SetFloat(InternalShaderPropertyIds.StretchX, _stretchXRange.RandomInRange);
       material.SetFloat(InternalShaderPropertyIds.StretchY, _stretchYRange.RandomInRange);
-      material.SetFloat(InternalShaderPropertyIds.Rotation, Rand.Range(0f, Mathf.PI * 2f));
+      material.SetFloat(InternalShaderPropertyIds.Rotation, Rand.Range(-0.05f, 0.05f));
       
       material.SetVector(InternalShaderPropertyIds.SeedOffset, new Vector4(
         Rand.Range(-1000f, 1000f),

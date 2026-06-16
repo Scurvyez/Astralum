@@ -4,6 +4,7 @@ using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
+using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -14,7 +15,6 @@ namespace Astralum.Astronomy.BlackHoles
   public class GlobalDrawLayer_BlackHoles : WorldDrawLayerBase
   {
     private const float CameraRotationRegenerateThreshold = 0.25f;
-    private const float DistanceToBlackHoles = 20f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_BlackHoles _ext;
     
@@ -91,32 +91,28 @@ namespace Astralum.Astronomy.BlackHoles
       foreach (object item in base.Regenerate())
         yield return item;
       
-      if (!AstraSettings.RenderBlackholes)
-        yield break;
-      
       Rand.PushState();
       Rand.Seed = Find.World.info.Seed ^ 0xB1A64C;
       
       try
       {
-        if (Rand.Value > _blackHoleChance)
+        if (!AstraSettings.RenderBlackholes)
+          yield break;
+        
+        WorldComponent_BlackHoleData data = BlackHoleDataUtil.Data;
+        
+        if (data == null)
+          yield break;
+        
+        if (!data.HasGeneratedBlackHoles)
+          GenerateAndSaveBlackHoles(data);
+        
+        if (data.blackHoles.NullOrEmpty())
           yield break;
         
         LayerSubMesh subMesh = GetSubMesh(BlackHoleMatsUtil.BlackHole);
         
-        List<PlacedBlackHole> placed = [];
-        int blackHoleCount = _blackHoleCount.RandomInRange;
-        
-        for (int i = 0; i < blackHoleCount; i++)
-        {
-          if (!BlackHolesUtil.TryPlaceBlackHole(placed, out Vector3 dir, out float size, _galacticPlaneBounds,
-                _blackHoleSize, _blackHoleCanvasScale))
-            continue;
-          
-          placed.Add(new PlacedBlackHole(dir, size));
-          
-          PrintBlackHoleBillboard(dir * DistanceToBlackHoles, size, subMesh, Rotation);
-        }
+        PrintSavedBlackHoles(data.blackHoles, subMesh);
       }
       finally
       {
@@ -137,6 +133,54 @@ namespace Astralum.Astronomy.BlackHoles
         _calculatedForStaticRotation = UseStaticRotation;
         
         FinalizeMesh(MeshParts.All);
+      }
+    }
+    
+    private void GenerateAndSaveBlackHoles(WorldComponent_BlackHoleData data)
+    {
+      data.Clear();
+
+      if (Rand.Value > _blackHoleChance)
+        return;
+
+      List<SavedBlackHole> placed = [];
+      int blackHoleCount = _blackHoleCount.RandomInRange;
+
+      for (int i = 0; i < blackHoleCount; i++)
+      {
+        if (!BlackHolesUtil.TryPlaceBlackHole(
+              placed,
+              out Vector3 dir,
+              out float size,
+              _galacticPlaneBounds,
+              _blackHoleSize,
+              _blackHoleCanvasScale))
+        {
+          continue;
+        }
+
+        SavedBlackHole blackHole = BlackHoleDataUtil.Create(i, dir, size);
+        
+        placed.Add(blackHole);
+        data.blackHoles.Add(blackHole);
+      }
+    }
+    
+    private void PrintSavedBlackHoles(List<SavedBlackHole> blackHoles, LayerSubMesh subMesh)
+    {
+      if (blackHoles.NullOrEmpty())
+        return;
+      
+      for (int i = 0; i < blackHoles.Count; i++)
+      {
+        SavedBlackHole blackHole = blackHoles[i];
+        
+        PrintBlackHoleBillboard(
+          blackHole.localSkyPos,
+          blackHole.size,
+          subMesh,
+          Rotation
+        );
       }
     }
     

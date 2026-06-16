@@ -109,18 +109,20 @@ namespace Astralum.Astronomy.Nebulae
       int nebulaCount = Mathf.RoundToInt(
         Mathf.Lerp(_nebulaCount.min, _nebulaCount.max, backgroundStarsGenerationData.NormalizedStarCount));
       
+      HashSet<string> usedNames = [];
+      
       try
       {
         for (int i = 0; i < nebulaCount; i++)
         {
           Vector3 localSkyPos =
             WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds) * DistanceToNebulae;
-
+          
           float size = _nebulaSizeRange.RandomInRange;
           float rotationDegrees = Rand.Range(0f, 360f);
 
           data.nebulae.Add(
-            NebulaDataUtil.CreateRandomNebula(i, localSkyPos, size, rotationDegrees)
+            NebulaDataUtil.CreateRandomNebula(i, localSkyPos, size, rotationDegrees, usedNames)
           );
         }
       }

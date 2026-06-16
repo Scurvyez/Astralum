@@ -46,29 +46,29 @@ namespace Astralum.Materials
       
       switch (palette)
       {
-        case 0:
-          colorA = new Color(0.020f, 0.020f, 0.032f, 1f);
-          colorB = new Color(0.080f, 0.060f, 0.045f, 1f);
+        case 0: // cool blue-gray
+          colorA = new Color(0.08f, 0.10f, 0.14f, 1f);
+          colorB = new Color(0.18f, 0.22f, 0.28f, 1f);
           break;
         
-        case 1:
-          colorA = new Color(0.018f, 0.026f, 0.045f, 1f);
-          colorB = new Color(0.050f, 0.075f, 0.110f, 1f);
+        case 1: // blue
+          colorA = new Color(0.06f, 0.10f, 0.18f, 1f);
+          colorB = new Color(0.14f, 0.22f, 0.35f, 1f);
           break;
         
-        case 2:
-          colorA = new Color(0.030f, 0.024f, 0.020f, 1f);
-          colorB = new Color(0.095f, 0.070f, 0.045f, 1f);
+        case 2: // brown dust
+          colorA = new Color(0.10f, 0.08f, 0.06f, 1f);
+          colorB = new Color(0.24f, 0.18f, 0.12f, 1f);
           break;
         
-        case 3:
-          colorA = new Color(0.022f, 0.018f, 0.028f, 1f);
-          colorB = new Color(0.070f, 0.050f, 0.085f, 1f);
+        case 3: // purple
+          colorA = new Color(0.08f, 0.05f, 0.12f, 1f);
+          colorB = new Color(0.20f, 0.12f, 0.28f, 1f);
           break;
         
-        default:
-          colorA = new Color(0.018f, 0.022f, 0.026f, 1f);
-          colorB = new Color(0.060f, 0.065f, 0.070f, 1f);
+        default: // neutral gray
+          colorA = new Color(0.10f, 0.10f, 0.10f, 1f);
+          colorB = new Color(0.22f, 0.22f, 0.22f, 1f);
           break;
       }
     }

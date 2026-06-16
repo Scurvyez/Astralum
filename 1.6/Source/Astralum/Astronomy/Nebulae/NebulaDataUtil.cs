@@ -1,4 +1,5 @@
-﻿using Astralum.Materials;
+﻿using System.Collections.Generic;
+using Astralum.Materials;
 using Astralum.World;
 using UnityEngine;
 using Verse;
@@ -7,8 +8,7 @@ namespace Astralum.Astronomy.Nebulae
 {
   public static class NebulaDataUtil
   {
-    public static WorldComponent_NebulaeData Data =>
-      Find.World.GetComponent<WorldComponent_NebulaeData>();
+    public static WorldComponent_NebulaeData Data => Find.World.GetComponent<WorldComponent_NebulaeData>();
 
     /// <summary>
     /// Creates a randomly generated nebula with specified parameters.
@@ -17,8 +17,10 @@ namespace Astralum.Astronomy.Nebulae
     /// <param name="localSkyPos">The position of the nebula in local sky coordinates.</param>
     /// <param name="size">The size of the nebula.</param>
     /// <param name="rotationDegrees">The rotation angle of the nebula in degrees.</param>
+    /// <param name="usedNames">The list of already used/cached unique nebula names.</param>
     /// <returns>A new <see cref="SavedNebula"/> instance representing the generated nebula.</returns>
-    public static SavedNebula CreateRandomNebula(int index, Vector3 localSkyPos, float size, float rotationDegrees)
+    public static SavedNebula CreateRandomNebula(int index, Vector3 localSkyPos, float size, float rotationDegrees,
+      HashSet<string> usedNames)
     {
       Color[] palette = NebulaeColorUtil.RandomNebulaPalette();
 
@@ -28,7 +30,7 @@ namespace Astralum.Astronomy.Nebulae
 
       return new SavedNebula
       {
-        name = $"Nebula {index + 1}",
+        name = NebulaNamingUtil.GenerateUniqueName(usedNames, index),
         nebulaId = index,
         localSkyPos = localSkyPos,
         size = size,

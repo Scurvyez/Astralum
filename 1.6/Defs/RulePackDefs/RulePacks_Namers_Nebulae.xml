@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <RulePackDef>
+        <defName>Astra_NebulaName_Catalog</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->[prefix] [number]</li>
+                <li>prefix->AN</li>
+                <li>prefix->AST</li>
+                <li>prefix->NG</li>
+                <li>prefix->RC</li>
+                <li>prefix->HDN</li>
+                <li>prefix->LBN</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_NebulaName_Coordinates</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->Astra [coordinate]</li>
+                <li>r_name->AN [coordinate]</li>
+                <li>r_name->Dust Cloud [coordinate]</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_NebulaName_Descriptive</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->The [descriptor] [object]</li>
+                <li>r_name->[descriptor] [object] Nebula</li>
+                <li>r_name->The [object] of [concept]</li>
+
+                <li>descriptor->Veiled</li>
+                <li>descriptor->Silent</li>
+                <li>descriptor->Pale</li>
+                <li>descriptor->Crimson</li>
+                <li>descriptor->Azure</li>
+                <li>descriptor->Golden</li>
+
+                <li>object->Cloud</li>
+                <li>object->Veil</li>
+                <li>object->Bloom</li>
+                <li>object->Shroud</li>
+                <li>object->Halo</li>
+                <li>object->Wisp</li>
+
+                <li>concept->Dawn</li>
+                <li>concept->Night</li>
+                <li>concept->Silence</li>
+                <li>concept->Dreams</li>
+                <li>concept->Twilight</li>
+                <li>concept->The Void</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_NebulaName_Discoverer</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->[discoverer]'s Nebula</li>
+                <li>r_name->[discoverer] Cloud</li>
+                <li>r_name->[discoverer]'s Veil</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+    <RulePackDef>
+        <defName>Astra_NebulaName_Formal</defName>
+        <rulePack>
+            <rulesStrings>
+                <li>r_name->[root] Nebula</li>
+                <li>r_name->[root] Cloud</li>
+                <li>r_name->[root] Complex [index]</li>
+            </rulesStrings>
+        </rulePack>
+    </RulePackDef>
+
+</Defs>

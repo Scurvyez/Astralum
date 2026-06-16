@@ -20,7 +20,7 @@ namespace Astralum.Astronomy.BlackHoles
     /// <param name="blackHoleSize">The range of possible sizes for the new black hole.</param>
     /// <param name="blackHoleCanvasScale">A scaling factor for the black hole size applied during placement.</param>
     /// <returns>True if a black hole was successfully placed; otherwise, false.</returns>
-    public static bool TryPlaceBlackHole(List<PlacedBlackHole> placed, out Vector3 dir, out float size,
+    public static bool TryPlaceBlackHole(List<SavedBlackHole> placed, out Vector3 dir, out float size,
       FloatRange galacticPlaneBounds, FloatRange blackHoleSize, float blackHoleCanvasScale)
     {
       for (int attempt = 0; attempt < MaxPlacementAttempts; attempt++)
@@ -44,7 +44,7 @@ namespace Astralum.Astronomy.BlackHoles
     /// <param name="size">The size of the new black hole being checked.</param>
     /// <param name="placed">A list of already placed black holes.</param>
     /// <returns>True if the new black hole overlaps with any existing black holes; otherwise, false.</returns>
-    private static bool OverlapsExistingBlackHole(Vector3 dir, float size, List<PlacedBlackHole> placed)
+    private static bool OverlapsExistingBlackHole(Vector3 dir, float size, List<SavedBlackHole> placed)
     {
       for (int i = 0; i < placed.Count; i++)
       {
