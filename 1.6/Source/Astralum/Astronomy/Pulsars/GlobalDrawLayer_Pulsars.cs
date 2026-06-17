@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
@@ -63,36 +64,36 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
       return UseStaticRotation != _calculatedForStaticRotation;
     }
   }
-
+  
   public override IEnumerable Regenerate()
   {
-    foreach (var item in base.Regenerate())
+    foreach (object item in base.Regenerate())
       yield return item;
     
-    if (!AstraSettings.RenderPulsars)
-      yield break;
-
     Rand.PushState();
     Rand.Seed = Find.World.info.Seed ^ 0x7115A2;
     
-    int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
-    
     try
     {
-      if (Rand.Value > _pulsarChance)
+      PulsarInteractionRegistry.Clear();
+      
+      if (!AstraSettings.RenderPulsars)
+        yield break;
+      
+      WorldComponent_PulsarData data = PulsarDataUtil.Data;
+      
+      if (data == null)
+        yield break;
+      
+      if (!data.HasGeneratedPulsars)
+        GenerateAndSavePulsars(data);
+      
+      if (data.pulsars.NullOrEmpty())
         yield break;
       
       LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
       
-      for (int i = 0; i < pulsarCount; i++)
-      {
-        Vector3 dir = RandomPulsarDirection();
-        
-        float size = _pulsarSize * _pulsarCanvasScale;
-        float rotation = Rand.Range(0f, 360f);
-        
-        PrintPulsar(dir * DistanceToPulsars, size, rotation, subMesh);
-      }
+      PrintSavedPulsars(data.pulsars, subMesh);
     }
     finally
     {
@@ -103,27 +104,83 @@ public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
       FinalizeMesh(MeshParts.All);
     }
   }
-
+  
   private static Vector3 RandomPulsarDirection()
   {
     var angle = Rand.Range(0f, Mathf.PI * 2f);
     var localY = Rand.Range(-0.22f, 0.22f);
     var radius = Mathf.Sqrt(1f - localY * localY);
-
-    Vector3 localDir = new(
-      Mathf.Cos(angle) * radius,
-      localY,
-      Mathf.Sin(angle) * radius
-    );
-
+    
+    Vector3 localDir = new(Mathf.Cos(angle) * radius, localY, Mathf.Sin(angle) * radius);
     var planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
 
     return (planeRotation * localDir).normalized;
   }
-
+  
   private static void PrintPulsar(Vector3 localSkyPos, float size, float rotationDegrees, LayerSubMesh subMesh)
   {
     WorldRendererUtility.PrintQuadTangentialToPlanet(localSkyPos, size, 0f, subMesh,
       true, rotationDegrees);
+  }
+  
+  private void GenerateAndSavePulsars(WorldComponent_PulsarData data)
+  {
+    data.Clear();
+
+    if (Rand.Value > _pulsarChance)
+      return;
+
+    int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
+
+    for (int i = 0; i < pulsarCount; i++)
+    {
+      Vector3 dir = RandomPulsarDirection();
+
+      float size = _pulsarSize * _pulsarCanvasScale;
+      float rotation = Rand.Range(0f, 360f);
+      Vector3 localSkyPos = dir * DistanceToPulsars;
+
+      data.pulsars.Add(
+        PulsarDataUtil.Create(i, localSkyPos, size, rotation)
+      );
+    }
+  }
+
+  private void PrintSavedPulsars(List<SavedPulsar> pulsars, LayerSubMesh subMesh)
+  {
+    if (pulsars.NullOrEmpty())
+      return;
+
+    PulsarInteractionRegistry.Clear();
+
+    for (int i = 0; i < pulsars.Count; i++)
+    {
+      SavedPulsar pulsar = pulsars[i];
+
+      RegisterPulsarForInteraction(pulsar);
+
+      PrintPulsar(
+        pulsar.localSkyPos,
+        pulsar.size,
+        pulsar.rotationDegrees,
+        subMesh
+      );
+    }
+  }
+
+  private static void RegisterPulsarForInteraction(SavedPulsar pulsar)
+  {
+    Vector3 dir = pulsar.localSkyPos.normalized;
+
+    SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+
+    PulsarInteractionRegistry.Register(
+      pulsar.name,
+      pulsar.localSkyPos,
+      pulsar.size,
+      WorldUtils.SkyHemisphere(dir),
+      WorldUtils.FormatRightAscension(coord.rightAscensionHours),
+      WorldUtils.FormatDeclination(coord.declinationDegrees)
+    );
   }
 }

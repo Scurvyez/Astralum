@@ -3,7 +3,9 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.Pulsars;
 using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
 using Astralum.DefOfs;
@@ -210,6 +212,27 @@ namespace Astralum.Harmony
         ref ConstellationSettings.DrawConstellationLines,
         ConstellationsMatsUtil.ShowConstellationLinesIcon,
         constellationLinesTooltip,
+        SoundDefOf.Mouseover_ButtonToggle
+      );
+      
+      string blackHoleTooltip = BlackHoleSettings.DrawBlackHoleInfo
+        ? "Astra_DisableBlackHoleInfoToggleLabel".Translate()
+        : "Astra_EnableBlackHoleInfoToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref BlackHoleSettings.DrawBlackHoleInfo,
+        BlackHoleMatsUtil.ShowBlackHoleInfoIcon,
+        blackHoleTooltip,
+        SoundDefOf.Mouseover_ButtonToggle);
+      
+      string pulsarTooltip = PulsarSettings.DrawPulsarInfo
+        ? "Disable Astralum pulsar hover info."
+        : "Enable Astralum pulsar hover info.";
+      
+      row.ToggleableIcon(
+        ref PulsarSettings.DrawPulsarInfo,
+        PulsarMatsUtil.ShowPulsarInfoIcon,
+        pulsarTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
     }

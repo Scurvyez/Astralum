@@ -171,9 +171,13 @@ namespace Astralum.Astronomy.BlackHoles
       if (blackHoles.NullOrEmpty())
         return;
       
+      BlackHoleInteractionRegistry.Clear();
+      
       for (int i = 0; i < blackHoles.Count; i++)
       {
         SavedBlackHole blackHole = blackHoles[i];
+        
+        RegisterBlackHoleForInteraction(blackHole);
         
         PrintBlackHoleBillboard(
           blackHole.localSkyPos,
@@ -182,6 +186,21 @@ namespace Astralum.Astronomy.BlackHoles
           Rotation
         );
       }
+    }
+    
+    private static void RegisterBlackHoleForInteraction(SavedBlackHole blackHole)
+    {
+      Vector3 dir = blackHole.localSkyPos.normalized;
+      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      
+      BlackHoleInteractionRegistry.Register(
+        blackHole.name,
+        blackHole.localSkyPos,
+        blackHole.size,
+        WorldUtils.SkyHemisphere(dir),
+        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
+        WorldUtils.FormatDeclination(coord.declinationDegrees)
+      );
     }
     
     private static void PrintBlackHoleBillboard(Vector3 localSkyPos, float size, LayerSubMesh subMesh, 

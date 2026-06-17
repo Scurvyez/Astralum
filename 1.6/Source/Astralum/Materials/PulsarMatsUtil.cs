@@ -11,6 +11,9 @@ namespace Astralum.Materials
     
     public static readonly Material Pulsar;
     
+    public static readonly Texture2D ShowPulsarInfoIcon =
+      ContentFinder<Texture2D>.Get("UI/Icons/ShowPulsarInfo", false);
+    
     static PulsarMatsUtil()
     {
       Shader shader = InternalDefOf.Astra_Pulsar01.Shader;

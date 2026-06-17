@@ -9,6 +9,8 @@ namespace Astralum.Materials
   {
     public static readonly Material BlackHole;
     
+    public static readonly Texture2D ShowBlackHoleInfoIcon =
+      ContentFinder<Texture2D>.Get("UI/Icons/ShowBlackHoleInfo", false);
 
     static BlackHoleMatsUtil()
     {
