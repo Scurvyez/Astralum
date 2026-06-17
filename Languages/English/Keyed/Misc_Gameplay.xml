@@ -33,8 +33,6 @@
     <Astra_OverrideVanillaSun>Override Vanilla Sun</Astra_OverrideVanillaSun>
     <Astra_OverrideVanillaSunDesc>Toggle to replace the vanilla sun with a procedurally generated star using realistic, yet random stellar data. All main sequence star types [O, B, A, F, G, K, M] are possible for generation.</Astra_OverrideVanillaSunDesc>
 
-    <Astra_NameGenerator_The>The</Astra_NameGenerator_The>
-    <Astra_NameGenerator_Of>of</Astra_NameGenerator_Of>
     <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>
 
     <Astra_Stars_Unknown>Unknown Star</Astra_Stars_Unknown>

@@ -12,6 +12,7 @@ namespace Astralum
     {
       AstraLog.Message("Astralum loaded.");
       
+      // TODO: actual solar flares visible on the local star if one is active for the map?
       // TODO: look into planetary atmospheric composition (new world layer(?), maybe update existing world layer?
       // TODO: look into planet sky color change
       // TODO: look into pawn skin color change
