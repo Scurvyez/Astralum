@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Astralum.API;
 using Astralum.Astronomy.Constellations;
 using Astralum.Debugging;
 using Astralum.World;
@@ -66,6 +67,9 @@ namespace Astralum.Harmony
         return new TelescopeReportData(false, null);
       
       string report = BuildTelescopeReport(constellation);
+      
+      ObservationUtility.Notify_PawnObservedCelestialObject(
+        pawn, CelestialObjectInfoUtil.FromConstellation(constellation));
       
       return report.NullOrEmpty() 
         ? new TelescopeReportData(false, null) 

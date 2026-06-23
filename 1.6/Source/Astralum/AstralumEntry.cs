@@ -17,6 +17,10 @@ namespace Astralum
       // TODO: look into planet sky color change
       // TODO: look into pawn skin color change
       // TODO: update stargazing and/or telescope watching jobs to note which constellations they're watching
+      // TODO: let players name stars as pawns find them via the telescope job
+      // TODO: let players learn the names of certain stars as named by other factions?
+      // TODO: add worker classes (easy hooks) for other modders for when a pawn discovers or observes a star
+      //       like, Discovery_Worker and Observation_Worker, etc. 
     }
   }
 }
