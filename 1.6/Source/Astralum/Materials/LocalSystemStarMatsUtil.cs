@@ -11,6 +11,9 @@ namespace Astralum.Materials
   [StaticConstructorOnStartup]
   public static class LocalSystemStarMatsUtil
   {
+    public static readonly Texture2D ShowLocalStarInfoIcon =
+      ContentFinder<Texture2D>.Get("UI/Icons/ShowLocalStarInfo", false);
+    
     private static Material _star01Mat;
     private static bool _star01MatDirty = true;
 

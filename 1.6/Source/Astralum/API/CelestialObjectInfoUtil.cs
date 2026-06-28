@@ -21,8 +21,8 @@ namespace Astralum.API
     {
       return new CelestialObjectInfo(
         CelestialObjectType.BlackHole,
-        blackHole.blackHoleId.ToString(),
-        blackHole.name,
+        blackHole.id.ToString(),
+        blackHole.generatedName,
         blackHole.localSkyPos
       );
     }

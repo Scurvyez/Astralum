@@ -11,6 +11,8 @@ namespace Astralum.Materials
 
     public static readonly Texture2D ShowSkyGridIcon =
       ContentFinder<Texture2D>.Get("UI/Icons/ShowSkyGrid", false);
+    public static readonly Texture2D ShowNamingDialogueIcon =
+      ContentFinder<Texture2D>.Get("UI/Icons/ShowNamingDialogue", false);
 
     static SkyCoordinateGridMatsUtil()
     {

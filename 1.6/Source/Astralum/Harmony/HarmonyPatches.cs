@@ -1,10 +1,13 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
+using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.Astronomy.Pulsars;
 using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
@@ -33,8 +36,6 @@ namespace Astralum.Harmony
       PatchPlaySettings(harmony);
       PatchJobDriverGetReport(harmony);
     }
-    
-    private static readonly ConditionalWeakTable<Job, TelescopeReportData> TelescopeReports = new();
 
     /// <summary>
     ///   Replaces the sun material with the astralum sun material.
@@ -58,8 +59,7 @@ namespace Astralum.Harmony
       if (HarmonyPatchesUtil.Missing(moveNextSun))
         return;
 
-      harmony.Patch(
-        moveNextSun,
+      harmony.Patch(moveNextSun,
         transpiler: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Transpiler)));
     }
 
@@ -72,8 +72,7 @@ namespace Astralum.Harmony
         typeof(WorldInterface), "WorldInterfaceOnGUI",
         "World interface GUI patch");
 
-      harmony.Patch(
-        worldInterfaceOnGUI,
+      harmony.Patch(worldInterfaceOnGUI,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix)));
     }
 
@@ -89,8 +88,7 @@ namespace Astralum.Harmony
       if (HarmonyPatchesUtil.Missing(extraOnGUI))
         return;
 
-      harmony.Patch(
-        extraOnGUI,
+      harmony.Patch(extraOnGUI,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(Page_SelectStartingSite_ExtraOnGUI_Postfix)));
     }
 
@@ -106,8 +104,7 @@ namespace Astralum.Harmony
       if (HarmonyPatchesUtil.Missing(doWorldViewControls))
         return;
 
-      harmony.Patch(
-        doWorldViewControls,
+      harmony.Patch(doWorldViewControls,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoWorldViewControls_Postfix)));
     }
     
@@ -123,9 +120,21 @@ namespace Astralum.Harmony
       if (HarmonyPatchesUtil.Missing(getReport))
         return;
 
-      harmony.Patch(
-        getReport,
+      harmony.Patch(getReport, 
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(JobDriver_GetReport_Postfix)));
+    }
+    
+    private static void PatchSkygazeMakeNewToils(HarmonyLib.Harmony harmony)
+    {
+      MethodInfo makeNewToils = HarmonyPatchesUtil.Method(
+        typeof(JobDriver_Skygaze), "MakeNewToils",
+        "Skygaze observation hook patch");
+      
+      if (HarmonyPatchesUtil.Missing(makeNewToils))
+        return;
+      
+      harmony.Patch(makeNewToils,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(JobDriver_Skygaze_MakeNewToils_Postfix)));
     }
 
     public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
@@ -184,57 +193,23 @@ namespace Astralum.Harmony
     public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
     {
       AstralumWorldInfoWindowManager.Update(true);
+      CelestialNamingWindowManager.Update(true);
     }
 
     public static void Page_SelectStartingSite_ExtraOnGUI_Postfix()
     {
       AstralumWorldInfoOverlay.DrawOnGUI();
     }
-
+    
     public static void PlaySettings_DoWorldViewControls_Postfix(WidgetRow row)
     {
-      string tooltip = SkyGridSettings.DrawGrid
-        ? "Astra_DisableSkyGridToggleLabel".Translate()
-        : "Astra_EnableSkyGridToggleLabel".Translate();
-
-      row.ToggleableIcon(
-        ref SkyGridSettings.DrawGrid,
-        SkyCoordinateGridMatsUtil.ShowSkyGridIcon,
-        tooltip,
-        SoundDefOf.Mouseover_ButtonToggle
-      );
-
-      string constellationLinesTooltip = ConstellationSettings.DrawConstellationLines
-        ? "Astra_DisableConstellationLinesToggleLabel".Translate()
-        : "Astra_EnableConstellationLinesToggleLabel".Translate();
-
-      row.ToggleableIcon(
-        ref ConstellationSettings.DrawConstellationLines,
-        ConstellationsMatsUtil.ShowConstellationLinesIcon,
-        constellationLinesTooltip,
-        SoundDefOf.Mouseover_ButtonToggle
-      );
-      
-      string blackHoleTooltip = BlackHoleSettings.DrawBlackHoleInfo
-        ? "Astra_DisableBlackHoleInfoToggleLabel".Translate()
-        : "Astra_EnableBlackHoleInfoToggleLabel".Translate();
-      
-      row.ToggleableIcon(
-        ref BlackHoleSettings.DrawBlackHoleInfo,
-        BlackHoleMatsUtil.ShowBlackHoleInfoIcon,
-        blackHoleTooltip,
-        SoundDefOf.Mouseover_ButtonToggle);
-      
-      string pulsarTooltip = PulsarSettings.DrawPulsarInfo
-        ? "Disable Astralum pulsar hover info."
-        : "Enable Astralum pulsar hover info.";
-      
-      row.ToggleableIcon(
-        ref PulsarSettings.DrawPulsarInfo,
-        PulsarMatsUtil.ShowPulsarInfoIcon,
-        pulsarTooltip,
-        SoundDefOf.Mouseover_ButtonToggle
-      );
+      // displayed sequentially in order of addition
+      HarmonyPatchesUtil.AddSkyGridToggle(row);
+      HarmonyPatchesUtil.AddCelestialNamingToggle(row);
+      HarmonyPatchesUtil.AddLocalStarInfoToggle(row);
+      HarmonyPatchesUtil.AddConstellationLinesToggle(row);
+      HarmonyPatchesUtil.AddBlackHoleInfoToggle(row);
+      HarmonyPatchesUtil.AddPulsarInfoToggle(row);
     }
 
     public static void JobDriver_GetReport_Postfix(JobDriver __instance, ref string __result)
@@ -247,7 +222,7 @@ namespace Astralum.Harmony
       if (job == null) 
         return;
       
-      TelescopeReportData reportData = TelescopeReports.GetValue(
+      TelescopeReportData reportData = HarmonyPatchesUtil.TelescopeReports.GetValue(
         job,
         _ => HarmonyPatchesUtil.CreateTelescopeReportData(__instance.pawn)
       );
@@ -256,6 +231,29 @@ namespace Astralum.Harmony
         return;
       
       __result = reportData.report;
+    }
+    
+    public static IEnumerable<Toil> JobDriver_Skygaze_MakeNewToils_Postfix(IEnumerable<Toil> __result, 
+      JobDriver_Skygaze __instance)
+    {
+      int index = 0;
+      
+      foreach (Toil toil in __result)
+      {
+        if (index == 1)
+        {
+          Action oldInitAction = toil.initAction;
+          toil.initAction = delegate
+          {
+            oldInitAction?.Invoke();
+            
+            HarmonyPatchesUtil.NotifySkygazeObservation(__instance.pawn);
+          };
+        }
+        
+        index++;
+        yield return toil;
+      }
     }
   }
 }

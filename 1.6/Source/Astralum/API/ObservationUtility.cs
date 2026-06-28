@@ -29,6 +29,12 @@ namespace Astralum.API
         worker.Notify_PawnDiscoveredCelestialObject(pawn, objectInfo);
     }
     
+    public static void Notify_PawnObservedDistantStarsDuringEclipse(Pawn pawn)
+    {
+      foreach (ObservationWorker worker in Workers)
+        worker.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
+    }
+    
     private static List<ObservationWorker> BuildWorkers()
     {
       List<ObservationWorker> workers = [];

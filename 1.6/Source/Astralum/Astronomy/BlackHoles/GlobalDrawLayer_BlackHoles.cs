@@ -70,6 +70,9 @@ namespace Astralum.Astronomy.BlackHoles
         if (base.ShouldRegenerate)
           return true;
         
+        if (BlackHoleInteractionRegistry.Dirty)
+          return true;
+        
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
         
@@ -131,6 +134,8 @@ namespace Astralum.Astronomy.BlackHoles
         }
         
         _calculatedForStaticRotation = UseStaticRotation;
+        
+        BlackHoleInteractionRegistry.ClearDirty();
         
         FinalizeMesh(MeshParts.All);
       }
@@ -194,7 +199,8 @@ namespace Astralum.Astronomy.BlackHoles
       SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
       
       BlackHoleInteractionRegistry.Register(
-        blackHole.name,
+        blackHole.id,
+        blackHole.DisplayName,
         blackHole.localSkyPos,
         blackHole.size,
         WorldUtils.SkyHemisphere(dir),

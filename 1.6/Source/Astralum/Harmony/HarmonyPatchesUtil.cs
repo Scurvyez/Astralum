@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using Astralum.API;
+using Astralum.Astronomy;
+using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.Pulsars;
+using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
+using Astralum.Materials;
 using Astralum.World;
 using HarmonyLib;
+using RimWorld;
 using UnityEngine;
 using Verse;
+using Verse.AI;
 
 namespace Astralum.Harmony
 {
   public static class HarmonyPatchesUtil
   {
     public const float ConstellationReportChance = 1f;
+    
+    public static readonly ConditionalWeakTable<Job, TelescopeReportData> TelescopeReports = new();
     
     public static MethodInfo Method(Type type, string methodName, string patchDescription)
     {
@@ -67,9 +78,6 @@ namespace Astralum.Harmony
         return new TelescopeReportData(false, null);
       
       string report = BuildTelescopeReport(constellation);
-      
-      ObservationUtility.Notify_PawnObservedCelestialObject(
-        pawn, CelestialObjectInfoUtil.FromConstellation(constellation));
       
       return report.NullOrEmpty() 
         ? new TelescopeReportData(false, null) 
@@ -158,6 +166,106 @@ namespace Astralum.Harmony
       
       if (ReferenceEquals(a, b))
         b = stars[(stars.IndexOf(a) + 1) % stars.Count];
+    }
+    
+    public static void NotifySkygazeObservation(Pawn pawn)
+    {
+      SavedConstellation constellation = ConstellationObservationUtil.BestObservableConstellationFor(pawn);
+      
+      if (constellation == null)
+        return;
+      
+      float curSunGlow = GenCelestial.CurCelestialSunGlow(pawn.MapHeld);
+      
+      if (pawn.MapHeld.TileInfo.Layer.Def.isSpace || curSunGlow < 0.1f)
+        ObservationUtility.Notify_PawnObservedCelestialObject(
+          pawn, CelestialObjectInfoUtil.FromConstellation(constellation));
+      
+      if (pawn.MapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
+        ObservationUtility.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
+    }
+
+    public static void AddSkyGridToggle(WidgetRow row)
+    {
+      string tooltip = SkyGridSettings.DrawGrid
+        ? "Astra_DisableSkyGridToggleLabel".Translate()
+        : "Astra_EnableSkyGridToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref SkyGridSettings.DrawGrid,
+        SkyCoordinateGridMatsUtil.ShowSkyGridIcon,
+        tooltip, 
+        SoundDefOf.Mouseover_ButtonToggle
+      );
+    }
+
+    public static void AddConstellationLinesToggle(WidgetRow row)
+    {
+      string constellationLinesTooltip = ConstellationSettings.DrawConstellationLines
+        ? "Astra_DisableConstellationLinesToggleLabel".Translate()
+        : "Astra_EnableConstellationLinesToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref ConstellationSettings.DrawConstellationLines,
+        ConstellationsMatsUtil.ShowConstellationLinesIcon,
+        constellationLinesTooltip,
+        SoundDefOf.Mouseover_ButtonToggle
+      );
+    }
+    
+    public static void AddBlackHoleInfoToggle(WidgetRow row)
+    {
+      string blackHoleTooltip = BlackHoleSettings.DrawBlackHoleInfo
+        ? "Astra_DisableBlackHoleInfoToggleLabel".Translate()
+        : "Astra_EnableBlackHoleInfoToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref BlackHoleSettings.DrawBlackHoleInfo,
+        BlackHoleMatsUtil.ShowBlackHoleInfoIcon,
+        blackHoleTooltip,
+        SoundDefOf.Mouseover_ButtonToggle);
+    }
+    
+    public static void AddPulsarInfoToggle(WidgetRow row)
+    {
+      string pulsarTooltip = PulsarSettings.DrawPulsarInfo
+        ? "Astra_DisablePulsarInfoToggleLabel".Translate()
+        : "Astra_EnablePulsarInfoToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref PulsarSettings.DrawPulsarInfo,
+        PulsarMatsUtil.ShowPulsarInfoIcon,
+        pulsarTooltip,
+        SoundDefOf.Mouseover_ButtonToggle
+      );
+    }
+    
+    public static void AddLocalStarInfoToggle(WidgetRow row)
+    {
+      string localStarInfoTooltip = CelestialNamingSettings.ShowNamingWindow
+        ? "Astra_DisableLocalStarInfoToggleLabel".Translate()
+        : "Astra_EnableLocalStarInfoToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref LocalStarSettings.ShowLocalStarInfo,
+        LocalSystemStarMatsUtil.ShowLocalStarInfoIcon,
+        localStarInfoTooltip,
+        SoundDefOf.Mouseover_ButtonToggle
+      );
+    }
+    
+    public static void AddCelestialNamingToggle(WidgetRow row)
+    {
+      string namingTooltip = CelestialNamingSettings.ShowNamingWindow
+        ? "Astra_DisableCelestialNamingWindowToggleLabel".Translate()
+        : "Astra_EnableCelestialNamingWindowToggleLabel".Translate();
+      
+      row.ToggleableIcon(
+        ref CelestialNamingSettings.ShowNamingWindow,
+        SkyCoordinateGridMatsUtil.ShowNamingDialogueIcon,
+        namingTooltip,
+        SoundDefOf.Mouseover_ButtonToggle
+      );
     }
   }
 }

@@ -12,12 +12,28 @@ namespace Astralum.Astronomy.BlackHoles
     {
       return new SavedBlackHole
       {
-        blackHoleId = id,
-        name = StellarNamingUtil.GenerateGenericSystemName(),
+        id = id,
+        generatedName = StellarNamingUtil.GenerateGenericSystemName(),
         dir = dir.normalized,
         localSkyPos = dir.normalized * 20f,
         size = size
       };
+    }
+    
+    public static SavedBlackHole GetById(int id)
+    {
+      WorldComponent_BlackHoleData data = Data;
+      
+      if (data?.blackHoles.NullOrEmpty() != false)
+        return null;
+      
+      for (int i = 0; i < data.blackHoles.Count; i++)
+      {
+        if (data.blackHoles[i].id == id)
+          return data.blackHoles[i];
+      }
+      
+      return null;
     }
   }
 }

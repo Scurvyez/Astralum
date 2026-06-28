@@ -30,11 +30,16 @@ namespace Astralum.UI
     
     private static List<BlackHoleHoverInfoLine> BuildLines(BlackHoleInteractionRegistry.HoverBlackHole blackHole)
     {
+      Clear();
+      
+      SavedBlackHole saved = BlackHoleDataUtil.GetById(blackHole.id);
+      string displayName = saved?.DisplayName ?? blackHole.name;
+      
       return
       [
-        new BlackHoleHoverInfoLine(blackHole.name.NullOrEmpty()
+        new BlackHoleHoverInfoLine(displayName.NullOrEmpty()
           ? "Astra_Blackholes_Unknown".Translate()
-          : blackHole.name),
+          : displayName),
         
         new BlackHoleHoverInfoLine("Astra_Blackholes_Type".Translate()),
         new BlackHoleHoverInfoLine("Astra_Objects_Region".Translate() + $" {blackHole.hemisphere}"),

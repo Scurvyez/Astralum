@@ -7,7 +7,12 @@ namespace Astralum.Settings
   {
     public float starInfoWindowXPos = -1f;
     public float starInfoWindowYPos = -1f;
+    public float celestialNamingWindowX = 32f;
+    public float celestialNamingWindowY = 120f;
+    public float celestialNamingWindowWidth = 420f;
+    public float celestialNamingWindowHeight = 560f;
     
+    public bool HasCelestialNamingWindowRect;
     public bool HasStarInfoWindowPos => starInfoWindowXPos >= 0f && starInfoWindowYPos >= 0f;
     
     public Vector2 StarInfoWindowPos
@@ -17,6 +22,24 @@ namespace Astralum.Settings
       {
         starInfoWindowXPos = value.x;
         starInfoWindowYPos = value.y;
+      }
+    }
+    
+    public Rect CelestialNamingWindowRect
+    {
+      get => new(
+        celestialNamingWindowX,
+        celestialNamingWindowY,
+        Mathf.Max(celestialNamingWindowWidth, 420f),
+        Mathf.Max(celestialNamingWindowHeight, 300f)
+      );
+      
+      set
+      {
+        celestialNamingWindowX = value.x;
+        celestialNamingWindowY = value.y;
+        celestialNamingWindowWidth = value.width;
+        celestialNamingWindowHeight = value.height;
       }
     }
     
@@ -78,9 +101,14 @@ namespace Astralum.Settings
     
     public override void ExposeData()
     {
-      base.ExposeData();
+      Scribe_Values.Look(ref HasCelestialNamingWindowRect, "HasCelestialNamingWindowRect");
+      
       Scribe_Values.Look(ref starInfoWindowXPos, "starInfoWindowXPos", -1f);
       Scribe_Values.Look(ref starInfoWindowYPos, "starInfoWindowYPos", -1f);
+      Scribe_Values.Look(ref celestialNamingWindowX, "celestialNamingWindowX", 32f);
+      Scribe_Values.Look(ref celestialNamingWindowY, "celestialNamingWindowY", 120f);
+      Scribe_Values.Look(ref celestialNamingWindowWidth, "celestialNamingWindowWidth", 420f);
+      Scribe_Values.Look(ref celestialNamingWindowHeight, "celestialNamingWindowHeight", 560f);
       
       Scribe_Values.Look(ref _renderAdditionalBackgroundsStars, "_renderAdditionalBackgroundsStars", true);
       Scribe_Values.Look(ref _renderNebulae, "_renderNebulae", true);
