@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy;
 using Astralum.Astronomy.Constellations;
 using Astralum.Materials;
 using Astralum.UI;
@@ -26,7 +27,7 @@ namespace Astralum.World
 
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI() || !ConstellationSettings.DrawConstellationLines)
+      if (!WorldUtils.ShouldDrawGUI() || !CelestialSettings.DrawConstellationLines)
         return;
 
       Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;

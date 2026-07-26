@@ -8,8 +8,7 @@ namespace Astralum.Materials
   public static class ConstellationHoverMatsUtil
   {
     public static readonly Material Ring;
-
-
+    
     static ConstellationHoverMatsUtil()
     {
       Shader shader = InternalDefOf.Astra_ConstellationHoverRing01.Shader;

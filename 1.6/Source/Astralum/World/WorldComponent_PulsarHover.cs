@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy;
 using Astralum.Astronomy.Pulsars;
 using Astralum.UI;
 using RimWorld.Planet;
@@ -26,7 +27,7 @@ namespace Astralum.World
 
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI() || !PulsarSettings.DrawPulsarInfo)
+      if (!WorldUtils.ShouldDrawGUI() || !CelestialSettings.DrawPulsarInfo)
         return;
 
       Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;

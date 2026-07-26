@@ -10,9 +10,6 @@ namespace Astralum.Materials
   {
     private static readonly Dictionary<Texture2D, Material> MaterialsByTexture = new();
 
-    public static readonly Texture2D ShowConstellationLinesIcon =
-      ContentFinder<Texture2D>.Get("UI/Icons/ShowConstellationLines", false);
-
     public static Material For(Texture2D texture)
     {
       if (texture == null)

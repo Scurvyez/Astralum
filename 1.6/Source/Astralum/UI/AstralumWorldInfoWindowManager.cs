@@ -1,4 +1,5 @@
-﻿using Astralum.Astronomy.LocalSystem.Stars;
+﻿using Astralum.Astronomy;
+using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.World;
 using RimWorld.Planet;
 using Verse;
@@ -11,7 +12,7 @@ namespace Astralum.UI
 
     public static void Update(bool requirePlaying)
     {
-      if (!ShouldShow(requirePlaying) || !LocalStarSettings.ShowLocalStarInfo)
+      if (!ShouldShow(requirePlaying) || !CelestialSettings.ShowLocalStarInfo)
       {
         Close();
         return;

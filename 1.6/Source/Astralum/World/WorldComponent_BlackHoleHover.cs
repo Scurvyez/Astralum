@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
 using Astralum.UI;
 using RimWorld.Planet;
@@ -26,7 +27,7 @@ namespace Astralum.World
     
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI() || !BlackHoleSettings.DrawBlackHoleInfo)
+      if (!WorldUtils.ShouldDrawGUI() || !CelestialSettings.DrawBlackHoleInfo)
         return;
       
       Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy;
 using Astralum.Astronomy.SkyGrid;
 using RimWorld.Planet;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Astralum.World
     
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI() || !SkyGridSettings.DrawGrid)
+      if (!WorldUtils.ShouldDrawGUI() || !CelestialSettings.DrawSkyCoordGrid)
         return;
 
       Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;

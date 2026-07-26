@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.BlackHoles;
-using Astralum.Astronomy.Pulsars;
 using Astralum.World;
 using Verse;
 

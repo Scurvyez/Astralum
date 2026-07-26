@@ -4,11 +4,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Astralum.API;
 using Astralum.Astronomy;
-using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
-using Astralum.Astronomy.LocalSystem.Stars;
-using Astralum.Astronomy.Pulsars;
-using Astralum.Astronomy.SkyGrid;
 using Astralum.Debugging;
 using Astralum.Materials;
 using Astralum.World;
@@ -187,13 +183,13 @@ namespace Astralum.Harmony
 
     public static void AddSkyGridToggle(WidgetRow row)
     {
-      string tooltip = SkyGridSettings.DrawGrid
+      string tooltip = CelestialSettings.DrawSkyCoordGrid
         ? "Astra_DisableSkyGridToggleLabel".Translate()
         : "Astra_EnableSkyGridToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref SkyGridSettings.DrawGrid,
-        SkyCoordinateGridMatsUtil.ShowSkyGridIcon,
+        ref CelestialSettings.DrawSkyCoordGrid,
+        UIMatsUtil.ShowSkyGridIcon,
         tooltip, 
         SoundDefOf.Mouseover_ButtonToggle
       );
@@ -201,13 +197,13 @@ namespace Astralum.Harmony
 
     public static void AddConstellationLinesToggle(WidgetRow row)
     {
-      string constellationLinesTooltip = ConstellationSettings.DrawConstellationLines
+      string constellationLinesTooltip = CelestialSettings.DrawConstellationLines
         ? "Astra_DisableConstellationLinesToggleLabel".Translate()
         : "Astra_EnableConstellationLinesToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref ConstellationSettings.DrawConstellationLines,
-        ConstellationsMatsUtil.ShowConstellationLinesIcon,
+        ref CelestialSettings.DrawConstellationLines,
+        UIMatsUtil.ShowConstellationLinesIcon,
         constellationLinesTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
@@ -215,26 +211,26 @@ namespace Astralum.Harmony
     
     public static void AddBlackHoleInfoToggle(WidgetRow row)
     {
-      string blackHoleTooltip = BlackHoleSettings.DrawBlackHoleInfo
+      string blackHoleTooltip = CelestialSettings.DrawBlackHoleInfo
         ? "Astra_DisableBlackHoleInfoToggleLabel".Translate()
         : "Astra_EnableBlackHoleInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref BlackHoleSettings.DrawBlackHoleInfo,
-        BlackHoleMatsUtil.ShowBlackHoleInfoIcon,
+        ref CelestialSettings.DrawBlackHoleInfo,
+        UIMatsUtil.ShowBlackHoleInfoIcon,
         blackHoleTooltip,
         SoundDefOf.Mouseover_ButtonToggle);
     }
     
     public static void AddPulsarInfoToggle(WidgetRow row)
     {
-      string pulsarTooltip = PulsarSettings.DrawPulsarInfo
+      string pulsarTooltip = CelestialSettings.DrawPulsarInfo
         ? "Astra_DisablePulsarInfoToggleLabel".Translate()
         : "Astra_EnablePulsarInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref PulsarSettings.DrawPulsarInfo,
-        PulsarMatsUtil.ShowPulsarInfoIcon,
+        ref CelestialSettings.DrawPulsarInfo,
+        UIMatsUtil.ShowPulsarInfoIcon,
         pulsarTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
@@ -247,8 +243,8 @@ namespace Astralum.Harmony
         : "Astra_EnableLocalStarInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref LocalStarSettings.ShowLocalStarInfo,
-        LocalSystemStarMatsUtil.ShowLocalStarInfoIcon,
+        ref CelestialSettings.ShowLocalStarInfo,
+        UIMatsUtil.ShowLocalStarInfoIcon,
         localStarInfoTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
@@ -262,7 +258,7 @@ namespace Astralum.Harmony
       
       row.ToggleableIcon(
         ref CelestialNamingSettings.ShowNamingWindow,
-        SkyCoordinateGridMatsUtil.ShowNamingDialogueIcon,
+        UIMatsUtil.ShowNamingDialogueIcon,
         namingTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );

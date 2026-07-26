@@ -75,7 +75,7 @@ namespace Astralum.Astronomy.Constellations
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
 
-        return ConstellationSettings.DrawConstellationLines != _calculatedForDrawConstellationLines;
+        return CelestialSettings.DrawConstellationLines != _calculatedForDrawConstellationLines;
       }
     }
 
@@ -109,7 +109,7 @@ namespace Astralum.Astronomy.Constellations
       finally
       {
         _calculatedForStaticRotation = UseStaticRotation;
-        _calculatedForDrawConstellationLines = ConstellationSettings.DrawConstellationLines;
+        _calculatedForDrawConstellationLines = CelestialSettings.DrawConstellationLines;
         
         FinalizeMesh(MeshParts.All);
       }
@@ -235,7 +235,7 @@ namespace Astralum.Astronomy.Constellations
       {
         SavedConstellation saved = savedConstellations[i];
 
-        if (ConstellationSettings.DrawConstellationLines)
+        if (CelestialSettings.DrawConstellationLines)
           PrintSavedConstellationLines(saved);
 
         PrintSavedStars(saved);
