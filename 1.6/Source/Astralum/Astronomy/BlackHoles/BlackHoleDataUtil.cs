@@ -24,13 +24,13 @@ namespace Astralum.Astronomy.BlackHoles
     {
       WorldComponent_BlackHoleData data = Data;
       
-      if (data?.blackHoles.NullOrEmpty() != false)
+      if (data?.BlackHoles.NullOrEmpty() != false)
         return null;
       
-      for (int i = 0; i < data.blackHoles.Count; i++)
+      for (int i = 0; i < data.BlackHoles.Count; i++)
       {
-        if (data.blackHoles[i].id == id)
-          return data.blackHoles[i];
+        if (data.BlackHoles[i].id == id)
+          return data.BlackHoles[i];
       }
       
       return null;

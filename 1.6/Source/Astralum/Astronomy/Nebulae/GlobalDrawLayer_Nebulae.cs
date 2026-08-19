@@ -81,7 +81,7 @@ namespace Astralum.Astronomy.Nebulae
         if (!data.HasGeneratedNebulae)
           GenerateAndSaveNebulae(data);
 
-        PrintSavedNebulae(data.nebulae);
+        PrintSavedNebulae(data.Nebulae);
       }
       finally
       {
@@ -121,7 +121,7 @@ namespace Astralum.Astronomy.Nebulae
           float size = _nebulaSizeRange.RandomInRange;
           float rotationDegrees = Rand.Range(0f, 360f);
 
-          data.nebulae.Add(
+          data.Nebulae.Add(
             NebulaDataUtil.CreateRandomNebula(i, localSkyPos, size, rotationDegrees, usedNames)
           );
         }

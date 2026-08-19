@@ -20,6 +20,7 @@ namespace Astralum
       // TODO: look into pawn skin color change
       // TODO: let players name stars as pawns find them via the telescope job
       // TODO: let players learn the names of certain stars as named by other factions?
+      // TODO: implement civil, nautical, and astronomical twilight periods? 
     }
   }
 }

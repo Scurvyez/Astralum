@@ -20,7 +20,7 @@ namespace Astralum.UI
       if (!ShouldDraw(requirePlaying))
         return;
 
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
         return;

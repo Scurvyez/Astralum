@@ -7,27 +7,27 @@ namespace Astralum.World
 {
   public class WorldComponent_BlackHoleData : WorldComponent
   {
-    public List<SavedBlackHole> blackHoles = [];
+    public List<SavedBlackHole> BlackHoles = [];
     
     public WorldComponent_BlackHoleData(RimWorld.Planet.World world) : base(world)
     {
     }
     
-    public bool HasGeneratedBlackHoles => !blackHoles.NullOrEmpty();
+    public bool HasGeneratedBlackHoles => !BlackHoles.NullOrEmpty();
     
     public void Clear()
     {
-      blackHoles.Clear();
+      BlackHoles.Clear();
     }
     
     public override void ExposeData()
     {
       base.ExposeData();
       
-      Scribe_Collections.Look(ref blackHoles, "blackHoles", LookMode.Deep);
+      Scribe_Collections.Look(ref BlackHoles, "BlackHoles", LookMode.Deep);
       
       if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        blackHoles ??= [];
+        BlackHoles ??= [];
     }
   }
 }

@@ -44,7 +44,7 @@ namespace Astralum.UI
       if (Find.World == null)
         return false;
 
-      if (WorldUtils.CurrentStar == null)
+      if (WorldUtils.CurrentLocalStar == null)
         return false;
 
       if (Find.WorldCamera == null || !Find.WorldCamera.gameObject.activeInHierarchy)

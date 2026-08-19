@@ -7,39 +7,39 @@ namespace Astralum.World
 {
   public class WorldComponent_ConstellationData : WorldComponent
   {
-    public List<SavedConstellation> constellations = [];
+    public List<SavedConstellation> Constellations = [];
 
     public WorldComponent_ConstellationData(RimWorld.Planet.World world) : base(world)
     {
     }
 
-    public bool HasGeneratedConstellations => !constellations.NullOrEmpty();
+    public bool HasGeneratedConstellations => !Constellations.NullOrEmpty();
 
     public override void ExposeData()
     {
       base.ExposeData();
 
-      Scribe_Collections.Look(ref constellations, "constellations", LookMode.Deep);
+      Scribe_Collections.Look(ref Constellations, "Constellations", LookMode.Deep);
 
       if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        constellations ??= [];
+        Constellations ??= [];
     }
 
     public void Clear()
     {
-      constellations.Clear();
+      Constellations.Clear();
     }
 
     public HashSet<string> GetUsedNames()
     {
       HashSet<string> result = [];
 
-      if (constellations.NullOrEmpty())
+      if (Constellations.NullOrEmpty())
         return result;
 
-      for (int i = 0; i < constellations.Count; i++)
+      for (int i = 0; i < Constellations.Count; i++)
       {
-        SavedConstellation constellation = constellations[i];
+        SavedConstellation constellation = Constellations[i];
 
         if (!constellation.name.NullOrEmpty())
           result.Add(constellation.name);

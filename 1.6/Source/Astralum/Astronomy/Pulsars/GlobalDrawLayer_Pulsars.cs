@@ -88,12 +88,12 @@ namespace Astralum.Astronomy.Pulsars
         if (!data.HasGeneratedPulsars)
           GenerateAndSavePulsars(data);
         
-        if (data.pulsars.NullOrEmpty())
+        if (data.Pulsars.NullOrEmpty())
           yield break;
         
         LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
         
-        PrintSavedPulsars(data.pulsars, subMesh);
+        PrintSavedPulsars(data.Pulsars, subMesh);
       }
       finally
       {
@@ -140,7 +140,7 @@ namespace Astralum.Astronomy.Pulsars
         float rotation = Rand.Range(0f, 360f);
         Vector3 localSkyPos = dir * DistanceToPulsars;
 
-        data.pulsars.Add(
+        data.Pulsars.Add(
           PulsarDataUtil.Create(i, localSkyPos, size, rotation)
         );
       }

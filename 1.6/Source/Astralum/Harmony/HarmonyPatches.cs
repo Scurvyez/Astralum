@@ -28,6 +28,7 @@ namespace Astralum.Harmony
       PatchStartingSiteExtraOnGUI(harmony);
       PatchPlaySettings(harmony);
       PatchJobDriverGetReport(harmony);
+      PatchSkygazeMakeNewToils(harmony);
     }
 
     /// <summary>

@@ -39,7 +39,7 @@ namespace Astralum.World
 
     private static void ApplyTweaks()
     {
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
         return;
@@ -78,7 +78,7 @@ namespace Astralum.World
       if (_initializedFromStar)
         return;
 
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
         return;

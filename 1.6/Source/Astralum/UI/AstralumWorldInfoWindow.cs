@@ -30,7 +30,7 @@ namespace Astralum.UI
 
     public override void DoWindowContents(Rect inRect)
     {
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
         return;
@@ -85,7 +85,7 @@ namespace Astralum.UI
 
     private static float GetWindowHeight()
     {
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
         return 90f;

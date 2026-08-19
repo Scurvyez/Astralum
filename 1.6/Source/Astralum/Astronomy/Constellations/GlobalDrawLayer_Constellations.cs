@@ -104,7 +104,7 @@ namespace Astralum.Astronomy.Constellations
         if (!data.HasGeneratedConstellations)
           GenerateAndSaveConstellations(data);
         
-        PrintSavedConstellations(data.constellations);
+        PrintSavedConstellations(data.Constellations);
       }
       finally
       {
@@ -128,7 +128,7 @@ namespace Astralum.Astronomy.Constellations
       int count = Mathf.Min(_constellationCount, unusedMasks.Count);
       
       for (int i = 0; i < count; i++)
-        TryCreateSavedConstellation(data.constellations, usedCenters, unusedMasks);
+        TryCreateSavedConstellation(data.Constellations, usedCenters, unusedMasks);
       
       Rand.PopState();
     }

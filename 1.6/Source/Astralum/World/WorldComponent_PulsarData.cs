@@ -7,27 +7,27 @@ namespace Astralum.World
 {
   public class WorldComponent_PulsarData : WorldComponent
   {
-    public List<SavedPulsar> pulsars = [];
+    public List<SavedPulsar> Pulsars = [];
     
     public WorldComponent_PulsarData(RimWorld.Planet.World world) : base(world)
     {
     }
     
-    public bool HasGeneratedPulsars => !pulsars.NullOrEmpty();
+    public bool HasGeneratedPulsars => !Pulsars.NullOrEmpty();
     
     public void Clear()
     {
-      pulsars.Clear();
+      Pulsars.Clear();
     }
     
     public override void ExposeData()
     {
       base.ExposeData();
       
-      Scribe_Collections.Look(ref pulsars, "pulsars", LookMode.Deep);
+      Scribe_Collections.Look(ref Pulsars, "Pulsars", LookMode.Deep);
       
       if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        pulsars ??= [];
+        Pulsars ??= [];
     }
   }
 }

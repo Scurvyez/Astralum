@@ -15,7 +15,7 @@ namespace Astralum.World
     public static Vector3 GalacticPole => Quaternion.Euler(
       GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
 
-    public static SavedStar CurrentStar
+    public static SavedStar CurrentLocalStar
     {
       get
       {

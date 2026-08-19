@@ -82,7 +82,7 @@ namespace Astralum.Materials
 
     private static void ApplyCurrentStarToMaterial(Material mat)
     {
-      SavedStar star = WorldUtils.CurrentStar;
+      SavedStar star = WorldUtils.CurrentLocalStar;
 
       if (star == null)
       {

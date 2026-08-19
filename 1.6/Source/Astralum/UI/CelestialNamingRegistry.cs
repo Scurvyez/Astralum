@@ -26,12 +26,12 @@ namespace Astralum.UI
     {
       WorldComponent_BlackHoleData data = BlackHoleDataUtil.Data;
       
-      if (data?.blackHoles.NullOrEmpty() != false)
+      if (data?.BlackHoles.NullOrEmpty() != false)
         return;
       
-      for (int i = 0; i < data.blackHoles.Count; i++)
+      for (int i = 0; i < data.BlackHoles.Count; i++)
       {
-        SavedBlackHole blackHole = data.blackHoles[i];
+        SavedBlackHole blackHole = data.BlackHoles[i];
         
         entries.Add(new CelestialNamingObjectEntry(
           "Black Holes",

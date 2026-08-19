@@ -3,10 +3,11 @@
   public enum CelestialObjectType
   {
     Unknown,
-    Star,
+    LocalStar,
+    BackgroundStar,
     Constellation,
     ConstellationStar,
-    Nebula,
+    Nebulae,
     Pulsar,
     BlackHole
   }

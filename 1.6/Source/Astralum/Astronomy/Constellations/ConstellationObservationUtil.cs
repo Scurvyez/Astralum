@@ -1,5 +1,4 @@
 ﻿using Astralum.World;
-using RimWorld;
 using UnityEngine;
 using Verse;
 
@@ -13,11 +12,11 @@ namespace Astralum.Astronomy.Constellations
     {
       WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
       
-      if (data?.constellations.NullOrEmpty() != false)
+      if (data?.Constellations.NullOrEmpty() != false)
         return null;
       
       Vector3 observerDir = ObserverWorldDirection(pawn);
-      Quaternion skyRotation = CurrentSkyRotation();
+      Quaternion skyRotation = WorldUtils.GetCurrentRotationForWorldSpace();
       
       SavedConstellation bestVisible = null;
       float bestVisibleScore = float.MinValue;
@@ -25,7 +24,7 @@ namespace Astralum.Astronomy.Constellations
       SavedConstellation bestFallback = null;
       float bestFallbackScore = float.MinValue;
       
-      foreach (SavedConstellation constellation in data.constellations)
+      foreach (SavedConstellation constellation in data.Constellations)
       {
         Vector3 constellationWorldDir = skyRotation * constellation.centerDir.normalized;
         float score = Vector3.Dot(observerDir, constellationWorldDir);
@@ -54,18 +53,9 @@ namespace Astralum.Astronomy.Constellations
       if (pawn?.Map != null)
         return Find.WorldGrid.GetTileCenter(pawn.Map.Tile).normalized;
       
-      if (Find.CurrentMap != null)
-        return Find.WorldGrid.GetTileCenter(Find.CurrentMap.Tile).normalized;
-
-      return Vector3.up;
-    }
-    
-    public static Quaternion CurrentSkyRotation()
-    {
-      if (Current.ProgramState == ProgramState.Entry)
-        return Quaternion.identity;
-      
-      return Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+      return Find.CurrentMap != null 
+        ? Find.WorldGrid.GetTileCenter(Find.CurrentMap.Tile).normalized 
+        : Vector3.up;
     }
   }
 }

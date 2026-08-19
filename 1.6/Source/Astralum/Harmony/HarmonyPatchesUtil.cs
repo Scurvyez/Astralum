@@ -5,6 +5,7 @@ using System.Runtime.CompilerServices;
 using Astralum.API;
 using Astralum.Astronomy;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.Nebulae;
 using Astralum.Debugging;
 using Astralum.Materials;
 using Astralum.World;
@@ -63,6 +64,13 @@ namespace Astralum.Harmony
       return method == null;
     }
     
+    private static readonly CelestialObjectType[] SkygazeObjectTypes =
+    [
+      CelestialObjectType.Constellation,
+      CelestialObjectType.ConstellationStar,
+      CelestialObjectType.Nebulae
+    ];
+    
     public static TelescopeReportData CreateTelescopeReportData(Pawn pawn)
     {
       if (!Rand.Chance(ConstellationReportChance))
@@ -87,7 +95,7 @@ namespace Astralum.Harmony
       bool hasOneStar = stars is { Count: >= 1 };
       bool hasTwoStars = stars is { Count: >= 2 };
 
-      Vector3 dir = ConstellationObservationUtil.CurrentSkyRotation() * constellation.centerDir.normalized;
+      Vector3 dir = WorldUtils.GetCurrentRotationForWorldSpace() * constellation.centerDir.normalized;
 
       string hemisphere = WorldUtils.SkyHemisphere(dir);
       
@@ -166,21 +174,100 @@ namespace Astralum.Harmony
     
     public static void NotifySkygazeObservation(Pawn pawn)
     {
+      Map map = pawn.MapHeld;
+      bool darkEnoughOutside = TwilightUtility.SunAltitude(map) < -6f;
+      
+      if (map.TileInfo.Layer.Def.isSpace || darkEnoughOutside)
+      {
+        if (TryGetSkygazeObservation(pawn, out CelestialObjectInfo observation))
+        {
+          ObservationUtility.Notify_PawnObservedCelestialObject(pawn, observation);
+        }
+      }
+      
+      if (map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
+      {
+        ObservationUtility.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
+      }
+    }
+    
+    private static bool TryGetSkygazeObservation(Pawn pawn, out CelestialObjectInfo observation)
+    {
+      CelestialObjectType type = SkygazeObjectTypes.RandomElementByWeight(SkygazeWeightFor);
+      
+      return type switch
+      {
+        CelestialObjectType.Constellation => TryGetConstellationObservation(pawn, out observation),
+        CelestialObjectType.ConstellationStar => TryGetConstellationStarObservation(pawn, out observation),
+        CelestialObjectType.Nebulae => TryGetNebulaObservation(out observation),
+        _ => Fail(out observation)
+      };
+    }
+    
+    private static float SkygazeWeightFor(CelestialObjectType type)
+    {
+      return type switch
+      {
+        CelestialObjectType.Constellation => CelestialObjectAvailability.HasConstellations() ? 0.75f : 0f,
+        CelestialObjectType.ConstellationStar => CelestialObjectAvailability.HasConstellationStars() ? 0.50f : 0f,
+        CelestialObjectType.Nebulae => CelestialObjectAvailability.HasNebulae() ? 0.05f : 0f,
+        _ => 0f
+      };
+    }
+    
+    private static bool TryGetConstellationObservation(Pawn pawn, out CelestialObjectInfo observation)
+    {
       SavedConstellation constellation = ConstellationObservationUtil.BestObservableConstellationFor(pawn);
       
       if (constellation == null)
-        return;
+      {
+        observation = default;
+        return false;
+      }
       
-      float curSunGlow = GenCelestial.CurCelestialSunGlow(pawn.MapHeld);
+      observation = CelestialObjectInfoUtil.FromConstellation(constellation);
       
-      if (pawn.MapHeld.TileInfo.Layer.Def.isSpace || curSunGlow < 0.1f)
-        ObservationUtility.Notify_PawnObservedCelestialObject(
-          pawn, CelestialObjectInfoUtil.FromConstellation(constellation));
-      
-      if (pawn.MapHeld.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
-        ObservationUtility.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
+      return true;
     }
-
+    
+    private static bool TryGetConstellationStarObservation(Pawn pawn, out CelestialObjectInfo observation)
+    {
+      SavedConstellation constellation = ConstellationObservationUtil.BestObservableConstellationFor(pawn);
+      
+      if (constellation == null || constellation.stars.NullOrEmpty())
+      {
+        observation = default;
+        return false;
+      }
+      
+      SavedConstellationStar star = constellation.stars.RandomElement();
+      observation = CelestialObjectInfoUtil.FromConstellationStar(constellation, star);
+      
+      return true;
+    }
+    
+    private static bool TryGetNebulaObservation(out CelestialObjectInfo observation)
+    {
+      WorldComponent_NebulaeData comp = Find.World.GetComponent<WorldComponent_NebulaeData>();
+      
+      if (comp?.Nebulae.NullOrEmpty() != false)
+      {
+        observation = default;
+        return false;
+      }
+      
+      SavedNebula nebula = comp.Nebulae.RandomElement();
+      observation = CelestialObjectInfoUtil.FromNebula(nebula);
+      
+      return true;
+    }
+    
+    private static bool Fail(out CelestialObjectInfo observation)
+    {
+      observation = default;
+      return false;
+    }
+    
     public static void AddSkyGridToggle(WidgetRow row)
     {
       string tooltip = CelestialSettings.DrawSkyCoordGrid
@@ -194,7 +281,7 @@ namespace Astralum.Harmony
         SoundDefOf.Mouseover_ButtonToggle
       );
     }
-
+    
     public static void AddConstellationLinesToggle(WidgetRow row)
     {
       string constellationLinesTooltip = CelestialSettings.DrawConstellationLines

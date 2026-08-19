@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using Astralum.Debugging;
+using Verse;
 
 namespace Astralum.API
 {
@@ -12,7 +13,7 @@ namespace Astralum.API
     /// <param name="objectInfo">Relevant data for the currently observed object.</param>
     public virtual void Notify_PawnObservedCelestialObject(Pawn pawn, CelestialObjectInfo objectInfo)
     {
-      
+      // AstraLog.Message($"{pawn.NameShortColored} observed celestial object: {objectInfo}");
     }
     
     /// <summary>

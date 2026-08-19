@@ -110,12 +110,12 @@ namespace Astralum.Astronomy.BlackHoles
         if (!data.HasGeneratedBlackHoles)
           GenerateAndSaveBlackHoles(data);
         
-        if (data.blackHoles.NullOrEmpty())
+        if (data.BlackHoles.NullOrEmpty())
           yield break;
         
         LayerSubMesh subMesh = GetSubMesh(BlackHoleMatsUtil.BlackHole);
         
-        PrintSavedBlackHoles(data.blackHoles, subMesh);
+        PrintSavedBlackHoles(data.BlackHoles, subMesh);
       }
       finally
       {
@@ -167,7 +167,7 @@ namespace Astralum.Astronomy.BlackHoles
         SavedBlackHole blackHole = BlackHoleDataUtil.Create(i, dir, size);
         
         placed.Add(blackHole);
-        data.blackHoles.Add(blackHole);
+        data.BlackHoles.Add(blackHole);
       }
     }
     

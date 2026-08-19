@@ -7,27 +7,27 @@ namespace Astralum.World
 {
   public class WorldComponent_NebulaeData : WorldComponent
   {
-    public List<SavedNebula> nebulae = [];
+    public List<SavedNebula> Nebulae = [];
 
     public WorldComponent_NebulaeData(RimWorld.Planet.World world) : base(world)
     {
     }
 
-    public bool HasGeneratedNebulae => !nebulae.NullOrEmpty();
+    public bool HasGeneratedNebulae => !Nebulae.NullOrEmpty();
 
     public override void ExposeData()
     {
       base.ExposeData();
 
-      Scribe_Collections.Look(ref nebulae, "nebulae", LookMode.Deep);
+      Scribe_Collections.Look(ref Nebulae, "Nebulae", LookMode.Deep);
 
       if (Scribe.mode == LoadSaveMode.PostLoadInit)
-        nebulae ??= [];
+        Nebulae ??= [];
     }
 
     public void Clear()
     {
-      nebulae.Clear();
+      Nebulae.Clear();
     }
   }
 }
