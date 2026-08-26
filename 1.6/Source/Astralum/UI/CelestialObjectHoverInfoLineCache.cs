@@ -62,8 +62,8 @@ namespace Astralum.UI
         
         new CelestialObjectHoverInfoLine("Astra_Blackholes_Type".Translate()),
         new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine($"RA: {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine($"Dec: {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
       ];
     }
     
@@ -81,8 +81,8 @@ namespace Astralum.UI
         
         new CelestialObjectHoverInfoLine("Astra_Pulsars_Type".Translate()),
         new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine($"RA: {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine($"Dec: {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
       ];
     }
     
@@ -103,8 +103,8 @@ namespace Astralum.UI
         new CelestialObjectHoverInfoLine("Astra_Stars_Class".Translate() + $": {obj.spectralClass}"),
         new CelestialObjectHoverInfoLine("Astra_Stars_Constellation".Translate() + $": {constellationDisplayName}"),
         new CelestialObjectHoverInfoLine("Astra_Stars_Region".Translate() + $": {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine($"RA: {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine($"Dec: {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
       ];
     }
     

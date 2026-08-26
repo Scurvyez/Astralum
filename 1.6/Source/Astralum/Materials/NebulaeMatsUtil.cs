@@ -30,7 +30,9 @@ namespace Astralum.Materials
       {
         name = $"Astralum_Astra_Nebulae01_{id}"
       };
-
+      
+      material.SetFloat(InternalShaderPropertyIds.FocusShimmer, 0f);
+      
       Object.DontDestroyOnLoad(material);
       return material;
     }
@@ -42,6 +44,19 @@ namespace Astralum.Materials
           Object.Destroy(material);
 
       MaterialsByIndex.Clear();
+    }
+    
+    public static void SetFocused(SavedNebula nebula, bool focused)
+    {
+      if (nebula == null)
+        return;
+      
+      Material material = For(nebula.Id);
+      
+      if (material == null)
+        return;
+      
+      material.SetFloat(InternalShaderPropertyIds.FocusShimmer, focused ? 1f : 0f);
     }
     
     public static void ApplyToMaterial(Material mat, SavedNebula nebula)

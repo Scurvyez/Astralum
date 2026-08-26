@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Materials;
 using Astralum.Settings;
 using Astralum.World;
@@ -91,9 +92,9 @@ namespace Astralum.Astronomy.Constellations
       
       if (material == null)
         return;
-      
+
+      RegisterConstellationForInteraction(constellation);
       LayerSubMesh subMesh = GetSubMesh(material);
-      
       PrintConstellationQuad(constellation.centerDir, constellation.RenderSize, constellation.Rotation, subMesh);
     }
     
@@ -131,6 +132,22 @@ namespace Astralum.Astronomy.Constellations
       subMesh.tris.Add(baseIndex + 0);
       subMesh.tris.Add(baseIndex + 2);
       subMesh.tris.Add(baseIndex + 3);
+    }
+    
+    private static void RegisterConstellationForInteraction(SavedConstellation constellation)
+    {
+      Vector3 dir = constellation.LocalSkyPosition;
+      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+
+      CelestialObjectInteractionRegistry.Register(
+        CelestialObjectType.Constellation,
+        constellation.Id,
+        constellation.DisplayName,
+        constellation.LocalSkyPosition,
+        constellation.RenderSize,
+        WorldUtils.SkyHemisphere(dir),
+        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
+        WorldUtils.FormatDeclination(coord.declinationDegrees));
     }
   }
 }

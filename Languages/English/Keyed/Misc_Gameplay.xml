@@ -56,6 +56,8 @@
     <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>
 
     <Astra_Objects_Region>Region:</Astra_Objects_Region>
+    <Astra_Objects_RightAscension>RA:</Astra_Objects_RightAscension>
+    <Astra_Objects_Declination>Dec:</Astra_Objects_Declination>
 
     <Astra_Blackholes_Unknown>Unknown Black Hole</Astra_Blackholes_Unknown>
     <Astra_Blackholes_Type>Type: Black Hole</Astra_Blackholes_Type>

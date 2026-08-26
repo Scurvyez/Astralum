@@ -12,11 +12,23 @@ namespace Astralum.UI
     private const float WindowHeight = 560f;
     private const float Padding = 12f;
     private const float RowHeight = 28f;
-
+    
+    private const float CategorySpacing = 4f;
+    private const float EntrySpacing = 2f;
+    private const float CategoryBottomSpacing = 6f;
+    
+    private const float CategoryIndent = 16f;
+    private const float ChildIndent = 40f;
+    private const float ExpanderWidth = 28f;
+    private const float ExpanderGap = 4f;
+    
     private AstraSettings _settings;
     private Rect _lastSavedRect;
     private Vector2 _scrollPos;
+    
     private readonly Dictionary<string, bool> _expandedByCategory = [];
+    private readonly Dictionary<string, bool> _expandedConstellations = [];
+    
     private List<CelestialNamingObjectEntry> _entries;
     private CelestialNamingObjectEntry? _selected;
     private string _nameBuffer = "";
@@ -49,6 +61,13 @@ namespace Astralum.UI
       _lastSavedRect = windowRect;
     }
     
+    public override void PostClose()
+    {
+      base.PostClose();
+      CelestialNamingCameraUtil.StopAnimation();
+      CelestialNamingFocusVisualUtil.Clear();
+    }
+    
     public override void DoWindowContents(Rect inRect)
     {
       if (windowRect != _lastSavedRect)
@@ -62,8 +81,7 @@ namespace Astralum.UI
       _entries = CelestialNamingRegistry.BuildEntries();
       
       Text.Font = GameFont.Medium;
-      Widgets.Label(new Rect(0f, 0f, inRect.width, 32f),
-        "Astra_UI_CelestialNames_Category".Translate());
+      Widgets.Label(new Rect(0f, 0f, inRect.width, 32f), "Astra_UI_CelestialNames_Category".Translate());
       
       Text.Font = GameFont.Small;
       
@@ -102,7 +120,7 @@ namespace Astralum.UI
               $"{(_expandedByCategory[category] ? "▼" : "▶")} {category} ({entries.Count})"))
           _expandedByCategory[category] = !_expandedByCategory[category];
         
-        y += RowHeight + 4f;
+        y += RowHeight + CategorySpacing;
         
         if (!_expandedByCategory[category])
           continue;
@@ -111,31 +129,109 @@ namespace Astralum.UI
         {
           CelestialNamingObjectEntry entry = entries[i];
           
-          Rect rowRect = new(16f, y, viewRect.width - 16f, RowHeight);
-          
-          bool selected = _selected.HasValue && _selected.Value.Id == entry.Id &&
-                          _selected.Value.CategoryLabel == entry.CategoryLabel;
-          
-          if (selected)
-            Widgets.DrawHighlight(rowRect);
-          
-          string label = entry.DisplayName.NullOrEmpty()
-            ? "Astra_NameGenerator_Unknown".Translate()
-            : entry.DisplayName;
-          
-          if (entry.HasPlayerName)
-            label += $"  ({entry.GeneratedName})";
-          
-          if (Widgets.ButtonText(rowRect, label))
-            Select(entry);
-          
-          y += RowHeight + 2f;
+          y = HasChildren(entry.Id)
+            ? DrawParentEntry(viewRect, y, entry)
+            : DrawNormalEntry(viewRect, y, entry);
         }
-        
-        y += 6f;
+
+        y += CategoryBottomSpacing;
       }
       
       Widgets.EndScrollView();
+    }
+    
+    private float DrawParentEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    {
+      if (!_expandedConstellations.ContainsKey(entry.Id))
+        _expandedConstellations[entry.Id] = false;
+      
+      bool expanded = _expandedConstellations[entry.Id];
+      int childCount = CountChildren(entry.Id);
+
+      Rect expanderRect = new(CategoryIndent, y, ExpanderWidth, RowHeight);
+      Rect rowRect = new(expanderRect.xMax + ExpanderGap, y,
+        viewRect.width - expanderRect.xMax - ExpanderGap, RowHeight);
+      
+      if (Widgets.ButtonText(expanderRect, expanded ? "▼" : "▶"))
+      {
+        _expandedConstellations[entry.Id] = !expanded;
+      }
+      
+      if (IsSelected(entry))
+        Widgets.DrawHighlight(rowRect);
+      
+      string label = BuildEntryLabel(entry);
+      label += $" ({childCount})";
+      
+      if (Widgets.ButtonText(rowRect, label))
+        Select(entry);
+      
+      y += RowHeight + EntrySpacing;
+      
+      if (!_expandedConstellations[entry.Id])
+        return y;
+      
+      for (int i = 0; i < _entries.Count; i++)
+      {
+        CelestialNamingObjectEntry child = _entries[i];
+        
+        if (child.ParentId != entry.Id)
+          continue;
+        
+        y = DrawChildEntry(viewRect, y, child);
+        
+      }
+      
+      y += EntrySpacing;
+      return y;
+    }
+    
+    private float DrawNormalEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    {
+      Rect rowRect = new(CategoryIndent, y, viewRect.width - CategoryIndent, RowHeight);
+      
+      if (IsSelected(entry))
+        Widgets.DrawHighlight(rowRect);
+      
+      if (Widgets.ButtonText(rowRect, BuildEntryLabel(entry)))
+      {
+        Select(entry);
+      }
+      
+      return y + RowHeight + EntrySpacing;
+    }
+    
+    private float DrawChildEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    {
+      Rect rowRect = new(ChildIndent, y, viewRect.width - ChildIndent, RowHeight);
+      
+      if (IsSelected(entry))
+        Widgets.DrawHighlight(rowRect);
+      
+      if (Widgets.ButtonText(rowRect, BuildEntryLabel(entry)))
+      {
+        Select(entry);
+      }
+      
+      return y + RowHeight + EntrySpacing;
+    }
+    
+    private static string BuildEntryLabel(CelestialNamingObjectEntry entry)
+    {
+      string label = entry.DisplayName.NullOrEmpty()
+        ? "Astra_NameGenerator_Unknown".Translate() 
+        : entry.DisplayName;
+      
+      if (entry.HasPlayerName)
+        label += $"  ({entry.GeneratedName})";
+      
+      return label;
+    }
+    
+    private bool IsSelected(CelestialNamingObjectEntry entry)
+    {
+      return _selected.HasValue && _selected.Value.Id == entry.Id 
+                                && _selected.Value.CategoryLabel == entry.CategoryLabel;
     }
     
     private void DrawRenameControls(Rect rect)
@@ -150,9 +246,8 @@ namespace Astralum.UI
       }
       
       IPlayerNameableCelestialObject obj = _selected.Value.Object;
-      
       Widgets.Label(new Rect(inner.x, inner.y, inner.width, 24f),
-        $"Astra_UI_CelestialNames_GeneratedName".Translate() + $" {obj.GeneratedName}");
+        "Astra_UI_CelestialNames_GeneratedName".Translate() + $" {obj.GeneratedName}");
       
       Rect fieldRect = new(inner.x, inner.y + 30f, inner.width, 28f);
       _nameBuffer = Widgets.TextField(fieldRect, _nameBuffer);
@@ -160,7 +255,7 @@ namespace Astralum.UI
       float buttonY = inner.y + 68f;
       float buttonWidth = (inner.width - 12f) / 3f;
       
-      if (Widgets.ButtonText(new Rect(inner.x, buttonY, buttonWidth, 28f), 
+      if (Widgets.ButtonText(new Rect(inner.x, buttonY, buttonWidth, 28f),
             "Astra_UI_CelestialNames_Apply".Translate()))
       {
         PlayerNamedCelestialObjectUtil.TrySetPlayerName(obj, _nameBuffer);
@@ -179,17 +274,22 @@ namespace Astralum.UI
       if (Widgets.ButtonText(new Rect(inner.x + (buttonWidth + 6f) * 2f, buttonY, buttonWidth, 28f),
             "Astra_UI_CelestialNames_View".Translate()))
       {
-        CelestialNamingCameraUtil.FocusObject(_selected.Value.LocalSkyPos, windowRect);
+        CelestialNamingCameraUtil.FocusObject(
+          _selected.Value.LocalSkyPos,
+          windowRect
+        );
       }
     }
     
     private void Select(CelestialNamingObjectEntry entry)
     {
       _selected = entry;
+
       _nameBuffer = entry.Object.PlayerSetName.NullOrEmpty()
-        ? entry.Object.GeneratedName
-        : entry.Object.PlayerSetName;
+          ? entry.Object.GeneratedName
+          : entry.Object.PlayerSetName;
       
+      CelestialNamingFocusVisualUtil.Focus(entry.Object);
       CelestialNamingCameraUtil.FocusObject(entry.LocalSkyPos, windowRect);
     }
     
@@ -197,13 +297,32 @@ namespace Astralum.UI
     {
       Dictionary<string, List<CelestialNamingObjectEntry>> byCategory = GroupByCategory(_entries);
       float height = 0f;
-      
+
       foreach (KeyValuePair<string, List<CelestialNamingObjectEntry>> pair in byCategory)
       {
-        height += RowHeight + 4f;
+        height += RowHeight + CategorySpacing;
         
-        if (_expandedByCategory.TryGetValue(pair.Key, out bool expanded) && expanded)
-          height += pair.Value.Count * (RowHeight + 2f) + 6f;
+        if (!_expandedByCategory.TryGetValue(pair.Key, out bool expanded) || !expanded)
+          continue;
+        
+        List<CelestialNamingObjectEntry> entries = pair.Value;
+        
+        for (int i = 0; i < entries.Count; i++)
+        {
+          CelestialNamingObjectEntry entry = entries[i];
+          height += RowHeight + EntrySpacing;
+          
+          if (!HasChildren(entry.Id))
+            continue;
+          
+          if (!_expandedConstellations.TryGetValue(entry.Id, out bool constellationExpanded) || !constellationExpanded)
+            continue;
+
+          height += CountChildren(entry.Id) * (RowHeight + EntrySpacing);
+          height += EntrySpacing;
+        }
+        
+        height += CategoryBottomSpacing;
       }
       
       return Mathf.Max(height, 1f);
@@ -221,6 +340,9 @@ namespace Astralum.UI
       {
         CelestialNamingObjectEntry entry = entries[i];
         
+        if (entry.HasParent)
+          continue;
+        
         if (!result.TryGetValue(entry.CategoryLabel, out List<CelestialNamingObjectEntry> list))
         {
           list = [];
@@ -231,6 +353,40 @@ namespace Astralum.UI
       }
       
       return result;
+    }
+    
+    private bool HasChildren(string parentId)
+    {
+      if (parentId.NullOrEmpty() || _entries.NullOrEmpty())
+      {
+        return false;
+      }
+      
+      for (int i = 0; i < _entries.Count; i++)
+      {
+        if (_entries[i].ParentId == parentId)
+          return true;
+      }
+      
+      return false;
+    }
+    
+    private int CountChildren(string parentId)
+    {
+      if (parentId.NullOrEmpty() || _entries.NullOrEmpty())
+      {
+        return 0;
+      }
+      
+      int count = 0;
+      
+      for (int i = 0; i < _entries.Count; i++)
+      {
+        if (_entries[i].ParentId == parentId)
+          count++;
+      }
+      
+      return count;
     }
     
     private void SaveWindowState()

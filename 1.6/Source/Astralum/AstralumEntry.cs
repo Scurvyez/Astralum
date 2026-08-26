@@ -22,7 +22,6 @@ namespace Astralum
       // TODO: let players name stars as pawns find them via the telescope job
       // TODO: let players learn the names of certain stars as named by other factions?
       // TODO: add comets
-      // TODO: hover shimmer effect on celestial objects
     }
   }
 }

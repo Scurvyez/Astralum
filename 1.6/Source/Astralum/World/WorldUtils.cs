@@ -12,8 +12,7 @@ namespace Astralum.World
     public const float SouthernSkyThreshold = -0.15f;
     private const float PlanetRadius = 100f;
 
-    public static Vector3 GalacticPole => Quaternion.Euler(
-      GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
+    public static Vector3 GalacticPole => Quaternion.Euler(GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
 
     public static SavedStar CurrentLocalStar
     {

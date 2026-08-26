@@ -30,6 +30,13 @@ Shader "Astralum/Nebulae01"
         _StretchX ("Stretch X", Range(0.25, 4)) = 1.8
         _StretchY ("Stretch Y", Range(0.25, 4)) = 0.85
         _Rotation ("Rotation", Range(0, 6.28318)) = 0
+        
+        _FocusShimmer ("Focus Shimmer", Range(0, 1)) = 0
+        _FocusShimmerColor ("Focus Shimmer Color", Color) = (0.65, 0.85, 1, 1)
+        _FocusShimmerSpeed ("Focus Shimmer Speed", Range(0, 2)) = 0.3
+        _FocusShimmerWidth ("Focus Shimmer Width", Range(0.001, 0.5)) = 0.02
+        _FocusShimmerSoftness ("Focus Shimmer Softness", Range(0.001, 0.5)) = 0.4
+        _FocusShimmerIntensity ("Focus Shimmer Intensity", Range(0, 10)) = 10
     }
     
     SubShader
@@ -51,6 +58,7 @@ Shader "Astralum/Nebulae01"
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
+            #include "CelestialFocusShimmer.hlsl"
             
             fixed4 _ColorA;
             fixed4 _ColorB;
@@ -81,6 +89,13 @@ Shader "Astralum/Nebulae01"
             float _StretchY;
             float _Rotation;
             
+            float _FocusShimmer;
+            fixed4 _FocusShimmerColor;
+            float _FocusShimmerSpeed;
+            float _FocusShimmerWidth;
+            float _FocusShimmerSoftness;
+            float _FocusShimmerIntensity;
+            
             struct vertInput
             {
                 float4 vertex : POSITION;
@@ -91,6 +106,7 @@ Shader "Astralum/Nebulae01"
             {
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float4 screenPos : TEXCOORD1;
             };
 
             vertOutput vert (vertInput input)
@@ -102,6 +118,7 @@ Shader "Astralum/Nebulae01"
                 
                 output.pos = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = input.uv;
+                output.screenPos = ComputeScreenPos(output.pos);
                 
                 return output;
             }
@@ -228,6 +245,8 @@ Shader "Astralum/Nebulae01"
             
             fixed4 frag (vertOutput input) : SV_Target
             {
+                float2 screenUv = input.screenPos.xy / input.screenPos.w;
+                
                 float2 uv = input.uv - float2(0.5, 0.5);
                 uv = Rotate2D(uv, _Rotation);
                 uv.x *= _StretchX;
@@ -304,6 +323,18 @@ Shader "Astralum/Nebulae01"
                 
                 float alpha = saturate(mask * _Alpha);
                 float3 finalColor = color * mask * _Intensity;
+                
+                float shimmer = AstralumFocusShimmer(
+                    screenUv,
+                    _Time.y,
+                    _FocusShimmerSpeed,
+                    _FocusShimmerWidth,
+                    _FocusShimmerSoftness);
+                
+                shimmer *= mask;
+                shimmer *= _FocusShimmer;
+                
+                finalColor += _FocusShimmerColor.rgb * shimmer * _FocusShimmerIntensity;
                 
                 return fixed4(finalColor, alpha);
             }

@@ -135,5 +135,12 @@ namespace Astralum.Materials
     public static readonly int EdgeFadeEnd = Shader.PropertyToID("_EdgeFadeEnd");
     
     #endregion
+    
+    #region Focus Shimmer Properties
+    
+    public static readonly int FocusShimmer = Shader.PropertyToID("_FocusShimmer");
+    public static readonly int FocusShimmerIntensity = Shader.PropertyToID("_FocusShimmerIntensity");
+    
+    #endregion
   }
 }

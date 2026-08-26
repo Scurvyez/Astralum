@@ -114,14 +114,14 @@ namespace Astralum.Astronomy.GalacticDustLanes
       }
     }
     
-    private void PrintSavedDustLanes(List<SavedGalacticDustLane> dustlanes)
+    private void PrintSavedDustLanes(List<SavedGalacticDustLane> dustLanes)
     {
-      if (dustlanes.NullOrEmpty())
+      if (dustLanes.NullOrEmpty())
         return;
 
-      for (int i = 0; i < dustlanes.Count; i++)
+      for (int i = 0; i < dustLanes.Count; i++)
       {
-        SavedGalacticDustLane dustlane = dustlanes[i];
+        SavedGalacticDustLane dustlane = dustLanes[i];
         Material material = GalacticDustLaneMatsUtil.For(dustlane.Id);
         GalacticDustLaneMatsUtil.ApplyToMaterial(material, dustlane);
         LayerSubMesh subMesh = GetSubMesh(material);

@@ -13,14 +13,14 @@ namespace Astralum.UI
     public static List<CelestialNamingObjectEntry> BuildEntries()
     {
       List<CelestialNamingObjectEntry> entries = [];
-
+      
+      AddConstellations(entries);
+      AddEntries(entries, NebulaDataUtil.Data?.Nebulas,
+        "Astra_UI_CelestialNamingNebulaeCategory".Translate());
       AddEntries(entries, BlackHoleDataUtil.Data?.BlackHoles, 
         "Astra_UI_CelestialNamingBlackHolesCategory".Translate());
       AddEntries(entries, PulsarDataUtil.Data?.Pulsars,
         "Astra_UI_CelestialNamingPulsarsCategory".Translate());
-      AddEntries(entries, NebulaDataUtil.Data?.Nebulas,
-        "Astra_UI_CelestialNamingNebulaeCategory".Translate());
-      AddConstellations(entries);
       
       return entries;
     }
@@ -54,15 +54,34 @@ namespace Astralum.UI
       if (constellations.NullOrEmpty())
         return;
       
-      AddEntries(entries, constellations, 
-        "Astra_UI_CelestialNamingConstellationsCategory".Translate());
+      string constellationCategory = "Astra_UI_CelestialNamingConstellationsCategory".Translate();
+      string starCategory = "Astra_UI_CelestialNamingConstellationStarsCategory".Translate();
       
       for (int i = 0; i < constellations!.Count; i++)
       {
         SavedConstellation constellation = constellations[i];
         
-        AddEntries(entries, constellation.stars, 
-          "Astra_UI_CelestialNamingConstellationStarsCategory".Translate());
+        entries.Add(new CelestialNamingObjectEntry(
+          constellationCategory,
+          constellation.Id,
+          constellation,
+          constellation.LocalSkyPosition
+        ));
+        
+        if (constellation.stars.NullOrEmpty())
+          continue;
+        
+        for (int j = 0; j < constellation.stars.Count; j++)
+        {
+          SavedConstellationStar star = constellation.stars[j];
+          
+          entries.Add(new CelestialNamingObjectEntry(
+            starCategory,
+            star.Id,
+            star,
+            star.LocalSkyPosition,
+            constellation.Id));
+        }
       }
     }
   }

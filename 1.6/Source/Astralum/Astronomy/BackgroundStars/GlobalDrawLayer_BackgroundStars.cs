@@ -68,26 +68,36 @@ namespace Astralum.Astronomy.BackgroundStars
       foreach (object item in base.Regenerate())
         yield return item;
       
-      if (!AstraSettings.RenderAdditionalBackgroundStars)
-        yield break;
-      
-      BackgroundStarsGenerationData generationData =
-        BackgroundStarsUtil.GetGenerationData(Find.World.info.Seed, _starCount);
-      
-      Rand.PushState();
-      Rand.Seed = Find.World.info.Seed ^ 0x71C04ED ^ 0x51A75123;
-      
-      _useNonUniformGalacticPlaneBand = generationData.UseNonUniformGalacticPlaneBand;
-      _galacticPlaneBandMaskOffset = generationData.GalacticPlaneBandMaskOffset;
-      
-      for (int i = 0; i < generationData.StarCount; i++) 
-        PrintColoredStar();
-      
-      _calculatedForStaticRotation = UseStaticRotation;
-      
-      Rand.PopState();
-      
-      FinalizeMesh(MeshParts.All);
+      try
+      {
+        if (!AstraSettings.RenderAdditionalBackgroundStars)
+          yield break;
+        
+        BackgroundStarsGenerationData generationData =
+          BackgroundStarsUtil.GetGenerationData(Find.World.info.Seed, _starCount);
+        
+        Rand.PushState();
+        
+        try
+        {
+          Rand.Seed = Find.World.info.Seed ^ 0x71C04ED ^ 0x51A75123;
+          
+          _useNonUniformGalacticPlaneBand = generationData.UseNonUniformGalacticPlaneBand;
+          _galacticPlaneBandMaskOffset = generationData.GalacticPlaneBandMaskOffset;
+          
+          for (int i = 0; i < generationData.StarCount; i++) 
+            PrintColoredStar();
+        }
+        finally
+        {
+          Rand.PopState();
+        }
+      }
+      finally
+      {
+        _calculatedForStaticRotation = UseStaticRotation;
+        FinalizeMesh(MeshParts.All);
+      }
     }
     
     private void PrintColoredStar()

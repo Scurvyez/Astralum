@@ -40,10 +40,13 @@ namespace Astralum.Astronomy.Pulsars
       }
       
       _pulsarChance = Mathf.Clamp01(_ext.pulsarChance);
-      _pulsarCount = _ext.pulsarCount;
       _pulsarSize = new FloatRange(
-        Mathf.Clamp(_ext.pulsarSize.min, 0.5f, 2f),
-        Mathf.Clamp(_ext.pulsarSize.max, 0.5f, 2f)
+        Mathf.Clamp(_ext.pulsarSize.min, 0.001f, 10f),
+        Mathf.Clamp(_ext.pulsarSize.max, 0.001f, 10f)
+      );
+      _pulsarCount = new IntRange(
+        Mathf.Clamp(_ext.pulsarCount.min, 0, 10),
+        Mathf.Clamp(_ext.pulsarCount.max, 0, 10)
       );
     }
 

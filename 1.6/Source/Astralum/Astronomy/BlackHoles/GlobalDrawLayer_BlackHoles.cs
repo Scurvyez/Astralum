@@ -46,8 +46,8 @@ namespace Astralum.Astronomy.BlackHoles
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
       _blackHoleChance = Mathf.Clamp01(_ext.blackHoleChance);
       _blackHoleSize = new FloatRange(
-        Mathf.Clamp(_ext.blackHoleSize.min, 0.5f, 2f),
-        Mathf.Clamp(_ext.blackHoleSize.max, 0.5f, 2f)
+        Mathf.Clamp(_ext.blackHoleSize.min, 0.001f, 10f),
+        Mathf.Clamp(_ext.blackHoleSize.max, 0.001f, 10f)
       );
       _blackHoleCount = new IntRange(
         Mathf.Clamp(_ext.blackHoleCount.min, 0, 10),
