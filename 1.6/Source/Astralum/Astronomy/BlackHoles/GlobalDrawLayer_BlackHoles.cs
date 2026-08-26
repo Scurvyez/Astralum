@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
@@ -70,7 +71,7 @@ namespace Astralum.Astronomy.BlackHoles
         if (base.ShouldRegenerate)
           return true;
         
-        if (BlackHoleInteractionRegistry.Dirty)
+        if (CelestialObjectInteractionRegistry.Dirty)
           return true;
         
         if (UseStaticRotation != _calculatedForStaticRotation)
@@ -102,7 +103,7 @@ namespace Astralum.Astronomy.BlackHoles
         if (!AstraSettings.RenderBlackholes)
           yield break;
         
-        WorldComponent_BlackHoleData data = BlackHoleDataUtil.Data;
+        WorldComponent_CelestialObjectDataCache data = BlackHoleDataUtil.Data;
         
         if (data == null)
           yield break;
@@ -113,8 +114,8 @@ namespace Astralum.Astronomy.BlackHoles
         if (data.BlackHoles.NullOrEmpty())
           yield break;
         
+        CelestialObjectInteractionRegistry.Clear(CelestialObjectType.BlackHole);
         LayerSubMesh subMesh = GetSubMesh(BlackHoleMatsUtil.BlackHole);
-        
         PrintSavedBlackHoles(data.BlackHoles, subMesh);
       }
       finally
@@ -134,37 +135,30 @@ namespace Astralum.Astronomy.BlackHoles
         }
         
         _calculatedForStaticRotation = UseStaticRotation;
-        
-        BlackHoleInteractionRegistry.ClearDirty();
-        
         FinalizeMesh(MeshParts.All);
       }
     }
     
-    private void GenerateAndSaveBlackHoles(WorldComponent_BlackHoleData data)
+    private void GenerateAndSaveBlackHoles(WorldComponent_CelestialObjectDataCache data)
     {
-      data.Clear();
+      data.ClearBlackHoles();
 
       if (Rand.Value > _blackHoleChance)
         return;
 
       List<SavedBlackHole> placed = [];
-      int blackHoleCount = _blackHoleCount.RandomInRange;
+      int blackHoleCount = Mathf.Clamp(_blackHoleCount.RandomInRange, 0, 10);
 
       for (int i = 0; i < blackHoleCount; i++)
       {
-        if (!BlackHolesUtil.TryPlaceBlackHole(
-              placed,
-              out Vector3 dir,
-              out float size,
-              _galacticPlaneBounds,
-              _blackHoleSize,
-              _blackHoleCanvasScale))
+        if (!BlackHolesUtil.TryPlaceBlackHole(placed, out Vector3 dir, out float size, out float rotation,
+              _galacticPlaneBounds, _blackHoleSize, _blackHoleCanvasScale))
         {
           continue;
         }
-
-        SavedBlackHole blackHole = BlackHoleDataUtil.Create(i, dir, size);
+        
+        string id = $"blackhole_{Find.World.info.seedString}_{i}";
+        SavedBlackHole blackHole = BlackHoleDataUtil.Create(id, dir, size, rotation);
         
         placed.Add(blackHole);
         data.BlackHoles.Add(blackHole);
@@ -176,37 +170,28 @@ namespace Astralum.Astronomy.BlackHoles
       if (blackHoles.NullOrEmpty())
         return;
       
-      BlackHoleInteractionRegistry.Clear();
-      
       for (int i = 0; i < blackHoles.Count; i++)
       {
         SavedBlackHole blackHole = blackHoles[i];
-        
         RegisterBlackHoleForInteraction(blackHole);
-        
-        PrintBlackHoleBillboard(
-          blackHole.localSkyPos,
-          blackHole.size,
-          subMesh,
-          Rotation
-        );
+        PrintBlackHoleBillboard(blackHole.LocalSkyPosition, blackHole.RenderSize, subMesh, Rotation);
       }
     }
     
     private static void RegisterBlackHoleForInteraction(SavedBlackHole blackHole)
     {
-      Vector3 dir = blackHole.localSkyPos.normalized;
+      Vector3 dir = blackHole.LocalSkyPosition.normalized;
       SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
       
-      BlackHoleInteractionRegistry.Register(
-        blackHole.id,
+      CelestialObjectInteractionRegistry.Register(
+        CelestialObjectType.BlackHole,
+        blackHole.Id,
         blackHole.DisplayName,
-        blackHole.localSkyPos,
-        blackHole.size,
+        blackHole.LocalSkyPosition,
+        blackHole.RenderSize,
         WorldUtils.SkyHemisphere(dir),
         WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees)
-      );
+        WorldUtils.FormatDeclination(coord.declinationDegrees));
     }
     
     private static void PrintBlackHoleBillboard(Vector3 localSkyPos, float size, LayerSubMesh subMesh, 

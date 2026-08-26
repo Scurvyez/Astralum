@@ -6,18 +6,17 @@ namespace Astralum.Astronomy.Pulsars
 {
   public static class PulsarDataUtil
   {
-    public static WorldComponent_PulsarData Data => Find.World?.GetComponent<WorldComponent_PulsarData>();
+    public static WorldComponent_CelestialObjectDataCache Data => Find.World?.GetComponent<WorldComponent_CelestialObjectDataCache>();
     
-    public static SavedPulsar Create(int id, Vector3 localSkyPos, float size, float rotationDegrees)
+    public static SavedPulsar Create(string id, Vector3 dir, float size, float rotation)
     {
-      return new SavedPulsar
-      {
-        pulsarId = id,
-        name = PulsarNamingUtil.GenerateName(localSkyPos),
-        localSkyPos = localSkyPos,
-        size = size,
-        rotationDegrees = rotationDegrees
-      };
+      return CelestialObjectDataUtil.CreateNameable<SavedPulsar>(id, dir, size,
+        PulsarNamingUtil.GenerateName(dir), 0f);
+    }
+    
+    public static SavedPulsar GetById(string id)
+    {
+      return Data?.Pulsars.GetById(id);
     }
   }
 }

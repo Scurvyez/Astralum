@@ -7,14 +7,14 @@ namespace Astralum.UI
   {
     public readonly string CategoryLabel;
     public readonly string Id;
-    public readonly IPlayerNamedCelestialObject Object;
+    public readonly IPlayerNameableCelestialObject Object;
     public readonly Vector3 LocalSkyPos;
     
     public string DisplayName => Object?.DisplayName;
     public string GeneratedName => Object?.GeneratedName;
     public bool HasPlayerName => Object?.HasPlayerSetName == true;
     
-    public CelestialNamingObjectEntry(string categoryLabel, string id, IPlayerNamedCelestialObject obj, 
+    public CelestialNamingObjectEntry(string categoryLabel, string id, IPlayerNameableCelestialObject obj, 
       Vector3 localSkyPos)
     {
       CategoryLabel = categoryLabel;

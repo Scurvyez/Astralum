@@ -78,7 +78,7 @@ namespace Astralum.Harmony
       
       SavedConstellation constellation = ConstellationObservationUtil.BestObservableConstellationFor(pawn);
       
-      if (constellation?.name.NullOrEmpty() != false)
+      if (constellation?.DisplayName.NullOrEmpty() != false)
         return new TelescopeReportData(false, null);
       
       string report = BuildTelescopeReport(constellation);
@@ -109,52 +109,52 @@ namespace Astralum.Harmony
       switch (pattern)
       {
         case 0:
-          return "Astra_TelescopeReport_Constellation".Translate(constellation.name);
+          return "Astra_TelescopeReport_Constellation".Translate(constellation.DisplayName);
         
         case 1:
-          return "Astra_TelescopeReport_ConstellationHemisphere".Translate(constellation.name, hemisphere);
+          return "Astra_TelescopeReport_ConstellationHemisphere".Translate(constellation.DisplayName, hemisphere);
         
         case 2:
-          return "Astra_TelescopeReport_ConstellationCoords".Translate(constellation.name, ra, dec);
+          return "Astra_TelescopeReport_ConstellationCoords".Translate(constellation.DisplayName, ra, dec);
         
         case 3:
         {
           SavedConstellationStar star = stars.RandomElement();
-          return "Astra_TelescopeReport_ConstellationStar".Translate(constellation.name, star.name);
+          return "Astra_TelescopeReport_ConstellationStar".Translate(constellation.DisplayName, star.DisplayName);
         }
         
         case 4:
         {
           SavedConstellationStar star = stars.RandomElement();
-          return "Astra_TelescopeReport_TracesStar".Translate(constellation.name, star.name);
+          return "Astra_TelescopeReport_TracesStar".Translate(constellation.DisplayName, star.DisplayName);
         }
         
         case 5:
         {
           SavedConstellationStar star = stars.RandomElement();
-          return "Astra_TelescopeReport_StarClass".Translate(constellation.name, star.name,
+          return "Astra_TelescopeReport_StarClass".Translate(constellation.DisplayName, star.DisplayName,
             star.spectralClass.ToString());
         }
         
         case 6:
         {
           SavedConstellationStar star = stars.RandomElement();
-          return "Astra_TelescopeReport_StarHemisphere".Translate(constellation.name, star.name,
+          return "Astra_TelescopeReport_StarHemisphere".Translate(constellation.DisplayName, star.DisplayName,
             hemisphere);
         }
         
         case 7:
         {
           GetTwoDifferentStars(stars, out SavedConstellationStar a, out SavedConstellationStar b);
-          return "Astra_TelescopeReport_ConstellationTwoStars".Translate(constellation.name, 
-            a.name, b.name);
+          return "Astra_TelescopeReport_ConstellationTwoStars".Translate(constellation.DisplayName, 
+            a.DisplayName, b.DisplayName);
         }
         
         default:
         {
           GetTwoDifferentStars(stars, out SavedConstellationStar a, out SavedConstellationStar b);
-          return "Astra_TelescopeReport_TwoStarClasses".Translate(constellation.name, a.name,
-            a.spectralClass.ToString(), b.name, b.spectralClass.ToString());
+          return "Astra_TelescopeReport_TwoStarClasses".Translate(constellation.DisplayName, a.DisplayName,
+            a.spectralClass.ToString(), b.DisplayName, b.spectralClass.ToString());
         }
       }
     }
@@ -248,15 +248,15 @@ namespace Astralum.Harmony
     
     private static bool TryGetNebulaObservation(out CelestialObjectInfo observation)
     {
-      WorldComponent_NebulaeData comp = Find.World.GetComponent<WorldComponent_NebulaeData>();
+      WorldComponent_CelestialObjectDataCache comp = Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>();
       
-      if (comp?.Nebulae.NullOrEmpty() != false)
+      if (comp?.Nebulas.NullOrEmpty() != false)
       {
         observation = default;
         return false;
       }
       
-      SavedNebula nebula = comp.Nebulae.RandomElement();
+      SavedNebula nebula = comp.Nebulas.RandomElement();
       observation = CelestialObjectInfoUtil.FromNebula(nebula);
       
       return true;

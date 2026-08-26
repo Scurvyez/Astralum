@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Astronomy.BackgroundStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
@@ -15,12 +16,12 @@ namespace Astralum.Astronomy.Nebulae
 {
   public class GlobalDrawLayer_Nebulae : WorldDrawLayerBase
   {
-    private const float DistanceToNebulae = 20f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_Nebulae _ext;
     
+    private bool _calculatedForStaticRotation = true;
+    
     private IntRange _nebulaCount = new(10, 13);
-    private bool _calculatedForStaticRotation;
     private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private FloatRange _nebulaSizeRange = new(6f, 18f);
     
@@ -47,8 +48,7 @@ namespace Astralum.Astronomy.Nebulae
 
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
 
-    protected override Quaternion Rotation =>
-      UseStaticRotation
+    protected override Quaternion Rotation => UseStaticRotation
         ? Quaternion.identity
         : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
 
@@ -68,35 +68,39 @@ namespace Astralum.Astronomy.Nebulae
       foreach (object item in base.Regenerate())
         yield return item;
       
-      if (!AstraSettings.RenderNebulae)
-        yield break;
+      Rand.PushState();
+      Rand.Seed = Find.World.info.Seed ^ 0x4E384C41;
 
       try
       {
-        WorldComponent_NebulaeData data = NebulaDataUtil.Data;
+        if (!AstraSettings.RenderNebulae)
+          yield break;
+        
+        WorldComponent_CelestialObjectDataCache data = NebulaDataUtil.Data;
 
         if (data == null)
           yield break;
 
         if (!data.HasGeneratedNebulae)
           GenerateAndSaveNebulae(data);
+        
+        if (data.Nebulas.NullOrEmpty())
+          yield break;
 
-        PrintSavedNebulae(data.Nebulae);
+        CelestialObjectInteractionRegistry.Clear(CelestialObjectType.Nebulae);
+        PrintSavedNebulae(data.Nebulas);
       }
       finally
       {
+        Rand.PopState();
         _calculatedForStaticRotation = UseStaticRotation;
-
         FinalizeMesh(MeshParts.All);
       }
     }
 
-    private void GenerateAndSaveNebulae(WorldComponent_NebulaeData data)
+    private void GenerateAndSaveNebulae(WorldComponent_CelestialObjectDataCache data)
     {
-      data.Clear();
-
-      Rand.PushState();
-      Rand.Seed = Find.World.info.Seed ^ 0x4E384C41;
+      data.ClearNebulas();
       
       GlobalWorldDrawLayerDef backgroundStarsDef = InternalDefOf.Astra_BackgroundStars;
       ModExt_BackgroundStars backgroundStarsExt = backgroundStarsDef?.GetModExtension<ModExt_BackgroundStars>();
@@ -111,24 +115,14 @@ namespace Astralum.Astronomy.Nebulae
       
       HashSet<string> usedNames = [];
       
-      try
+      for (int i = 0; i < nebulaCount; i++)
       {
-        for (int i = 0; i < nebulaCount; i++)
-        {
-          Vector3 localSkyPos =
-            WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds) * DistanceToNebulae;
+        Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds);
+        float size = _nebulaSizeRange.RandomInRange;
+        float rotation = Rand.Range(0f, 360f);
+        string id = $"nebulae_{Find.World.info.seedString}_{i}";
           
-          float size = _nebulaSizeRange.RandomInRange;
-          float rotationDegrees = Rand.Range(0f, 360f);
-
-          data.Nebulae.Add(
-            NebulaDataUtil.CreateRandomNebula(i, localSkyPos, size, rotationDegrees, usedNames)
-          );
-        }
-      }
-      finally
-      {
-        Rand.PopState();
+        data.Nebulas.Add(NebulaDataUtil.Create(id, dir, size, rotation, usedNames));
       }
     }
     
@@ -136,18 +130,34 @@ namespace Astralum.Astronomy.Nebulae
     {
       if (nebulae.NullOrEmpty())
         return;
-
+      
       for (int i = 0; i < nebulae.Count; i++)
       {
         SavedNebula nebula = nebulae[i];
-
-        Material material = NebulaeMatsUtil.For(nebula.nebulaId);
-        NebulaDataUtil.ApplyToMaterial(material, nebula);
+        RegisterNebulaForInteraction(nebula);
+        Material material = NebulaeMatsUtil.For(nebula.Id);
+        NebulaeMatsUtil.ApplyToMaterial(material, nebula);
         LayerSubMesh subMesh = GetSubMesh(material);
-
-        WorldRendererUtility.PrintQuadTangentialToPlanet(nebula.localSkyPos, nebula.size, 0f,
-          subMesh, true, nebula.rotationDegrees);
+        
+        WorldRendererUtility.PrintQuadTangentialToPlanet(nebula.LocalSkyPosition, nebula.RenderSize, 0f,
+          subMesh, true, nebula.Rotation);
       }
+    }
+    
+    private static void RegisterNebulaForInteraction(SavedNebula nebula)
+    {
+      Vector3 dir = nebula.LocalSkyPosition.normalized;
+      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      
+      CelestialObjectInteractionRegistry.Register(
+        CelestialObjectType.Nebulae,
+        nebula.Id,
+        nebula.DisplayName,
+        nebula.LocalSkyPosition,
+        nebula.RenderSize,
+        WorldUtils.SkyHemisphere(dir),
+        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
+        WorldUtils.FormatDeclination(coord.declinationDegrees));
     }
   }
 }

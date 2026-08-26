@@ -1,6 +1,6 @@
 ﻿namespace Astralum.Astronomy
 {
-  public interface IPlayerNamedCelestialObject
+  public interface IPlayerNameableCelestialObject
   {
     string GeneratedName { get; set; }
     string PlayerSetName { get; set; }

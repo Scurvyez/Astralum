@@ -10,9 +10,9 @@ namespace Astralum.Astronomy.Constellations
     
     public static SavedConstellation BestObservableConstellationFor(Pawn pawn)
     {
-      WorldComponent_ConstellationData data = ConstellationDataUtil.Data;
+      WorldComponent_ConstellationDataCache dataCache = ConstellationDataUtil.Data;
       
-      if (data?.Constellations.NullOrEmpty() != false)
+      if (dataCache?.Constellations.NullOrEmpty() != false)
         return null;
       
       Vector3 observerDir = ObserverWorldDirection(pawn);
@@ -24,7 +24,7 @@ namespace Astralum.Astronomy.Constellations
       SavedConstellation bestFallback = null;
       float bestFallbackScore = float.MinValue;
       
-      foreach (SavedConstellation constellation in data.Constellations)
+      foreach (SavedConstellation constellation in dataCache.Constellations)
       {
         Vector3 constellationWorldDir = skyRotation * constellation.centerDir.normalized;
         float score = Vector3.Dot(observerDir, constellationWorldDir);

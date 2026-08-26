@@ -39,7 +39,7 @@ namespace Astralum.UI
     {
       List<StarInfoLine> lines =
       [
-        new(StellarNamingUtil.SafeName(star.starName, "Astra_Stars_Unknown".Translate())),
+        //new(StellarNamingUtil.SafeName(star.starName, "Astra_Stars_Unknown".Translate())),
         new("Astra_Stars_System".Translate() + $": {StellarNamingUtil.SafeName(star.systemName, 
           "Astra_Stars_UnknownSystem".Translate())}"),
 

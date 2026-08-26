@@ -1,5 +1,4 @@
 ﻿using Astralum.Astronomy;
-using Astralum.Astronomy.LocalSystem.Stars;
 using Astralum.World;
 using RimWorld.Planet;
 using Verse;

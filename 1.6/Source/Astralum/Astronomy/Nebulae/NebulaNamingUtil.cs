@@ -11,11 +11,11 @@ namespace Astralum.Astronomy.Nebulae
 {
   public static class NebulaNamingUtil
   {
-    public static string GenerateUniqueName(HashSet<string> usedNames, int index, Vector3 localSkyPos)
+    public static string GenerateUniqueName(HashSet<string> usedNames, string id, Vector3 localSkyPos)
     {
       for (int i = 0; i < 100; i++)
       {
-        string name = Generate(index, localSkyPos);
+        string name = Generate(id, localSkyPos);
         
         if (!name.NullOrEmpty() && usedNames.Add(name))
           return name;
@@ -25,14 +25,14 @@ namespace Astralum.Astronomy.Nebulae
       
       do
       {
-        fallback = $"Nebula_{index + 1}-{Rand.Range(1000, 9999)}";
+        fallback = $"Nebula_{ShortId(id)}-{Rand.Range(1000, 9999)}";
       }
       while (!usedNames.Add(fallback));
       
       return fallback;
     }
     
-    private static string Generate(int index, Vector3 localSkyPos)
+    private static string Generate(string id, Vector3 localSkyPos)
     {
       float roll = Rand.Value;
       
@@ -42,7 +42,7 @@ namespace Astralum.Astronomy.Nebulae
         < 0.55f => GenerateCoordinateName(localSkyPos),
         < 0.78f => GenerateFromRulePack(InternalDefOf.Astra_NebulaName_Descriptive),
         < 0.92f => GenerateDiscovererName(),
-        _ => GenerateFormalName(index)
+        _ => GenerateFormalName(id)
       };
     }
     
@@ -89,15 +89,25 @@ namespace Astralum.Astronomy.Nebulae
       );
     }
     
-    private static string GenerateFormalName(int index)
+    private static string GenerateFormalName(string id)
     {
       string root = StellarNamingUtil.GenerateSemiUniqueSystemName();
       
       return GenerateFromRulePack(
         InternalDefOf.Astra_NebulaName_Formal,
         new Rule_String("root", root),
-        new Rule_String("index", (index + 1).ToString())
+        new Rule_String("index", ShortId(id))
       );
+    }
+    
+    private static string ShortId(string id)
+    {
+      if (id.NullOrEmpty())
+        return "Unknown";
+      
+      const int length = 6;
+      
+      return id.Length <=  length ? id : id.Substring(0, length);
     }
     
     private static string GenerateFromRulePack(RulePackDef def, params Rule[] extraRules)

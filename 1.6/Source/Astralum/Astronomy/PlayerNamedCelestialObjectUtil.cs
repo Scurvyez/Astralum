@@ -4,17 +4,7 @@ namespace Astralum.Astronomy
 {
   public static class PlayerNamedCelestialObjectUtil
   {
-    public static string DisplayNameFor(IPlayerNamedCelestialObject obj)
-    {
-      if (obj == null)
-        return "Astra_NameGenerator_Unknown".Translate();
-      
-      return obj.PlayerSetName.NullOrEmpty()
-        ? obj.GeneratedName
-        : obj.PlayerSetName;
-    }
-    
-    public static void TrySetPlayerName(IPlayerNamedCelestialObject obj, string name)
+    public static void TrySetPlayerName(IPlayerNameableCelestialObject obj, string name)
     {
       if (obj == null) 
         return;
@@ -23,7 +13,7 @@ namespace Astralum.Astronomy
       obj.PlayerSetName = name.NullOrEmpty() ? null : name;
     }
     
-    public static void ClearPlayerName(IPlayerNamedCelestialObject obj)
+    public static void ClearPlayerName(IPlayerNameableCelestialObject obj)
     {
       obj?.PlayerSetName = null;
     }

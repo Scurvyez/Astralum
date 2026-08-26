@@ -63,6 +63,13 @@ namespace Astralum.Settings
     public bool _renderNebulae = true;
     
     #endregion
+    
+    #region Dustlane settings
+    
+    public static bool RenderDustlanes => _instance._renderDustlanes;
+    public bool _renderDustlanes = true;
+    
+    #endregion
 
     #region Constellation settings
     
@@ -112,6 +119,7 @@ namespace Astralum.Settings
       
       Scribe_Values.Look(ref _renderAdditionalBackgroundsStars, "_renderAdditionalBackgroundsStars", true);
       Scribe_Values.Look(ref _renderNebulae, "_renderNebulae", true);
+      Scribe_Values.Look(ref _renderDustlanes, "_renderDustlanes", true);
       Scribe_Values.Look(ref _renderBlackholes, "_renderBlackholes", true);
       Scribe_Values.Look(ref _renderConstellations, "_renderConstellations", true);
       Scribe_Values.Look(ref _renderPulsars, "_renderPulsars", true);

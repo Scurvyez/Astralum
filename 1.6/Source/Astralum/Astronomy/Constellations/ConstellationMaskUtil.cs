@@ -38,8 +38,6 @@ namespace Astralum.Astronomy.Constellations
           MaskInfoByName[texture.name] = info;
         }
       }
-
-      //AstraLog.Message($"Loaded {CachedMasks.Count} constellation masks.");
     }
 
     public static bool HasMasks => !CachedMasks.NullOrEmpty();

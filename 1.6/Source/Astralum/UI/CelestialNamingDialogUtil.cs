@@ -4,9 +4,10 @@ using Verse;
 
 namespace Astralum.UI
 {
-  public static class CelestialNamingWindowManager
+  public static class CelestialNamingDialogUtil
   {
     private static Dialog_CelestialNaming _window;
+    
     public static void Update(bool requirePlaying)
     {
       if (!ShouldShow(requirePlaying) || !CelestialNamingSettings.ShowNamingWindow)

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy;
-using Astralum.Astronomy.BlackHoles;
 using Astralum.Settings;
 using UnityEngine;
 using Verse;
@@ -95,7 +94,7 @@ namespace Astralum.UI
         List<CelestialNamingObjectEntry> entries = pair.Value;
         
         if (!_expandedByCategory.ContainsKey(category))
-          _expandedByCategory[category] = true;
+          _expandedByCategory[category] = false;
         
         Rect headerRect = new(0f, y, viewRect.width, RowHeight);
         
@@ -150,7 +149,7 @@ namespace Astralum.UI
         return;
       }
       
-      IPlayerNamedCelestialObject obj = _selected.Value.Object;
+      IPlayerNameableCelestialObject obj = _selected.Value.Object;
       
       Widgets.Label(new Rect(inner.x, inner.y, inner.width, 24f),
         $"Astra_UI_CelestialNames_GeneratedName".Translate() + $" {obj.GeneratedName}");
@@ -165,11 +164,7 @@ namespace Astralum.UI
             "Astra_UI_CelestialNames_Apply".Translate()))
       {
         PlayerNamedCelestialObjectUtil.TrySetPlayerName(obj, _nameBuffer);
-        
-        // TODO: update later with a generic "CelestialNamingState.MarkDirty()" or something...
-        BlackHoleInteractionRegistry.MarkDirty();
-        BlackHoleInteractionRegistry.Clear();
-        
+        CelestialObjectHoverInfoLineCache.Clear();
         _nameBuffer = obj.DisplayName;
       }
       
@@ -177,6 +172,7 @@ namespace Astralum.UI
             "Astra_UI_CelestialNames_Clear".Translate()))
       {
         PlayerNamedCelestialObjectUtil.ClearPlayerName(obj);
+        CelestialObjectHoverInfoLineCache.Clear();
         _nameBuffer = obj.GeneratedName;
       }
       

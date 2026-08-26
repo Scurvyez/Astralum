@@ -17,12 +17,17 @@
     <Astra_DisableCelestialNamingWindowToggleLabel>Hide Astralum celestial naming window.</Astra_DisableCelestialNamingWindowToggleLabel>
     <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.</Astra_EnableCelestialNamingWindowToggleLabel>
     
-    <Astra_UI_CelestialNames_Category>Celestial Names</Astra_UI_CelestialNames_Category>
+    <Astra_UI_CelestialNames_Category>Celestial Object Naming</Astra_UI_CelestialNames_Category>
     <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>
     <Astra_UI_CelestialNames_GeneratedName>Generated name:</Astra_UI_CelestialNames_GeneratedName>
     <Astra_UI_CelestialNames_Apply>Apply</Astra_UI_CelestialNames_Apply>
     <Astra_UI_CelestialNames_Clear>Clear</Astra_UI_CelestialNames_Clear>
     <Astra_UI_CelestialNames_View>View</Astra_UI_CelestialNames_View>
+    <Astra_UI_CelestialNamingBlackHolesCategory>Black Holes</Astra_UI_CelestialNamingBlackHolesCategory>
+    <Astra_UI_CelestialNamingPulsarsCategory>Pulsars</Astra_UI_CelestialNamingPulsarsCategory>
+    <Astra_UI_CelestialNamingNebulaeCategory>Nebulae</Astra_UI_CelestialNamingNebulaeCategory>
+    <Astra_UI_CelestialNamingConstellationsCategory>Constellations</Astra_UI_CelestialNamingConstellationsCategory>
+    <Astra_UI_CelestialNamingConstellationStarsCategory>Constellation Stars</Astra_UI_CelestialNamingConstellationStarsCategory>
     
     <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
     <Astra_Deterministic> (Deterministic via world seed.)</Astra_Deterministic>

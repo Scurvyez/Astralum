@@ -66,27 +66,23 @@ namespace Astralum.Astronomy.SkyGrid
       SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SouthernSkyThreshold, MediumWidth);
 
       // declination lines
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyLatitudeHeight(30f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyLatitudeHeight(-30f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyLatitudeHeight(60f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyLatitudeHeight(-60f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(30f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(-30f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(60f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(-60f), MinorWidth);
 
       // RA / longitude meridians
       SkyGridDrawUtil.PrintMeridian(subMesh, pole, Vector3.forward, MediumWidth);
       SkyGridDrawUtil.PrintMeridian(subMesh, pole, Vector3.right, MediumWidth);
 
       // tick marks along the equator
-      SkyGridDrawUtil.PrintEquatorTicks(subMesh, pole, 24, 0.045f, MajorWidth);
+      SkyGridDrawUtil.PrintEquatorTicks(subMesh, pole, 24, 0.045f, MajorWidth,
+        Vector3.forward, Vector3.right);
 
       _calculatedForStaticRotation = UseStaticRotation;
       _calculatedForDrawGrid = CelestialSettings.DrawSkyCoordGrid;
 
       FinalizeMesh(MeshParts.All);
-    }
-
-    private static float SkyLatitudeHeight(float degrees)
-    {
-      return Mathf.Sin(degrees * Mathf.Deg2Rad);
     }
   }
 }

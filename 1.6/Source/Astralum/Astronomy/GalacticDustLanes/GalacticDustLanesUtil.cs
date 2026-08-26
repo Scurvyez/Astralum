@@ -6,18 +6,18 @@ namespace Astralum.Astronomy.GalacticDustLanes
 {
   public static class GalacticDustLanesUtil
   {
-    public static float DustLaneRotationDegrees(Vector3 localDir)
+    public static float DustLaneRotationDegrees(Vector3 dir)
     {
       Vector3 pole = WorldUtils.GalacticPole.normalized;
-      Vector3 tangent = Vector3.Cross(pole, localDir).normalized;
+      Vector3 tangent = Vector3.Cross(pole, dir).normalized;
       
       if (tangent == Vector3.zero)
         return Rand.Range(-8f, 8f);
       
-      Quaternion tilt = Quaternion.AngleAxis(Rand.Range(-5f, 5f), localDir);
+      Quaternion tilt = Quaternion.AngleAxis(Rand.Range(-5f, 5f), dir);
       tangent = tilt * tangent;
       
-      GetDustLaneBasis(localDir, out Vector3 tangentA, out Vector3 tangentB);
+      GetDustLaneBasis(dir, out Vector3 tangentA, out Vector3 tangentB);
       
       float x = Vector3.Dot(tangent, tangentA);
       float y = Vector3.Dot(tangent, tangentB);

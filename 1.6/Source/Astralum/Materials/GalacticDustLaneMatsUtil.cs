@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy.GalacticDustLanes;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using UnityEngine;
@@ -8,39 +9,42 @@ namespace Astralum.Materials
 {
   public static class GalacticDustLaneMatsUtil
   {
-    private static readonly Dictionary<int, Material> MaterialsByIndex = [];
+    private static readonly Dictionary<string, Material> MaterialsByIndex = [];
     
-    public static Material For(int index)
+    public static Material For(string id)
     {
-      if (MaterialsByIndex.TryGetValue(index, out Material material))
+      if (MaterialsByIndex.TryGetValue(id, out Material material))
         return material;
       
-      material = CreateMaterial(index);
-      MaterialsByIndex[index] = material;
+      material = CreateMaterial(id);
+      MaterialsByIndex[id] = material;
       
       return material;
     }
     
-    private static Material CreateMaterial(int index)
+    private static Material CreateMaterial(string id)
     {
-      ShaderTypeDef shaderDef = InternalDefOf.Astra_GalacticDustLane01;
+      Shader shader = InternalDefOf.Astra_GalacticDustLane01.Shader;
       
-      if (shaderDef?.Shader == null)
+      Material material = new(shader)
       {
-        AstraLog.Warning("Astra_GalacticDustLane01 shader is missing.");
-        return null;
-      }
-      
-      Material material = new(shaderDef.Shader)
-      {
-        name = $"Astralum_GalacticDustLane01_{index}"
+        name = $"Astralum_GalacticDustLane01_{id}"
       };
       
       Object.DontDestroyOnLoad(material);
       return material;
     }
     
-    public static void RandomDustPalette(out Color colorA, out Color colorB)
+    public static void Clear()
+    {
+      foreach (Material material in MaterialsByIndex.Values)
+        if (material != null)
+          Object.Destroy(material);
+
+      MaterialsByIndex.Clear();
+    }
+
+    private static void RandomDustPalette(out Color colorA, out Color colorB)
     {
       int palette = Rand.RangeInclusive(0, 4);
       
@@ -71,6 +75,38 @@ namespace Astralum.Materials
           colorB = new Color(0.22f, 0.22f, 0.22f, 1f);
           break;
       }
+    }
+
+    public static void ApplyToMaterial(Material mat, SavedGalacticDustLane dustLane)
+    {
+      if (mat == null || dustLane == null)
+        return;
+      
+      RandomDustPalette(out var colorA, out var colorB);
+      
+      mat.SetColor(InternalShaderPropertyIds.ColorA, colorA);
+      mat.SetColor(InternalShaderPropertyIds.ColorB, colorB);
+      mat.SetFloat(InternalShaderPropertyIds.Alpha, dustLane.alphaRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.Intensity, dustLane.intensityRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.CanvasScale, 1f);
+      mat.SetFloat(InternalShaderPropertyIds.NoiseScale, dustLane.noiseScaleRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.NoiseStrength, Rand.Range(0.55f, 0.9f));
+      mat.SetFloat(InternalShaderPropertyIds.DetailScale, dustLane.detailScaleRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.DetailStrength, Rand.Range(0.15f, 0.45f));
+      mat.SetFloat(InternalShaderPropertyIds.CloudThreshold, Rand.Range(0.34f, 0.58f));
+      mat.SetFloat(InternalShaderPropertyIds.EdgeSoftness, Rand.Range(0.24f, 0.48f));
+      mat.SetFloat(InternalShaderPropertyIds.EdgeFadeStart, 0.02f);
+      mat.SetFloat(InternalShaderPropertyIds.EdgeFadeEnd, 0.18f);
+      mat.SetFloat(InternalShaderPropertyIds.StretchX, dustLane.stretchXRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.StretchY, dustLane.stretchYRange.RandomInRange);
+      mat.SetFloat(InternalShaderPropertyIds.Rotation, Rand.Range(-0.05f, 0.05f));
+      
+      mat.SetVector(InternalShaderPropertyIds.SeedOffset, new Vector4(
+        Rand.Range(-1000f, 1000f),
+        Rand.Range(-1000f, 1000f),
+        Rand.Range(-1000f, 1000f),
+        Rand.Range(-1000f, 1000f)
+      ));
     }
   }
 }

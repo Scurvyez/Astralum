@@ -8,21 +8,21 @@ namespace Astralum.API
   {
     public static bool HasBlackHoles()
     {
-      return Find.World.GetComponent<WorldComponent_BlackHoleData>()?.BlackHoles?.Count > 0;
+      return Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>()?.BlackHoles?.Count > 0;
     }
     
     public static bool HasConstellations()
     {
-      return Find.World.GetComponent<WorldComponent_ConstellationData>()?.Constellations?.Count > 0;
+      return Find.World.GetComponent<WorldComponent_ConstellationDataCache>()?.Constellations?.Count > 0;
     }
     
     public static bool HasConstellationStars()
     {
-      WorldComponent_ConstellationData data = Find.World.GetComponent<WorldComponent_ConstellationData>();
+      WorldComponent_ConstellationDataCache dataCache = Find.World.GetComponent<WorldComponent_ConstellationDataCache>();
       
-      if (data?.Constellations == null) return false;
+      if (dataCache?.Constellations == null) return false;
       
-      foreach (SavedConstellation constellation in data.Constellations)
+      foreach (SavedConstellation constellation in dataCache.Constellations)
       {
         if (constellation == null) return false;
         if (constellation.stars.Count > 0) return true;
@@ -32,12 +32,12 @@ namespace Astralum.API
     
     public static bool HasNebulae()
     {
-      return Find.World.GetComponent<WorldComponent_NebulaeData>()?.Nebulae?.Count > 0;
+      return Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>()?.Nebulas?.Count > 0;
     }
     
     public static bool HasPulsars()
     {
-      return Find.World.GetComponent<WorldComponent_PulsarData>()?.Pulsars?.Count > 0;
+      return Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>()?.Pulsars?.Count > 0;
     }
 
     public static bool HasAny(CelestialObjectType type)

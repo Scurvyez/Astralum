@@ -21,12 +21,13 @@ namespace Astralum.Astronomy.BlackHoles
     /// <param name="blackHoleCanvasScale">A scaling factor for the black hole size applied during placement.</param>
     /// <returns>True if a black hole was successfully placed; otherwise, false.</returns>
     public static bool TryPlaceBlackHole(List<SavedBlackHole> placed, out Vector3 dir, out float size,
-      FloatRange galacticPlaneBounds, FloatRange blackHoleSize, float blackHoleCanvasScale)
+      out float rotation, FloatRange galacticPlaneBounds, FloatRange blackHoleSize, float blackHoleCanvasScale)
     {
       for (int attempt = 0; attempt < MaxPlacementAttempts; attempt++)
       {
         dir = WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
         size = blackHoleSize.RandomInRange * blackHoleCanvasScale;
+        rotation = 0f;
         
         if (!OverlapsExistingBlackHole(dir, size, placed))
           return true;
@@ -34,6 +35,7 @@ namespace Astralum.Astronomy.BlackHoles
       
       dir = default;
       size = 0f;
+      rotation = 0f;
       return false;
     }
     
@@ -48,10 +50,10 @@ namespace Astralum.Astronomy.BlackHoles
     {
       for (int i = 0; i < placed.Count; i++)
       {
-        float angularDistance = Vector3.Angle(dir, placed[i].dir) * Mathf.Deg2Rad;
+        float angularDistance = Vector3.Angle(dir, placed[i].LocalSkyPosition) * Mathf.Deg2Rad;
         
         float thisAngularRadius = Mathf.Atan((size * 0.5f) / MinApartDistance);
-        float otherAngularRadius = Mathf.Atan((placed[i].size * 0.5f) / MinApartDistance);
+        float otherAngularRadius = Mathf.Atan((placed[i].RenderSize * 0.5f) / MinApartDistance);
         
         float requiredDistance = thisAngularRadius + otherAngularRadius;
         

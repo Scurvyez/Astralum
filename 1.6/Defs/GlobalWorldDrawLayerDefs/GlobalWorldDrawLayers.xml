@@ -32,8 +32,6 @@
             <li Class="Astralum.Astronomy.Constellations.ModExt_Constellations">
                 <constellationCount>13</constellationCount>
                 <maxPlacementAttempts>80</maxPlacementAttempts>
-                <baseStarSize>0.25</baseStarSize>
-                <brightStarSize>0.85</brightStarSize>
                 <constellationSizeMin>3.1</constellationSizeMin>
                 <constellationSizeMax>3.5</constellationSizeMax>
                 <minViewRotationAngle>160</minViewRotationAngle>
@@ -43,8 +41,14 @@
     </GlobalWorldDrawLayerDef>
 
     <GlobalWorldDrawLayerDef>
-        <defName>Astra_ConstellationHoverRing</defName>
-        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_ConstellationHoverRing</worldDrawLayer>
+        <defName>Astra_ConstellationStars</defName>
+        <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_ConstellationStars</worldDrawLayer>
+        <modExtensions>
+            <li Class="Astralum.Astronomy.Constellations.ModExt_ConstellationStars">
+                <baseStarSize>0.25</baseStarSize>
+                <brightStarSize>0.85</brightStarSize>
+            </li>
+        </modExtensions>
     </GlobalWorldDrawLayerDef>
 
     <GlobalWorldDrawLayerDef>
@@ -73,8 +77,8 @@
         <modExtensions>
             <li Class="Astralum.Astronomy.Pulsars.ModExt_Pulsars">
                 <pulsarChance>0.025</pulsarChance>
-                <pulsarSize>0.8</pulsarSize>
-                <pulsarCount>1</pulsarCount>
+                <pulsarSize>0.3~2.0</pulsarSize>
+                <pulsarCount>1~3</pulsarCount>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -85,7 +89,7 @@
         <modExtensions>
             <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
                 <galacticPlaneBounds>-0.33~0.33</galacticPlaneBounds>
-                <blackHoleChance>1</blackHoleChance>
+                <blackHoleChance>0.025</blackHoleChance>
                 <blackHoleSize>0.5~2.0</blackHoleSize>
                 <blackHoleCount>1~3</blackHoleCount>
             </li>
@@ -100,12 +104,6 @@
                 <dustLaneCount>4~20</dustLaneCount>
                 <dustLaneSizeRange>6~32</dustLaneSizeRange>
                 <galacticPlaneBounds>0.05~0.05</galacticPlaneBounds>
-                <alphaRange>0.1~0.24</alphaRange>
-                <intensityRange>0.35~0.75</intensityRange>
-                <noiseScaleRange>1.0~6.5</noiseScaleRange>
-                <detailScaleRange>12~30</detailScaleRange>
-                <stretchXRange>1.6~3.2</stretchXRange>
-                <stretchYRange>0.35~0.75</stretchYRange>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>

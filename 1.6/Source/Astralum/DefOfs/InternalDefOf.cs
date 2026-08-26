@@ -46,6 +46,7 @@ namespace Astralum.DefOfs
 
     public static GlobalWorldDrawLayerDef Astra_BackgroundStars;
     public static GlobalWorldDrawLayerDef Astra_Constellations;
+    public static GlobalWorldDrawLayerDef Astra_ConstellationStars;
     public static GlobalWorldDrawLayerDef Astra_Nebulae;
     public static GlobalWorldDrawLayerDef Astra_ShootingStars;
     public static GlobalWorldDrawLayerDef Astra_Pulsars;

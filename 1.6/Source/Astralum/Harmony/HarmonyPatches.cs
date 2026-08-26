@@ -187,7 +187,7 @@ namespace Astralum.Harmony
     public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
     {
       AstralumWorldInfoWindowManager.Update(true);
-      CelestialNamingWindowManager.Update(true);
+      CelestialNamingDialogUtil.Update(true);
     }
 
     public static void Page_SelectStartingSite_ExtraOnGUI_Postfix()

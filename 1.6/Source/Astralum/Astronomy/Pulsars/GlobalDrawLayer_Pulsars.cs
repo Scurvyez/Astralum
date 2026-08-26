@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
@@ -14,7 +15,6 @@ namespace Astralum.Astronomy.Pulsars
 {
   public class GlobalDrawLayer_Pulsars : WorldDrawLayerBase
   {
-    private const float DistanceToPulsars = 20f;
     private readonly GlobalWorldDrawLayerDef _def;
     private readonly ModExt_Pulsars _ext;
 
@@ -23,7 +23,7 @@ namespace Astralum.Astronomy.Pulsars
     private readonly float _pulsarCanvasScale = 1f;
     private readonly float _pulsarChance = 0.05f;
     private IntRange _pulsarCount = new(0, 1);
-    private readonly float _pulsarSize = 0.8f;
+    private FloatRange _pulsarSize = new(0.3f, 2f);
 
     public GlobalDrawLayer_Pulsars()
     {
@@ -40,17 +40,18 @@ namespace Astralum.Astronomy.Pulsars
       }
       
       _pulsarChance = Mathf.Clamp01(_ext.pulsarChance);
-      _pulsarSize = Mathf.Clamp(_ext.pulsarSize, 0.1f, 10f);
-      _pulsarCanvasScale = _pulsarSize * 2f;
       _pulsarCount = _ext.pulsarCount;
+      _pulsarSize = new FloatRange(
+        Mathf.Clamp(_ext.pulsarSize.min, 0.5f, 2f),
+        Mathf.Clamp(_ext.pulsarSize.max, 0.5f, 2f)
+      );
     }
 
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
 
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
 
-    protected override Quaternion Rotation =>
-      UseStaticRotation
+    protected override Quaternion Rotation => UseStaticRotation
         ? Quaternion.identity
         : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
 
@@ -60,7 +61,7 @@ namespace Astralum.Astronomy.Pulsars
       {
         if (base.ShouldRegenerate)
           return true;
-
+        
         return UseStaticRotation != _calculatedForStaticRotation;
       }
     }
@@ -75,12 +76,10 @@ namespace Astralum.Astronomy.Pulsars
       
       try
       {
-        PulsarInteractionRegistry.Clear();
-        
         if (!AstraSettings.RenderPulsars)
           yield break;
         
-        WorldComponent_PulsarData data = PulsarDataUtil.Data;
+        WorldComponent_CelestialObjectDataCache data = PulsarDataUtil.Data;
         
         if (data == null)
           yield break;
@@ -91,18 +90,67 @@ namespace Astralum.Astronomy.Pulsars
         if (data.Pulsars.NullOrEmpty())
           yield break;
         
-        LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
-        
-        PrintSavedPulsars(data.Pulsars, subMesh);
+        CelestialObjectInteractionRegistry.Clear(CelestialObjectType.Pulsar);
+        PrintSavedPulsars(data.Pulsars);
       }
       finally
       {
         Rand.PopState();
-        
         _calculatedForStaticRotation = UseStaticRotation;
-        
         FinalizeMesh(MeshParts.All);
       }
+    }
+    
+    private void GenerateAndSavePulsars(WorldComponent_CelestialObjectDataCache data)
+    {
+      data.ClearPulsars();
+
+      if (Rand.Value > _pulsarChance)
+        return;
+
+      int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
+
+      for (int i = 0; i < pulsarCount; i++)
+      {
+        Vector3 dir = RandomPulsarDirection();
+        float size = _pulsarSize.RandomInRange * _pulsarCanvasScale * 3f;
+        float rotation = 0f;
+        string id = $"pulsar_{Find.World.info.seedString}_{i}";
+        
+        data.Pulsars.Add(PulsarDataUtil.Create(id, dir, size, rotation));
+      }
+    }
+
+    private void PrintSavedPulsars(List<SavedPulsar> pulsars)
+    {
+      if (pulsars.NullOrEmpty())
+        return;
+      
+      for (int i = 0; i < pulsars.Count; i++)
+      {
+        SavedPulsar pulsar = pulsars[i];
+        RegisterPulsarForInteraction(pulsar);
+        LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
+        
+        WorldRendererUtility.PrintQuadTangentialToPlanet(pulsar.LocalSkyPosition, pulsar.RenderSize, 0f, 
+          subMesh, true, Rand.Range(0f, 360f));
+      }
+    }
+
+    private static void RegisterPulsarForInteraction(SavedPulsar pulsar)
+    {
+      Vector3 dir = pulsar.LocalSkyPosition.normalized;
+      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      
+      CelestialObjectInteractionRegistry.Register(
+        CelestialObjectType.Pulsar,
+        pulsar.Id,
+        pulsar.DisplayName,
+        pulsar.LocalSkyPosition,
+        pulsar.RenderSize,
+        WorldUtils.SkyHemisphere(dir),
+        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
+        WorldUtils.FormatDeclination(coord.declinationDegrees));
     }
     
     private static Vector3 RandomPulsarDirection()
@@ -115,73 +163,6 @@ namespace Astralum.Astronomy.Pulsars
       var planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
 
       return (planeRotation * localDir).normalized;
-    }
-    
-    private static void PrintPulsar(Vector3 localSkyPos, float size, float rotationDegrees, LayerSubMesh subMesh)
-    {
-      WorldRendererUtility.PrintQuadTangentialToPlanet(localSkyPos, size, 0f, subMesh,
-        true, rotationDegrees);
-    }
-    
-    private void GenerateAndSavePulsars(WorldComponent_PulsarData data)
-    {
-      data.Clear();
-
-      if (Rand.Value > _pulsarChance)
-        return;
-
-      int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
-
-      for (int i = 0; i < pulsarCount; i++)
-      {
-        Vector3 dir = RandomPulsarDirection();
-
-        float size = _pulsarSize * _pulsarCanvasScale;
-        float rotation = Rand.Range(0f, 360f);
-        Vector3 localSkyPos = dir * DistanceToPulsars;
-
-        data.Pulsars.Add(
-          PulsarDataUtil.Create(i, localSkyPos, size, rotation)
-        );
-      }
-    }
-
-    private void PrintSavedPulsars(List<SavedPulsar> pulsars, LayerSubMesh subMesh)
-    {
-      if (pulsars.NullOrEmpty())
-        return;
-
-      PulsarInteractionRegistry.Clear();
-
-      for (int i = 0; i < pulsars.Count; i++)
-      {
-        SavedPulsar pulsar = pulsars[i];
-
-        RegisterPulsarForInteraction(pulsar);
-
-        PrintPulsar(
-          pulsar.localSkyPos,
-          pulsar.size,
-          pulsar.rotationDegrees,
-          subMesh
-        );
-      }
-    }
-
-    private static void RegisterPulsarForInteraction(SavedPulsar pulsar)
-    {
-      Vector3 dir = pulsar.localSkyPos.normalized;
-
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
-
-      PulsarInteractionRegistry.Register(
-        pulsar.name,
-        pulsar.localSkyPos,
-        pulsar.size,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees)
-      );
     }
   }
 }

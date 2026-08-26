@@ -16,6 +16,11 @@ namespace Astralum.API
       return SunAltitude(map.Tile);
     }
     
+    public static TwilightPeriod GetTwilightPeriod(Map map)
+    {
+      return GetTwilightPeriod(map.Tile);
+    }
+
     public static float SunAltitude(PlanetTile tile)
     {
       Vector3 tileNormal = Find.WorldGrid.GetTileCenter(tile).normalized;
@@ -24,11 +29,6 @@ namespace Astralum.API
       float dot = Mathf.Clamp(Vector3.Dot(tileNormal, sunDirection), -1f, 1f);
       
       return Mathf.Asin(dot) * Mathf.Rad2Deg;
-    }
-    
-    public static TwilightPeriod GetTwilightPeriod(Map map)
-    {
-      return GetTwilightPeriod(map.Tile);
     }
     
     public static TwilightPeriod GetTwilightPeriod(PlanetTile tile)

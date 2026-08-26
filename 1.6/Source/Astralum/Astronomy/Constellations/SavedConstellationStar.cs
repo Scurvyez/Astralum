@@ -4,23 +4,17 @@ using Verse;
 
 namespace Astralum.Astronomy.Constellations
 {
-  public class SavedConstellationStar : IExposable
+  public class SavedConstellationStar : SavedPlayerNameableCelestialObject
   {
-    public Vector3 localSkyPos;
-    public string name;
-    public float rotationDegrees;
-    public SpectralClass spectralClass;
     public Vector2 uv;
-    public float visualSize;
+    public SpectralClass spectralClass;
 
-    public void ExposeData()
+    public override void ExposeData()
     {
-      Scribe_Values.Look(ref name, "name");
+      base.ExposeData();
+      
       Scribe_Values.Look(ref uv, "uv");
-      Scribe_Values.Look(ref localSkyPos, "localSkyPos");
       Scribe_Values.Look(ref spectralClass, "spectralClass");
-      Scribe_Values.Look(ref visualSize, "visualSize");
-      Scribe_Values.Look(ref rotationDegrees, "rotationDegrees");
     }
   }
 }

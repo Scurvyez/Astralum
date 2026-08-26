@@ -59,15 +59,23 @@ namespace Astralum.Astronomy.SkyGrid
     }
 
     public static void PrintEquatorTicks(LayerSubMesh subMesh, Vector3 pole, int tickCount,
-      float tickLength, float width)
+      float tickLength, float width, Vector3 meridianA, Vector3 meridianB)
     {
       GetCircleBasis(pole, out Vector3 a, out Vector3 b);
 
+      Vector3 meridianDirA = Vector3.ProjectOnPlane(meridianA, pole).normalized;
+      Vector3 meridianDirB = Vector3.ProjectOnPlane(meridianB, pole).normalized;
+      
       for (int i = 0; i < tickCount; i++)
       {
         float angle = i / (float)tickCount * Mathf.PI * 2f;
 
         Vector3 equatorDir = DirectionOnCircle(a, b, angle);
+        
+        if (OverlapsMeridian(equatorDir, meridianDirA) 
+            || OverlapsMeridian(equatorDir,  meridianDirB))
+          continue;
+        
         Vector3 tickDir = pole.normalized;
 
         Vector3 start = (equatorDir - tickDir * tickLength * 0.5f).normalized * DistanceToGrid;
@@ -75,6 +83,11 @@ namespace Astralum.Astronomy.SkyGrid
 
         PrintLineSegment(subMesh, start, end, width);
       }
+    }
+
+    private static bool OverlapsMeridian(Vector3 tickDirection, Vector3 meridianDirection)
+    {
+      return Mathf.Abs(Vector3.Dot(tickDirection, meridianDirection)) > 0.999f;
     }
 
     public static void PrintMeridian(LayerSubMesh subMesh, Vector3 pole,

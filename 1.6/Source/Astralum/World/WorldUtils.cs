@@ -94,6 +94,11 @@ namespace Astralum.World
     {
       return Mathf.FloorToInt((value - wholeUnits) * 60f);
     }
+    
+    public static float SkyLatitudeHeight(float degrees)
+    {
+      return Mathf.Sin(degrees * Mathf.Deg2Rad);
+    }
 
     public static string SkyHemisphere(Vector3 direction)
     {
@@ -161,6 +166,36 @@ namespace Astralum.World
       Vector3 screenPoint = camera.WorldToScreenPoint(worldPoint);
       
       return GUIUtility.ScreenToGUIPoint(new Vector2(screenPoint.x, Screen.height - screenPoint.y));
+    }
+    
+    public static bool TryRaySphereIntersectionForHoverInfo(Ray ray, Vector3 sphereCenter, float radius, out Vector3 hit)
+    {
+      Vector3 oc = ray.origin - sphereCenter;
+
+      float a = Vector3.Dot(ray.direction, ray.direction);
+      float b = 2f * Vector3.Dot(oc, ray.direction);
+      float c = Vector3.Dot(oc, oc) - radius * radius;
+      float discriminant = b * b - 4f * a * c;
+
+      if (discriminant < 0f)
+      {
+        hit = default;
+        return false;
+      }
+
+      float sqrt = Mathf.Sqrt(discriminant);
+      float t0 = (-b - sqrt) / (2f * a);
+      float t1 = (-b + sqrt) / (2f * a);
+      float t = t0 > 0f ? t0 : t1;
+
+      if (t <= 0f)
+      {
+        hit = default;
+        return false;
+      }
+
+      hit = ray.origin + ray.direction * t;
+      return true;
     }
   }
 }

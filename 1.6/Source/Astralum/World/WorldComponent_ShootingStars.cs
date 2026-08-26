@@ -9,18 +9,20 @@ namespace Astralum.World
   public class WorldComponent_ShootingStars : WorldComponent
   {
     private readonly ModExt_ShootingStars _ext;
-
+    
     public WorldComponent_ShootingStars(RimWorld.Planet.World world) : base(world)
     {
       if (!AstraSettings.RenderShootingStars)
         return;
       
       _ext = InternalDefOf.Astra_ShootingStars?.GetModExtension<ModExt_ShootingStars>();
-
-      if (_ext != null) return;
+      
+      if (_ext != null) 
+        return;
+      
       AstraLog.Warning("Astra_ShootingStars is missing ModExt_ShootingStars. Using fallback values.");
     }
-
+    
     public override void WorldComponentTick()
     {
       if (!AstraSettings.RenderShootingStars)

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Astralum.Materials;
 using Astralum.World;
 using UnityEngine;
 using Verse;
@@ -8,114 +7,60 @@ namespace Astralum.Astronomy.Nebulae
 {
   public static class NebulaDataUtil
   {
-    public static WorldComponent_NebulaeData Data => Find.World.GetComponent<WorldComponent_NebulaeData>();
+    public static WorldComponent_CelestialObjectDataCache Data => Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>();
 
-    /// <summary>
-    /// Creates a randomly generated nebula with specified parameters.
-    /// </summary>
-    /// <param name="index">The unique index of the nebula.</param>
-    /// <param name="localSkyPos">The position of the nebula in local sky coordinates.</param>
-    /// <param name="size">The size of the nebula.</param>
-    /// <param name="rotationDegrees">The rotation angle of the nebula in degrees.</param>
-    /// <param name="usedNames">The list of already used/cached unique nebula names.</param>
-    /// <returns>A new <see cref="SavedNebula"/> instance representing the generated nebula.</returns>
-    public static SavedNebula CreateRandomNebula(int index, Vector3 localSkyPos, float size, float rotationDegrees,
+    public static SavedNebula Create(string id, Vector3 dir, float size, float rotationDegrees, 
       HashSet<string> usedNames)
     {
       Color[] palette = NebulaeColorUtil.RandomNebulaPalette();
-
       float colorStopB = Rand.Range(0.18f, 0.48f);
-      float randStopCA = colorStopB + 0.15f;
-      float colorStopC = Rand.Range(colorStopB + 0.15f, Mathf.Max(randStopCA + 0.2f, 1f));
-
-      return new SavedNebula
-      {
-        name = NebulaNamingUtil.GenerateUniqueName(usedNames, index, localSkyPos),
-        nebulaId = index,
-        localSkyPos = localSkyPos,
-        size = size,
-        rotationDegrees = rotationDegrees,
-
-        colorA = palette[0],
-        colorB = palette[1],
-        colorC = palette[2],
-        colorD = palette[3],
-
-        colorStopB = colorStopB,
-        colorStopC = colorStopC,
-        colorBandSharpness = Rand.Range(0.25f, 8f),
-
-        seedOffset = new Vector4(
-          Rand.Range(-1000f, 1000f),
-          Rand.Range(-1000f, 1000f),
-          Rand.Range(-1000f, 1000f),
-          Rand.Range(-1000f, 1000f)
-        ),
-
-        seed = Rand.Value * 1000f,
-
-        intensity = Rand.Range(1f, 3f),
-        alpha = Rand.Range(0.3f, 1f),
-
-        noiseScale = Rand.Range(3.25f, 7.5f),
-        noiseStrength = Rand.Range(0.8f, 1.35f),
-
-        cloudThreshold = Rand.Range(0.34f, 0.52f),
-        edgeSoftness = Rand.Range(0.32f, 0.62f),
-
-        warpScale = Rand.Range(1.5f, 4.5f),
-        warpStrength = Rand.Range(0.18f, 0.65f),
-
-        shapePower = Rand.Range(1.2f, 2.4f),
-
-        coreOffset = new Vector4(
-          Rand.Range(-0.12f, 0.12f),
-          Rand.Range(-0.12f, 0.12f),
-          0f,
-          0f
-        ),
-
-        stretchX = 1f,
-        stretchY = 1f,
-
-        shaderRotation = Rand.Range(0f, Mathf.PI * 2f)
-      };
+      float colorStopC = Rand.Range(colorStopB + 0.15f, 1f);
+      string generatedName = NebulaNamingUtil.GenerateUniqueName(usedNames, id, dir);
+      
+      return CelestialObjectDataUtil.CreateNameable<SavedNebula>(id, dir, size, generatedName, rotationDegrees,
+        nebula =>
+        {
+          nebula.rotationDegrees = rotationDegrees;
+          nebula.colorA = palette[0];
+          nebula.colorB = palette[1];
+          nebula.colorC = palette[2];
+          nebula.colorD = palette[3];
+          nebula.colorStopB = colorStopB;
+          nebula.colorStopC = colorStopC;
+          nebula.colorBandSharpness = Rand.Range(0.25f, 8f);
+          
+          nebula.seedOffset = new Vector4(
+            Rand.Range(-1000f, 1000f),
+            Rand.Range(-1000f, 1000f),
+            Rand.Range(-1000f, 1000f),
+            Rand.Range(-1000f, 1000f));
+          
+          nebula.seed = Rand.Value * 1000f;
+          nebula.intensity = Rand.Range(1f, 3f);
+          nebula.alpha = Rand.Range(0.7f, 1f);
+          nebula.noiseScale = Rand.Range(3.25f, 7.5f);
+          nebula.noiseStrength = Rand.Range(0.8f, 1.35f);
+          nebula.cloudThreshold = Rand.Range(0.34f, 0.52f);
+          nebula.edgeSoftness = Rand.Range(0.32f, 0.62f);
+          nebula.warpScale = Rand.Range(1.5f, 4.5f);
+          nebula.warpStrength = Rand.Range(0.18f, 0.65f);
+          nebula.shapePower = Rand.Range(1.2f, 2.4f);
+          
+          nebula.coreOffset = new Vector4(
+            Rand.Range(-0.12f, 0.12f),
+            Rand.Range(-0.12f, 0.12f),
+            0f, 0f);
+          
+          nebula.stretchX = 1f;
+          nebula.stretchY = 1f;
+          nebula.shaderRotation = Rand.Range(0f, Mathf.PI * 2f);
+        }
+      );
     }
-
-    public static void ApplyToMaterial(Material mat, SavedNebula nebula)
+    
+    public static SavedNebula GetById(string id)
     {
-      if (mat == null || nebula == null)
-        return;
-
-      mat.SetColor(InternalShaderPropertyIds.ColorA, nebula.colorA);
-      mat.SetColor(InternalShaderPropertyIds.ColorB, nebula.colorB);
-      mat.SetColor(InternalShaderPropertyIds.ColorC, nebula.colorC);
-      mat.SetColor(InternalShaderPropertyIds.ColorD, nebula.colorD);
-
-      mat.SetFloat(InternalShaderPropertyIds.ColorStopB, nebula.colorStopB);
-      mat.SetFloat(InternalShaderPropertyIds.ColorStopC, nebula.colorStopC);
-      mat.SetFloat(InternalShaderPropertyIds.ColorBandSharpness, nebula.colorBandSharpness);
-
-      mat.SetVector(InternalShaderPropertyIds.SeedOffset, nebula.seedOffset);
-      mat.SetFloat(InternalShaderPropertyIds.Seed, nebula.seed);
-
-      mat.SetFloat(InternalShaderPropertyIds.Intensity, nebula.intensity);
-      mat.SetFloat(InternalShaderPropertyIds.Alpha, nebula.alpha);
-
-      mat.SetFloat(InternalShaderPropertyIds.NoiseScale, nebula.noiseScale);
-      mat.SetFloat(InternalShaderPropertyIds.NoiseStrength, nebula.noiseStrength);
-
-      mat.SetFloat(InternalShaderPropertyIds.CloudThreshold, nebula.cloudThreshold);
-      mat.SetFloat(InternalShaderPropertyIds.EdgeSoftness, nebula.edgeSoftness);
-
-      mat.SetFloat(InternalShaderPropertyIds.WarpScale, nebula.warpScale);
-      mat.SetFloat(InternalShaderPropertyIds.WarpStrength, nebula.warpStrength);
-      mat.SetFloat(InternalShaderPropertyIds.ShapePower, nebula.shapePower);
-      mat.SetVector(InternalShaderPropertyIds.CoreOffset, nebula.coreOffset);
-
-      mat.SetFloat(InternalShaderPropertyIds.StretchX, nebula.stretchX);
-      mat.SetFloat(InternalShaderPropertyIds.StretchY, nebula.stretchY);
-      mat.SetFloat(InternalShaderPropertyIds.Rotation, nebula.shaderRotation);
+      return Data?.Nebulas.GetById(id);
     }
   }
 }

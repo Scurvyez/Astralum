@@ -1,6 +1,9 @@
 ﻿using System.Collections.Generic;
+using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
-using Astralum.World;
+using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.Nebulae;
+using Astralum.Astronomy.Pulsars;
 using Verse;
 
 namespace Astralum.UI
@@ -10,54 +13,57 @@ namespace Astralum.UI
     public static List<CelestialNamingObjectEntry> BuildEntries()
     {
       List<CelestialNamingObjectEntry> entries = [];
-      
-      AddBlackHoles(entries);
-      //AddConstellations(entries);
-      //AddNebulae(entries);
-      //AddPulsars(entries);
-      //AddLocalStar(entries);
+
+      AddEntries(entries, BlackHoleDataUtil.Data?.BlackHoles, 
+        "Astra_UI_CelestialNamingBlackHolesCategory".Translate());
+      AddEntries(entries, PulsarDataUtil.Data?.Pulsars,
+        "Astra_UI_CelestialNamingPulsarsCategory".Translate());
+      AddEntries(entries, NebulaDataUtil.Data?.Nebulas,
+        "Astra_UI_CelestialNamingNebulaeCategory".Translate());
+      AddConstellations(entries);
       
       return entries;
     }
     
-    // TODO: add keyed lang strings for the categories and everything else
-    
-    private static void AddBlackHoles(List<CelestialNamingObjectEntry> entries)
+    private static void AddEntries<T>(List<CelestialNamingObjectEntry> entries, IList<T> objects, string categoryLabel)
+      where T : SavedPlayerNameableCelestialObject
     {
-      WorldComponent_BlackHoleData data = BlackHoleDataUtil.Data;
-      
-      if (data?.BlackHoles.NullOrEmpty() != false)
+      if (objects == null || objects.Count == 0)
         return;
       
-      for (int i = 0; i < data.BlackHoles.Count; i++)
+      for (int i = 0; i < objects.Count; i++)
       {
-        SavedBlackHole blackHole = data.BlackHoles[i];
+        T celestialObject = objects[i];
+        
+        if (celestialObject == null)
+          continue;
         
         entries.Add(new CelestialNamingObjectEntry(
-          "Black Holes",
-          blackHole.id.ToString(),
-          blackHole,
-          blackHole.localSkyPos));
+            categoryLabel,
+            celestialObject.Id,
+            celestialObject,
+            celestialObject.LocalSkyPosition)
+        );
       }
     }
-
-    /*private static void AddPulsars(List<CelestialNamingObjectEntry> entries)
+    
+    private static void AddConstellations(List<CelestialNamingObjectEntry> entries)
     {
-      WorldComponent_PulsarData data = PulsarDataUtil.Data;
+      List<SavedConstellation> constellations = ConstellationDataUtil.Data?.Constellations;
       
-      if (data?.pulsars.NullOrEmpty() != false)
+      if (constellations.NullOrEmpty())
         return;
-
-      for (int i = 0; i < data.pulsars.Count; i++)
+      
+      AddEntries(entries, constellations, 
+        "Astra_UI_CelestialNamingConstellationsCategory".Translate());
+      
+      for (int i = 0; i < constellations!.Count; i++)
       {
-        SavedPulsar pulsar = data.pulsars[i];
+        SavedConstellation constellation = constellations[i];
         
-        entries.Add(new CelestialNamingObjectEntry(
-          "Pulsars",
-          pulsar.pulsarId.ToString(),
-          pulsar,
-          pulsar.localSkyPos));
+        AddEntries(entries, constellation.stars, 
+          "Astra_UI_CelestialNamingConstellationStarsCategory".Translate());
       }
-    }*/
+    }
   }
 }

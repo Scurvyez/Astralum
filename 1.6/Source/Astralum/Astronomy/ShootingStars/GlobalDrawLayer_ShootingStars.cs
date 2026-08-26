@@ -16,8 +16,7 @@ namespace Astralum.Astronomy.ShootingStars
     
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
     
-    protected override Quaternion Rotation =>
-      UseStaticRotation
+    protected override Quaternion Rotation => UseStaticRotation
         ? Quaternion.identity
         : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
     

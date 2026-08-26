@@ -11,8 +11,8 @@ namespace Astralum.API
     {
       return new CelestialObjectInfo(
         CelestialObjectType.Constellation,
-        constellation.name,
-        constellation.name,
+        constellation.Id,
+        constellation.DisplayName,
         constellation.centerDir.normalized * 20f);
     }
 
@@ -21,36 +21,36 @@ namespace Astralum.API
     {
       return new CelestialObjectInfo(
         CelestialObjectType.ConstellationStar,
-        star.name,
-        star.name,
-        star.localSkyPos);
+        star.Id,
+        star.DisplayName,
+        star.LocalSkyPosition);
     }
     
     public static CelestialObjectInfo FromBlackHole(SavedBlackHole blackHole)
     {
       return new CelestialObjectInfo(
         CelestialObjectType.BlackHole,
-        blackHole.id.ToString(),
-        blackHole.generatedName,
-        blackHole.localSkyPos);
+        blackHole.Id,
+        blackHole.DisplayName,
+        blackHole.LocalSkyPosition);
     }
     
     public static CelestialObjectInfo FromPulsar(SavedPulsar pulsar)
     {
       return new CelestialObjectInfo(
         CelestialObjectType.Pulsar,
-        pulsar.pulsarId.ToString(),
-        pulsar.name,
-        pulsar.localSkyPos);
+        pulsar.Id,
+        pulsar.DisplayName,
+        pulsar.LocalSkyPosition);
     }
     
     public static CelestialObjectInfo FromNebula(SavedNebula nebula)
     {
       return new CelestialObjectInfo(
         CelestialObjectType.Nebulae,
-        nebula.nebulaId.ToString(),
-        nebula.name,
-        nebula.localSkyPos);
+        nebula.Id,
+        nebula.DisplayName,
+        nebula.LocalSkyPosition);
     }
   }
 }
