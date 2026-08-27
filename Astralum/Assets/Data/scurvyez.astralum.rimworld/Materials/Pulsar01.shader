@@ -52,6 +52,13 @@ Shader "Astralum/Pulsar01"
         _NoiseStrength ("Noise Strength", Range(0, 1)) = 0.45
         _DetailScale ("Detail Scale", Range(1, 80)) = 24
         _DetailStrength ("Detail Strength", Range(0, 1)) = 0.18
+        
+        _FocusShimmer ("Focus Shimmer", Range(0, 1)) = 0
+        _FocusShimmerColor ("Focus Shimmer Color", Color) = (0.65, 0.85, 1, 1)
+        _FocusShimmerSpeed ("Focus Shimmer Speed", Range(0, 2)) = 0.3
+        _FocusShimmerWidth ("Focus Shimmer Width", Range(0.001, 0.5)) = 0.02
+        _FocusShimmerSoftness ("Focus Shimmer Softness", Range(0.001, 0.5)) = 0.4
+        _FocusShimmerIntensity ("Focus Shimmer Intensity", Range(0, 10)) = 2
     }
     
     SubShader
@@ -73,6 +80,7 @@ Shader "Astralum/Pulsar01"
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
+            #include "CelestialFocusShimmer.hlsl"
             
             fixed4 _ShellDarkColor;
             fixed4 _ShellBrightColor;
@@ -124,6 +132,13 @@ Shader "Astralum/Pulsar01"
             float _DetailScale;
             float _DetailStrength;
             
+            float _FocusShimmer;
+            fixed4 _FocusShimmerColor;
+            float _FocusShimmerSpeed;
+            float _FocusShimmerWidth;
+            float _FocusShimmerSoftness;
+            float _FocusShimmerIntensity;
+            
             struct vertInput
             {
                 float4 vertex : POSITION;
@@ -134,6 +149,7 @@ Shader "Astralum/Pulsar01"
             {
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float4 screenPos : TEXCOORD1;
             };
             
             float hash21(float2 p)
@@ -175,6 +191,7 @@ Shader "Astralum/Pulsar01"
                 
                 output.pos = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = input.uv;
+                output.screenPos = ComputeScreenPos(output.pos);
                 
                 return output;
             }
@@ -425,7 +442,23 @@ Shader "Astralum/Pulsar01"
                     coreAlpha
                 ) * _Alpha;
                 
-                return fixed4(color * _Intensity, alpha);
+                float2 screenUV = input.screenPos.xy / input.screenPos.w;
+                
+                float shimmer = AstralumFocusShimmer(
+                    screenUV,
+                    _Time.y,
+                    _FocusShimmerSpeed,
+                    _FocusShimmerWidth,
+                    _FocusShimmerSoftness
+                );
+                
+                shimmer *= alpha;
+                shimmer *= _FocusShimmer;
+                
+                float3 finalColor = color * _Intensity;
+                finalColor += _FocusShimmerColor.rgb * shimmer * _FocusShimmerIntensity;
+                
+                return fixed4(finalColor, alpha);
             }
             ENDHLSL
         }

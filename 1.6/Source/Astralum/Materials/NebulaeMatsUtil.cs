@@ -36,15 +36,6 @@ namespace Astralum.Materials
       Object.DontDestroyOnLoad(material);
       return material;
     }
-
-    public static void Clear()
-    {
-      foreach (Material material in MaterialsByIndex.Values)
-        if (material != null)
-          Object.Destroy(material);
-
-      MaterialsByIndex.Clear();
-    }
     
     public static void SetFocused(SavedNebula nebula, bool focused)
     {
@@ -93,6 +84,15 @@ namespace Astralum.Materials
       mat.SetFloat(InternalShaderPropertyIds.StretchX, nebula.stretchX);
       mat.SetFloat(InternalShaderPropertyIds.StretchY, nebula.stretchY);
       mat.SetFloat(InternalShaderPropertyIds.Rotation, nebula.shaderRotation);
+    }
+    
+    public static void Clear()
+    {
+      foreach (Material material in MaterialsByIndex.Values)
+        if (material != null)
+          Object.Destroy(material);
+
+      MaterialsByIndex.Clear();
     }
   }
 }

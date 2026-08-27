@@ -90,6 +90,8 @@ namespace Astralum.Astronomy.BlackHoles
       }
     }
     
+    
+    
     public override IEnumerable Regenerate()
     {
       foreach (object item in base.Regenerate())
@@ -115,8 +117,7 @@ namespace Astralum.Astronomy.BlackHoles
           yield break;
         
         CelestialObjectInteractionRegistry.Clear(CelestialObjectType.BlackHole);
-        LayerSubMesh subMesh = GetSubMesh(BlackHoleMatsUtil.BlackHole);
-        PrintSavedBlackHoles(data.BlackHoles, subMesh);
+        PrintSavedBlackHoles(data.BlackHoles);
       }
       finally
       {
@@ -165,7 +166,7 @@ namespace Astralum.Astronomy.BlackHoles
       }
     }
     
-    private void PrintSavedBlackHoles(List<SavedBlackHole> blackHoles, LayerSubMesh subMesh)
+    private void PrintSavedBlackHoles(List<SavedBlackHole> blackHoles)
     {
       if (blackHoles.NullOrEmpty())
         return;
@@ -173,6 +174,12 @@ namespace Astralum.Astronomy.BlackHoles
       for (int i = 0; i < blackHoles.Count; i++)
       {
         SavedBlackHole blackHole = blackHoles[i];
+        Material material = BlackHoleMatsUtil.For(blackHole);
+        
+        if (material == null)
+          continue;
+        
+        LayerSubMesh subMesh = GetSubMesh(material);
         RegisterBlackHoleForInteraction(blackHole);
         PrintBlackHoleBillboard(blackHole.LocalSkyPosition, blackHole.RenderSize, subMesh, Rotation);
       }

@@ -13,6 +13,7 @@ using RimWorld;
 using RimWorld.Planet;
 using Verse;
 using Verse.AI;
+using Verse.Profile;
 
 namespace Astralum.Harmony
 {
@@ -29,6 +30,7 @@ namespace Astralum.Harmony
       PatchPlaySettings(harmony);
       PatchJobDriverGetReport(harmony);
       PatchSkygazeMakeNewToils(harmony);
+      PatchMemoryUtility(harmony);
     }
 
     /// <summary>
@@ -129,6 +131,19 @@ namespace Astralum.Harmony
       
       harmony.Patch(makeNewToils,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(JobDriver_Skygaze_MakeNewToils_Postfix)));
+    }
+    
+    private static void PatchMemoryUtility(HarmonyLib.Harmony harmony)
+    {
+      MethodInfo clearAllMapsAndWorld = HarmonyPatchesUtil.Method(
+        typeof(MemoryUtility), "ClearAllMapsAndWorld",
+        "Clear all custom Unity Materials patch");
+      
+      if (HarmonyPatchesUtil.Missing(clearAllMapsAndWorld))
+        return;
+      
+      harmony.Patch(clearAllMapsAndWorld,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(MemoryUtility_ClearAllMapsAndWorld_Postfix)));
     }
 
     public static IEnumerable<CodeInstruction> GlobalDrawLayer_Sun_Regenerate_Transpiler(
@@ -248,6 +263,15 @@ namespace Astralum.Harmony
         index++;
         yield return toil;
       }
+    }
+    
+    public static void MemoryUtility_ClearAllMapsAndWorld_Postfix()
+    {
+      BlackHoleMatsUtil.Clear();
+      ConstellationsMatsUtil.Clear();
+      GalacticDustLaneMatsUtil.Clear();
+      NebulaeMatsUtil.Clear();
+      PulsarMatsUtil.Clear();
     }
   }
 }

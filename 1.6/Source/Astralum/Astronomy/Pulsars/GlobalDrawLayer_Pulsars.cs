@@ -117,7 +117,7 @@ namespace Astralum.Astronomy.Pulsars
       {
         Vector3 dir = RandomPulsarDirection();
         float size = _pulsarSize.RandomInRange * _pulsarCanvasScale * 3f;
-        float rotation = 0f;
+        float rotation = Rand.Range(0f, 360f);
         string id = $"pulsar_{Find.World.info.seedString}_{i}";
         
         data.Pulsars.Add(PulsarDataUtil.Create(id, dir, size, rotation));
@@ -132,14 +132,19 @@ namespace Astralum.Astronomy.Pulsars
       for (int i = 0; i < pulsars.Count; i++)
       {
         SavedPulsar pulsar = pulsars[i];
-        RegisterPulsarForInteraction(pulsar);
-        LayerSubMesh subMesh = GetSubMesh(PulsarMatsUtil.Pulsar);
+        Material material = PulsarMatsUtil.For(pulsar);
         
-        WorldRendererUtility.PrintQuadTangentialToPlanet(pulsar.LocalSkyPosition, pulsar.RenderSize, 0f, 
-          subMesh, true, Rand.Range(0f, 360f));
+        if (material == null)
+          continue;
+        
+        LayerSubMesh subMesh = GetSubMesh(material);
+        RegisterPulsarForInteraction(pulsar);
+        
+        WorldRendererUtility.PrintQuadTangentialToPlanet(pulsar.LocalSkyPosition, pulsar.RenderSize, 0f,
+          subMesh, true, pulsar.Rotation);
       }
     }
-
+    
     private static void RegisterPulsarForInteraction(SavedPulsar pulsar)
     {
       Vector3 dir = pulsar.LocalSkyPosition.normalized;
@@ -159,7 +164,7 @@ namespace Astralum.Astronomy.Pulsars
     private static Vector3 RandomPulsarDirection()
     {
       var angle = Rand.Range(0f, Mathf.PI * 2f);
-      var localY = Rand.Range(-0.22f, 0.22f);
+      var localY = Rand.Range(-0.75f, 0.75f);
       var radius = Mathf.Sqrt(1f - localY * localY);
       
       Vector3 localDir = new(Mathf.Cos(angle) * radius, localY, Mathf.Sin(angle) * radius);

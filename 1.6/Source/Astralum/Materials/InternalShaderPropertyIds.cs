@@ -139,6 +139,10 @@ namespace Astralum.Materials
     #region Focus Shimmer Properties
     
     public static readonly int FocusShimmer = Shader.PropertyToID("_FocusShimmer");
+    public static readonly int FocusShimmerColor = Shader.PropertyToID("_FocusShimmerColor");
+    public static readonly int FocusShimmerSpeed = Shader.PropertyToID("_FocusShimmerSpeed");
+    public static readonly int FocusShimmerWidth = Shader.PropertyToID("_FocusShimmerWidth");
+    public static readonly int FocusShimmerSoftness = Shader.PropertyToID("_FocusShimmerSoftness");
     public static readonly int FocusShimmerIntensity = Shader.PropertyToID("_FocusShimmerIntensity");
     
     #endregion

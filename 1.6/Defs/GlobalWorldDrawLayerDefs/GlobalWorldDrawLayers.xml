@@ -65,7 +65,7 @@
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
-
+    
     <GlobalWorldDrawLayerDef>
         <defName>Astra_SkyCoordinateGrid</defName>
         <worldDrawLayer>Astralum.Astronomy.SkyGrid.GlobalDrawLayer_SkyCoordinateGrid</worldDrawLayer>
@@ -88,7 +88,7 @@
         <worldDrawLayer>Astralum.Astronomy.BlackHoles.GlobalDrawLayer_BlackHoles</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
-                <galacticPlaneBounds>-0.33~0.33</galacticPlaneBounds>
+                <galacticPlaneBounds>-0.75~0.75</galacticPlaneBounds>
                 <blackHoleChance>0.025</blackHoleChance>
                 <blackHoleSize>0.05~0.5</blackHoleSize>
                 <blackHoleCount>1~3</blackHoleCount>

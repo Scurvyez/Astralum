@@ -15,6 +15,13 @@ Shader "Astralum/BlackHole01"
         _HorizonFeather ("Event Horizon Feather", Range(0.001,0.2)) = 0.025
         _DistortionFeather ("Distortion Edge Feather", Range(0.001,0.5)) = 0.12
         _RingFeather ("Einstein Ring Feather", Range(0.001,0.3)) = 0.08
+        
+        _FocusShimmer ("Focus Shimmer", Range(0, 1)) = 0
+        _FocusShimmerColor ("Focus Shimmer Color", Color) = (0.65, 0.85, 1, 1)
+        _FocusShimmerSpeed ("Focus Shimmer Speed", Range(0, 2)) = 0.3
+        _FocusShimmerWidth ("Focus Shimmer Width", Range(0.001, 0.5)) = 0.02
+        _FocusShimmerSoftness ("Focus Shimmer Softness", Range(0.001, 0.5)) = 0.4
+        _FocusShimmerIntensity ("Focus Shimmer Intensity", Range(0, 10)) = 2
     }
     
     SubShader
@@ -41,6 +48,7 @@ Shader "Astralum/BlackHole01"
             #pragma vertex vert
             #pragma fragment frag
             #include "UnityCG.cginc"
+            #include "CelestialFocusShimmer.hlsl"
             
             sampler2D _AstralumBlackHoleGrabTexture;
             
@@ -57,6 +65,13 @@ Shader "Astralum/BlackHole01"
             float _HorizonFeather;
             float _DistortionFeather;
             float _RingFeather;
+            
+            float _FocusShimmer;
+            fixed4 _FocusShimmerColor;
+            float _FocusShimmerSpeed;
+            float _FocusShimmerWidth;
+            float _FocusShimmerSoftness;
+            float _FocusShimmerIntensity;
             
             struct vertInput
             {
@@ -172,6 +187,23 @@ Shader "Astralum/BlackHole01"
                 
                 float alphaMask = 1.0 - smoothstep(_DistortionRadius, _DistortionRadius + _DistortionFeather, dist);
                 
+                float shimmer = AstralumFocusShimmer(
+                    screenUV,
+                    _Time.y,
+                    _FocusShimmerSpeed,
+                    _FocusShimmerWidth,
+                    _FocusShimmerSoftness
+                );
+                
+                shimmer *= alphaMask;
+                shimmer *= 1.0 - holeMask;
+                
+                float centerFalloff = 1.0 - smoothstep(_Radius, _DistortionRadius, dist);
+                
+                shimmer *= centerFalloff;
+                shimmer *= _FocusShimmer;
+                
+                color.rgb += _FocusShimmerColor.rgb * shimmer * _FocusShimmerIntensity;
                 color.a = alphaMask * active * input.color.a;
                 
                 return color;
