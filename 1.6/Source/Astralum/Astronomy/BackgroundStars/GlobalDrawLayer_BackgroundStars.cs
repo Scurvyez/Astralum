@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.LocalStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;

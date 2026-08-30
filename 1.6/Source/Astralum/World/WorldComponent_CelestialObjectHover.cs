@@ -101,6 +101,7 @@ namespace Astralum.World
     {
       return type switch
       {
+        CelestialObjectType.LocalStar => CelestialSettings.ShowLocalStarInfo,
         CelestialObjectType.BlackHole => CelestialSettings.DrawBlackHoleInfo,
         CelestialObjectType.Pulsar => CelestialSettings.DrawPulsarInfo,
         CelestialObjectType.ConstellationStar => CelestialSettings.DrawConstellationLines,
@@ -112,10 +113,11 @@ namespace Astralum.World
     {
       return type switch
       {
-        CelestialObjectType.BlackHole => 0.25f,
+        CelestialObjectType.LocalStar => 0.1f,
+        CelestialObjectType.BlackHole => 0.2f,
         CelestialObjectType.Pulsar => 0.35f,
-        CelestialObjectType.ConstellationStar => 0.65f,
-        _ => 0.35f
+        CelestialObjectType.ConstellationStar => 0.35f,
+        _ => 0.25f
       };
     }
     
@@ -123,10 +125,11 @@ namespace Astralum.World
     {
       return type switch
       {
-        CelestialObjectType.BlackHole => 0.35f,
-        CelestialObjectType.Pulsar => 0.35f,
-        CelestialObjectType.ConstellationStar => 0.25f,
-        _ => 0.25f
+        CelestialObjectType.LocalStar => 0.05f,
+        CelestialObjectType.BlackHole => 0.25f,
+        CelestialObjectType.Pulsar => 0.3f,
+        CelestialObjectType.ConstellationStar => 0.3f,
+        _ => 0.2f
       };
     }
     

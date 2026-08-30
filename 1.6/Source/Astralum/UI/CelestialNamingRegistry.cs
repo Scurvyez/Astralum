@@ -2,8 +2,10 @@
 using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalStars;
 using Astralum.Astronomy.Nebulae;
 using Astralum.Astronomy.Pulsars;
+using UnityEngine;
 using Verse;
 
 namespace Astralum.UI
@@ -14,8 +16,10 @@ namespace Astralum.UI
     {
       List<CelestialNamingObjectEntry> entries = [];
       
+      AddEntries(entries, LocalStarDataUtil.Data?.LocalStars,
+        "Astra_UI_CelestialNamingLocalStarsCategory".Translate());
       AddConstellations(entries);
-      AddEntries(entries, NebulaDataUtil.Data?.Nebulas,
+      AddEntries(entries, NebulaDataUtil.Data?.Nebulae,
         "Astra_UI_CelestialNamingNebulaeCategory".Translate());
       AddEntries(entries, BlackHoleDataUtil.Data?.BlackHoles, 
         "Astra_UI_CelestialNamingBlackHolesCategory".Translate());
@@ -38,11 +42,15 @@ namespace Astralum.UI
         if (celestialObject == null)
           continue;
         
+        Vector3 position = celestialObject is SavedLocalStar localStar
+          ? LocalStarOrbitUtil.PositionFor(localStar)
+          : celestialObject.LocalSkyPosition;
+        
         entries.Add(new CelestialNamingObjectEntry(
             categoryLabel,
             celestialObject.Id,
             celestialObject,
-            celestialObject.LocalSkyPosition)
+            position)
         );
       }
     }

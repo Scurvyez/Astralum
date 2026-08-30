@@ -3,6 +3,7 @@ using Astralum.API;
 using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalStars;
 using Astralum.Astronomy.Pulsars;
 using Verse;
 
@@ -41,11 +42,45 @@ namespace Astralum.UI
     {
       return obj.type switch
       {
+        CelestialObjectType.LocalStar => BuildLocalStarLines(obj),
         CelestialObjectType.BlackHole => BuildBlackHoleLines(obj),
         CelestialObjectType.Pulsar => BuildPulsarLines(obj),
         CelestialObjectType.ConstellationStar => BuildConstellationStarLines(obj),
         _ => []
       };
+    }
+
+    private static List<CelestialObjectHoverInfoLine> BuildLocalStarLines(
+      CelestialObjectInteractionRegistry.HoverCelestialObject obj)
+    {
+      SavedLocalStar star =  LocalStarDataUtil.GetById(obj.id);
+      string displayName = star?.DisplayName ?? obj.name;
+      
+      if (star == null)
+      {
+        return
+        [
+          new CelestialObjectHoverInfoLine(displayName.NullOrEmpty() ? "Astra_Stars_Unknown".Translate() : displayName),
+          new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
+          new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
+          new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+        ];
+      }
+      
+      return
+      [
+        new CelestialObjectHoverInfoLine(displayName.NullOrEmpty() ? "Astra_Stars_Unknown".Translate() : displayName),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Class".Translate() + $": {star.spectralClass}"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Temperature".Translate() + $": {star.temperatureKelvin:N0} K"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Mass".Translate() + $": {star.mass:F2} M☉"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Radius".Translate() + $": {star.radius:F2} R☉"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Luminosity".Translate() + $": {star.luminosity:F2} L☉"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Age".Translate() + $": {LocalStarGenerationUtil.FormatAge(star.age)}"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Variability".Translate() + $": {star.variabilityType}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+      ];
     }
     
     private static List<CelestialObjectHoverInfoLine> BuildBlackHoleLines(

@@ -84,11 +84,11 @@ namespace Astralum.Astronomy.Nebulae
         if (!data.HasGeneratedNebulae)
           GenerateAndSaveNebulae(data);
         
-        if (data.Nebulas.NullOrEmpty())
+        if (data.Nebulae.NullOrEmpty())
           yield break;
 
         CelestialObjectInteractionRegistry.Clear(CelestialObjectType.Nebulae);
-        PrintSavedNebulae(data.Nebulas);
+        PrintSavedNebulae(data.Nebulae);
       }
       finally
       {
@@ -100,7 +100,7 @@ namespace Astralum.Astronomy.Nebulae
 
     private void GenerateAndSaveNebulae(WorldComponent_CelestialObjectDataCache data)
     {
-      data.ClearNebulas();
+      data.ClearNebulae();
       
       GlobalWorldDrawLayerDef backgroundStarsDef = InternalDefOf.Astra_BackgroundStars;
       ModExt_BackgroundStars backgroundStarsExt = backgroundStarsDef?.GetModExtension<ModExt_BackgroundStars>();
@@ -122,7 +122,7 @@ namespace Astralum.Astronomy.Nebulae
         float rotation = Rand.Range(0f, 360f);
         string id = $"nebulae_{Find.World.info.seedString}_{i}";
           
-        data.Nebulas.Add(NebulaDataUtil.Create(id, dir, size, rotation, usedNames));
+        data.Nebulae.Add(NebulaDataUtil.Create(id, dir, size, rotation, usedNames));
       }
     }
     

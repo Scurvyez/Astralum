@@ -13,17 +13,6 @@ namespace Astralum.Settings
     public float celestialNamingWindowHeight = 560f;
     
     public bool HasCelestialNamingWindowRect;
-    public bool HasStarInfoWindowPos => starInfoWindowXPos >= 0f && starInfoWindowYPos >= 0f;
-    
-    public Vector2 StarInfoWindowPos
-    {
-      get => new(starInfoWindowXPos, starInfoWindowYPos);
-      set
-      {
-        starInfoWindowXPos = value.x;
-        starInfoWindowYPos = value.y;
-      }
-    }
     
     public Rect CelestialNamingWindowRect
     {

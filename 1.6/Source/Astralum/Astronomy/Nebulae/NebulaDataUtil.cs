@@ -60,7 +60,7 @@ namespace Astralum.Astronomy.Nebulae
     
     public static SavedNebula GetById(string id)
     {
-      return Data?.Nebulas.GetById(id);
+      return Data?.Nebulae.GetById(id);
     }
   }
 }

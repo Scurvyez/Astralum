@@ -1,4 +1,4 @@
-﻿namespace Astralum.Astronomy.LocalSystem.Stars
+﻿namespace Astralum.Astronomy.LocalStars
 {
   public readonly struct SpectralClassWeight
   {

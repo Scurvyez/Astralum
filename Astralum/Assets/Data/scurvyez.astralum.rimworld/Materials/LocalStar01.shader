@@ -1,4 +1,4 @@
-Shader "Astralum/Sun01"
+Shader "Astralum/LocalStar01"
 {
     Properties
     {
@@ -20,6 +20,13 @@ Shader "Astralum/Sun01"
         _VariabilitySpeed ("Variability Speed", Range(0,5)) = 1
         
         _ScalingFactor ("Scaling Factor", Range(0,2)) = 0.65
+        
+        _FocusShimmer ("Focus Shimmer", Range(0, 1)) = 0
+        _FocusShimmerColor ("Focus Shimmer Color", Color) = (0.65, 0.85, 1, 1)
+        _FocusShimmerSpeed ("Focus Shimmer Speed", Range(0, 2)) = 0.3
+        _FocusShimmerWidth ("Focus Shimmer Width", Range(0.001, 0.5)) = 0.02
+        _FocusShimmerSoftness ("Focus Shimmer Softness", Range(0.001, 0.5)) = 0.4
+        _FocusShimmerIntensity ("Focus Shimmer Intensity", Range(0, 10)) = 10
     }
     
     SubShader
@@ -84,21 +91,21 @@ Shader "Astralum/Sun01"
             {
                 float2 centeredUv = input.uv - float2(0.5, 0.5);
                 centeredUv /= max(_ScalingFactor, 0.0001);
-
+                
                 float dist = length(centeredUv);
                 float baseRadial = saturate(1.0 - dist * 2.0);
-
+                
                 float chromaticityMask = pow(baseRadial, _ChromaticityFalloffPower);
-
+                
                 float3 chromaticity = _Chromaticity.rgb * chromaticityMask * _ChromaticityIntensity;
-
+                
                 float noise = frac(sin(dot(input.uv * 128.0, float2(12.9898, 78.233))) * 43758.5453);
                 noise = lerp(1.0 - _SurfaceNoiseStrength, 1.0 + _SurfaceNoiseStrength, noise);
-
+                
                 chromaticity *= noise;
-
+                
                 float alpha = saturate(chromaticityMask * _Chromaticity.a);
-
+                
                 return fixed4(saturate(chromaticity), alpha);
             }
             ENDHLSL
@@ -118,6 +125,7 @@ Shader "Astralum/Sun01"
             #pragma vertex vert
             #pragma fragment fragCorona
             #include "UnityCG.cginc"
+            #include "CelestialFocusShimmer.hlsl"
             
             fixed4 _Corona;
             
@@ -130,6 +138,13 @@ Shader "Astralum/Sun01"
             float _VariabilitySpeed;
             float _ScalingFactor;
             
+            float _FocusShimmer;
+            fixed4 _FocusShimmerColor;
+            float _FocusShimmerSpeed;
+            float _FocusShimmerWidth;
+            float _FocusShimmerSoftness;
+            float _FocusShimmerIntensity;
+            
             struct vertInput
             {
                 float4 vertex : POSITION;
@@ -140,6 +155,7 @@ Shader "Astralum/Sun01"
             {
                 float4 pos : SV_POSITION;
                 float2 uv : TEXCOORD0;
+                float4 screenPos : TEXCOORD1;
             };
             
             vertOutput vert (vertInput input)
@@ -151,6 +167,7 @@ Shader "Astralum/Sun01"
                 
                 output.pos = mul(UNITY_MATRIX_VP, worldPos);
                 output.uv = input.uv;
+                output.screenPos = ComputeScreenPos(output.pos);
                 
                 return output;
             }
@@ -203,40 +220,39 @@ Shader "Astralum/Sun01"
                 float surfaceX = centeredUv.x;
                 float surfaceY = centeredUv.y / max(projectedDepth, 0.15);
 
-                float2 coronaFlowUv = float2(
-                    surfaceX * 2.0,
-                    surfaceY + flow
-                );
-
+                float2 coronaFlowUv = float2(surfaceX * 2.0, surfaceY + flow );
                 float coronaNoiseA = ValueNoise(coronaFlowUv * 5.0);
                 float coronaNoiseB = ValueNoise(coronaFlowUv * 11.0 + 17.3);
-
+                
                 float coronaVariation = lerp(coronaNoiseA, coronaNoiseB, 0.35);
                 coronaVariation = lerp(0.85, 1.15, coronaVariation);
                 coronaVariation = lerp(1.0, coronaVariation, sphereMask);
-
-                float3 corona = _Corona.rgb
-                    * coronaMask
-                    * _CoronaIntensity
-                    * variabilityPulse
-                    * coronaVariation;
-
-                float3 outerCorona = _Corona.rgb
-                    * outerHalo
-                    * _OuterCoronaIntensity
-                    * variabilityPulse
-                    * coronaVariation;
-
+                
+                float3 corona = _Corona.rgb * coronaMask * _CoronaIntensity * variabilityPulse * coronaVariation;
+                float3 outerCorona = _Corona.rgb * outerHalo * _OuterCoronaIntensity * variabilityPulse * coronaVariation;
+                float visibleCoronaMask = saturate(coronaMask * _CoronaIntensity + outerHalo * _OuterCoronaIntensity);
+                
                 float3 finalColor = corona + outerCorona;
-
-                // Even though Blend One OneMinusSrcColor does not use alpha
-                // the same way normal alpha blending does, this is still useful
-                // if you switch this pass to Blend SrcAlpha One for testing.
-                float alpha = saturate(
-                    coronaMask * _CoronaIntensity +
-                    outerHalo * _OuterCoronaIntensity
-                ) * _Corona.a;
-
+                
+                float2 screenUv = input.screenPos.xy / input.screenPos.w;
+                
+                float shimmer = AstralumFocusShimmer(
+                    screenUv,
+                    _Time.y,
+                    _FocusShimmerSpeed,
+                    _FocusShimmerWidth,
+                    _FocusShimmerSoftness);
+                
+                shimmer *= _FocusShimmer;
+                shimmer *= visibleCoronaMask;
+                
+                float shimmerStrength = saturate( shimmer * _FocusShimmerIntensity);
+                float3 shimmerTarget = max(finalColor, _FocusShimmerColor.rgb);
+                
+                finalColor =lerp(finalColor, shimmerTarget, shimmerStrength);
+                
+                float alpha = visibleCoronaMask *_Corona.a;
+                
                 return fixed4(saturate(finalColor), alpha);
             }
             ENDHLSL

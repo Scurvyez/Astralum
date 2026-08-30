@@ -17,12 +17,13 @@
     <Astra_DisableCelestialNamingWindowToggleLabel>Hide Astralum celestial naming window.</Astra_DisableCelestialNamingWindowToggleLabel>
     <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.</Astra_EnableCelestialNamingWindowToggleLabel>
     
-    <Astra_UI_CelestialNames_Category>Celestial Catalog</Astra_UI_CelestialNames_Category>
+    <Astra_UI_CelestialNames_Category>Celestial Catalog for:</Astra_UI_CelestialNames_Category>
     <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>
     <Astra_UI_CelestialNames_GeneratedName>Generated name:</Astra_UI_CelestialNames_GeneratedName>
     <Astra_UI_CelestialNames_Apply>Apply</Astra_UI_CelestialNames_Apply>
     <Astra_UI_CelestialNames_Clear>Clear</Astra_UI_CelestialNames_Clear>
     <Astra_UI_CelestialNames_View>View</Astra_UI_CelestialNames_View>
+    <Astra_UI_CelestialNamingLocalStarsCategory>Local Stars</Astra_UI_CelestialNamingLocalStarsCategory>
     <Astra_UI_CelestialNamingBlackHolesCategory>Black Holes</Astra_UI_CelestialNamingBlackHolesCategory>
     <Astra_UI_CelestialNamingPulsarsCategory>Pulsars</Astra_UI_CelestialNamingPulsarsCategory>
     <Astra_UI_CelestialNamingNebulaeCategory>Nebulae</Astra_UI_CelestialNamingNebulaeCategory>

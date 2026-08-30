@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.API;
-using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.LocalStars;
 using UnityEngine;
 
 namespace Astralum.Astronomy

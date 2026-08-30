@@ -1,6 +1,7 @@
 ﻿using Astralum.Astronomy;
 using Astralum.Astronomy.BlackHoles;
 using Astralum.Astronomy.Constellations;
+using Astralum.Astronomy.LocalStars;
 using Astralum.Astronomy.Nebulae;
 using Astralum.Astronomy.Pulsars;
 using Astralum.Materials;
@@ -19,6 +20,8 @@ namespace Astralum.UI
       
       switch (celestialObject)
       {
+        case SavedLocalStar localStar: LocalStarsMatsUtil.SetFocused(localStar, true);
+          break;
         case SavedBlackHole blackHole: BlackHoleMatsUtil.SetFocused(blackHole, true);
           break;
         case SavedPulsar pulsar: PulsarMatsUtil.SetFocused(pulsar, true);
@@ -34,6 +37,8 @@ namespace Astralum.UI
     {
       switch (_focusedObject)
       {
+        case SavedLocalStar localStar: LocalStarsMatsUtil.SetFocused(localStar, false);
+          break;
         case SavedBlackHole blackHole: BlackHoleMatsUtil.SetFocused(blackHole, false);
           break;
         case SavedPulsar pulsar: PulsarMatsUtil.SetFocused(pulsar, false);

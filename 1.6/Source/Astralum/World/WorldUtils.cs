@@ -1,5 +1,4 @@
-﻿using Astralum.Astronomy.LocalSystem.Stars;
-using RimWorld;
+﻿using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -13,17 +12,6 @@ namespace Astralum.World
     private const float PlanetRadius = 100f;
 
     public static Vector3 GalacticPole => Quaternion.Euler(GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
-
-    public static SavedStar CurrentLocalStar
-    {
-      get
-      {
-        RimWorld.Planet.World world = Find.World;
-        WorldComponent_LocalStar comp = world?.GetComponent<WorldComponent_LocalStar>();
-
-        return comp?.Star;
-      }
-    }
     
     public static Quaternion GetCurrentRotationForWorldSpace()
     {

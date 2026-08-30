@@ -29,10 +29,9 @@ namespace Astralum.DefOfs
 
     #region ShaderTypeDefs
 
-    public static ShaderTypeDef Astra_Sun01;
+    public static ShaderTypeDef Astra_LocalStar01;
     public static ShaderTypeDef Astra_BackgroundStar01;
     public static ShaderTypeDef Astra_Constellation01;
-    public static ShaderTypeDef Astra_ConstellationHoverRing01;
     public static ShaderTypeDef Astra_Nebulae01;
     public static ShaderTypeDef Astra_ShootingStar01;
     public static ShaderTypeDef Astra_SkyCoordinateGrid01;

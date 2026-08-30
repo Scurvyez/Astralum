@@ -1,4 +1,4 @@
-﻿using Astralum.Astronomy.LocalSystem.Stars;
+﻿using Astralum.Astronomy.LocalStars;
 using UnityEngine;
 using Verse;
 

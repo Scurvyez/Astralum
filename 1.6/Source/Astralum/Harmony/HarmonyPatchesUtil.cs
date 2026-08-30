@@ -19,7 +19,7 @@ namespace Astralum.Harmony
 {
   public static class HarmonyPatchesUtil
   {
-    public const float ConstellationReportChance = 1f;
+    public const float ConstellationReportChance = 0.2f; // TODO: extension somewhere?
     
     public static readonly ConditionalWeakTable<Job, TelescopeReportData> TelescopeReports = new();
     
@@ -250,13 +250,13 @@ namespace Astralum.Harmony
     {
       WorldComponent_CelestialObjectDataCache comp = Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>();
       
-      if (comp?.Nebulas.NullOrEmpty() != false)
+      if (comp?.Nebulae.NullOrEmpty() != false)
       {
         observation = default;
         return false;
       }
       
-      SavedNebula nebula = comp.Nebulas.RandomElement();
+      SavedNebula nebula = comp.Nebulae.RandomElement();
       observation = CelestialObjectInfoUtil.FromNebula(nebula);
       
       return true;

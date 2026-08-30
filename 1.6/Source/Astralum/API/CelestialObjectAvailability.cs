@@ -32,7 +32,7 @@ namespace Astralum.API
     
     public static bool HasNebulae()
     {
-      return Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>()?.Nebulas?.Count > 0;
+      return Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>()?.Nebulae?.Count > 0;
     }
     
     public static bool HasPulsars()

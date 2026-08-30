@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using Verse;
 
-namespace Astralum.Astronomy.LocalSystem.Stars
+namespace Astralum.Astronomy.LocalStars
 {
   public static class StellarNamingUtil
   {
@@ -71,14 +71,17 @@ namespace Astralum.Astronomy.LocalSystem.Stars
         ? GenerateSemiUniqueSystemName()
         : GenerateGenericSystemName();
     }
-
-    public static string GenerateStarName(string systemName, int starIndex = 0)
+    
+    public static string GenerateStarName(string systemName, int starIndex = 0, int  systemIndex = -1)
     {
-      return starIndex <= 0 
-        ? systemName 
-        : $"{systemName} {GetStarLetterSuffix(starIndex)}";
+      if (starIndex < 0 || starIndex >= RomanNumerals.Length)
+      {
+        return $"{systemName}-{starIndex + 1}";
+      }
+      
+      return $"{systemName}-{RomanNumerals[starIndex]}";
     }
-
+    
     public static string GenerateSemiUniqueSystemName()
     {
       int targetLength = Rand.RangeInclusive(3, 13);

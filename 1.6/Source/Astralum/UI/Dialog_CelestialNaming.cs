@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy;
 using Astralum.Settings;
+using Astralum.World;
 using UnityEngine;
 using Verse;
 
@@ -23,6 +24,7 @@ namespace Astralum.UI
     private const float ExpanderGap = 4f;
     
     private AstraSettings _settings;
+    private WorldComponent_CelestialObjectDataCache _dataCache;
     private Rect _lastSavedRect;
     private Vector2 _scrollPos;
     
@@ -46,6 +48,7 @@ namespace Astralum.UI
       preventCameraMotion = false;
       drawShadow = true;
       resizeable = true;
+      _dataCache = Find.World?.GetComponent<WorldComponent_CelestialObjectDataCache>();
     }
     
     public override void PreOpen()
@@ -81,7 +84,8 @@ namespace Astralum.UI
       _entries = CelestialNamingRegistry.BuildEntries();
       
       Text.Font = GameFont.Medium;
-      Widgets.Label(new Rect(0f, 0f, inRect.width, 32f), "Astra_UI_CelestialNames_Category".Translate());
+      Widgets.Label(new Rect(0f, 0f, inRect.width, 32f), 
+        "Astra_UI_CelestialNames_Category".Translate() + $" {_dataCache.LocalStarSystem.systemName}");
       
       Text.Font = GameFont.Small;
       

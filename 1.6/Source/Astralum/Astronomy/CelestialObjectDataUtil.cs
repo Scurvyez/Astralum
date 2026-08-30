@@ -6,7 +6,7 @@ namespace Astralum.Astronomy
 {
   public static class CelestialObjectDataUtil
   {
-    public const float SkyDistance = 20f;
+    private const float SkyDistance = 20f;
 
     public static T Create<T>(string id, Vector3 dir, float size, float rotation = 0f,
       Action<T> configure = null) where T : SavedCelestialObject, new()
@@ -18,7 +18,6 @@ namespace Astralum.Astronomy
         id = id,
         renderSize = size,
         rotation = rotation,
-        //worldViewDirection = normalizedDir,
         localSkyPosition = normalizedDir * SkyDistance
       };
       

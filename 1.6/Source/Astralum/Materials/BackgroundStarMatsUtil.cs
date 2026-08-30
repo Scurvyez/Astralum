@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.LocalStars;
 using Astralum.DefOfs;
 using UnityEngine;
 using Verse;

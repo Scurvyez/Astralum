@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.BackgroundStars;
-using Astralum.Astronomy.LocalSystem.Stars;
+using Astralum.Astronomy.LocalStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.World;
