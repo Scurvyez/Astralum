@@ -1,6 +1,6 @@
 ﻿namespace Astralum.Astronomy
 {
-  public static class CelestialSettings
+  public class CelestialDisplaySettings
   {
     public static bool DrawBlackHoleInfo;
     public static bool DrawConstellationLines;
@@ -15,6 +15,17 @@
     public static void MarkSkyCoordGridClean()
     {
       _lastDrawSkyCoordGrid = DrawSkyCoordGrid;
+    }
+    
+    public static void Reset()
+    {
+      DrawBlackHoleInfo = false;
+      DrawConstellationLines = false;
+      ShowLocalStarInfo = false;
+      DrawPulsarInfo = false;
+      DrawSkyCoordGrid = false;
+
+      _lastDrawSkyCoordGrid = false;
     }
   }
 }

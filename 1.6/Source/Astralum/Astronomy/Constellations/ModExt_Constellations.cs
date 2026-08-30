@@ -4,7 +4,10 @@ namespace Astralum.Astronomy.Constellations
 {
   public class ModExt_Constellations : DefModExtension
   {
-    public int constellationCount = 13;
+    //public int constellationCount = 13;
+    public int constellationCountMin = 11;
+    public int constellationCountMax = 15;
+    
     public float constellationSizeMax = 3.5f;
     public float constellationSizeMin = 3.0f;
     public int maxPlacementAttempts = 80;

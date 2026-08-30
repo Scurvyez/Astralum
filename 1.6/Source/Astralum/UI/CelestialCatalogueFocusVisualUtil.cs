@@ -8,7 +8,7 @@ using Astralum.Materials;
 
 namespace Astralum.UI
 {
-  public static class CelestialNamingFocusVisualUtil
+  public static class CelestialCatalogueFocusVisualUtil
   {
     private static IPlayerNameableCelestialObject _focusedObject;
 

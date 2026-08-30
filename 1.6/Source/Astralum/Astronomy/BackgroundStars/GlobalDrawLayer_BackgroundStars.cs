@@ -26,7 +26,7 @@ namespace Astralum.Astronomy.BackgroundStars
     
     public GlobalDrawLayer_BackgroundStars()
     {
-      if (!AstraSettings.RenderAdditionalBackgroundStars)
+      if (!AstraSettings.RenderBackgroundStars)
         return;
       
       _def = InternalDefOf.Astra_BackgroundStars;
@@ -68,11 +68,14 @@ namespace Astralum.Astronomy.BackgroundStars
       foreach (object item in base.Regenerate())
         yield return item;
       
+      if (!AstraSettings.RenderBackgroundStars)
+      {
+        FinalizeMesh(MeshParts.All);
+        yield break;
+      }
+      
       try
       {
-        if (!AstraSettings.RenderAdditionalBackgroundStars)
-          yield break;
-        
         BackgroundStarsGenerationData generationData =
           BackgroundStarsUtil.GetGenerationData(Find.World.info.Seed, _starCount);
         

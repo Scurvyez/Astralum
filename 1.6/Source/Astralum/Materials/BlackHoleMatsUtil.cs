@@ -11,14 +11,6 @@ namespace Astralum.Materials
   {
     private static readonly Dictionary<string, Material> MaterialsById = [];
     
-    public static Material For(SavedBlackHole blackHole)
-    {
-      if (blackHole == null)
-        return null;
-      
-      return For(blackHole.Id);
-    }
-    
     public static Material For(string id)
     {
       if (id.NullOrEmpty())
@@ -31,6 +23,13 @@ namespace Astralum.Materials
       MaterialsById[id] = material;
       
       return material;
+    }
+    
+    public static Material For(SavedBlackHole blackHole)
+    {
+      return blackHole == null 
+        ? null 
+        : For(blackHole.Id);
     }
     
     private static Material CreateMaterial(string id)

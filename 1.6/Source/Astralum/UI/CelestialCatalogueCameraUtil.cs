@@ -4,7 +4,7 @@ using Verse;
 
 namespace Astralum.UI
 {
-  public static class CelestialNamingCameraUtil
+  public static class CelestialCatalogueCameraUtil
   { 
     private const float TargetViewportXFromEdge = 0.005f;
     private const float AnimationDuration = 0.45f;

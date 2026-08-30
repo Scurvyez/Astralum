@@ -6,17 +6,21 @@ using Verse;
 
 namespace Astralum.Materials
 {
+  [StaticConstructorOnStartup]
   public static class GalacticDustLaneMatsUtil
   {
-    private static readonly Dictionary<string, Material> MaterialsByIndex = [];
+    private static readonly Dictionary<string, Material> MaterialsById = [];
     
     public static Material For(string id)
     {
-      if (MaterialsByIndex.TryGetValue(id, out Material material))
+      if (id.NullOrEmpty())
+        return null;
+      
+      if (MaterialsById.TryGetValue(id, out Material material))
         return material;
       
       material = CreateMaterial(id);
-      MaterialsByIndex[id] = material;
+      MaterialsById[id] = material;
       
       return material;
     }
@@ -36,11 +40,11 @@ namespace Astralum.Materials
     
     public static void Clear()
     {
-      foreach (Material material in MaterialsByIndex.Values)
+      foreach (Material material in MaterialsById.Values)
         if (material != null)
           Object.Destroy(material);
 
-      MaterialsByIndex.Clear();
+      MaterialsById.Clear();
     }
 
     private static void RandomDustPalette(out Color colorA, out Color colorB)

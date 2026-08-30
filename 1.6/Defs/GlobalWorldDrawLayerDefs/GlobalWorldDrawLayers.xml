@@ -8,9 +8,9 @@
         <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_BackgroundStars</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BackgroundStars.ModExt_BackgroundStars">
-                <starCount>5000~60000</starCount>
+                <starCount>5000~150000</starCount>
                 <starSizeRange>0.085~0.85</starSizeRange>
-                <galacticPlaneBounds>-0.13~0.13</galacticPlaneBounds>
+                <galacticPlaneBounds>-0.2~0.2</galacticPlaneBounds>
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
@@ -43,7 +43,10 @@
         <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Constellations.ModExt_Constellations">
-                <constellationCount>13</constellationCount>
+                <!--<constellationCount>13</constellationCount>-->
+                <constellationCountMin>11</constellationCountMin>
+                <constellationCountMax>15</constellationCountMax>
+                
                 <maxPlacementAttempts>80</maxPlacementAttempts>
                 <constellationSizeMin>3.1</constellationSizeMin>
                 <constellationSizeMax>3.5</constellationSizeMax>

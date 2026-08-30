@@ -11,9 +11,11 @@ namespace Astralum.Astronomy.Constellations
 {
   public static class ConstellationGenerationUtil
   {
+    private const int DefaultConstellationCountMin = 11;
+    private const int DefaultConstellationCountMax = 15;
+    
     public const float DistanceToConstellations = 20f;
     private const float MinCenterAngularDistance = 0.75f;
-    private const int DefaultConstellationCount = 13;
     private const int DefaultMaxPlacementAttempts = 80;
     private const float DefaultBaseStarSize = 0.25f;
     private const float DefaultBrightStarSize = 0.85f;
@@ -43,7 +45,14 @@ namespace Astralum.Astronomy.Constellations
         AstraLog.Warning("Astra_Constellations is missing ModExt_Constellations. Using fallback values.");
       }
       
-      int constellationCount = extC != null ? Mathf.Max(0, extC.constellationCount) : DefaultConstellationCount;
+      int constellationCountMin = extC != null
+        ? Mathf.Max(0, extC.constellationCountMin)
+        : DefaultConstellationCountMin;
+
+      int constellationCountMax = extC != null
+        ? Mathf.Max(constellationCountMin, extC.constellationCountMax)
+        : DefaultConstellationCountMax;
+      
       int maxPlacementAttempts = extC != null ? Mathf.Max(0, extC.maxPlacementAttempts) : DefaultMaxPlacementAttempts;
       float baseStarSize = extC != null ? Mathf.Max(0f, extCs.baseStarSize) : DefaultBaseStarSize;
       float brightStarSize = extC != null ? Mathf.Max(0f, extCs.brightStarSize) : DefaultBrightStarSize;
@@ -53,10 +62,13 @@ namespace Astralum.Astronomy.Constellations
       float maxViewRotationAngle = extC != null ? Mathf.Max(0f, extC.maxViewRotationAngle) : DefaultMaxViewRotationAngle;
       
       Rand.PushState();
-      Rand.Seed = Find.World.info.Seed ^ 0x5A17A11;
       
       try
       {
+        Rand.Seed = Find.World.info.Seed ^ 0x5A17A11;
+
+        int constellationCount = GenerateConstellationTargetCount(constellationCountMin, constellationCountMax);
+        
         GenerateAndSaveConstellations(data, constellationCount, maxPlacementAttempts, baseStarSize,
           brightStarSize, constellationSizeMin, constellationSizeMax, minViewRotationAngle, maxViewRotationAngle);
       }
@@ -67,7 +79,7 @@ namespace Astralum.Astronomy.Constellations
     }
     
     private static void GenerateAndSaveConstellations(WorldComponent_ConstellationDataCache data,
-      int constellationCount, int maxPlacementAttempts, float baseStarSize, float brightStarSize,
+      int targetConstellationCount, int maxPlacementAttempts, float baseStarSize, float brightStarSize,
       float constellationSizeMin, float constellationSizeMax, float minViewRotationAngle, float maxViewRotationAngle)
     {
       data.Clear();
@@ -75,7 +87,7 @@ namespace Astralum.Astronomy.Constellations
       List<Vector3> usedCenters = [];
       List<ConstellationMaskInfo> unusedMasks = ConstellationMaskUtil.CreateShuffledMaskPool();
       HashSet<string> usedNames = [];
-      int count = Mathf.Min(constellationCount, unusedMasks.Count);
+      int count = Mathf.Min(targetConstellationCount, unusedMasks.Count);
       
       for (int i = 0; i < count; i++)
       {
@@ -168,6 +180,22 @@ namespace Astralum.Astronomy.Constellations
         
         constellation.stars.Add(star);
       }
+    }
+
+    private static int GenerateConstellationTargetCount(int minCount, int maxCount)
+    {
+      minCount = Mathf.Max(0, minCount);
+      maxCount = Mathf.Max(maxCount, minCount);
+      
+      if (minCount == maxCount)
+        return minCount;
+      
+      float a = Rand.Value;
+      float b = Rand.Value;
+      
+      float centered = (a + b) * 0.5f;
+      
+      return Mathf.RoundToInt(Mathf.Lerp(minCount, maxCount, centered));
     }
     
     public static void GetConstellationBasis(Vector3 centerDir, float rotationDegrees, out Vector3 tangentA, 

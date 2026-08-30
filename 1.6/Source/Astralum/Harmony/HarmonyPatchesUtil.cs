@@ -8,9 +8,12 @@ using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.Nebulae;
 using Astralum.Debugging;
 using Astralum.Materials;
+using Astralum.Settings;
+using Astralum.UI;
 using Astralum.World;
 using HarmonyLib;
 using RimWorld;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -175,7 +178,7 @@ namespace Astralum.Harmony
     public static void NotifySkygazeObservation(Pawn pawn)
     {
       Map map = pawn.MapHeld;
-      bool darkEnoughOutside = TwilightUtility.SunAltitude(map) < -6f;
+      bool darkEnoughOutside = TwilightUtility.SunAltitude(map) < TwilightUtility.CivilTwilightAltitude;
       
       if (map.TileInfo.Layer.Def.isSpace || darkEnoughOutside)
       {
@@ -241,7 +244,7 @@ namespace Astralum.Harmony
       }
       
       SavedConstellationStar star = constellation.stars.RandomElement();
-      observation = CelestialObjectInfoUtil.FromConstellationStar(constellation, star);
+      observation = CelestialObjectInfoUtil.FromConstellationStar(star);
       
       return true;
     }
@@ -270,12 +273,12 @@ namespace Astralum.Harmony
     
     public static void AddSkyGridToggle(WidgetRow row)
     {
-      string tooltip = CelestialSettings.DrawSkyCoordGrid
+      string tooltip = CelestialDisplaySettings.DrawSkyCoordGrid
         ? "Astra_DisableSkyGridToggleLabel".Translate()
         : "Astra_EnableSkyGridToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref CelestialSettings.DrawSkyCoordGrid,
+        ref CelestialDisplaySettings.DrawSkyCoordGrid,
         UIMatsUtil.ShowSkyGridIcon,
         tooltip, 
         SoundDefOf.Mouseover_ButtonToggle
@@ -284,12 +287,12 @@ namespace Astralum.Harmony
     
     public static void AddConstellationLinesToggle(WidgetRow row)
     {
-      string constellationLinesTooltip = CelestialSettings.DrawConstellationLines
+      string constellationLinesTooltip = CelestialDisplaySettings.DrawConstellationLines
         ? "Astra_DisableConstellationLinesToggleLabel".Translate()
         : "Astra_EnableConstellationLinesToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref CelestialSettings.DrawConstellationLines,
+        ref CelestialDisplaySettings.DrawConstellationLines,
         UIMatsUtil.ShowConstellationLinesIcon,
         constellationLinesTooltip,
         SoundDefOf.Mouseover_ButtonToggle
@@ -298,12 +301,12 @@ namespace Astralum.Harmony
     
     public static void AddBlackHoleInfoToggle(WidgetRow row)
     {
-      string blackHoleTooltip = CelestialSettings.DrawBlackHoleInfo
+      string blackHoleTooltip = CelestialDisplaySettings.DrawBlackHoleInfo
         ? "Astra_DisableBlackHoleInfoToggleLabel".Translate()
         : "Astra_EnableBlackHoleInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref CelestialSettings.DrawBlackHoleInfo,
+        ref CelestialDisplaySettings.DrawBlackHoleInfo,
         UIMatsUtil.ShowBlackHoleInfoIcon,
         blackHoleTooltip,
         SoundDefOf.Mouseover_ButtonToggle);
@@ -311,12 +314,12 @@ namespace Astralum.Harmony
     
     public static void AddPulsarInfoToggle(WidgetRow row)
     {
-      string pulsarTooltip = CelestialSettings.DrawPulsarInfo
+      string pulsarTooltip = CelestialDisplaySettings.DrawPulsarInfo
         ? "Astra_DisablePulsarInfoToggleLabel".Translate()
         : "Astra_EnablePulsarInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref CelestialSettings.DrawPulsarInfo,
+        ref CelestialDisplaySettings.DrawPulsarInfo,
         UIMatsUtil.ShowPulsarInfoIcon,
         pulsarTooltip,
         SoundDefOf.Mouseover_ButtonToggle
@@ -330,23 +333,9 @@ namespace Astralum.Harmony
         : "Astra_EnableLocalStarInfoToggleLabel".Translate();
       
       row.ToggleableIcon(
-        ref CelestialSettings.ShowLocalStarInfo,
+        ref CelestialDisplaySettings.ShowLocalStarInfo,
         UIMatsUtil.ShowLocalStarInfoIcon,
         localStarInfoTooltip,
-        SoundDefOf.Mouseover_ButtonToggle
-      );
-    }
-    
-    public static void AddCelestialNamingToggle(WidgetRow row)
-    {
-      string namingTooltip = CelestialNamingSettings.ShowNamingWindow
-        ? "Astra_DisableCelestialNamingWindowToggleLabel".Translate()
-        : "Astra_EnableCelestialNamingWindowToggleLabel".Translate();
-      
-      row.ToggleableIcon(
-        ref CelestialNamingSettings.ShowNamingWindow,
-        UIMatsUtil.ShowNamingDialogueIcon,
-        namingTooltip,
         SoundDefOf.Mouseover_ButtonToggle
       );
     }

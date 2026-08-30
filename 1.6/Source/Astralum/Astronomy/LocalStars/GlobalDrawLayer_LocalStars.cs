@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Astralum.API;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.World;
 using RimWorld;
 using RimWorld.Planet;
@@ -19,6 +20,12 @@ namespace Astralum.Astronomy.LocalStars
     {
       foreach (object item in base.Regenerate())
         yield return item;
+      
+      if (!AstraSettings.OverrideVanillaSun)
+      {
+        FinalizeMesh(MeshParts.All);
+        yield break;
+      }
       
       LocalStarGenerationUtil.EnsureGenerated();
       WorldComponent_CelestialObjectDataCache data = LocalStarDataUtil.Data;

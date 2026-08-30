@@ -10,11 +10,11 @@ using Verse;
 
 namespace Astralum.UI
 {
-  public static class CelestialNamingRegistry
+  public static class CelestialCatalogueRegistry
   {
-    public static List<CelestialNamingObjectEntry> BuildEntries()
+    public static List<CelestialCatalogueObjectEntry> BuildEntries()
     {
-      List<CelestialNamingObjectEntry> entries = [];
+      List<CelestialCatalogueObjectEntry> entries = [];
       
       AddEntries(entries, LocalStarDataUtil.Data?.LocalStars,
         "Astra_UI_CelestialNamingLocalStarsCategory".Translate());
@@ -29,7 +29,7 @@ namespace Astralum.UI
       return entries;
     }
     
-    private static void AddEntries<T>(List<CelestialNamingObjectEntry> entries, IList<T> objects, string categoryLabel)
+    private static void AddEntries<T>(List<CelestialCatalogueObjectEntry> entries, IList<T> objects, string categoryLabel)
       where T : SavedPlayerNameableCelestialObject
     {
       if (objects == null || objects.Count == 0)
@@ -46,7 +46,7 @@ namespace Astralum.UI
           ? LocalStarOrbitUtil.PositionFor(localStar)
           : celestialObject.LocalSkyPosition;
         
-        entries.Add(new CelestialNamingObjectEntry(
+        entries.Add(new CelestialCatalogueObjectEntry(
             categoryLabel,
             celestialObject.Id,
             celestialObject,
@@ -55,7 +55,7 @@ namespace Astralum.UI
       }
     }
     
-    private static void AddConstellations(List<CelestialNamingObjectEntry> entries)
+    private static void AddConstellations(List<CelestialCatalogueObjectEntry> entries)
     {
       List<SavedConstellation> constellations = ConstellationDataUtil.Data?.Constellations;
       
@@ -69,7 +69,7 @@ namespace Astralum.UI
       {
         SavedConstellation constellation = constellations[i];
         
-        entries.Add(new CelestialNamingObjectEntry(
+        entries.Add(new CelestialCatalogueObjectEntry(
           constellationCategory,
           constellation.Id,
           constellation,
@@ -83,7 +83,7 @@ namespace Astralum.UI
         {
           SavedConstellationStar star = constellation.stars[j];
           
-          entries.Add(new CelestialNamingObjectEntry(
+          entries.Add(new CelestialCatalogueObjectEntry(
             starCategory,
             star.Id,
             star,

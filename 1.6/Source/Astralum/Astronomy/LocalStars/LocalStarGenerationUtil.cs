@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Astralum.Debugging;
 using Astralum.World;
 using UnityEngine;
 using Verse;
@@ -53,7 +54,7 @@ namespace Astralum.Astronomy.LocalStars
       data.ClearLocalStars();
       
       string systemName = StellarNamingUtil.GenerateSystemName();
-      int starCount = Rand.RangeInclusive(1, 3);
+      int starCount = GenerateStarCount();
 
       Vector3 systemCenter = Vector3.forward * DistanceToLocalStars;
       
@@ -135,6 +136,18 @@ namespace Astralum.Astronomy.LocalStars
       }
       
       return SpectralClass.M;
+    }
+    
+    private static int GenerateStarCount()
+    {
+      float roll = Rand.Value;
+      
+      return roll switch
+      {
+        < 0.56f => 1,
+        < 0.89f => 2,
+        _ => 3
+      };
     }
     
     private static double GetAge(SpectralClass spectralClass)

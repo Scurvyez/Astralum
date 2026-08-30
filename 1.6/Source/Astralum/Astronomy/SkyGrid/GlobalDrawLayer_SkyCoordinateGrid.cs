@@ -36,7 +36,7 @@ namespace Astralum.Astronomy.SkyGrid
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
 
-        return CelestialSettings.DrawSkyCoordGrid != _calculatedForDrawGrid;
+        return CelestialDisplaySettings.DrawSkyCoordGrid != _calculatedForDrawGrid;
       }
     }
 
@@ -45,10 +45,10 @@ namespace Astralum.Astronomy.SkyGrid
       foreach (object item in base.Regenerate())
         yield return item;
 
-      if (!CelestialSettings.DrawSkyCoordGrid)
+      if (!CelestialDisplaySettings.DrawSkyCoordGrid)
       {
         _calculatedForStaticRotation = UseStaticRotation;
-        _calculatedForDrawGrid = CelestialSettings.DrawSkyCoordGrid;
+        _calculatedForDrawGrid = CelestialDisplaySettings.DrawSkyCoordGrid;
 
         FinalizeMesh(MeshParts.All);
         yield break;
@@ -80,7 +80,7 @@ namespace Astralum.Astronomy.SkyGrid
         Vector3.forward, Vector3.right);
 
       _calculatedForStaticRotation = UseStaticRotation;
-      _calculatedForDrawGrid = CelestialSettings.DrawSkyCoordGrid;
+      _calculatedForDrawGrid = CelestialDisplaySettings.DrawSkyCoordGrid;
 
       FinalizeMesh(MeshParts.All);
     }

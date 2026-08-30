@@ -67,7 +67,7 @@ namespace Astralum.Astronomy.LocalStars
 
     public static string GenerateSystemName()
     {
-      return Rand.Range(0, 100) < 8
+      return Rand.Range(0, 100) < 20 // TODO: offload this chance to XML somewhere...
         ? GenerateSemiUniqueSystemName()
         : GenerateGenericSystemName();
     }

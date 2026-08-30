@@ -14,7 +14,7 @@ namespace Astralum.Astronomy.BackgroundStars
       
       return new IntRange(
         Mathf.Clamp(ext.starCount.min, 10000, 50000),
-        Mathf.Clamp(ext.starCount.max, 10000, 100000));
+        Mathf.Clamp(ext.starCount.max, 10000, 200000));
     }
     
     public static BackgroundStarsGenerationData GetGenerationData(int worldSeed, IntRange starCountRange)

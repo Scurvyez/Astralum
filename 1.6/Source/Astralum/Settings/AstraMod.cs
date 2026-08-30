@@ -1,4 +1,5 @@
-﻿using Astralum.Debugging;
+﻿using Astralum.Astronomy;
+using Astralum.Debugging;
 using UnityEngine;
 using Verse;
 
@@ -58,9 +59,9 @@ namespace Astralum.Settings
       list1.Label("Astra_Settings_GeneralToggles".Translate().Colorize(AstraLog.MessageMsgCol));
       list1.Gap(SectionTitleGap);
       
-      list1.CheckboxLabeled("Astra_RenderAdditionalBackgroundsStars".Translate(), 
-        ref _settings._renderAdditionalBackgroundsStars, 
-        "Astra_RenderAdditionalBackgroundsStarsDesc".Translate() + "Astra_Deterministic".Translate());
+      list1.CheckboxLabeled("Astra_RenderBackgroundsStars".Translate(), 
+        ref _settings._renderBackgroundsStars, 
+        "Astra_RenderBackgroundsStarsDesc".Translate() + "Astra_Deterministic".Translate());
       list1.Gap(Spacing);
       
       list1.CheckboxLabeled("Astra_RenderNebulae".Translate(),
@@ -92,6 +93,7 @@ namespace Astralum.Settings
         ref _settings._overrideVanillaSun, 
         "Astra_OverrideVanillaSunDesc".Translate() + "Astra_Deterministic".Translate());
       list1.SubLabel("Astra_GameRestartRequired".Translate(), 1f);
+      
       list1.Gap(Spacing);
     }
   }

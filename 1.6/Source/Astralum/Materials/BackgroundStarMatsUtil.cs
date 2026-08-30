@@ -10,7 +10,7 @@ namespace Astralum.Materials
   public static class BackgroundStarMatsUtil
   {
     private static readonly Dictionary<SpectralClass, Material> Materials = new();
-
+    
     static BackgroundStarMatsUtil()
     {
       CreateMaterial(SpectralClass.O, new Color(0.62f, 0.78f, 1f, 1f));

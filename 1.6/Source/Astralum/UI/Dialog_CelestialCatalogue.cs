@@ -2,12 +2,13 @@
 using Astralum.Astronomy;
 using Astralum.Settings;
 using Astralum.World;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
 namespace Astralum.UI
 {
-  public class Dialog_CelestialNaming : Window
+  public class Dialog_CelestialCatalogue : Window
   {
     private const float WindowWidth = 420f;
     private const float WindowHeight = 560f;
@@ -24,20 +25,20 @@ namespace Astralum.UI
     private const float ExpanderGap = 4f;
     
     private AstraSettings _settings;
-    private WorldComponent_CelestialObjectDataCache _dataCache;
     private Rect _lastSavedRect;
     private Vector2 _scrollPos;
     
+    private readonly WorldComponent_CelestialObjectDataCache _dataCache;
     private readonly Dictionary<string, bool> _expandedByCategory = [];
     private readonly Dictionary<string, bool> _expandedConstellations = [];
     
-    private List<CelestialNamingObjectEntry> _entries;
-    private CelestialNamingObjectEntry? _selected;
+    private List<CelestialCatalogueObjectEntry> _entries;
+    private CelestialCatalogueObjectEntry? _selected;
     private string _nameBuffer = "";
     
     public override Vector2 InitialSize => new(WindowWidth, WindowHeight);
     
-    public Dialog_CelestialNaming()
+    public Dialog_CelestialCatalogue()
     {
       draggable = true;
       doCloseX = false;
@@ -57,8 +58,8 @@ namespace Astralum.UI
       
       _settings = AstraMod.Settings;
       
-      windowRect = _settings is { HasCelestialNamingWindowRect: true }
-        ? _settings.CelestialNamingWindowRect
+      windowRect = _settings is { HasCelestialCatalogueWindowRect: true }
+        ? _settings.CelestialCatalogueWindowRect
         : new Rect(32f, 120f, WindowWidth, WindowHeight);
       
       _lastSavedRect = windowRect;
@@ -67,10 +68,18 @@ namespace Astralum.UI
     public override void PostClose()
     {
       base.PostClose();
-      CelestialNamingCameraUtil.StopAnimation();
-      CelestialNamingFocusVisualUtil.Clear();
+      CelestialCatalogueCameraUtil.StopAnimation();
+      CelestialCatalogueFocusVisualUtil.Clear();
     }
-    
+
+    public override void WindowUpdate()
+    {
+      base.WindowUpdate();
+      
+      if (WorldRendererUtility.CurrentWorldRenderMode != WorldRenderMode.Planet)
+        Close();
+    }
+
     public override void DoWindowContents(Rect inRect)
     {
       if (windowRect != _lastSavedRect)
@@ -79,9 +88,9 @@ namespace Astralum.UI
         _lastSavedRect = windowRect;
       }
       
-      CelestialNamingCameraUtil.Update();
+      CelestialCatalogueCameraUtil.Update();
       
-      _entries = CelestialNamingRegistry.BuildEntries();
+      _entries = CelestialCatalogueRegistry.BuildEntries();
       
       Text.Font = GameFont.Medium;
       Widgets.Label(new Rect(0f, 0f, inRect.width, 32f), 
@@ -108,12 +117,12 @@ namespace Astralum.UI
       
       float y = 0f;
       
-      Dictionary<string, List<CelestialNamingObjectEntry>> byCategory = GroupByCategory(_entries);
+      Dictionary<string, List<CelestialCatalogueObjectEntry>> byCategory = GroupByCategory(_entries);
       
-      foreach (KeyValuePair<string, List<CelestialNamingObjectEntry>> pair in byCategory)
+      foreach (KeyValuePair<string, List<CelestialCatalogueObjectEntry>> pair in byCategory)
       {
         string category = pair.Key;
-        List<CelestialNamingObjectEntry> entries = pair.Value;
+        List<CelestialCatalogueObjectEntry> entries = pair.Value;
         
         if (!_expandedByCategory.ContainsKey(category))
           _expandedByCategory[category] = false;
@@ -131,7 +140,7 @@ namespace Astralum.UI
         
         for (int i = 0; i < entries.Count; i++)
         {
-          CelestialNamingObjectEntry entry = entries[i];
+          CelestialCatalogueObjectEntry entry = entries[i];
           
           y = HasChildren(entry.Id)
             ? DrawParentEntry(viewRect, y, entry)
@@ -144,7 +153,7 @@ namespace Astralum.UI
       Widgets.EndScrollView();
     }
     
-    private float DrawParentEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    private float DrawParentEntry(Rect viewRect, float y, CelestialCatalogueObjectEntry entry)
     {
       if (!_expandedConstellations.ContainsKey(entry.Id))
         _expandedConstellations[entry.Id] = false;
@@ -177,7 +186,7 @@ namespace Astralum.UI
       
       for (int i = 0; i < _entries.Count; i++)
       {
-        CelestialNamingObjectEntry child = _entries[i];
+        CelestialCatalogueObjectEntry child = _entries[i];
         
         if (child.ParentId != entry.Id)
           continue;
@@ -190,7 +199,7 @@ namespace Astralum.UI
       return y;
     }
     
-    private float DrawNormalEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    private float DrawNormalEntry(Rect viewRect, float y, CelestialCatalogueObjectEntry entry)
     {
       Rect rowRect = new(CategoryIndent, y, viewRect.width - CategoryIndent, RowHeight);
       
@@ -205,7 +214,7 @@ namespace Astralum.UI
       return y + RowHeight + EntrySpacing;
     }
     
-    private float DrawChildEntry(Rect viewRect, float y, CelestialNamingObjectEntry entry)
+    private float DrawChildEntry(Rect viewRect, float y, CelestialCatalogueObjectEntry entry)
     {
       Rect rowRect = new(ChildIndent, y, viewRect.width - ChildIndent, RowHeight);
       
@@ -220,7 +229,7 @@ namespace Astralum.UI
       return y + RowHeight + EntrySpacing;
     }
     
-    private static string BuildEntryLabel(CelestialNamingObjectEntry entry)
+    private static string BuildEntryLabel(CelestialCatalogueObjectEntry entry)
     {
       string label = entry.DisplayName.NullOrEmpty()
         ? "Astra_NameGenerator_Unknown".Translate() 
@@ -232,7 +241,7 @@ namespace Astralum.UI
       return label;
     }
     
-    private bool IsSelected(CelestialNamingObjectEntry entry)
+    private bool IsSelected(CelestialCatalogueObjectEntry entry)
     {
       return _selected.HasValue && _selected.Value.Id == entry.Id 
                                 && _selected.Value.CategoryLabel == entry.CategoryLabel;
@@ -278,14 +287,14 @@ namespace Astralum.UI
       if (Widgets.ButtonText(new Rect(inner.x + (buttonWidth + 6f) * 2f, buttonY, buttonWidth, 28f),
             "Astra_UI_CelestialNames_View".Translate()))
       {
-        CelestialNamingCameraUtil.FocusObject(
+        CelestialCatalogueCameraUtil.FocusObject(
           _selected.Value.LocalSkyPos,
           windowRect
         );
       }
     }
     
-    private void Select(CelestialNamingObjectEntry entry)
+    private void Select(CelestialCatalogueObjectEntry entry)
     {
       _selected = entry;
 
@@ -293,27 +302,27 @@ namespace Astralum.UI
           ? entry.Object.GeneratedName
           : entry.Object.PlayerSetName;
       
-      CelestialNamingFocusVisualUtil.Focus(entry.Object);
-      CelestialNamingCameraUtil.FocusObject(entry.LocalSkyPos, windowRect);
+      CelestialCatalogueFocusVisualUtil.Focus(entry.Object);
+      CelestialCatalogueCameraUtil.FocusObject(entry.LocalSkyPos, windowRect);
     }
     
     private float CalculateViewHeight()
     {
-      Dictionary<string, List<CelestialNamingObjectEntry>> byCategory = GroupByCategory(_entries);
+      Dictionary<string, List<CelestialCatalogueObjectEntry>> byCategory = GroupByCategory(_entries);
       float height = 0f;
 
-      foreach (KeyValuePair<string, List<CelestialNamingObjectEntry>> pair in byCategory)
+      foreach (KeyValuePair<string, List<CelestialCatalogueObjectEntry>> pair in byCategory)
       {
         height += RowHeight + CategorySpacing;
         
         if (!_expandedByCategory.TryGetValue(pair.Key, out bool expanded) || !expanded)
           continue;
         
-        List<CelestialNamingObjectEntry> entries = pair.Value;
+        List<CelestialCatalogueObjectEntry> entries = pair.Value;
         
         for (int i = 0; i < entries.Count; i++)
         {
-          CelestialNamingObjectEntry entry = entries[i];
+          CelestialCatalogueObjectEntry entry = entries[i];
           height += RowHeight + EntrySpacing;
           
           if (!HasChildren(entry.Id))
@@ -332,22 +341,22 @@ namespace Astralum.UI
       return Mathf.Max(height, 1f);
     }
     
-    private static Dictionary<string, List<CelestialNamingObjectEntry>> GroupByCategory(
-      List<CelestialNamingObjectEntry> entries)
+    private static Dictionary<string, List<CelestialCatalogueObjectEntry>> GroupByCategory(
+      List<CelestialCatalogueObjectEntry> entries)
     {
-      Dictionary<string, List<CelestialNamingObjectEntry>> result = [];
+      Dictionary<string, List<CelestialCatalogueObjectEntry>> result = [];
       
       if (entries.NullOrEmpty())
         return result;
       
       for (int i = 0; i < entries.Count; i++)
       {
-        CelestialNamingObjectEntry entry = entries[i];
+        CelestialCatalogueObjectEntry entry = entries[i];
         
         if (entry.HasParent)
           continue;
         
-        if (!result.TryGetValue(entry.CategoryLabel, out List<CelestialNamingObjectEntry> list))
+        if (!result.TryGetValue(entry.CategoryLabel, out List<CelestialCatalogueObjectEntry> list))
         {
           list = [];
           result[entry.CategoryLabel] = list;
@@ -400,8 +409,8 @@ namespace Astralum.UI
       if (settings == null)
         return;
       
-      settings.CelestialNamingWindowRect = windowRect;
-      settings.HasCelestialNamingWindowRect = true;
+      settings.CelestialCatalogueWindowRect = windowRect;
+      settings.HasCelestialCatalogueWindowRect = true;
       settings.Write();
     }
   }

@@ -17,6 +17,9 @@
     <Astra_DisableCelestialNamingWindowToggleLabel>Hide Astralum celestial naming window.</Astra_DisableCelestialNamingWindowToggleLabel>
     <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.</Astra_EnableCelestialNamingWindowToggleLabel>
     
+    <Astra_UI_CelestialOverview>Celestial Overview</Astra_UI_CelestialOverview>
+    <Astra_UI_CelestialCatalogueLabel>Celestial Catalog</Astra_UI_CelestialCatalogueLabel>
+    <Astra_UI_CelestialCatalogueDesc>Opens a catalogue of all celestial objects in the observable universe.\n\nObjects can be renamed. Selecting an object will gently rotate the view to bring it into focus.</Astra_UI_CelestialCatalogueDesc>
     <Astra_UI_CelestialNames_Category>Celestial Catalog for:</Astra_UI_CelestialNames_Category>
     <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>
     <Astra_UI_CelestialNames_GeneratedName>Generated name:</Astra_UI_CelestialNames_GeneratedName>
@@ -33,8 +36,8 @@
     <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
     <Astra_Deterministic> (Deterministic via world seed.)</Astra_Deterministic>
 
-    <Astra_RenderAdditionalBackgroundsStars>Render Additional Background Stars</Astra_RenderAdditionalBackgroundsStars>
-    <Astra_RenderAdditionalBackgroundsStarsDesc>Toggle to render many, many, MANY more procedurally generated background stars in the world view.</Astra_RenderAdditionalBackgroundsStarsDesc>
+    <Astra_RenderBackgroundsStars>Render Overhauled Background Stars</Astra_RenderBackgroundsStars>
+    <Astra_RenderBackgroundsStarsDesc>Toggle to render many, many, MANY more procedurally generated background stars in the world view. This will override the vanilla background star generation.</Astra_RenderBackgroundsStarsDesc>
 
     <Astra_RenderNebulae>Render Nebulae</Astra_RenderNebulae>
     <Astra_RenderNebulaeDesc>Toggle to render some potentially gorgeous procedurally generated nebulae in the world view.</Astra_RenderNebulaeDesc>

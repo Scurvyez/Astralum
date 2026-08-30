@@ -5,30 +5,30 @@ namespace Astralum.Settings
 {
   public class AstraSettings : ModSettings
   {
-    public float starInfoWindowXPos = -1f;
-    public float starInfoWindowYPos = -1f;
-    public float celestialNamingWindowX = 32f;
-    public float celestialNamingWindowY = 120f;
-    public float celestialNamingWindowWidth = 420f;
-    public float celestialNamingWindowHeight = 560f;
+    private float starInfoWindowXPos = -1f;
+    private float starInfoWindowYPos = -1f;
+    private float celestialCatalogueWindowX = 32f;
+    private float celestialCatalogueWindowY = 120f;
+    private float celestialCatalogueWindowWidth = 420f;
+    private float celestialCatalogueWindowHeight = 560f;
     
-    public bool HasCelestialNamingWindowRect;
+    public bool HasCelestialCatalogueWindowRect;
     
-    public Rect CelestialNamingWindowRect
+    public Rect CelestialCatalogueWindowRect
     {
       get => new(
-        celestialNamingWindowX,
-        celestialNamingWindowY,
-        Mathf.Max(celestialNamingWindowWidth, 420f),
-        Mathf.Max(celestialNamingWindowHeight, 300f)
+        celestialCatalogueWindowX,
+        celestialCatalogueWindowY,
+        Mathf.Max(celestialCatalogueWindowWidth, 420f),
+        Mathf.Max(celestialCatalogueWindowHeight, 300f)
       );
       
       set
       {
-        celestialNamingWindowX = value.x;
-        celestialNamingWindowY = value.y;
-        celestialNamingWindowWidth = value.width;
-        celestialNamingWindowHeight = value.height;
+        celestialCatalogueWindowX = value.x;
+        celestialCatalogueWindowY = value.y;
+        celestialCatalogueWindowWidth = value.width;
+        celestialCatalogueWindowHeight = value.height;
       }
     }
     
@@ -41,8 +41,8 @@ namespace Astralum.Settings
     
     #region Background star settings
     
-    public static bool RenderAdditionalBackgroundStars => _instance._renderAdditionalBackgroundsStars;
-    public bool _renderAdditionalBackgroundsStars = true;
+    public static bool RenderBackgroundStars => _instance._renderBackgroundsStars;
+    public bool _renderBackgroundsStars = true;
     
     #endregion
     
@@ -97,16 +97,16 @@ namespace Astralum.Settings
     
     public override void ExposeData()
     {
-      Scribe_Values.Look(ref HasCelestialNamingWindowRect, "HasCelestialNamingWindowRect");
+      Scribe_Values.Look(ref HasCelestialCatalogueWindowRect, "HasCelestialCatalogueWindowRect");
       
       Scribe_Values.Look(ref starInfoWindowXPos, "starInfoWindowXPos", -1f);
       Scribe_Values.Look(ref starInfoWindowYPos, "starInfoWindowYPos", -1f);
-      Scribe_Values.Look(ref celestialNamingWindowX, "celestialNamingWindowX", 32f);
-      Scribe_Values.Look(ref celestialNamingWindowY, "celestialNamingWindowY", 120f);
-      Scribe_Values.Look(ref celestialNamingWindowWidth, "celestialNamingWindowWidth", 420f);
-      Scribe_Values.Look(ref celestialNamingWindowHeight, "celestialNamingWindowHeight", 560f);
+      Scribe_Values.Look(ref celestialCatalogueWindowX, "celestialCatalogueWindowX", 32f);
+      Scribe_Values.Look(ref celestialCatalogueWindowY, "celestialCatalogueWindowY", 120f);
+      Scribe_Values.Look(ref celestialCatalogueWindowWidth, "celestialCatalogueWindowWidth", 420f);
+      Scribe_Values.Look(ref celestialCatalogueWindowHeight, "celestialCatalogueWindowHeight", 560f);
       
-      Scribe_Values.Look(ref _renderAdditionalBackgroundsStars, "_renderAdditionalBackgroundsStars", true);
+      Scribe_Values.Look(ref _renderBackgroundsStars, "_renderBackgroundsStars", true);
       Scribe_Values.Look(ref _renderNebulae, "_renderNebulae", true);
       Scribe_Values.Look(ref _renderDustlanes, "_renderDustlanes", true);
       Scribe_Values.Look(ref _renderBlackholes, "_renderBlackholes", true);

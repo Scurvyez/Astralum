@@ -4,7 +4,7 @@ using Verse;
 
 namespace Astralum.UI
 {
-  public readonly struct CelestialNamingObjectEntry
+  public readonly struct CelestialCatalogueObjectEntry
   {
     public readonly string CategoryLabel;
     public readonly string Id;
@@ -17,7 +17,7 @@ namespace Astralum.UI
     public bool HasPlayerName => Object?.HasPlayerSetName == true;
     public bool HasParent => !ParentId.NullOrEmpty();
     
-    public CelestialNamingObjectEntry(string categoryLabel, string id, IPlayerNameableCelestialObject obj, 
+    public CelestialCatalogueObjectEntry(string categoryLabel, string id, IPlayerNameableCelestialObject obj, 
       Vector3 localSkyPos, string parentId = null)
     {
       CategoryLabel = categoryLabel;

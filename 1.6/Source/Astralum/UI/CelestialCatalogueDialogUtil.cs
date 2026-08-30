@@ -4,9 +4,9 @@ using Verse;
 
 namespace Astralum.UI
 {
-  public static class CelestialNamingDialogUtil
+  public static class CelestialCatalogueDialogUtil
   {
-    private static Dialog_CelestialNaming _window;
+    private static Dialog_CelestialCatalogue _window;
     
     public static void Update(bool requirePlaying)
     {
@@ -19,7 +19,7 @@ namespace Astralum.UI
       if (_window != null && Find.WindowStack.IsOpen(_window)) 
         return;
       
-      _window = new Dialog_CelestialNaming();
+      _window = new Dialog_CelestialCatalogue();
       Find.WindowStack.Add(_window);
     }
     

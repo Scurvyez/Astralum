@@ -33,7 +33,7 @@ namespace Astralum.Astronomy.Constellations
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
 
-        return CelestialSettings.DrawConstellationLines != _calculatedForDrawConstellationLines;
+        return CelestialDisplaySettings.DrawConstellationLines != _calculatedForDrawConstellationLines;
       }
     }
 
@@ -57,7 +57,7 @@ namespace Astralum.Astronomy.Constellations
           yield break;
         }
         
-        if (!CelestialSettings.DrawConstellationLines)
+        if (!CelestialDisplaySettings.DrawConstellationLines)
         {
           yield break;
         }
@@ -67,7 +67,7 @@ namespace Astralum.Astronomy.Constellations
       finally
       {
         _calculatedForStaticRotation = UseStaticRotation;
-        _calculatedForDrawConstellationLines = CelestialSettings.DrawConstellationLines;
+        _calculatedForDrawConstellationLines = CelestialDisplaySettings.DrawConstellationLines;
         
         FinalizeMesh(MeshParts.All);
       }

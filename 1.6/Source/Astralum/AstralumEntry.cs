@@ -7,8 +7,6 @@ namespace Astralum
   [StaticConstructorOnStartup]
   public static class AstralumEntry
   {
-    public const bool EnableDebugTweaks = false;
-    
     static AstralumEntry()
     {
       AstraLog.Message($"{DateTime.Now.Date.ToShortDateString()} "
@@ -22,6 +20,7 @@ namespace Astralum
       // TODO: let players name stars as pawns find them via the telescope job
       // TODO: let players learn the names of certain stars as named by other factions?
       // TODO: add comets
+      // TODO: add more constellation categories! :) like a loon, sparrow, etc.
     }
   }
 }

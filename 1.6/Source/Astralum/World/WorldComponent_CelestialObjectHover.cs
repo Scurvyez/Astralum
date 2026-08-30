@@ -101,10 +101,10 @@ namespace Astralum.World
     {
       return type switch
       {
-        CelestialObjectType.LocalStar => CelestialSettings.ShowLocalStarInfo,
-        CelestialObjectType.BlackHole => CelestialSettings.DrawBlackHoleInfo,
-        CelestialObjectType.Pulsar => CelestialSettings.DrawPulsarInfo,
-        CelestialObjectType.ConstellationStar => CelestialSettings.DrawConstellationLines,
+        CelestialObjectType.LocalStar => CelestialDisplaySettings.ShowLocalStarInfo,
+        CelestialObjectType.BlackHole => CelestialDisplaySettings.DrawBlackHoleInfo,
+        CelestialObjectType.Pulsar => CelestialDisplaySettings.DrawPulsarInfo,
+        CelestialObjectType.ConstellationStar => CelestialDisplaySettings.DrawConstellationLines,
         _ => false
       };
     }

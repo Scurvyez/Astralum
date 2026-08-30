@@ -4,10 +4,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using Astralum.DefOfs;
 using Astralum.Materials;
+using Astralum.Settings;
 using Astralum.UI;
 using HarmonyLib;
 using RimWorld;
 using RimWorld.Planet;
+using UnityEngine;
 using Verse;
 using Verse.AI;
 using Verse.Profile;
@@ -23,14 +25,17 @@ namespace Astralum.Harmony
 
       PatchWorldInterfaceOnGUI(harmony);
       PatchPlaySettings(harmony);
+      PatchWorldGridGizmos(harmony);
+      PatchSelectStartingSiteDoCustomBottomButtons(harmony);
       PatchJobDriverGetReport(harmony);
       PatchSkygazeMakeNewToils(harmony);
       PatchMemoryUtility(harmony);
       PatchGlobalDrawLayerSun(harmony);
+      PatchGlobalDrawLayerStars(harmony);
     }
     
     /// <summary>
-    ///   Patches the world interface to draw the world info window.
+    /// Patches the world interface to draw the world info window.
     /// </summary>
     private static void PatchWorldInterfaceOnGUI(HarmonyLib.Harmony harmony)
     {
@@ -43,23 +48,50 @@ namespace Astralum.Harmony
     }
     
     /// <summary>
-    ///   Patches the play settings to add a toggleable sky coordinate grid.
+    /// Patches the play settings to add a toggleable sky coordinate grid.
     /// </summary>
     private static void PatchPlaySettings(HarmonyLib.Harmony harmony)
     {
-      MethodInfo doWorldViewControls = HarmonyPatchesUtil.Method(
-        typeof(PlaySettings), "DoWorldViewControls",
+      MethodInfo globalControls = HarmonyPatchesUtil.Method(
+        typeof(PlaySettings), "DoPlaySettingsGlobalControls",
         "Play settings patch");
 
-      if (HarmonyPatchesUtil.Missing(doWorldViewControls))
+      if (HarmonyPatchesUtil.Missing(globalControls))
         return;
 
-      harmony.Patch(doWorldViewControls,
-        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoWorldViewControls_Postfix)));
+      harmony.Patch(globalControls,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(PlaySettings_DoPlaySettingsGlobalControls_Postfix)));
+    }
+
+    private static void PatchWorldGridGizmos(HarmonyLib.Harmony harmony)
+    {
+      MethodInfo worldGridGizmos = HarmonyPatchesUtil.Method(
+        typeof(WorldGrid), "GetGizmos",
+        "Get gizmos patch");
+
+      if (HarmonyPatchesUtil.Missing(worldGridGizmos))
+        return;
+      
+      harmony.Patch(worldGridGizmos,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldGrid_GetGizmos_Postfix)));
+    }
+
+    private static void PatchSelectStartingSiteDoCustomBottomButtons(HarmonyLib.Harmony harmony)
+    {
+      MethodInfo doCustomBottomButtons = HarmonyPatchesUtil.Method(
+        typeof(Page_SelectStartingSite), "DoCustomBottomButtons",
+        "Settlement selection screen bottom buttons patch");
+
+      if (HarmonyPatchesUtil.Missing(doCustomBottomButtons))
+        return;
+
+      harmony.Patch(doCustomBottomButtons,
+        postfix: new HarmonyMethod(typeof(HarmonyPatches),
+          nameof(Page_SelectStartingSite_DoCustomBottomButtons_Postfix)));
     }
     
     /// <summary>
-    ///   Patches the "use telescope" job to output the currently viewed constellation or star(s) within. 
+    /// Patches the "use telescope" job to output the currently viewed constellation or star(s) within. 
     /// </summary>
     private static void PatchJobDriverGetReport(HarmonyLib.Harmony harmony)
     {
@@ -112,23 +144,98 @@ namespace Astralum.Harmony
       harmony.Patch(regenerate,
         prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Prefix)));
     }
-
-    public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
+    
+    private static void PatchGlobalDrawLayerStars(HarmonyLib.Harmony harmony)
     {
-      CelestialNamingDialogUtil.Update(true);
+      MethodInfo regenerate = HarmonyPatchesUtil.Method(
+        typeof(GlobalDrawLayer_Stars), "Regenerate",
+        "Regenerate cancellation patch");
+      
+      if (HarmonyPatchesUtil.Missing(regenerate))
+        return;
+      
+      harmony.Patch(regenerate,
+        prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Prefix)));
     }
     
-    public static void PlaySettings_DoWorldViewControls_Postfix(WidgetRow row)
+    public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
     {
+      CelestialCatalogueDialogUtil.Update(true);
+    }
+    
+    public static void PlaySettings_DoPlaySettingsGlobalControls_Postfix(WidgetRow row, bool worldView)
+    {
+      if (!worldView || Current.ProgramState != ProgramState.Playing) 
+        return;
+      
       // displayed sequentially in order of addition
       HarmonyPatchesUtil.AddSkyGridToggle(row);
-      HarmonyPatchesUtil.AddCelestialNamingToggle(row);
       HarmonyPatchesUtil.AddLocalStarInfoToggle(row);
       HarmonyPatchesUtil.AddConstellationLinesToggle(row);
       HarmonyPatchesUtil.AddBlackHoleInfoToggle(row);
       HarmonyPatchesUtil.AddPulsarInfoToggle(row);
     }
+    
+    public static IEnumerable<Gizmo> WorldGrid_GetGizmos_Postfix(IEnumerable<Gizmo> __result)
+    {
+      foreach (Gizmo gizmo in __result)
+        yield return gizmo;
+      
+      if (Current.ProgramState != ProgramState.Playing)
+        yield break;
+      
+      yield return new Command_Action
+      {
+        defaultLabel = "Astra_UI_CelestialCatalogueLabel".Translate(),
+        defaultDesc = "Astra_UI_CelestialCatalogueDesc".Translate(),
+        icon = UIMatsUtil.CelestialCatalogueCommandIcon,
+        action = () =>
+        {
+          var window = Find.WindowStack.WindowOfType<Dialog_CelestialCatalogue>();
+          
+          if (window != null)
+          {
+            window.Close();
+            return;
+          }
+          
+          Find.WindowStack.Add(new Dialog_CelestialCatalogue());
+        }
+      };
+    }
 
+    public static void Page_SelectStartingSite_DoCustomBottomButtons_Postfix()
+    {
+      const float gap = 10f;
+      const int vanillaButtonCount = 4;
+      
+      const float buttonWidth = 200f;
+      const float buttonHeight = 38f;
+      
+      float screenWidth = Screen.width / Prefs.UIScale;
+      float screenHeight = Screen.height / Prefs.UIScale;
+      
+      int rows = vanillaButtonCount < 3 || screenWidth >= 540f + vanillaButtonCount * (buttonWidth + gap) ? 1 : 2;
+      int buttonsPerRow = Mathf.CeilToInt(vanillaButtonCount / (float)rows);
+      
+      float panelWidth = buttonWidth * buttonsPerRow + gap * (buttonsPerRow + 1);
+      float panelHeight = rows * buttonHeight + gap * (rows + 1);
+      float panelX = (screenWidth - panelWidth) * 0.5f;
+      float panelY = screenHeight - panelHeight - 4f;
+      
+      Rect buttonRect = new(
+        panelX + (panelWidth - buttonWidth) * 0.5f,
+        panelY - buttonHeight - gap,
+        buttonWidth,
+        buttonHeight
+      );
+      
+      if (Widgets.ButtonText(buttonRect, "Astra_UI_CelestialOverview".Translate()))
+      {
+        Find.WindowStack.Add(new Dialog_CelestialWorldOverview(buttonRect));
+      }
+    }
+    
     public static void JobDriver_GetReport_Postfix(JobDriver __instance, ref string __result)
     {
       Job job = __instance?.job;
@@ -185,6 +292,18 @@ namespace Astralum.Harmony
     
     public static bool GlobalDrawLayer_Sun_Regenerate_Prefix(ref IEnumerable __result)
     {
+      if (!AstraSettings.OverrideVanillaSun)
+        return true;
+      
+      __result = Array.Empty<object>();
+      return false;
+    }
+    
+    public static bool GlobalDrawLayer_Stars_Regenerate_Prefix(ref IEnumerable __result)
+    {
+      if (!AstraSettings.RenderBackgroundStars)
+        return true;
+      
       __result = Array.Empty<object>();
       return false;
     }
