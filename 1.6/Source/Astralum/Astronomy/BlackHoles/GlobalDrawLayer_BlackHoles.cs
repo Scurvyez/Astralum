@@ -144,25 +144,23 @@ namespace Astralum.Astronomy.BlackHoles
     {
       data.ClearBlackHoles();
 
-      if (Rand.Value > _blackHoleChance)
-        return;
-
-      List<SavedBlackHole> placed = [];
-      int blackHoleCount = Mathf.Clamp(_blackHoleCount.RandomInRange, 0, 10);
-
-      for (int i = 0; i < blackHoleCount; i++)
+      int maxBlackHoles = Mathf.Clamp(_blackHoleCount.RandomInRange, 0, 10);
+      float chance = _blackHoleChance;
+      
+      for (int i = 0; i < maxBlackHoles; i++)
       {
-        if (!BlackHolesUtil.TryPlaceBlackHole(placed, out Vector3 dir, out float size, out float rotation,
+        if (Rand.Value > chance)
+          break;
+        
+        if (BlackHolesUtil.TryPlaceBlackHole(data.BlackHoles, out Vector3 dir, out float size, out float rotation,
               _galacticPlaneBounds, _blackHoleSize, _blackHoleCanvasScale))
         {
-          continue;
+          string id = $"blackhole_{Find.World.info.seedString}_{i}";
+          SavedBlackHole blackHole = BlackHoleDataUtil.Create(id, dir, size, rotation);
+          data.BlackHoles.Add(blackHole);
         }
         
-        string id = $"blackhole_{Find.World.info.seedString}_{i}";
-        SavedBlackHole blackHole = BlackHoleDataUtil.Create(id, dir, size, rotation);
-        
-        placed.Add(blackHole);
-        data.BlackHoles.Add(blackHole);
+        chance *= 0.5f;
       }
     }
     

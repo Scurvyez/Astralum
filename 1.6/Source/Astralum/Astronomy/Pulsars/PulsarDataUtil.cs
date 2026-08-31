@@ -11,7 +11,7 @@ namespace Astralum.Astronomy.Pulsars
     public static SavedPulsar Create(string id, Vector3 dir, float size, float rotation)
     {
       return CelestialObjectDataUtil.CreateNameable<SavedPulsar>(id, dir, size,
-        PulsarNamingUtil.GenerateName(dir), 0f);
+        PulsarNamingUtil.GenerateName(dir), rotation);
     }
     
     public static SavedPulsar GetById(string id)

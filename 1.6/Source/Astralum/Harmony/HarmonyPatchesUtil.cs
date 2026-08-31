@@ -184,13 +184,13 @@ namespace Astralum.Harmony
       {
         if (TryGetSkygazeObservation(pawn, out CelestialObjectInfo observation))
         {
-          ObservationUtility.Notify_PawnObservedCelestialObject(pawn, observation);
+          ObservationUtil.Notify_PawnObservedCelestialObject(pawn, observation);
         }
       }
       
       if (map.gameConditionManager.ConditionIsActive(GameConditionDefOf.Eclipse))
       {
-        ObservationUtility.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
+        ObservationUtil.Notify_PawnObservedDistantStarsDuringEclipse(pawn);
       }
     }
     

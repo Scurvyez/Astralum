@@ -108,19 +108,22 @@ namespace Astralum.Astronomy.Pulsars
     {
       data.ClearPulsars();
 
-      if (Rand.Value > _pulsarChance)
-        return;
+      int maxPulsars = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
+      float chance = _pulsarChance;
 
-      int pulsarCount = Mathf.Clamp(_pulsarCount.RandomInRange, 0, 10);
-
-      for (int i = 0; i < pulsarCount; i++)
+      for (int i = 0; i < maxPulsars; i++)
       {
+        if (Rand.Value > chance)
+          break;
+        
         Vector3 dir = RandomPulsarDirection();
         float size = _pulsarSize.RandomInRange * _pulsarCanvasScale * 3f;
         float rotation = Rand.Range(0f, 360f);
         string id = $"pulsar_{Find.World.info.seedString}_{i}";
         
         data.Pulsars.Add(PulsarDataUtil.Create(id, dir, size, rotation));
+        
+        chance *= 0.5f;
       }
     }
 
@@ -139,10 +142,45 @@ namespace Astralum.Astronomy.Pulsars
         
         LayerSubMesh subMesh = GetSubMesh(material);
         RegisterPulsarForInteraction(pulsar);
-        
-        WorldRendererUtility.PrintQuadTangentialToPlanet(pulsar.LocalSkyPosition, pulsar.RenderSize, 0f,
-          subMesh, true, pulsar.Rotation);
+        PrintPulsar(pulsar.LocalSkyPosition, pulsar.RenderSize, pulsar.Rotation, subMesh);
       }
+    }
+    
+    private static void PrintPulsar(Vector3 localSkyPos, float size, float rotation, LayerSubMesh subMesh)
+    {
+      Vector3 dir = localSkyPos.normalized;
+      Vector3 reference = Mathf.Abs(Vector3.Dot(dir, Vector3.up)) > 0.95f
+          ? Vector3.forward
+          : Vector3.up;
+      
+      Vector3 right = Vector3.Cross(reference, dir).normalized;
+      Vector3 up = Vector3.Cross(dir, right).normalized;
+      Quaternion spin = Quaternion.AngleAxis(rotation, dir);
+      
+      right = spin * right;
+      up = spin * up;
+      
+      float halfSize = size * 0.5f;
+      Vector3 center = localSkyPos;
+      int baseIndex = subMesh.verts.Count;
+      
+      subMesh.verts.Add(center - right * halfSize - up * halfSize);
+      subMesh.verts.Add(center - right * halfSize + up * halfSize);
+      subMesh.verts.Add(center + right * halfSize + up * halfSize);
+      subMesh.verts.Add(center + right * halfSize - up * halfSize);
+      
+      subMesh.uvs.Add(new Vector2(0f, 0f));
+      subMesh.uvs.Add(new Vector2(0f, 1f));
+      subMesh.uvs.Add(new Vector2(1f, 1f));
+      subMesh.uvs.Add(new Vector2(1f, 0f));
+      
+      subMesh.tris.Add(baseIndex);
+      subMesh.tris.Add(baseIndex + 1);
+      subMesh.tris.Add(baseIndex + 2);
+      
+      subMesh.tris.Add(baseIndex);
+      subMesh.tris.Add(baseIndex + 2);
+      subMesh.tris.Add(baseIndex + 3);
     }
     
     private static void RegisterPulsarForInteraction(SavedPulsar pulsar)

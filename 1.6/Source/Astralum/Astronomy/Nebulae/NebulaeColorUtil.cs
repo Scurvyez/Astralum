@@ -180,7 +180,7 @@ namespace Astralum.Astronomy.Nebulae
             new Color(0.78f, 0.96f, 1.00f, 1f)
           ];
 
-        case 18: // blood red / cyan lightning
+        case 18: // blood-red / cyan lightning
           return
           [
             new Color(0.075f, 0.008f, 0.012f, 1f),

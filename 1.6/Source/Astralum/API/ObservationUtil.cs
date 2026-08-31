@@ -4,7 +4,7 @@ using Verse;
 
 namespace Astralum.API
 {
-  public static class ObservationUtility
+  public static class ObservationUtil
   {
     private static List<ObservationWorker> _workers;
 

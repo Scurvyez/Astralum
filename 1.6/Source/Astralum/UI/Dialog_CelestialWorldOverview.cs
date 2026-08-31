@@ -1,4 +1,7 @@
-﻿using Astralum.World;
+﻿using System;
+using System.Collections.Generic;
+using Astralum.Astronomy.LocalStars;
+using Astralum.World;
 using UnityEngine;
 using Verse;
 
@@ -45,13 +48,36 @@ namespace Astralum.UI
       int blackHoles = data?.BlackHoles?.Count ?? 0;
       int pulsars = data?.Pulsars?.Count ?? 0;
 
-      listing.Label("Astra_UI_CelestialNamingLocalStarsCategory".Translate() + $": {localStars}");
+      string localStarsText = "Astra_UI_CelestialNamingLocalStarsCategory".Translate() + $": {localStars}";
+      string spectralClasses = LocalStarSpectralClasses(data);
+      
+      if (!spectralClasses.NullOrEmpty())
+        localStarsText += $" ({spectralClasses})";
+      
+      listing.Label(localStarsText);
+      
       listing.Label("Astra_UI_CelestialNamingConstellationsCategory".Translate() + $": {constellations}");
       listing.Label("Astra_UI_CelestialNamingNebulaeCategory".Translate() + $": {nebulae}");
       listing.Label("Astra_UI_CelestialNamingBlackHolesCategory".Translate() + $": {blackHoles}");
       listing.Label("Astra_UI_CelestialNamingPulsarsCategory".Translate() + $": {pulsars}");
-
+      
       listing.End();
+    }
+
+    private static string LocalStarSpectralClasses(WorldComponent_CelestialObjectDataCache data)
+    {
+      if (data?.LocalStars == null || data.LocalStars.Count == 0)
+        return string.Empty;
+
+      List<string> classes = [];
+
+      for (int i = 0; i < data.LocalStars.Count; i++)
+      {
+        SavedLocalStar star = data.LocalStars[i];
+        classes.Add(star.spectralClass.ToString());
+      }
+      
+      return string.Join(", ", classes);
     }
     
     protected override void SetInitialSizeAndPosition()
