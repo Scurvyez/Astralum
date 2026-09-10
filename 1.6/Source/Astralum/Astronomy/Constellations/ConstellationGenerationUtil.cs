@@ -3,7 +3,7 @@ using Astralum.Astronomy.BackgroundStars;
 using Astralum.Astronomy.LocalStars;
 using Astralum.Debugging;
 using Astralum.DefOfs;
-using Astralum.World;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -115,7 +115,7 @@ namespace Astralum.Astronomy.Constellations
         ConstellationMaskInfo maskInfo = unusedMasks[unusedMasks.Count - 1];
         unusedMasks.RemoveAt(unusedMasks.Count - 1);
         
-        Texture2D mask = maskInfo.texture;
+        Texture2D mask = maskInfo.Texture;
         float size = Rand.Range(constellationSizeMin, constellationSizeMax);
         float rotation = Rand.Range(minViewRotationAngle, maxViewRotationAngle);
         string id = $"constellation_{Find.World.info.seedString}_{constellationIndex}";

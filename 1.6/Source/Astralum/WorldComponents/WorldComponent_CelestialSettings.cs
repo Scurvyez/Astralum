@@ -1,11 +1,11 @@
 ﻿using Astralum.Astronomy;
 using RimWorld.Planet;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_CelestialSettings : WorldComponent
   {
-    public WorldComponent_CelestialSettings(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_CelestialSettings(World world) : base(world)
     {
       
     }

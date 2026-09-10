@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using Astralum.Materials;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -16,26 +16,22 @@ namespace Astralum.Astronomy.SkyGrid
 
     private bool _calculatedForDrawGrid;
     private bool _calculatedForStaticRotation;
-
+    
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-
-    protected override Quaternion Rotation =>
-      UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    
     public override bool ShouldRegenerate
     {
       get
       {
         if (base.ShouldRegenerate)
           return true;
-
+        
         if (UseStaticRotation != _calculatedForStaticRotation)
           return true;
-
+        
         return CelestialDisplaySettings.DrawSkyCoordGrid != _calculatedForDrawGrid;
       }
     }
@@ -54,7 +50,7 @@ namespace Astralum.Astronomy.SkyGrid
         yield break;
       }
 
-      LayerSubMesh subMesh = GetSubMesh(SkyCoordinateGridMatsUtil.Line);
+      LayerSubMesh subMesh = GetSubMesh(SkyCoordinateGridMatsUtil.LineMaterial);
 
       Vector3 pole = WorldUtils.GalacticPole.normalized;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Astralum.API;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -16,13 +16,11 @@ namespace Astralum.Astronomy.Constellations
     private bool _calculatedForDrawConstellationLines;
     private bool _calculatedForStaticRotation;
 
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
-    protected override Quaternion Rotation => UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
     
+    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+
     public override bool ShouldRegenerate
     {
       get
@@ -146,8 +144,8 @@ namespace Astralum.Astronomy.Constellations
         constellation.LocalSkyPosition,
         constellation.RenderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees));
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

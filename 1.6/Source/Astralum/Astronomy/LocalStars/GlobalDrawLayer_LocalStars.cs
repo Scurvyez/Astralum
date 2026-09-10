@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Astralum.API;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -89,8 +89,8 @@ namespace Astralum.Astronomy.LocalStars
         position,
         renderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees));
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

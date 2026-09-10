@@ -19,8 +19,8 @@ Shader "Astralum/Constellation01"
     {
         Tags
         {
-            "Queue" = "Background+1"
-            "RenderType" = "Background"
+            "Queue" = "Background+4"
+            "RenderType" = "Transparent"
         }
 
         Blend SrcAlpha One

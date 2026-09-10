@@ -1,4 +1,4 @@
-﻿using Astralum.World;
+﻿using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 

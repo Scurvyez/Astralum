@@ -7,6 +7,8 @@
     public static bool ShowLocalStarInfo;
     public static bool DrawPulsarInfo;
     public static bool DrawSkyCoordGrid;
+    
+    public static bool ShowCatalogueWindow;
 
     private static bool _lastDrawSkyCoordGrid;
 

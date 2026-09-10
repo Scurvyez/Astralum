@@ -55,17 +55,6 @@ namespace Astralum.Materials
 
     #endregion
 
-    #region Constellation Hover Ring Properties
-
-    public static readonly int RingRadius = Shader.PropertyToID("_RingRadius");
-    public static readonly int RingThickness = Shader.PropertyToID("_RingThickness");
-    public static readonly int PulseSpeed = Shader.PropertyToID("_PulseSpeed");
-    public static readonly int PulseStrength = Shader.PropertyToID("_PulseStrength");
-    public static readonly int AlphaPulseMin = Shader.PropertyToID("_AlphaPulseMin");
-    public static readonly int PulseTime = Shader.PropertyToID("_PulseTime");
-
-    #endregion
-
     #region Shooting Star Properties
 
     public static readonly int CorePower = Shader.PropertyToID("_CorePower");

@@ -10,7 +10,7 @@ namespace Astralum.UI
     
     public static void Update(bool requirePlaying)
     {
-      if (!ShouldShow(requirePlaying) || !CelestialNamingSettings.ShowNamingWindow)
+      if (!ShouldShow(requirePlaying) || !CelestialDisplaySettings.ShowCatalogueWindow)
       {
         Close();
         return;

@@ -1,54 +1,74 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
-    <ShaderTypeDef>
-        <defName>Astra_LocalStar01</defName>
-        <shaderPath>LocalStar01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_BackgroundStar01</defName>
-        <shaderPath>BackgroundStar01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_Constellation01</defName>
-        <shaderPath>Constellation01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_ConstellationHoverRing01</defName>
-        <shaderPath>ConstellationHoverRing01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_Nebulae01</defName>
-        <shaderPath>Nebulae01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_ShootingStar01</defName>
-        <shaderPath>ShootingStar01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_SkyCoordinateGrid01</defName>
-        <shaderPath>SkyCoordinateGrid01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_Pulsar01</defName>
-        <shaderPath>Pulsar01</shaderPath>
-    </ShaderTypeDef>
-
-    <ShaderTypeDef>
-        <defName>Astra_BlackHole01</defName>
-        <shaderPath>BlackHole01</shaderPath>
-    </ShaderTypeDef>
-
+    
+    <!-- "Queue" = "Background+1"
+         "RenderType" = "Background" -->
     <ShaderTypeDef>
         <defName>Astra_GalacticDustLane01</defName>
         <shaderPath>GalacticDustLane01</shaderPath>
     </ShaderTypeDef>
 
+    <!-- "Queue" = "Background+2"
+         "RenderType" = "Background" -->
+    <ShaderTypeDef>
+        <defName>Astra_BackgroundStar01</defName>
+        <shaderPath>BackgroundStar01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+3"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_Nebulae01</defName>
+        <shaderPath>Nebulae01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+4"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_Constellation01</defName>
+        <shaderPath>Constellation01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+5"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_ConstellationStar01</defName>
+        <shaderPath>ConstellationStar01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+6"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_BlackHole01</defName>
+        <shaderPath>BlackHole01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+7"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_Pulsar01</defName>
+        <shaderPath>Pulsar01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+20"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_LocalStar01</defName>
+        <shaderPath>LocalStar01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+25"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_ShootingStar01</defName>
+        <shaderPath>ShootingStar01</shaderPath>
+    </ShaderTypeDef>
+
+    <!-- "Queue" = "Background+30"
+         "RenderType" = "Transparent" -->
+    <ShaderTypeDef>
+        <defName>Astra_SkyCoordinateGrid01</defName>
+        <shaderPath>SkyCoordinateGrid01</shaderPath>
+    </ShaderTypeDef>
+    
 </Defs>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using Astralum.World;
+using Astralum.Materials;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -12,7 +13,7 @@ namespace Astralum.Astronomy.Nebulae
     public static SavedNebula Create(string id, Vector3 dir, float size, float rotationDegrees, 
       HashSet<string> usedNames)
     {
-      Color[] palette = NebulaeColorUtil.RandomNebulaPalette();
+      Color[] palette = CelestialColorGetter.TryGetRandomNebulaPalette();
       float colorStopB = Rand.Range(0.18f, 0.48f);
       float colorStopC = Rand.Range(colorStopB + 0.15f, 1f);
       string generatedName = NebulaNamingUtil.GenerateUniqueName(usedNames, id, dir);

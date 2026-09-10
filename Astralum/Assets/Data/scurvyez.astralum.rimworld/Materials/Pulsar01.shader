@@ -65,7 +65,7 @@ Shader "Astralum/Pulsar01"
     {
         Tags
         {
-            "Queue" = "Background+3"
+            "Queue" = "Background+7"
             "RenderType" = "Transparent"
         }
         

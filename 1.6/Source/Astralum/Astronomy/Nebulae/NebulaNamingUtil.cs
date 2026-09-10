@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy.LocalStars;
 using Astralum.DefOfs;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using UnityEngine;
 using Verse;
@@ -61,12 +61,12 @@ namespace Astralum.Astronomy.Nebulae
       Vector3 dir = localSkyPos.normalized;
       SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
       
-      int raHour = Mathf.FloorToInt(Mathf.Repeat(coord.rightAscensionHours, 24f));
+      int raHour = Mathf.FloorToInt(Mathf.Repeat(coord.RightAscensionHours, 24f));
       int raMinute = Mathf.FloorToInt(
-        (Mathf.Repeat(coord.rightAscensionHours, 24f) - raHour) * 60f);
+        (Mathf.Repeat(coord.RightAscensionHours, 24f) - raHour) * 60f);
       
-      float decAbs = Mathf.Abs(coord.declinationDegrees);
-      string sign = coord.declinationDegrees >= 0f ? "+" : "-";
+      float decAbs = Mathf.Abs(coord.DeclinationDegrees);
+      string sign = coord.DeclinationDegrees >= 0f ? "+" : "-";
       
       int decDegree = Mathf.FloorToInt(decAbs);
       int decMinute = Mathf.FloorToInt((decAbs - decDegree) * 60f);

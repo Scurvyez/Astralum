@@ -10,7 +10,7 @@ Shader "Astralum/SkyCoordinateGrid01"
     {
         Tags
         {
-            "Queue" = "Background+10"
+            "Queue" = "Background+30"
             "RenderType" = "Transparent"
         }
         

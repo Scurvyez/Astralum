@@ -3,7 +3,7 @@ using Astralum.Astronomy.Constellations;
 using RimWorld.Planet;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_ConstellationDataCache : WorldComponent
   {
@@ -12,7 +12,7 @@ namespace Astralum.World
     public bool HasGeneratedConstellations => !Constellations.NullOrEmpty();
     public void Clear() => Constellations.Clear();
     
-    public WorldComponent_ConstellationDataCache(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_ConstellationDataCache(World world) : base(world)
     {
       
     }

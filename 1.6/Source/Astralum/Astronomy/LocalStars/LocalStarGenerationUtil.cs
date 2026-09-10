@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Astralum.Debugging;
-using Astralum.World;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -18,13 +17,6 @@ namespace Astralum.Astronomy.LocalStars
     private const float BaseLocalStarRenderSize = 7.5f;
     
     public const float DistanceToLocalStars = 20f;
-    
-    public enum StellarVariabilityType
-    {
-      None,
-      Intrinsic,
-      Extrinsic
-    }
     
     public static void EnsureGenerated()
     {
@@ -501,22 +493,6 @@ namespace Astralum.Astronomy.LocalStars
         return "Astra_Stars_Variability_None".Translate();
 
       return $"{type} ({amount * 100f:0.#}%)";
-    }
-    
-    public readonly struct GeneratedStellarVariability
-    {
-      public readonly StellarVariabilityType Type;
-      public readonly float Amount;
-      
-      public bool HasVariability => Type != StellarVariabilityType.None && Amount > 0f;
-      public bool IsIntrinsic => Type == StellarVariabilityType.Intrinsic && Amount > 0f;
-      public bool IsExtrinsic => Type == StellarVariabilityType.Extrinsic && Amount > 0f;
-      
-      public GeneratedStellarVariability(StellarVariabilityType type, float amount)
-      {
-        Type = type;
-        Amount = amount;
-      }
     }
     
     public static float GenerateCoronaIntensity(float temperatureKelvin, float magneticField,

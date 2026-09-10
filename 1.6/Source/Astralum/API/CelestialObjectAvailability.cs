@@ -1,5 +1,5 @@
 ﻿using Astralum.Astronomy.Constellations;
-using Astralum.World;
+using Astralum.WorldComponents;
 using Verse;
 
 namespace Astralum.API

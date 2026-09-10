@@ -45,10 +45,10 @@ namespace Astralum.Materials
       };
       
       material.SetFloat(InternalShaderPropertyIds.CanvasScale, PulsarCanvasScale);
-      material.SetColor(InternalShaderPropertyIds.ShellDarkColor, new Color(0.01f, 0.025f, 0.075f, 1f));
-      material.SetColor(InternalShaderPropertyIds.ShellBrightColor, new Color(0.12f, 0.45f, 1.0f, 1f));
-      material.SetColor(InternalShaderPropertyIds.CoreColor, Color.white);
-      material.SetColor(InternalShaderPropertyIds.JetColor, new Color(0.55f, 0.85f, 1.0f, 1f));
+      material.SetColor(InternalShaderPropertyIds.ShellDarkColor, CelestialColorGetter.PulsarShellDarkColor);
+      material.SetColor(InternalShaderPropertyIds.ShellBrightColor, CelestialColorGetter.PulsarShellBrightColor);
+      material.SetColor(InternalShaderPropertyIds.CoreColor, CelestialColorGetter.PulsarCoreColor);
+      material.SetColor(InternalShaderPropertyIds.JetColor, CelestialColorGetter.PulsarJetColor);
       material.SetFloat(InternalShaderPropertyIds.Intensity, 1.1f);
       material.SetFloat(InternalShaderPropertyIds.Alpha, 0.82f);
       

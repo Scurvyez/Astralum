@@ -12,7 +12,7 @@ Shader "Astralum/BackgroundStar01"
     {
         Tags
         {
-            "Queue" = "Background+1"
+            "Queue" = "Background+2"
             "RenderType" = "Background"
         }
         

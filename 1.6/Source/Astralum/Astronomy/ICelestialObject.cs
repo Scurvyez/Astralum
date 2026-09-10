@@ -8,6 +8,5 @@ namespace Astralum.Astronomy
     public float RenderSize { get; }
     public float Rotation { get; }
     public Vector3 LocalSkyPosition { get; }
-    //public Vector3 WorldViewDirection { get; }
   }
 }

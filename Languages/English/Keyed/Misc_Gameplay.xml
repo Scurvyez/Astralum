@@ -18,7 +18,7 @@
     <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.</Astra_EnableCelestialNamingWindowToggleLabel>
     
     <Astra_UI_CelestialOverview>Celestial Overview</Astra_UI_CelestialOverview>
-    <Astra_UI_CelestialCatalogueLabel>Celestial Catalog</Astra_UI_CelestialCatalogueLabel>
+    <Astra_UI_CelestialCatalogueLabel>Celestial Catalogue</Astra_UI_CelestialCatalogueLabel>
     <Astra_UI_CelestialCatalogueDesc>Opens a catalogue of all celestial objects in the observable universe.\n\nObjects can be renamed. Selecting an object will gently rotate the view to bring it into focus.</Astra_UI_CelestialCatalogueDesc>
     <Astra_UI_CelestialNames_Category>Celestial Catalog for:</Astra_UI_CelestialNames_Category>
     <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>

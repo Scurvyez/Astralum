@@ -27,8 +27,7 @@ namespace Astralum.Materials
         mainTexture = texture
       };
       
-      material.SetTexture(InternalShaderPropertyIds.MainTex, texture);
-      material.SetColor(ShaderPropertyIDs.Color, new Color(0.45f, 0.60f, 1.0f, 0.35f));
+      material.SetColor(ShaderPropertyIDs.Color, CelestialColorGetter.ConstellationLineColor);
       material.SetFloat(InternalShaderPropertyIds.Intensity, 0.875f);
       material.SetFloat(InternalShaderPropertyIds.BlurStrength, 0.45f);
       material.SetFloat(InternalShaderPropertyIds.FocusShimmer, 0f);

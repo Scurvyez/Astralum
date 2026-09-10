@@ -5,13 +5,13 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_SkyGridLabels : WorldComponent
   {
     private static List<SkyGridLabel> _cachedLabels;
     
-    public WorldComponent_SkyGridLabels(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_SkyGridLabels(World world) : base(world)
     {
     }
     

@@ -2,7 +2,7 @@
 using Astralum.Astronomy;
 using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.LocalStars;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;
@@ -20,9 +20,10 @@ namespace Astralum.API
     {
       if (celestialObject == null)
         return -90f;
-
+      
       Vector3 tileNormal = Find.WorldGrid.GetTileCenter(tile).normalized;
-      Vector3 objectDirection = WorldUtils.GetCurrentRotationForWorldSpace() * celestialObject.LocalSkyPosition.normalized;
+      Vector3 localSkyPosition = CurrentLocalSkyPositionFor(celestialObject);
+      Vector3 objectDirection = WorldUtils.GetCurrentRotationForWorldSpace() * localSkyPosition.normalized;
       
       float dot = Mathf.Clamp(Vector3.Dot(tileNormal, objectDirection), -1f, 1f);
       
@@ -60,7 +61,7 @@ namespace Astralum.API
         
         CelestialObjectInfo info = CelestialObjectInfoUtil.From(celestialObject);
         
-        if (info.type == CelestialObjectType.Unknown)
+        if (info.Type == CelestialObjectType.Unknown)
           continue;
         
         results.Add(info);
@@ -89,7 +90,7 @@ namespace Astralum.API
         
         CelestialObjectInfo info = CelestialObjectInfoUtil.From(celestialObject);
         
-        if (info.type == CelestialObjectType.Unknown)
+        if (info.Type == CelestialObjectType.Unknown)
           continue;
         
         result = info;

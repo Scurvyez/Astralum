@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Astralum.API;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -15,13 +15,11 @@ namespace Astralum.Astronomy.Constellations
   {
     private bool _calculatedForStaticRotation;
 
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
-    protected override Quaternion Rotation => UseStaticRotation
-      ? Quaternion.identity 
-      : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
     
+    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+
     public override bool ShouldRegenerate
     {
       get
@@ -80,7 +78,7 @@ namespace Astralum.Astronomy.Constellations
       {
         SavedConstellationStar star = constellation.stars[i];
         RegisterConstellationStarForInteraction(star, constellation);
-        Material material = BackgroundStarMatsUtil.For(star.spectralClass);
+        Material material = ConstellationStarMatsUtil.For(star.spectralClass);
         LayerSubMesh subMesh = GetSubMesh(material);
 
         WorldRendererUtility.PrintQuadTangentialToPlanet(star.LocalSkyPosition, star.RenderSize, 0f,
@@ -101,8 +99,8 @@ namespace Astralum.Astronomy.Constellations
         star.LocalSkyPosition,
         star.RenderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees),
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees),
         star.spectralClass, 
         constellation.DisplayName);
     }

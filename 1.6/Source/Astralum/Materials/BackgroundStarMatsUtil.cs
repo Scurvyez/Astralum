@@ -13,13 +13,13 @@ namespace Astralum.Materials
     
     static BackgroundStarMatsUtil()
     {
-      CreateMaterial(SpectralClass.O, new Color(0.62f, 0.78f, 1f, 1f));
-      CreateMaterial(SpectralClass.B, new Color(0.70f, 0.85f, 1f, 1f));
-      CreateMaterial(SpectralClass.A, new Color(0.85f, 0.93f, 1f, 1f));
-      CreateMaterial(SpectralClass.F, new Color(1f, 0.98f, 0.88f, 1f));
-      CreateMaterial(SpectralClass.G, new Color(1f, 0.90f, 0.62f, 1f));
-      CreateMaterial(SpectralClass.K, new Color(1f, 0.62f, 0.32f, 1f));
-      CreateMaterial(SpectralClass.M, new Color(1f, 0.34f, 0.22f, 1f));
+      CreateMaterial(SpectralClass.O);
+      CreateMaterial(SpectralClass.B);
+      CreateMaterial(SpectralClass.A);
+      CreateMaterial(SpectralClass.F);
+      CreateMaterial(SpectralClass.G);
+      CreateMaterial(SpectralClass.K);
+      CreateMaterial(SpectralClass.M);
     }
 
     public static Material For(SpectralClass spectralClass)
@@ -27,7 +27,7 @@ namespace Astralum.Materials
       return Materials[spectralClass];
     }
 
-    private static void CreateMaterial(SpectralClass spectralClass, Color color)
+    private static void CreateMaterial(SpectralClass spectralClass)
     {
       Shader shader = InternalDefOf.Astra_BackgroundStar01.Shader;
 
@@ -35,8 +35,8 @@ namespace Astralum.Materials
       {
         name = $"Astralum_BackgroundStar{spectralClass}"
       };
-
-      material.SetColor(ShaderPropertyIDs.Color, color);
+      
+      material.SetColor(ShaderPropertyIDs.Color, CelestialColorGetter.TryGetStarColorFor(spectralClass));
       material.SetFloat(InternalShaderPropertyIds.Intensity, 1f);
 
       Object.DontDestroyOnLoad(material);

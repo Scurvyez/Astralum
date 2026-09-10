@@ -12,7 +12,6 @@ namespace Astralum
       AstraLog.Message($"{DateTime.Now.Date.ToShortDateString()} "
                        + "[1.6 Alpha-Build | Nothing to report.]");
       
-      // TODO: RENDER THE LOCAL STAR(S) IN FRONT OF EVERYTHING ELSE!!!
       // TODO: actual solar flares visible on the local star if one is active for the map?
       // TODO: look into planetary atmospheric composition (new world layer(?), maybe update existing world layer?
       // TODO: look into planet sky color change

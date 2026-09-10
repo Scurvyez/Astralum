@@ -4,7 +4,7 @@ using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -24,6 +24,22 @@ namespace Astralum.Astronomy.GalacticDustLanes
     private FloatRange _galacticPlaneBounds = new(-0.10f, 0.10f);
     private bool _calculatedForStaticRotation;
     
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    
+    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    
+    public override bool ShouldRegenerate
+    {
+      get
+      {
+        if (base.ShouldRegenerate)
+          return true;
+        
+        return UseStaticRotation != _calculatedForStaticRotation;
+      }
+    }
+    
     public GlobalDrawLayer_GalacticDustLanes()
     {
       _def = InternalDefOf.Astra_GalacticDustLanes;
@@ -38,26 +54,6 @@ namespace Astralum.Astronomy.GalacticDustLanes
       _dustLaneCount = _ext.dustLaneCount;
       _dustLaneSizeRange = _ext.dustLaneSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
-    }
-    
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-    
-    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-    
-    protected override Quaternion Rotation =>
-      UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-    
-    public override bool ShouldRegenerate
-    {
-      get
-      {
-        if (base.ShouldRegenerate)
-          return true;
-        
-        return UseStaticRotation != _calculatedForStaticRotation;
-      }
     }
     
     public override IEnumerable Regenerate()

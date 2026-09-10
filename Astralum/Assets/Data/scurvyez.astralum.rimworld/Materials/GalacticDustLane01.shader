@@ -32,8 +32,8 @@ Shader "Astralum/GalacticDustLane01"
     {
         Tags
         {
-            "Queue" = "Background+2"
-            "RenderType" = "Transparent"
+            "Queue" = "Background+1"
+            "RenderType" = "Background"
         }
         
         Blend SrcAlpha OneMinusSrcAlpha

@@ -6,7 +6,7 @@ using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -24,6 +24,22 @@ namespace Astralum.Astronomy.Nebulae
     private IntRange _nebulaCount = new(10, 13);
     private FloatRange _galacticPlaneBounds = new(-0.18f, 0.18f);
     private FloatRange _nebulaSizeRange = new(6f, 18f);
+
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    
+    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+
+    public override bool ShouldRegenerate
+    {
+      get
+      {
+        if (base.ShouldRegenerate)
+          return true;
+        
+        return UseStaticRotation != _calculatedForStaticRotation;
+      }
+    }
     
     public GlobalDrawLayer_Nebulae()
     {
@@ -42,25 +58,6 @@ namespace Astralum.Astronomy.Nebulae
       _nebulaCount = _ext.nebulaCount;
       _nebulaSizeRange = _ext.nebulaSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
-    }
-
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-
-    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
-    protected override Quaternion Rotation => UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-
-    public override bool ShouldRegenerate
-    {
-      get
-      {
-        if (base.ShouldRegenerate)
-          return true;
-        
-        return UseStaticRotation != _calculatedForStaticRotation;
-      }
     }
 
     public override IEnumerable Regenerate()
@@ -156,8 +153,8 @@ namespace Astralum.Astronomy.Nebulae
         nebula.LocalSkyPosition,
         nebula.RenderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees));
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

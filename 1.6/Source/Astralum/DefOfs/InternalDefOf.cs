@@ -16,6 +16,12 @@ namespace Astralum.DefOfs
     public static JobDef UseTelescope;
     
     #endregion
+    
+    #region Game Conditions
+    
+    public static GameConditionDef Astra_LocalStarLight;
+    
+    #endregion
 
     #region RulePacks
     
@@ -29,28 +35,30 @@ namespace Astralum.DefOfs
 
     #region ShaderTypeDefs
 
-    public static ShaderTypeDef Astra_LocalStar01;
+    public static ShaderTypeDef Astra_GalacticDustLane01;
     public static ShaderTypeDef Astra_BackgroundStar01;
-    public static ShaderTypeDef Astra_Constellation01;
     public static ShaderTypeDef Astra_Nebulae01;
+    public static ShaderTypeDef Astra_Constellation01;
+    public static ShaderTypeDef Astra_ConstellationStar01;
+    public static ShaderTypeDef Astra_BlackHole01;
+    public static ShaderTypeDef Astra_Pulsar01;
+    public static ShaderTypeDef Astra_LocalStar01;
     public static ShaderTypeDef Astra_ShootingStar01;
     public static ShaderTypeDef Astra_SkyCoordinateGrid01;
-    public static ShaderTypeDef Astra_Pulsar01;
-    public static ShaderTypeDef Astra_BlackHole01;
-    public static ShaderTypeDef Astra_GalacticDustLane01;
-
+    
     #endregion
 
     #region GlobalWorldDrawLayerDefs
 
+    public static GlobalWorldDrawLayerDef Astra_GalacticDustLanes;
     public static GlobalWorldDrawLayerDef Astra_BackgroundStars;
+    public static GlobalWorldDrawLayerDef Astra_Nebulae;
     public static GlobalWorldDrawLayerDef Astra_Constellations;
     public static GlobalWorldDrawLayerDef Astra_ConstellationStars;
-    public static GlobalWorldDrawLayerDef Astra_Nebulae;
-    public static GlobalWorldDrawLayerDef Astra_ShootingStars;
-    public static GlobalWorldDrawLayerDef Astra_Pulsars;
     public static GlobalWorldDrawLayerDef Astra_BlackHoles;
-    public static GlobalWorldDrawLayerDef Astra_GalacticDustLanes;
+    public static GlobalWorldDrawLayerDef Astra_Pulsars;
+    public static GlobalWorldDrawLayerDef Astra_ShootingStars;
+    public static GlobalWorldDrawLayerDef Astra_SkyCoordinateGrid;
 
     #endregion
   }

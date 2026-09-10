@@ -2,7 +2,7 @@
 using RimWorld.Planet;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_LocalStarOrbitRenderer : WorldComponent
   {
@@ -11,7 +11,7 @@ namespace Astralum.World
     private int _nextUpdateTick;
     private GlobalDrawLayer_LocalStars _localStarLayer;
 
-    public WorldComponent_LocalStarOrbitRenderer(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_LocalStarOrbitRenderer(World world) : base(world)
     {
       
     }

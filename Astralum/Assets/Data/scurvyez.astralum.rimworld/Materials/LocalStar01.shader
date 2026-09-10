@@ -33,8 +33,8 @@ Shader "Astralum/LocalStar01"
     {
         Tags
         {
-            "Queue" = "Background+1"
-            "RenderType" = "Background"
+            "Queue" = "Background+20"
+            "RenderType" = "Transparent"
         }
         
         Cull Off

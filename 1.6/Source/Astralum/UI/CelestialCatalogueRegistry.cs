@@ -16,6 +16,7 @@ namespace Astralum.UI
     {
       List<CelestialCatalogueObjectEntry> entries = [];
       
+      // TODO: finalize the best order for these...
       AddEntries(entries, LocalStarDataUtil.Data?.LocalStars,
         "Astra_UI_CelestialNamingLocalStarsCategory".Translate());
       AddConstellations(entries);

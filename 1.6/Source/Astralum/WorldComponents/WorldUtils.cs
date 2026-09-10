@@ -3,7 +3,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public static class WorldUtils
   {

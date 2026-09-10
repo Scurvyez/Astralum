@@ -34,7 +34,7 @@ namespace Astralum.Astronomy
     {
       for (int i = Objects.Count - 1; i >= 0; i--)
       {
-        if (Objects[i].type != type)
+        if (Objects[i].Type != type)
           continue;
         
         Objects.RemoveAt(i);
@@ -51,7 +51,7 @@ namespace Astralum.Astronomy
       {
         HoverCelestialObject obj = Objects[i];
         
-        IndexByObject[KeyFor(obj.type, obj.id)] = i;
+        IndexByObject[KeyFor(obj.Type, obj.ID)] = i;
       }
     }
     
@@ -81,31 +81,31 @@ namespace Astralum.Astronomy
     
     public readonly struct HoverCelestialObject
     {
-      public readonly CelestialObjectType type;
-      public readonly string id;
-      public readonly string name;
-      public readonly Vector3 localSkyPos;
-      public readonly float size;
-      public readonly string hemisphere;
-      public readonly string rightAscension;
-      public readonly string declination;
-      public readonly SpectralClass? spectralClass;
-      public readonly string constellationName;
+      public readonly CelestialObjectType Type;
+      public readonly string ID;
+      public readonly string Name;
+      public readonly Vector3 LocalSkyPos;
+      public readonly float Size;
+      public readonly string Hemisphere;
+      public readonly string RightAscension;
+      public readonly string Declination;
+      public readonly SpectralClass? SpectralClass;
+      public readonly string ConstellationName;
       
       public HoverCelestialObject(CelestialObjectType type, string id, string name, Vector3 localSkyPos, float size,
         string hemisphere, string rightAscension, string declination, SpectralClass? spectralClass = null,
         string constellationName = null)
       {
-        this.type = type;
-        this.id = id;
-        this.name = name;
-        this.localSkyPos = localSkyPos;
-        this.size = size;
-        this.hemisphere = hemisphere;
-        this.rightAscension = rightAscension;
-        this.declination = declination;
-        this.spectralClass = spectralClass;
-        this.constellationName = constellationName;
+        Type = type;
+        ID = id;
+        Name = name;
+        LocalSkyPos = localSkyPos;
+        Size = size;
+        Hemisphere = hemisphere;
+        RightAscension = rightAscension;
+        Declination = declination;
+        SpectralClass = spectralClass;
+        ConstellationName = constellationName;
       }
     }
   }

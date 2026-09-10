@@ -7,7 +7,7 @@ using Astralum.Astronomy.Pulsars;
 using RimWorld.Planet;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_CelestialObjectDataCache : WorldComponent
   {
@@ -34,7 +34,7 @@ namespace Astralum.World
     public void ClearPulsars() => Pulsars.Clear();
     public void ClearDustLanes() => DustLanes.Clear();
     
-    public WorldComponent_CelestialObjectDataCache(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_CelestialObjectDataCache(World world) : base(world)
     {
       
     }

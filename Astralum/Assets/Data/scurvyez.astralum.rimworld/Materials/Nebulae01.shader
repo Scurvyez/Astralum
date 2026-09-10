@@ -43,8 +43,8 @@ Shader "Astralum/Nebulae01"
     {
         Tags
         {
-            "Queue" = "Background+2"
-            "RenderType" = "Background"
+            "Queue" = "Background+3"
+            "RenderType" = "Transparent"
         }
         
         Pass

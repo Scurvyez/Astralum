@@ -155,7 +155,7 @@ namespace Astralum.Harmony
         return;
       
       harmony.Patch(regenerate,
-        prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Sun_Regenerate_Prefix)));
+        prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Stars_Regenerate_Prefix)));
     }
     
     public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
@@ -247,14 +247,12 @@ namespace Astralum.Harmony
         return;
       
       TelescopeReportData reportData = HarmonyPatchesUtil.TelescopeReports.GetValue(
-        job,
-        _ => HarmonyPatchesUtil.CreateTelescopeReportData(__instance.pawn)
-      );
+        job, _ => HarmonyPatchesUtil.CreateTelescopeReportData(__instance.pawn));
       
-      if (!reportData.useConstellationReport || reportData.report.NullOrEmpty())
+      if (!reportData.UseConstellationReport || reportData.Report.NullOrEmpty())
         return;
       
-      __result = reportData.report;
+      __result = reportData.Report;
     }
     
     public static IEnumerable<Toil> JobDriver_Skygaze_MakeNewToils_Postfix(IEnumerable<Toil> __result, 

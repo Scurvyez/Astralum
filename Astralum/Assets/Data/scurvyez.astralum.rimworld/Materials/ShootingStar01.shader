@@ -12,7 +12,7 @@ Shader "Astralum/ShootingStar01"
     {
         Tags
         {
-            "Queue" = "Background+8"
+            "Queue" = "Background+25"
             "RenderType" = "Transparent"
         }
         

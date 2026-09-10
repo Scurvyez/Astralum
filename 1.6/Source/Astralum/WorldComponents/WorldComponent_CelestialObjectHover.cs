@@ -6,7 +6,7 @@ using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_CelestialObjectHover : WorldComponent
   {
@@ -18,9 +18,9 @@ namespace Astralum.World
     private const float TooltipMousePosOffsetX = 32f;
     private const float TooltipMousePosOffsetY = 16f;
     
-    private readonly List<HoveredObject> _hoveredObjects = [];
+    private readonly List<HoveredCelestialObject> _hoveredObjects = [];
     
-    public WorldComponent_CelestialObjectHover(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_CelestialObjectHover(World world) : base(world)
     {
       
     }
@@ -70,7 +70,7 @@ namespace Astralum.World
         return;
       }
       
-      _hoveredObjects.Sort(static (a, b) => a.distance.CompareTo(b.distance));
+      _hoveredObjects.Sort(static (a, b) => a.Distance.CompareTo(b.Distance));
       
       DrawTooltip();
     }
@@ -84,16 +84,16 @@ namespace Astralum.World
       {
         CelestialObjectInteractionRegistry.HoverCelestialObject obj = objects[i];
         
-        if (!ShouldShowInfo(obj.type))
+        if (!ShouldShowInfo(obj.Type))
           continue;
         
-        float hoverRadius = Mathf.Max(MinHoverRadiusFor(obj.type), obj.size * HoverRadiusMultiplierFor(obj.type));
-        float distance = Vector3.Distance(localHit, obj.localSkyPos);
+        float hoverRadius = Mathf.Max(MinHoverRadiusFor(obj.Type), obj.Size * HoverRadiusMultiplierFor(obj.Type));
+        float distance = Vector3.Distance(localHit, obj.LocalSkyPos);
         
         if (distance > hoverRadius)
           continue;
         
-        _hoveredObjects.Add(new HoveredObject(obj, distance));
+        _hoveredObjects.Add(new HoveredCelestialObject(obj, distance));
       }
     }
     
@@ -139,7 +139,7 @@ namespace Astralum.World
       
       for (int i = 0; i < _hoveredObjects.Count; i++)
       {
-        CelestialObjectInteractionRegistry.HoverCelestialObject obj = _hoveredObjects[i].hoverObject;
+        CelestialObjectInteractionRegistry.HoverCelestialObject obj = _hoveredObjects[i].HoverObject;
         AddHoverLines(obj, lines);
       }
       
@@ -214,15 +214,15 @@ namespace Astralum.World
       _hoveredObjects.Clear();
     }
     
-    private readonly struct HoveredObject
+    private readonly struct HoveredCelestialObject
     {
-      public readonly CelestialObjectInteractionRegistry.HoverCelestialObject hoverObject;
-      public readonly float distance;
+      public readonly CelestialObjectInteractionRegistry.HoverCelestialObject HoverObject;
+      public readonly float Distance;
       
-      public HoveredObject(CelestialObjectInteractionRegistry.HoverCelestialObject hoverObject, float distance)
+      public HoveredCelestialObject(CelestialObjectInteractionRegistry.HoverCelestialObject hoverObject, float distance)
       {
-        this.hoverObject = hoverObject;
-        this.distance = distance;
+        HoverObject = hoverObject;
+        Distance = distance;
       }
     }
   }

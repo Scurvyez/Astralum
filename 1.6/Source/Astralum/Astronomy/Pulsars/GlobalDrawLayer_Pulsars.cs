@@ -5,7 +5,7 @@ using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -51,12 +51,8 @@ namespace Astralum.Astronomy.Pulsars
     }
 
     private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-
-    protected override Quaternion Rotation => UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
 
     public override bool ShouldRegenerate
     {
@@ -195,8 +191,8 @@ namespace Astralum.Astronomy.Pulsars
         pulsar.LocalSkyPosition,
         pulsar.RenderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees));
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
     }
     
     private static Vector3 RandomPulsarDirection()

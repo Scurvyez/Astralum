@@ -19,7 +19,7 @@ namespace Astralum.Astronomy.LocalStars
     public float rotationsPerDay;
     public SpectralClass spectralClass;
     public Dictionary<string, float> composition;
-    public LocalStarGenerationUtil.StellarVariabilityType variabilityType;
+    public StellarVariabilityType variabilityType;
 
     public Color chromaticity;
     public Color corona;

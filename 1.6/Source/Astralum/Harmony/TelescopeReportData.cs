@@ -2,13 +2,13 @@
 {
   public class TelescopeReportData
   {
-    public readonly bool useConstellationReport;
-    public readonly string report;
+    public readonly bool UseConstellationReport;
+    public readonly string Report;
     
     public TelescopeReportData(bool useConstellationReport, string report)
     {
-      this.useConstellationReport = useConstellationReport;
-      this.report = report;
+      UseConstellationReport = useConstellationReport;
+      Report = report;
     }
   }
 }

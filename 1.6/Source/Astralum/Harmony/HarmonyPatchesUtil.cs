@@ -8,12 +8,9 @@ using Astralum.Astronomy.Constellations;
 using Astralum.Astronomy.Nebulae;
 using Astralum.Debugging;
 using Astralum.Materials;
-using Astralum.Settings;
-using Astralum.UI;
-using Astralum.World;
+using Astralum.WorldComponents;
 using HarmonyLib;
 using RimWorld;
-using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 using Verse.AI;
@@ -103,8 +100,8 @@ namespace Astralum.Harmony
       string hemisphere = WorldUtils.SkyHemisphere(dir);
       
       SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
-      string ra = WorldUtils.FormatRightAscension(coord.rightAscensionHours);
-      string dec = WorldUtils.FormatDeclination(coord.declinationDegrees);
+      string ra = WorldUtils.FormatRightAscension(coord.RightAscensionHours);
+      string dec = WorldUtils.FormatDeclination(coord.DeclinationDegrees);
 
       int maxPattern = hasTwoStars ? 8 : hasOneStar ? 6 : 2;
       int pattern = Rand.RangeInclusive(0, maxPattern);
@@ -328,7 +325,7 @@ namespace Astralum.Harmony
     
     public static void AddLocalStarInfoToggle(WidgetRow row)
     {
-      string localStarInfoTooltip = CelestialNamingSettings.ShowNamingWindow
+      string localStarInfoTooltip = CelestialDisplaySettings.ShowCatalogueWindow
         ? "Astra_DisableLocalStarInfoToggleLabel".Translate()
         : "Astra_EnableLocalStarInfoToggleLabel".Translate();
       

@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Astralum.World;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -12,12 +12,12 @@ namespace Astralum.Astronomy.Constellations
     public static SavedConstellation Create(string id, Vector3 dir, float size, float rotationDegrees, 
       HashSet<string> usedNames, ConstellationMaskInfo maskInfo, Texture2D mask)
     {
-      string generatedName = ConstellationNameGenerator.Generate(maskInfo.categoryId, usedNames);
+      string generatedName = ConstellationNameGenerator.Generate(maskInfo.CategoryId, usedNames);
       
       return CelestialObjectDataUtil.CreateNameable<SavedConstellation>(id, dir, size, generatedName, rotationDegrees,
         constellation =>
         {
-          constellation.categoryId = maskInfo.categoryId;
+          constellation.categoryId = maskInfo.CategoryId;
           constellation.maskName = mask.name;
           constellation.centerDir = dir.normalized;
           constellation.stars = [];

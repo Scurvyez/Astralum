@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Defs>
-
+    
     <!-- background stars -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_BackgroundStars</defName>
         <worldDrawLayer>Astralum.Astronomy.BackgroundStars.GlobalDrawLayer_BackgroundStars</worldDrawLayer>
@@ -14,7 +13,6 @@
             </li>
         </modExtensions>
     </GlobalWorldDrawLayerDef>
-    
     <!-- local stars -->
 
     <GlobalWorldDrawLayerDef>
@@ -23,7 +21,6 @@
     </GlobalWorldDrawLayerDef>
     
     <!-- nebulae -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_Nebulae</defName>
         <worldDrawLayer>Astralum.Astronomy.Nebulae.GlobalDrawLayer_Nebulae</worldDrawLayer>
@@ -37,16 +34,13 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- constellations -->
-    
     <GlobalWorldDrawLayerDef>
         <defName>Astra_Constellations</defName>
         <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_Constellations</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Constellations.ModExt_Constellations">
-                <!--<constellationCount>13</constellationCount>-->
                 <constellationCountMin>11</constellationCountMin>
                 <constellationCountMax>15</constellationCountMax>
-                
                 <maxPlacementAttempts>80</maxPlacementAttempts>
                 <constellationSizeMin>3.1</constellationSizeMin>
                 <constellationSizeMax>3.5</constellationSizeMax>
@@ -57,7 +51,6 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- constellation stars -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_ConstellationStars</defName>
         <worldDrawLayer>Astralum.Astronomy.Constellations.GlobalDrawLayer_ConstellationStars</worldDrawLayer>
@@ -70,7 +63,6 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- shooting stars -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_ShootingStars</defName>
         <worldDrawLayer>Astralum.Astronomy.ShootingStars.GlobalDrawLayer_ShootingStars</worldDrawLayer>
@@ -87,20 +79,18 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- coordinate grid -->
-    
     <GlobalWorldDrawLayerDef>
         <defName>Astra_SkyCoordinateGrid</defName>
         <worldDrawLayer>Astralum.Astronomy.SkyGrid.GlobalDrawLayer_SkyCoordinateGrid</worldDrawLayer>
     </GlobalWorldDrawLayerDef>
 
     <!-- pulsars -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_Pulsars</defName>
         <worldDrawLayer>Astralum.Astronomy.Pulsars.GlobalDrawLayer_Pulsars</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.Pulsars.ModExt_Pulsars">
-                <pulsarChance>1</pulsarChance>
+                <pulsarChance>0.02</pulsarChance>
                 <pulsarSize>0.1~0.45</pulsarSize>
                 <pulsarCount>1~3</pulsarCount>
             </li>
@@ -108,14 +98,13 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- black holes -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_BlackHoles</defName>
         <worldDrawLayer>Astralum.Astronomy.BlackHoles.GlobalDrawLayer_BlackHoles</worldDrawLayer>
         <modExtensions>
             <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
                 <galacticPlaneBounds>-0.75~0.75</galacticPlaneBounds>
-                <blackHoleChance>1</blackHoleChance>
+                <blackHoleChance>0.02</blackHoleChance>
                 <blackHoleSize>0.05~0.7</blackHoleSize>
                 <blackHoleCount>1~3</blackHoleCount>
             </li>
@@ -123,7 +112,6 @@
     </GlobalWorldDrawLayerDef>
 
     <!-- dust lanes -->
-
     <GlobalWorldDrawLayerDef>
         <defName>Astra_GalacticDustLanes</defName>
         <worldDrawLayer>Astralum.Astronomy.GalacticDustLanes.GlobalDrawLayer_GalacticDustLanes</worldDrawLayer>

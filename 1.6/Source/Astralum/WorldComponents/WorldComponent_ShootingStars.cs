@@ -4,13 +4,13 @@ using Astralum.DefOfs;
 using Astralum.Settings;
 using RimWorld.Planet;
 
-namespace Astralum.World
+namespace Astralum.WorldComponents
 {
   public class WorldComponent_ShootingStars : WorldComponent
   {
     private readonly ModExt_ShootingStars _ext;
     
-    public WorldComponent_ShootingStars(RimWorld.Planet.World world) : base(world)
+    public WorldComponent_ShootingStars(World world) : base(world)
     {
       if (!AstraSettings.RenderShootingStars)
         return;

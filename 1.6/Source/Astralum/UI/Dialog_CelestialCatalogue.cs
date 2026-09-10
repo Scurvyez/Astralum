@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Astralum.Astronomy;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld.Planet;
 using UnityEngine;
 using Verse;

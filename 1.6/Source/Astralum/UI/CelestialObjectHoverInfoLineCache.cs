@@ -40,7 +40,7 @@ namespace Astralum.UI
     private static List<CelestialObjectHoverInfoLine> BuildLines(
       CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      return obj.type switch
+      return obj.Type switch
       {
         CelestialObjectType.LocalStar => BuildLocalStarLines(obj),
         CelestialObjectType.BlackHole => BuildBlackHoleLines(obj),
@@ -53,17 +53,17 @@ namespace Astralum.UI
     private static List<CelestialObjectHoverInfoLine> BuildLocalStarLines(
       CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      SavedLocalStar star =  LocalStarDataUtil.GetById(obj.id);
-      string displayName = star?.DisplayName ?? obj.name;
+      SavedLocalStar star =  LocalStarDataUtil.GetById(obj.ID);
+      string displayName = star?.DisplayName ?? obj.Name;
       
       if (star == null)
       {
         return
         [
           new CelestialObjectHoverInfoLine(displayName.NullOrEmpty() ? "Astra_Stars_Unknown".Translate() : displayName),
-          new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-          new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
-          new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+          new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.Hemisphere}"),
+          new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.RightAscension}"),
+          new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.Declination}")
         ];
       }
       
@@ -77,17 +77,17 @@ namespace Astralum.UI
         new CelestialObjectHoverInfoLine("Astra_Stars_Luminosity".Translate() + $": {star.luminosity:F2} L☉"),
         new CelestialObjectHoverInfoLine("Astra_Stars_Age".Translate() + $": {LocalStarGenerationUtil.FormatAge(star.age)}"),
         new CelestialObjectHoverInfoLine("Astra_Stars_Variability".Translate() + $": {star.variabilityType}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.Hemisphere}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.RightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.Declination}")
       ];
     }
     
     private static List<CelestialObjectHoverInfoLine> BuildBlackHoleLines(
       CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      SavedBlackHole saved = BlackHoleDataUtil.GetById(obj.id);
-      string displayName = saved?.DisplayName ?? obj.name;
+      SavedBlackHole saved = BlackHoleDataUtil.GetById(obj.ID);
+      string displayName = saved?.DisplayName ?? obj.Name;
       
       return
       [
@@ -96,17 +96,17 @@ namespace Astralum.UI
           : displayName),
         
         new CelestialObjectHoverInfoLine("Astra_Blackholes_Type".Translate()),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.Hemisphere}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.RightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.Declination}")
       ];
     }
     
     private static List<CelestialObjectHoverInfoLine> BuildPulsarLines(
       CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      SavedPulsar saved = PulsarDataUtil.GetById(obj.id);
-      string displayName = saved?.DisplayName ?? obj.name;
+      SavedPulsar saved = PulsarDataUtil.GetById(obj.ID);
+      string displayName = saved?.DisplayName ?? obj.Name;
       
       return
       [
@@ -115,19 +115,19 @@ namespace Astralum.UI
           : displayName),
         
         new CelestialObjectHoverInfoLine("Astra_Pulsars_Type".Translate()),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Objects_Region".Translate() + $" {obj.Hemisphere}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.RightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.Declination}")
       ];
     }
     
     private static List<CelestialObjectHoverInfoLine> BuildConstellationStarLines(
       CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      SavedConstellationStar saved = ConstellationDataUtil.GetStarById(obj.id);
-      SavedConstellation constellation = ConstellationDataUtil.GetConstellationForStar(obj.id);
-      string displayName = saved?.DisplayName ?? obj.name;
-      string constellationDisplayName = constellation?.DisplayName ?? obj.constellationName;
+      SavedConstellationStar saved = ConstellationDataUtil.GetStarById(obj.ID);
+      SavedConstellation constellation = ConstellationDataUtil.GetConstellationForStar(obj.ID);
+      string displayName = saved?.DisplayName ?? obj.Name;
+      string constellationDisplayName = constellation?.DisplayName ?? obj.ConstellationName;
       
       return
       [
@@ -135,17 +135,17 @@ namespace Astralum.UI
           ? "Astra_Stars_Unknown".Translate() 
           : displayName),
 
-        new CelestialObjectHoverInfoLine("Astra_Stars_Class".Translate() + $": {obj.spectralClass}"),
+        new CelestialObjectHoverInfoLine("Astra_Stars_Class".Translate() + $": {obj.SpectralClass}"),
         new CelestialObjectHoverInfoLine("Astra_Stars_Constellation".Translate() + $": {constellationDisplayName}"),
-        new CelestialObjectHoverInfoLine("Astra_Stars_Region".Translate() + $": {obj.hemisphere}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.rightAscension}"),
-        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.declination}")
+        new CelestialObjectHoverInfoLine("Astra_Stars_Region".Translate() + $": {obj.Hemisphere}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_RightAscension".Translate() + $" {obj.RightAscension}"),
+        new CelestialObjectHoverInfoLine("Astra_Objects_Declination".Translate() + $" {obj.Declination}")
       ];
     }
     
     private static string CacheKeyFor(CelestialObjectInteractionRegistry.HoverCelestialObject obj)
     {
-      return $"{obj.type}:{obj.id}";
+      return $"{obj.Type}:{obj.ID}";
     }
   }
 }

@@ -67,7 +67,7 @@ namespace Astralum.Astronomy.Constellations
     public static Texture2D GetMaskByName(string maskName)
     {
       return TryGetMaskInfo(maskName, out ConstellationMaskInfo info)
-        ? info.texture
+        ? info.Texture
         : null;
     }
 

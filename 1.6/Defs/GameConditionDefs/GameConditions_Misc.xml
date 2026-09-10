@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Defs>
+
+    <GameConditionDef>
+        <defName>Astra_LocalStarLight</defName>
+        <label>local stellar light</label>
+        <description>Alters environmental lighting according to the visible local stars.</description>
+        <conditionClass>Astralum.GameConditions.GameCondition_LocalStarLight</conditionClass>
+        <canBePermanent>true</canBePermanent>
+    </GameConditionDef>
+    
+</Defs>

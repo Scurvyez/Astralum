@@ -1,4 +1,4 @@
-﻿using Astralum.World;
+﻿using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -29,7 +29,7 @@ namespace Astralum.Astronomy.LocalStars
           GeneratedStellarComposition compositionRaw = LocalStarGenerationUtil.GenerateComposition(star.spectralClass);
           star.composition = compositionRaw.Elements;
           star.metallicity = compositionRaw.Metallicity;
-          LocalStarGenerationUtil.GeneratedStellarVariability variability = LocalStarGenerationUtil.GenerateVariability(
+          GeneratedStellarVariability variability = LocalStarGenerationUtil.GenerateVariability(
             star.spectralClass);
           
           star.variabilityType = variability.Type;

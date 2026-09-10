@@ -24,6 +24,22 @@ namespace Astralum.Astronomy.BackgroundStars
     private FloatRange _starSizeRange = new(0.085f, 0.85f);
     private IntRange _starCount = new(10000, 50000);
     
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    
+    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    
+    public override bool ShouldRegenerate
+    {
+      get
+      {
+        if (base.ShouldRegenerate)
+          return true;
+        
+        return UseStaticRotation != _calculatedForStaticRotation;
+      }
+    }
+    
     public GlobalDrawLayer_BackgroundStars()
     {
       if (!AstraSettings.RenderBackgroundStars)
@@ -41,26 +57,6 @@ namespace Astralum.Astronomy.BackgroundStars
       _starSizeRange = _ext.starSizeRange;
       _galacticPlaneBounds = _ext.galacticPlaneBounds;
       _starCount = BackgroundStarsUtil.ResolvedStarCountRange(_ext);
-    }
-    
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-    
-    protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-    
-    protected override Quaternion Rotation =>
-      UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-    
-    public override bool ShouldRegenerate
-    {
-      get
-      {
-        if (base.ShouldRegenerate)
-          return true;
-        
-        return UseStaticRotation != _calculatedForStaticRotation;
-      }
     }
     
     public override IEnumerable Regenerate()

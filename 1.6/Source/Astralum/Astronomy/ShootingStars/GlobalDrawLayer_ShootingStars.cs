@@ -12,13 +12,10 @@ namespace Astralum.Astronomy.ShootingStars
   {
     private bool _calculatedForStaticRotation;
     
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-    
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
-    
-    protected override Quaternion Rotation => UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
     
     public override bool ShouldRegenerate
     {
@@ -39,7 +36,7 @@ namespace Astralum.Astronomy.ShootingStars
       if (!AstraSettings.RenderShootingStars)
         yield break;
 
-      LayerSubMesh subMesh = GetSubMesh(ShootingStarMatsUtil.ShootingStar);
+      LayerSubMesh subMesh = GetSubMesh(ShootingStarMatsUtil.ShootingStarMaterial);
 
       foreach (ShootingStar star in ShootingStarManager.ActiveStars)
         PrintShootingStar(star, subMesh);

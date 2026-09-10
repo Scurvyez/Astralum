@@ -5,7 +5,7 @@ using Astralum.Debugging;
 using Astralum.DefOfs;
 using Astralum.Materials;
 using Astralum.Settings;
-using Astralum.World;
+using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -28,41 +28,10 @@ namespace Astralum.Astronomy.BlackHoles
     private Quaternion _calculatedForCameraRotation = Quaternion.identity;
     private bool _hasCalculatedCameraRotation;
     
-    public GlobalDrawLayer_BlackHoles()
-    {
-      if (!AstraSettings.RenderBlackholes)
-        return;
-      
-      _def = InternalDefOf.Astra_BlackHoles;
-      _ext = _def?.GetModExtension<ModExt_BlackHoles>();
-      
-      if (_ext == null)
-      {
-        AstraLog.Warning("Astra_BlackHoles is missing ModExt_BlackHoles. Using fallback values.");
-        return;
-      }
-      
-      _blackHoleCanvasScale = 4f;
-      _galacticPlaneBounds = _ext.galacticPlaneBounds;
-      _blackHoleChance = Mathf.Clamp01(_ext.blackHoleChance);
-      _blackHoleSize = new FloatRange(
-        Mathf.Clamp(_ext.blackHoleSize.min, 0.001f, 10f),
-        Mathf.Clamp(_ext.blackHoleSize.max, 0.001f, 10f)
-      );
-      _blackHoleCount = new IntRange(
-        Mathf.Clamp(_ext.blackHoleCount.min, 0, 10),
-        Mathf.Clamp(_ext.blackHoleCount.max, 0, 10)
-      );
-    }
-    
-    private bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
+    private static bool UseStaticRotation => Current.ProgramState == ProgramState.Entry;
     
     protected override int RenderLayer => WorldCameraManager.WorldSkyboxLayer;
-    
-    protected override Quaternion Rotation =>
-      UseStaticRotation
-        ? Quaternion.identity
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
+    protected override Quaternion Rotation => Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
     
     public override bool ShouldRegenerate
     {
@@ -90,7 +59,32 @@ namespace Astralum.Astronomy.BlackHoles
       }
     }
     
-    
+    public GlobalDrawLayer_BlackHoles()
+    {
+      if (!AstraSettings.RenderBlackholes)
+        return;
+      
+      _def = InternalDefOf.Astra_BlackHoles;
+      _ext = _def?.GetModExtension<ModExt_BlackHoles>();
+      
+      if (_ext == null)
+      {
+        AstraLog.Warning("Astra_BlackHoles is missing ModExt_BlackHoles. Using fallback values.");
+        return;
+      }
+      
+      _blackHoleCanvasScale = 4f;
+      _galacticPlaneBounds = _ext.galacticPlaneBounds;
+      _blackHoleChance = Mathf.Clamp01(_ext.blackHoleChance);
+      _blackHoleSize = new FloatRange(
+        Mathf.Clamp(_ext.blackHoleSize.min, 0.001f, 10f),
+        Mathf.Clamp(_ext.blackHoleSize.max, 0.001f, 10f)
+      );
+      _blackHoleCount = new IntRange(
+        Mathf.Clamp(_ext.blackHoleCount.min, 0, 10),
+        Mathf.Clamp(_ext.blackHoleCount.max, 0, 10)
+      );
+    }
     
     public override IEnumerable Regenerate()
     {
@@ -195,8 +189,8 @@ namespace Astralum.Astronomy.BlackHoles
         blackHole.LocalSkyPosition,
         blackHole.RenderSize,
         WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.rightAscensionHours),
-        WorldUtils.FormatDeclination(coord.declinationDegrees));
+        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
+        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
     }
     
     private static void PrintBlackHoleBillboard(Vector3 localSkyPos, float size, LayerSubMesh subMesh, 

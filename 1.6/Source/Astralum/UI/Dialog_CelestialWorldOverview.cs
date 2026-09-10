@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Astralum.Astronomy.LocalStars;
-using Astralum.World;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 

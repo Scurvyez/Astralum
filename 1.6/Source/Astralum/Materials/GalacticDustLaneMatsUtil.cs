@@ -47,45 +47,12 @@ namespace Astralum.Materials
       MaterialsById.Clear();
     }
 
-    private static void RandomDustPalette(out Color colorA, out Color colorB)
-    {
-      int palette = Rand.RangeInclusive(0, 4);
-      
-      switch (palette)
-      {
-        case 0: // cool blue-gray
-          colorA = new Color(0.08f, 0.10f, 0.14f, 1f);
-          colorB = new Color(0.18f, 0.22f, 0.28f, 1f);
-          break;
-        
-        case 1: // blue
-          colorA = new Color(0.06f, 0.10f, 0.18f, 1f);
-          colorB = new Color(0.14f, 0.22f, 0.35f, 1f);
-          break;
-        
-        case 2: // brown dust
-          colorA = new Color(0.10f, 0.08f, 0.06f, 1f);
-          colorB = new Color(0.24f, 0.18f, 0.12f, 1f);
-          break;
-        
-        case 3: // purple
-          colorA = new Color(0.08f, 0.05f, 0.12f, 1f);
-          colorB = new Color(0.20f, 0.12f, 0.28f, 1f);
-          break;
-        
-        default: // neutral gray
-          colorA = new Color(0.10f, 0.10f, 0.10f, 1f);
-          colorB = new Color(0.22f, 0.22f, 0.22f, 1f);
-          break;
-      }
-    }
-
     public static void ApplyToMaterial(Material mat, SavedGalacticDustLane dustLane)
     {
       if (mat == null || dustLane == null)
         return;
       
-      RandomDustPalette(out var colorA, out var colorB);
+      CelestialColorGetter.TryGetRandomDustLanePalette(out var colorA, out var colorB);
       
       mat.SetColor(InternalShaderPropertyIds.ColorA, colorA);
       mat.SetColor(InternalShaderPropertyIds.ColorB, colorB);
