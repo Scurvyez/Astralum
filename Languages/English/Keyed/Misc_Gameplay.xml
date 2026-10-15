@@ -1,117 +1,194 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <LanguageData>
 
-    <Astra_ModName>Astralum</Astra_ModName>
+  <!-- ENTRY -->
+  <Astra_ModName>Astralum</Astra_ModName>
 
-    <Astra_Settings_GeneralToggles>General Toggles</Astra_Settings_GeneralToggles>
-    <Astra_DisableSkyGridToggleLabel>Disable Astralum sky coordinate grid.</Astra_DisableSkyGridToggleLabel>
-    <Astra_EnableSkyGridToggleLabel>Enable Astralum sky coordinate grid.</Astra_EnableSkyGridToggleLabel>
-    <Astra_DisableConstellationLinesToggleLabel>Disable Astralum constellation lines.</Astra_DisableConstellationLinesToggleLabel>
-    <Astra_EnableConstellationLinesToggleLabel>Enable Astralum constellation lines.</Astra_EnableConstellationLinesToggleLabel>
-    <Astra_DisableBlackHoleInfoToggleLabel>Disable Astralum black hole hover info.</Astra_DisableBlackHoleInfoToggleLabel>
-    <Astra_EnableBlackHoleInfoToggleLabel>Enable Astralum black hole hover info.</Astra_EnableBlackHoleInfoToggleLabel>
-    <Astra_DisablePulsarInfoToggleLabel>Disable Astralum pulsar hover info.</Astra_DisablePulsarInfoToggleLabel>
-    <Astra_EnablePulsarInfoToggleLabel>Enable Astralum pulsar hover info.</Astra_EnablePulsarInfoToggleLabel>
-    <Astra_DisableLocalStarInfoToggleLabel>Hide Astralum local star info window.</Astra_DisableLocalStarInfoToggleLabel>
-    <Astra_EnableLocalStarInfoToggleLabel>Show Astralum local star info window.</Astra_EnableLocalStarInfoToggleLabel>
-    <Astra_DisableCelestialNamingWindowToggleLabel>Hide Astralum celestial naming window.</Astra_DisableCelestialNamingWindowToggleLabel>
-    <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.</Astra_EnableCelestialNamingWindowToggleLabel>
-    
-    <Astra_UI_CelestialOverview>Celestial Overview</Astra_UI_CelestialOverview>
-    <Astra_UI_CelestialCatalogueLabel>Celestial Catalogue</Astra_UI_CelestialCatalogueLabel>
-    <Astra_UI_CelestialCatalogueDesc>Opens a catalogue of all celestial objects in the observable universe.\n\nObjects can be renamed. Selecting an object will gently rotate the view to bring it into focus.</Astra_UI_CelestialCatalogueDesc>
-    <Astra_UI_CelestialNames_Category>Celestial Catalog for:</Astra_UI_CelestialNames_Category>
-    <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>
-    <Astra_UI_CelestialNames_GeneratedName>Generated name:</Astra_UI_CelestialNames_GeneratedName>
-    <Astra_UI_CelestialNames_Apply>Apply</Astra_UI_CelestialNames_Apply>
-    <Astra_UI_CelestialNames_Clear>Clear</Astra_UI_CelestialNames_Clear>
-    <Astra_UI_CelestialNames_View>View</Astra_UI_CelestialNames_View>
-    <Astra_UI_CelestialNamingLocalStarsCategory>Local Stars</Astra_UI_CelestialNamingLocalStarsCategory>
-    <Astra_UI_CelestialNamingBlackHolesCategory>Black Holes</Astra_UI_CelestialNamingBlackHolesCategory>
-    <Astra_UI_CelestialNamingPulsarsCategory>Pulsars</Astra_UI_CelestialNamingPulsarsCategory>
-    <Astra_UI_CelestialNamingNebulaeCategory>Nebulae</Astra_UI_CelestialNamingNebulaeCategory>
-    <Astra_UI_CelestialNamingConstellationsCategory>Constellations</Astra_UI_CelestialNamingConstellationsCategory>
-    <Astra_UI_CelestialNamingConstellationStarsCategory>Constellation Stars</Astra_UI_CelestialNamingConstellationStarsCategory>
-    
-    <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
-    <Astra_Deterministic> (Deterministic via world seed.)</Astra_Deterministic>
+  <!-- PLAY SETTINGS (bottom right icons during play mode) -->
+  <Astra_DisableSkyGridToggleLabel>Disable Astralum sky coordinate grid.</Astra_DisableSkyGridToggleLabel>
+  <Astra_EnableSkyGridToggleLabel>Enable Astralum sky coordinate grid.</Astra_EnableSkyGridToggleLabel>
+  <Astra_DisableConstellationLinesToggleLabel>Disable Astralum constellation lines.
+  </Astra_DisableConstellationLinesToggleLabel>
+  <Astra_EnableConstellationLinesToggleLabel>Enable Astralum constellation lines.
+  </Astra_EnableConstellationLinesToggleLabel>
+  <Astra_DisableBlackHoleInfoToggleLabel>Disable Astralum black hole hover info.</Astra_DisableBlackHoleInfoToggleLabel>
+  <Astra_EnableBlackHoleInfoToggleLabel>Enable Astralum black hole hover info.</Astra_EnableBlackHoleInfoToggleLabel>
+  <Astra_DisablePulsarInfoToggleLabel>Disable Astralum pulsar hover info.</Astra_DisablePulsarInfoToggleLabel>
+  <Astra_EnablePulsarInfoToggleLabel>Enable Astralum pulsar hover info.</Astra_EnablePulsarInfoToggleLabel>
+  <Astra_DisableLocalStarInfoToggleLabel>Hide Astralum local star info window.</Astra_DisableLocalStarInfoToggleLabel>
+  <Astra_EnableLocalStarInfoToggleLabel>Show Astralum local star info window.</Astra_EnableLocalStarInfoToggleLabel>
+  <Astra_DisableCelestialNamingWindowToggleLabel>Hide Astralum celestial naming window.
+  </Astra_DisableCelestialNamingWindowToggleLabel>
+  <Astra_EnableCelestialNamingWindowToggleLabel>Show Astralum celestial naming window.
+  </Astra_EnableCelestialNamingWindowToggleLabel>
 
-    <Astra_RenderBackgroundsStars>Render Overhauled Background Stars</Astra_RenderBackgroundsStars>
-    <Astra_RenderBackgroundsStarsDesc>Toggle to render many, many, MANY more procedurally generated background stars in the world view. This will override the vanilla background star generation.</Astra_RenderBackgroundsStarsDesc>
+  <!-- UI / GUI -->
+  <Astra_UI_CelestialOverview>Celestial Overview</Astra_UI_CelestialOverview>
+  <Astra_UI_CelestialCatalogueLabel>Celestial Catalogue</Astra_UI_CelestialCatalogueLabel>
+  <Astra_UI_CelestialCatalogueDesc>Opens a catalogue of all celestial objects in the observable universe.\n\nObjects can
+    be renamed. Selecting an object will gently rotate the view to bring it into focus.
+  </Astra_UI_CelestialCatalogueDesc>
+  <Astra_UI_CelestialNames_Category>Celestial Catalog for:</Astra_UI_CelestialNames_Category>
+  <Astra_UI_CelestialNames_SelectionText>Select a celestial object to rename.</Astra_UI_CelestialNames_SelectionText>
+  <Astra_UI_CelestialNames_GeneratedName>Generated name:</Astra_UI_CelestialNames_GeneratedName>
+  <Astra_UI_CelestialNames_Apply>Apply</Astra_UI_CelestialNames_Apply>
+  <Astra_UI_CelestialNames_Clear>Clear</Astra_UI_CelestialNames_Clear>
+  <Astra_UI_CelestialNames_View>View</Astra_UI_CelestialNames_View>
+  <Astra_UI_CelestialNamingLocalStarsCategory>Local Stars</Astra_UI_CelestialNamingLocalStarsCategory>
+  <Astra_UI_CelestialNamingBlackHolesCategory>Black Holes</Astra_UI_CelestialNamingBlackHolesCategory>
+  <Astra_UI_CelestialNamingPulsarsCategory>Pulsars</Astra_UI_CelestialNamingPulsarsCategory>
+  <Astra_UI_CelestialNamingNebulaeCategory>Nebulae</Astra_UI_CelestialNamingNebulaeCategory>
+  <Astra_UI_CelestialNamingConstellationsCategory>Constellations</Astra_UI_CelestialNamingConstellationsCategory>
+  <Astra_UI_CelestialNamingConstellationStarsCategory>Constellation Stars
+  </Astra_UI_CelestialNamingConstellationStarsCategory>
 
-    <Astra_RenderNebulae>Render Nebulae</Astra_RenderNebulae>
-    <Astra_RenderNebulaeDesc>Toggle to render some potentially gorgeous procedurally generated nebulae in the world view.</Astra_RenderNebulaeDesc>
+  <!-- MOD SETTINGS -->
+  <Astra_Settings_CelestialRendering>Celestial Rendering</Astra_Settings_CelestialRendering>
+  <Astra_Settings_LocalStars>Local Stars</Astra_Settings_LocalStars>
+  <Astra_Settings_LocalMapLighting>Local Map Lighting</Astra_Settings_LocalMapLighting>
+  <Astra_Settings_Camera>Camera</Astra_Settings_Camera>
 
-    <Astra_RenderConstellations>Render Constellations</Astra_RenderConstellations>
-    <Astra_RenderConstellationsDesc>Toggle to allow the rendering and interaction of constellations and their stars in the world view.</Astra_RenderConstellationsDesc>
+  <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
+  <Astra_Deterministic>(Deterministic based on the world seed.)</Astra_Deterministic>
 
-    <Astra_RenderBlackholes>Render Black Holes</Astra_RenderBlackholes>
-    <Astra_RenderBlackholesDesc>Toggle to render black holes in the world view. These are very rare, but that doesn't mean there can't be up to three at a time.</Astra_RenderBlackholesDesc>
+  <!-- MOD SETTINGS (celestial rendering) -->
+  <Astra_RenderBackgroundsStars>Render Overhauled Background Stars</Astra_RenderBackgroundsStars>
+  <Astra_RenderBackgroundsStarsDesc>Renders many, many, MANY more procedurally generated background stars in the world
+    view, replacing the vanilla background stars.
+  </Astra_RenderBackgroundsStarsDesc>
 
-    <Astra_RenderPulsars>Render Pulsars</Astra_RenderPulsars>
-    <Astra_RenderPulsarsDesc>Toggle to render pulsars in the world view. These are also extremely rare.</Astra_RenderPulsarsDesc>
+  <Astra_RenderNebulae>Render Nebulae</Astra_RenderNebulae>
+  <Astra_RenderNebulaeDesc>Renders procedurally generated nebulae throughout the world view.</Astra_RenderNebulaeDesc>
 
-    <Astra_RenderShootingStars>Render Shooting Stars</Astra_RenderShootingStars>
-    <Astra_RenderShootingStarsDesc>Toggle to render intermittent shooting stars in the world view.</Astra_RenderShootingStarsDesc>
-    
-    <Astra_OverrideVanillaSun>Override Vanilla Sun</Astra_OverrideVanillaSun>
-    <Astra_OverrideVanillaSunDesc>Toggle to replace the vanilla sun with a procedurally generated star using realistic, yet random stellar data. All main sequence star types [O, B, A, F, G, K, M] are possible for generation.</Astra_OverrideVanillaSunDesc>
+  <Astra_RenderConstellations>Render Constellations</Astra_RenderConstellations>
+  <Astra_RenderConstellationsDesc>Renders procedurally generated constellations and their stars in the world view,
+    including their associated interactions.
+  </Astra_RenderConstellationsDesc>
 
-    <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>
+  <Astra_RenderBlackholes>Render Black Holes</Astra_RenderBlackholes>
+  <Astra_RenderBlackholesDesc>Renders procedurally generated black holes in the world view. Black holes are extremely
+    rare, though multiple may occasionally exist at once.
+  </Astra_RenderBlackholesDesc>
 
-    <Astra_Objects_Region>Region:</Astra_Objects_Region>
-    <Astra_Objects_RightAscension>RA:</Astra_Objects_RightAscension>
-    <Astra_Objects_Declination>Dec:</Astra_Objects_Declination>
+  <Astra_RenderPulsars>Render Pulsars</Astra_RenderPulsars>
+  <Astra_RenderPulsarsDesc>Renders procedurally generated pulsars in the world view. Pulsars are extremely rare.
+  </Astra_RenderPulsarsDesc>
 
-    <Astra_Blackholes_Unknown>Unknown Black Hole</Astra_Blackholes_Unknown>
-    <Astra_Blackholes_Type>Type: Black Hole</Astra_Blackholes_Type>
+  <Astra_RenderShootingStars>Render Shooting Stars</Astra_RenderShootingStars>
+  <Astra_RenderShootingStarsDesc>Renders intermittent shooting stars across the world view.
+  </Astra_RenderShootingStarsDesc>
 
-    <Astra_Pulsar_Unknown>Unknown Pulsar</Astra_Pulsar_Unknown>
-    <Astra_Pulsars_Type>Type: Rotating neutron star</Astra_Pulsars_Type>
+  <Astra_RenderWorldAuroras>Render World Auroras</Astra_RenderWorldAuroras>
+  <Astra_RenderWorldAurorasDesc>Renders auroras above the planet's polar regions in the world view while an aurora is
+    active
+  </Astra_RenderWorldAurorasDesc>
 
-    <Astra_Stars_Unknown>Unknown Star</Astra_Stars_Unknown>
-    <Astra_Stars_UnknownSystem>Unknown System</Astra_Stars_UnknownSystem>
-    <Astra_Stars_System>System</Astra_Stars_System>
-    <Astra_Stars_Class>Class</Astra_Stars_Class>
-    <Astra_Stars_Age>Age</Astra_Stars_Age>
-    <Astra_Stars_Temperature>Temperature</Astra_Stars_Temperature>
-    <Astra_Stars_Rotation>Rotation</Astra_Stars_Rotation>
-    <Astra_Stars_Magnetic_Field>Magnetic Field</Astra_Stars_Magnetic_Field>
-    <Astra_Stars_Radius>Radius</Astra_Stars_Radius>
-    <Astra_Stars_Mass>Mass</Astra_Stars_Mass>
-    <Astra_Stars_Luminosity>Luminosity</Astra_Stars_Luminosity>
-    <Astra_Stars_Metallicity>Metallicity</Astra_Stars_Metallicity>
-    <Astra_Stars_Composition>Composition</Astra_Stars_Composition>
-    <Astra_Stars_Chromaticity>Chromaticity</Astra_Stars_Chromaticity>
-    <Astra_Stars_Corona_Glow>Corona Glow</Astra_Stars_Corona_Glow>
-    <Astra_Stars_Constellation>Constellation</Astra_Stars_Constellation>
-    <Astra_Stars_Region>Region</Astra_Stars_Region>
-    <Astra_Stars_Years>years</Astra_Stars_Years>
-    <Astra_Stars_RedChannel>R</Astra_Stars_RedChannel>
-    <Astra_Stars_GreenChannel>G</Astra_Stars_GreenChannel>
-    <Astra_Stars_BlueChannel>B</Astra_Stars_BlueChannel>
-    <Astra_Stars_Corona_Intensity>Corona Intensity</Astra_Stars_Corona_Intensity>
-    <Astra_Stars_CoronaIntensity_Intense>intense</Astra_Stars_CoronaIntensity_Intense>
-    <Astra_Stars_CoronaIntensity_Active>active</Astra_Stars_CoronaIntensity_Active>
-    <Astra_Stars_CoronaIntensity_Stable>stable</Astra_Stars_CoronaIntensity_Stable>
-    <Astra_Stars_CoronaIntensity_Weak>weak</Astra_Stars_CoronaIntensity_Weak>
-    <Astra_Stars_RotationsPerDay_One>rotations/day</Astra_Stars_RotationsPerDay_One>
-    <Astra_Stars_RotationsPerDay_Two>day rotation period</Astra_Stars_RotationsPerDay_Two>
-    <Astra_Stars_Variability>Variability</Astra_Stars_Variability>
-    <Astra_Stars_Variability_None>None</Astra_Stars_Variability_None>
+  <!-- MOD SETTINGS (local stars) -->
+  <Astra_OverrideVanillaSun>Override Vanilla Sun</Astra_OverrideVanillaSun>
+  <Astra_OverrideVanillaSunDesc>Replaces the vanilla sun with up to three procedurally generated local stars system
+    using realistic, randomized stellar properties. Systems may contain main-sequence stars of any spectral class: O, B,
+    A, F, G, K, or M.
+  </Astra_OverrideVanillaSunDesc>
 
-    <Astra_Hemisphere_NorthernSky>Northern Sky</Astra_Hemisphere_NorthernSky>
-    <Astra_Hemisphere_EquatorialSky>Equatorial Sky</Astra_Hemisphere_EquatorialSky>
-    <Astra_Hemisphere_SouthernSky>Southern Sky</Astra_Hemisphere_SouthernSky>
+  <!-- MOD SETTINGS (local map lighting) -->
+  <Astra_AllowLocalStarLighting>Allow Local Star Lighting</Astra_AllowLocalStarLighting>
+  <Astra_AllowLocalStarLightingDesc>Allows local maps to use the combined light colors of the planet's host star or
+    stars.\n\nDisabling this setting also disables local star eclipses and local starlight map glow
+    calculations.\n\nChanges take effect within 2,000 ticks.
+  </Astra_AllowLocalStarLightingDesc>
 
-    <Astra_TelescopeReport_Constellation>observing {0} through a telescope.</Astra_TelescopeReport_Constellation>
-    <Astra_TelescopeReport_ConstellationHemisphere>observing {0} in the {1} through a telescope.</Astra_TelescopeReport_ConstellationHemisphere>
-    <Astra_TelescopeReport_ConstellationCoords>charting {0} at {1}, {2} through a telescope.</Astra_TelescopeReport_ConstellationCoords>
-    <Astra_TelescopeReport_ConstellationStar>observing {1} in {0} through a telescope.</Astra_TelescopeReport_ConstellationStar>
-    <Astra_TelescopeReport_TracesStar>tracing {1} across {0} through a telescope.</Astra_TelescopeReport_TracesStar>
-    <Astra_TelescopeReport_StarClass>observing {1}, a class {2} star in {0}, through a telescope.</Astra_TelescopeReport_StarClass>
-    <Astra_TelescopeReport_StarHemisphere>tracking {1} in {0}, high in the {2}.</Astra_TelescopeReport_StarHemisphere>
-    <Astra_TelescopeReport_ConstellationTwoStars>observing {1} and {2} in {0} through a telescope.</Astra_TelescopeReport_ConstellationTwoStars>
-    <Astra_TelescopeReport_TwoStarClasses>comparing {1}, a class {2} star, and {3}, a class {4} star, within {0}.</Astra_TelescopeReport_TwoStarClasses>
+  <Astra_AllowLocalStarLightForMapGlow>Allow Local Starlight For Map Glow</Astra_AllowLocalStarLightForMapGlow>
+  <Astra_AllowLocalStarLightForMapGlowDesc>Allows the intensity of local starlight to affect map glow—the actual light
+    level experienced by map cells, such as "Brightly Lit (100%)."\n\nChanges take effect within 2,000 ticks.
+  </Astra_AllowLocalStarLightForMapGlowDesc>
+
+  <!-- MOD SETTINGS (camera) -->
+  <Astra_CameraPanEasing>Camera Focus Easing</Astra_CameraPanEasing>
+  <Astra_CameraPanEasingDesc>Controls the easing curve used when the world-view camera focuses on a celestial object.
+  </Astra_CameraPanEasingDesc>
+
+  <Astra_CameraPanAnimationDuration>Camera Pan Animation Duration</Astra_CameraPanAnimationDuration>
+  <Astra_CameraPanAnimationDurationDesc>Controls how long it takes for the camera to pan from one celestial object to
+    another.
+  </Astra_CameraPanAnimationDurationDesc>
+
+  <Astra_CameraPanEasing_Linear>Linear</Astra_CameraPanEasing_Linear>
+  <Astra_CameraPanEasing_Sine>Sine</Astra_CameraPanEasing_Sine>
+  <Astra_CameraPanEasing_Quadratic>Quadratic</Astra_CameraPanEasing_Quadratic>
+  <Astra_CameraPanEasing_Cubic>Cubic</Astra_CameraPanEasing_Cubic>
+  <Astra_CameraPanEasing_Quartic>Quartic</Astra_CameraPanEasing_Quartic>
+
+  <!-- NAME GENERATION -->
+  <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>
+  <Astra_Blackholes_Unknown>Unknown Black Hole</Astra_Blackholes_Unknown>
+  <Astra_Pulsar_Unknown>Unknown Pulsar</Astra_Pulsar_Unknown>
+  <Astra_Stars_Unknown>Unknown Star</Astra_Stars_Unknown>
+  <Astra_Stars_UnknownSystem>Unknown System</Astra_Stars_UnknownSystem>
+  <Astra_Stars_System>System</Astra_Stars_System>
+
+  <!-- SKY COORDINATES / COORDINATE GRID / COORDINATE FORMATTING (UI output) -->
+  <Astra_Objects_Region>Region:</Astra_Objects_Region>
+  <Astra_Objects_RightAscension>RA:</Astra_Objects_RightAscension>
+  <Astra_Objects_Declination>Dec:</Astra_Objects_Declination>
+  <Astra_Hemisphere_NorthernSky>Northern Sky</Astra_Hemisphere_NorthernSky>
+  <Astra_Hemisphere_EquatorialSky>Equatorial Sky</Astra_Hemisphere_EquatorialSky>
+  <Astra_Hemisphere_SouthernSky>Southern Sky</Astra_Hemisphere_SouthernSky>
+
+  <!-- CELESTIAL OBJECT TYPES -->
+  <Astra_Blackholes_Type>Type: Black Hole</Astra_Blackholes_Type>
+  <Astra_Pulsars_Type>Type: Rotating neutron star</Astra_Pulsars_Type>
+
+  <!-- LOCAL STAR INFORMATION (including some graphics info) -->
+  <Astra_Stars_Class>Class</Astra_Stars_Class>
+  <Astra_Stars_Age>Age</Astra_Stars_Age>
+  <Astra_Stars_Temperature>Temperature</Astra_Stars_Temperature>
+  <Astra_Stars_Rotation>Rotation</Astra_Stars_Rotation>
+  <Astra_Stars_Magnetic_Field>Magnetic Field</Astra_Stars_Magnetic_Field>
+  <Astra_Stars_Radius>Radius</Astra_Stars_Radius>
+  <Astra_Stars_Mass>Mass</Astra_Stars_Mass>
+  <Astra_Stars_Luminosity>Luminosity</Astra_Stars_Luminosity>
+  <Astra_Stars_Metallicity>Metallicity</Astra_Stars_Metallicity>
+  <Astra_Stars_Composition>Composition</Astra_Stars_Composition>
+  <Astra_Stars_Chromaticity>Chromaticity</Astra_Stars_Chromaticity>
+  <Astra_Stars_Corona_Glow>Corona Glow</Astra_Stars_Corona_Glow>
+  <Astra_Stars_Constellation>Constellation</Astra_Stars_Constellation>
+  <Astra_Stars_Region>Region</Astra_Stars_Region>
+  <Astra_Stars_Years>years</Astra_Stars_Years>
+  <Astra_Stars_RedChannel>R</Astra_Stars_RedChannel>
+  <Astra_Stars_GreenChannel>G</Astra_Stars_GreenChannel>
+  <Astra_Stars_BlueChannel>B</Astra_Stars_BlueChannel>
+  <Astra_Stars_Corona_Intensity>Corona Intensity</Astra_Stars_Corona_Intensity>
+  <Astra_Stars_CoronaIntensity_Intense>intense</Astra_Stars_CoronaIntensity_Intense>
+  <Astra_Stars_CoronaIntensity_Active>active</Astra_Stars_CoronaIntensity_Active>
+  <Astra_Stars_CoronaIntensity_Stable>stable</Astra_Stars_CoronaIntensity_Stable>
+  <Astra_Stars_CoronaIntensity_Weak>weak</Astra_Stars_CoronaIntensity_Weak>
+  <Astra_Stars_RotationsPerDay_One>rotations/day</Astra_Stars_RotationsPerDay_One>
+  <Astra_Stars_RotationsPerDay_Two>day rotation period</Astra_Stars_RotationsPerDay_Two>
+  <Astra_Stars_Variability>Variability</Astra_Stars_Variability>
+  <Astra_Stars_Variability_None>None</Astra_Stars_Variability_None>
+
+  <!-- TELESCOPE JOB REPORTING -->
+  <Astra_TelescopeReport_Constellation>observing {0} through a telescope.</Astra_TelescopeReport_Constellation>
+  <Astra_TelescopeReport_ConstellationHemisphere>observing {0} in the {1} through a telescope.
+  </Astra_TelescopeReport_ConstellationHemisphere>
+  <Astra_TelescopeReport_ConstellationCoords>charting {0} at {1}, {2} through a telescope.
+  </Astra_TelescopeReport_ConstellationCoords>
+  <Astra_TelescopeReport_ConstellationStar>observing {1} in {0} through a telescope.
+  </Astra_TelescopeReport_ConstellationStar>
+  <Astra_TelescopeReport_TracesStar>tracing {1} across {0} through a telescope.</Astra_TelescopeReport_TracesStar>
+  <Astra_TelescopeReport_StarClass>observing {1}, a class {2} star in {0}, through a telescope.
+  </Astra_TelescopeReport_StarClass>
+  <Astra_TelescopeReport_StarHemisphere>tracking {1} in {0}, high in the {2}.</Astra_TelescopeReport_StarHemisphere>
+  <Astra_TelescopeReport_ConstellationTwoStars>observing {1} and {2} in {0} through a telescope.
+  </Astra_TelescopeReport_ConstellationTwoStars>
+  <Astra_TelescopeReport_TwoStarClasses>comparing {1}, a class {2} star, and {3}, a class {4} star, within {0}.
+  </Astra_TelescopeReport_TwoStarClasses>
+
+  <!-- GAME CONDITIONS -->
+  <Astra_GameCon_Eclipse_Total>A total stellar eclipse has begun.</Astra_GameCon_Eclipse_Total>
+  <Astra_GameCon_Eclipse>A stellar eclipse has begun.</Astra_GameCon_Eclipse>
+  <Astra_GameCon_Eclipse_Ended>The stellar eclipse has ended.</Astra_GameCon_Eclipse_Ended>
+  <Astra_GameCon_Eclipse_LightObscured>Light obscured: {0}</Astra_GameCon_Eclipse_LightObscured>
+  <Astra_GameCon_Eclipse_StarsEclipsed>Stars eclipsed: {0}</Astra_GameCon_Eclipse_StarsEclipsed>
 
 </LanguageData>

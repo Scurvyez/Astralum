@@ -1,0 +1,86 @@
+ManifestFileVersion: 0
+CRC: 3918191499
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a5d350341dec4564eda5d56e22dad22a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 11fd817fef1f2e704711e3a1e0c8427a
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: a5d350341dec4564eda5d56e22dad22a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Nature/NatureA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Animals/AnimalsB.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/ConstellationStar01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Circles/CirclesE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowConstellationLines.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Animals/AnimalsC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Circles/CirclesA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Geometric/GeometricC.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/Nebulae01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Materials/BackgroundStar01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Materials/Constellation01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Nature/NatureC.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/Aurora01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Round/RoundB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Circles/CirclesD.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/Pulsar01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Materials/BlackHole01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Spirals/SpiralsB.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/ShootingStar01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Geometric/GeometricD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Spirals/SpiralsC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Spirals/SpiralsA.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/LocalStar01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Pirate/PirateE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Pirate/PirateB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Abstract/AbstractE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Pirate/PirateD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowLocalStarInfo.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Archotech/ArchotectC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Abstract/AbstractA.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/GalacticDustLane01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowBlackHoleInfo.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Pirate/PirateA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Archotech/ArchotechB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Round/RoundA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Geometric/GeometricA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/CelestialCatalogueCommand.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Spirals/SpiralsD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Pirate/PirateC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Abstract/AbstractB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Archotech/ArchotechE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Nature/NatureB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Circles/CirclesB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Nature/NatureD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Circles/CirclesC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Geometric/GeometricE.png
+- Assets/Data/scurvyez.astralum.rimworld/Materials/SkyCoordinateGrid01.shader
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Spirals/SpiralsE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Round/RoundE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Animals/AnimalsE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Geometric/GeometricB.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowSkyGrid.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Nature/NatureE.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowNamingDialogue.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Round/RoundD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/UI/Icons/ShowPulsarInfo.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Archotech/ArchotectA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Abstract/AbstractC.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Animals/AnimalsD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Archotech/ArchotectD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Animals/AnimalsA.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Abstract/AbstractD.png
+- Assets/Data/scurvyez.astralum.rimworld/Textures/Constellations/Round/RoundC.png
+Dependencies: []
