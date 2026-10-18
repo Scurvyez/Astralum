@@ -178,7 +178,7 @@ namespace Astralum.Astronomy.BlackHoles
     private static void RegisterBlackHoleForInteraction(SavedBlackHole blackHole)
     {
       Vector3 dir = blackHole.LocalSkyPosition.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.BlackHole,
@@ -186,9 +186,9 @@ namespace Astralum.Astronomy.BlackHoles
         blackHole.DisplayName,
         blackHole.LocalSkyPosition,
         blackHole.RenderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees));
     }
     
     private static void PrintBlackHoleBillboard(Vector3 localSkyPos, float size, LayerSubMesh subMesh, 

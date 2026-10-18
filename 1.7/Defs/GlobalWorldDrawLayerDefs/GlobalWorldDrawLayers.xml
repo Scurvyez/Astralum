@@ -104,23 +104,9 @@
     <modExtensions>
       <li Class="Astralum.Astronomy.BlackHoles.ModExt_BlackHoles">
         <galacticPlaneBounds>-0.75~0.75</galacticPlaneBounds>
-        <!--<blackHoleChance>0.02</blackHoleChance>-->
-        <blackHoleChance>1</blackHoleChance>
+        <blackHoleChance>0.02</blackHoleChance>
         <blackHoleSize>0.05~0.7</blackHoleSize>
         <blackHoleCount>1~3</blackHoleCount>
-      </li>
-    </modExtensions>
-  </GlobalWorldDrawLayerDef>
-
-  <!-- dust lanes -->
-  <GlobalWorldDrawLayerDef>
-    <defName>Astra_GalacticDustLanes</defName>
-    <worldDrawLayer>Astralum.Astronomy.GalacticDustLanes.GlobalDrawLayer_GalacticDustLanes</worldDrawLayer>
-    <modExtensions>
-      <li Class="Astralum.Astronomy.GalacticDustLanes.ModExt_GalacticDustLanes">
-        <dustLaneCount>4~20</dustLaneCount>
-        <dustLaneSizeRange>6~32</dustLaneSizeRange>
-        <galacticPlaneBounds>0.05~0.05</galacticPlaneBounds>
       </li>
     </modExtensions>
   </GlobalWorldDrawLayerDef>

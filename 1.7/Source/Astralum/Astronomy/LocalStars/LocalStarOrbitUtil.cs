@@ -7,7 +7,7 @@ namespace Astralum.Astronomy.LocalStars
 {
   public static class LocalStarOrbitUtil
   {
-    private static Vector3 SystemCenter => Vector3.forward * LocalStarGenerationUtil.DistanceToLocalStars;
+    private static Vector3 SystemCenter => Vector3.forward * CelestialObjectDataUtil.SkyDistance;
 
     private static LocalStarOrbitalState StateFor(SavedLocalStar star)
     {
@@ -120,7 +120,7 @@ namespace Astralum.Astronomy.LocalStars
       if (position.sqrMagnitude <= 0.000001f)
         return SystemCenter;
       
-      return position.normalized * LocalStarGenerationUtil.DistanceToLocalStars;
+      return position.normalized * CelestialObjectDataUtil.SkyDistance;
     }
     
     private static LocalStarOrbitalState ProjectOrbitState(Vector3 center, float radius, float phase,

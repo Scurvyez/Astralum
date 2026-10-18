@@ -1,4 +1,5 @@
-﻿using Astralum.WorldComponents;
+﻿using Astralum.API;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -33,7 +34,7 @@ namespace Astralum.Astronomy.Pulsars
       out int decDegree, out int decMinute)
     {
       Vector3 dir = localSkyPos.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       float ra = Mathf.Repeat(coord.RightAscensionHours, 24f);
       

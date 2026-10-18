@@ -116,6 +116,13 @@ namespace Astralum.Settings
     
     #endregion
     
+    #region Skybox settings
+
+    public static SkyboxColorPreset SkyboxColor => _instance._skyboxColor;
+    public SkyboxColorPreset _skyboxColor = SkyboxColorPreset.DeepSpace;
+
+    #endregion
+    
     public override void ExposeData()
     {
       Scribe_Values.Look(ref HasCelestialCatalogueWindowRect, "HasCelestialCatalogueWindowRect");
@@ -139,6 +146,7 @@ namespace Astralum.Settings
       Scribe_Values.Look(ref _cameraPanEasing, "cameraPanEasing", CameraPanEasing.Sine);
       Scribe_Values.Look(ref _cameraPanAnimationDuration, "cameraPanAnimationDuration", 0.5f);
       Scribe_Values.Look(ref _renderWorldAuroras, "renderWorldAuroras", true);
+      Scribe_Values.Look(ref _skyboxColor, "skyboxColor", SkyboxColorPreset.DeepSpace);
     }
   }
 }

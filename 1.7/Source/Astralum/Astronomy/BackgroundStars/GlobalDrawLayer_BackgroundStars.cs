@@ -13,7 +13,6 @@ namespace Astralum.Astronomy.BackgroundStars
 {
   public class GlobalDrawLayer_BackgroundStars : WorldDrawLayerBase
   {
-    private const float DistanceToStars = 20f;
     private readonly ModExt_BackgroundStars _ext;
     
     private bool _calculatedForStaticRotation;
@@ -109,7 +108,7 @@ namespace Astralum.Astronomy.BackgroundStars
         : BackgroundStarsUtil.RandomDensityWeightedDirection(
           spectralClass, _galacticPlaneBounds);
       
-      Vector3 pos = dir * DistanceToStars;
+      Vector3 pos = dir * CelestialObjectDataUtil.SkyDistance;
       
       Material material = BackgroundStarMatsUtil.For(spectralClass);
       LayerSubMesh subMesh = GetSubMesh(material);

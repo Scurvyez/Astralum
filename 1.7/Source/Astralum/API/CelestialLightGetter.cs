@@ -7,10 +7,21 @@ using Verse;
 
 namespace Astralum.API
 {
+  /// <summary>
+  /// Provides utility methods for calculating illumination, visibility, and mutual eclipse states
+  /// of local stars on maps and planet tiles.
+  /// </summary>
   public static class CelestialLightGetter
   {
     private const float ReferenceLuminosity = 1f;
 
+    /// <summary>
+    /// Calculates the combined lighting contributed by all visible local stars on the specified map.
+    /// </summary>
+    /// <param name="map">The map to calculate star lighting for.</param>
+    /// <param name="lightColor">Outputs the gamma-corrected weighted average light color of all visible stars.</param>
+    /// <param name="lightIntensity">Outputs the total normalized light intensity clamped between 0 and 1.</param>
+    /// <returns><c>true</c> if star lighting was successfully computed (even if total intensity is zero); otherwise, <c>false</c> if no star data is available.</returns>
     public static bool TryGetLocalStarLight(Map map, out Color lightColor, out float lightIntensity)
     {
       lightColor = Color.white;
@@ -53,6 +64,15 @@ namespace Astralum.API
       return true;
     }
     
+    /// <summary>
+    /// Attempts to calculate the lighting information for a single local star at a given planet tile,
+    /// taking into account altitude above the horizon, incidence angle, and mutual occlusions.
+    /// </summary>
+    /// <param name="star">The local star to calculate light for.</param>
+    /// <param name="stars">The list of all local stars in the system.</param>
+    /// <param name="tile">The observer's planet tile.</param>
+    /// <param name="result">Outputs the calculated <see cref="LocalStarLightInfo"/> if the star is illuminating the tile.</param>
+    /// <returns><c>true</c> if the star is above the horizon and provides light; otherwise, <c>false</c>.</returns>
     private static bool TryGetLightFromStar(SavedLocalStar star, List<SavedLocalStar> stars, PlanetTile tile,
       out LocalStarLightInfo result)
     {
@@ -84,6 +104,13 @@ namespace Astralum.API
       return true;
     }
     
+    /// <summary>
+    /// Computes the unoccluded visible fraction (0.0 to 1.0) of a star's disk when considering
+    /// occlusions by any other foreground local stars in the system.
+    /// </summary>
+    /// <param name="star">The target star whose visible fraction is being evaluated.</param>
+    /// <param name="stars">The list of all local stars in the system.</param>
+    /// <returns>A value between 0.0 (completely eclipsed) and 1.0 (completely unobscured).</returns>
     public static float VisibleFractionFor(SavedLocalStar star, List<SavedLocalStar> stars)
     {
       float visibleFraction = 1f;
@@ -116,6 +143,12 @@ namespace Astralum.API
       return Mathf.Clamp01(visibleFraction);
     }
     
+    /// <summary>
+    /// Determines whether one star is in front of another along the line of sight when their projected disks overlap.
+    /// </summary>
+    /// <param name="candidateForeground">The candidate foreground star.</param>
+    /// <param name="candidateBackground">The candidate background star.</param>
+    /// <returns><c>true</c> if the candidate foreground star is in front of the background star; otherwise, <c>false</c>.</returns>
     private static bool IsInFrontOf(SavedLocalStar candidateForeground, SavedLocalStar candidateBackground)
     {
       // TEMPORARY:
@@ -129,6 +162,11 @@ namespace Astralum.API
       return candidateForeground.systemIndex < candidateBackground.systemIndex;
     }
     
+    /// <summary>
+    /// Calculates the apparent angular radius (in radians) of a local star from the planet's vantage point.
+    /// </summary>
+    /// <param name="star">The local star.</param>
+    /// <returns>The angular radius in radians.</returns>
     private static float AngularRadiusFor(SavedLocalStar star)
     {
       Vector3 position = LocalStarOrbitUtil.PositionFor(star);
@@ -142,6 +180,12 @@ namespace Astralum.API
       return Mathf.Atan(radius / distance);
     }
     
+    /// <summary>
+    /// Calculates the angular separation (in radians) between two direction/position vectors from the planet.
+    /// </summary>
+    /// <param name="a">The first direction vector.</param>
+    /// <param name="b">The second direction vector.</param>
+    /// <returns>The angle between the vectors in radians.</returns>
     private static float AngularSeparation(Vector3 a, Vector3 b)
     {
       float dot = Mathf.Clamp(Vector3.Dot(a.normalized, b.normalized), -1f, 1f);
@@ -149,6 +193,13 @@ namespace Astralum.API
       return Mathf.Acos(dot);
     }
     
+    /// <summary>
+    /// Calculates the fraction (0.0 to 1.0) of a circular background disk covered by an overlapping foreground disk.
+    /// </summary>
+    /// <param name="backgroundRadius">The angular radius of the background disk in radians.</param>
+    /// <param name="foregroundRadius">The angular radius of the foreground disk in radians.</param>
+    /// <param name="separation">The angular separation between the centers of the two disks in radians.</param>
+    /// <returns>The covered fraction between 0.0 and 1.0.</returns>
     private static float CoveredFraction(float backgroundRadius, float foregroundRadius, float separation)
     {
       if (backgroundRadius <= 0f)
@@ -188,11 +239,21 @@ namespace Astralum.API
       return Mathf.Clamp01(overlapArea / finalBackgroundArea);
     }
     
+    /// <summary>
+    /// Gets a list of lighting information for all local stars currently shining on the specified map.
+    /// </summary>
+    /// <param name="map">The map to check.</param>
+    /// <returns>A list of <see cref="LocalStarLightInfo"/> for each illuminating star.</returns>
     public static List<LocalStarLightInfo> GetLocalStarsShiningOn(Map map)
     {
       return GetLocalStarsShiningOn(map.Tile);
     }
     
+    /// <summary>
+    /// Gets a list of lighting information for all local stars currently shining on the specified planet tile.
+    /// </summary>
+    /// <param name="tile">The planet tile to check.</param>
+    /// <returns>A list of <see cref="LocalStarLightInfo"/> for each illuminating star.</returns>
     public static List<LocalStarLightInfo> GetLocalStarsShiningOn(PlanetTile tile)
     {
       List<LocalStarLightInfo> results = [];
@@ -201,11 +262,21 @@ namespace Astralum.API
       return results;
     }
     
+    /// <summary>
+    /// Populates a list with lighting information for all local stars currently shining on the specified map.
+    /// </summary>
+    /// <param name="map">The map to check.</param>
+    /// <param name="results">The list to populate with <see cref="LocalStarLightInfo"/> items. Existing contents will be cleared.</param>
     public static void GetLocalStarsShiningOn(Map map, List<LocalStarLightInfo> results)
     {
       GetLocalStarsShiningOn(map.Tile, results);
     }
     
+    /// <summary>
+    /// Populates a list with lighting information for all local stars currently shining on the specified planet tile.
+    /// </summary>
+    /// <param name="tile">The planet tile to check.</param>
+    /// <param name="results">The list to populate with <see cref="LocalStarLightInfo"/> items. Existing contents will be cleared.</param>
     public static void GetLocalStarsShiningOn(PlanetTile tile, List<LocalStarLightInfo> results)
     {
       results.Clear();
@@ -226,16 +297,34 @@ namespace Astralum.API
       }
     }
     
+    /// <summary>
+    /// Convenience alias for <see cref="TryGetLocalStarEclipse(Map, out LocalStarEclipseInfo)"/>.
+    /// </summary>
+    /// <param name="map">The map to check for an eclipse.</param>
+    /// <param name="eclipse">Outputs eclipse information if an eclipse is currently occurring.</param>
+    /// <returns><c>true</c> if a local star eclipse is currently active on the map; otherwise, <c>false</c>.</returns>
     public static bool TryGetEclipse(Map map, out LocalStarEclipseInfo eclipse)
     {
       return TryGetLocalStarEclipse(map, out eclipse);
     }
     
+    /// <summary>
+    /// Checks whether any local star eclipse is occurring on the specified map and calculates detailed eclipse metrics.
+    /// </summary>
+    /// <param name="map">The map to check for an eclipse.</param>
+    /// <param name="result">Outputs detailed eclipse metrics in a <see cref="LocalStarEclipseInfo"/> structure.</param>
+    /// <returns><c>true</c> if a local star eclipse is active; otherwise, <c>false</c>.</returns>
     public static bool TryGetLocalStarEclipse(Map map, out LocalStarEclipseInfo result)
     {
       return TryGetLocalStarEclipse(map.Tile, out result);
     }
     
+    /// <summary>
+    /// Checks whether any local star eclipse is occurring at the specified planet tile and calculates detailed eclipse metrics.
+    /// </summary>
+    /// <param name="tile">The planet tile to check for an eclipse.</param>
+    /// <param name="result">Outputs detailed eclipse metrics in a <see cref="LocalStarEclipseInfo"/> structure.</param>
+    /// <returns><c>true</c> if a local star eclipse is active; otherwise, <c>false</c>.</returns>
     public static bool TryGetLocalStarEclipse(PlanetTile tile, out LocalStarEclipseInfo result)
     {
       result = default;

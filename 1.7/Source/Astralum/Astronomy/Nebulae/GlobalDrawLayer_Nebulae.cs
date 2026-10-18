@@ -112,7 +112,7 @@ namespace Astralum.Astronomy.Nebulae
       
       for (int i = 0; i < nebulaCount; i++)
       {
-        Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(_galacticPlaneBounds);
+        Vector3 dir = CelestialTransformUtil.RandomGalacticPlaneDirection(_galacticPlaneBounds);
         float size = _nebulaSizeRange.RandomInRange;
         float rotation = Rand.Range(0f, 360f);
         string id = $"nebulae_{Find.World.info.seedString}_{i}";
@@ -142,7 +142,7 @@ namespace Astralum.Astronomy.Nebulae
     private static void RegisterNebulaForInteraction(SavedNebula nebula)
     {
       Vector3 dir = nebula.LocalSkyPosition.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.Nebulae,
@@ -150,9 +150,9 @@ namespace Astralum.Astronomy.Nebulae
         nebula.DisplayName,
         nebula.LocalSkyPosition,
         nebula.RenderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

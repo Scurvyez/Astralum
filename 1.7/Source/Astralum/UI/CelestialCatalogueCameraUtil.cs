@@ -1,4 +1,5 @@
-﻿using Astralum.Settings;
+﻿using Astralum.API;
+using Astralum.Settings;
 using Astralum.WorldComponents;
 using RimWorld.Planet;
 using UnityEngine;
@@ -66,7 +67,7 @@ namespace Astralum.UI
     
     private static Quaternion CalculateTargetSphereRotation(Camera camera, Vector3 localSkyPos, Rect namingWindowRect)
     {
-      Vector3 worldDir = WorldUtils.GetCurrentRotationForWorldSpace() * localSkyPos.normalized;
+      Vector3 worldDir = CelestialTransformUtil.GetCurrentRotationForWorldSpace() * localSkyPos.normalized;
       bool windowOnLeft = namingWindowRect.center.x < Verse.UI.screenWidth * 0.5f;
       
       float targetViewportX = windowOnLeft 

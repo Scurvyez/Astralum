@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Astronomy;
 using Astralum.Astronomy.SkyGrid;
 using RimWorld.Planet;
@@ -17,7 +18,7 @@ namespace Astralum.WorldComponents
     
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI() || !CelestialDisplaySettings.DrawSkyCoordGrid)
+      if (!WorldUtils.ShouldDrawGui() || !CelestialDisplaySettings.DrawSkyCoordGrid)
         return;
 
       Camera skyboxCamera = WorldCameraManager.WorldSkyboxCamera;
@@ -40,7 +41,7 @@ namespace Astralum.WorldComponents
     private static void DrawLabel(Camera skyboxCamera, SkyGridLabel label)
     {
       Vector3 worldPos = skyboxCamera.transform.position +
-                         WorldUtils.GetCurrentRotationForWorldSpace() * label.localSkyPos;
+                         CelestialTransformUtil.GetCurrentRotationForWorldSpace() * label.localSkyPos;
 
       Vector3 screen = skyboxCamera.WorldToScreenPoint(worldPos);
 

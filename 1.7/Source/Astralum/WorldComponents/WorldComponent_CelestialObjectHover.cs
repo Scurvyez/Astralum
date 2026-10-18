@@ -10,7 +10,6 @@ namespace Astralum.WorldComponents
 {
   public class WorldComponent_CelestialObjectHover : WorldComponent
   {
-    private const float DistanceToCelestialObjects = 20f;
     private const float TooltipPaddingX = 12f;
     private const float TooltipPaddingY = 8f;
     private const float TooltipMinWidth = 48f;
@@ -26,7 +25,7 @@ namespace Astralum.WorldComponents
     
     public override void WorldComponentOnGUI()
     {
-      if (!WorldUtils.ShouldDrawGUI())
+      if (!WorldUtils.ShouldDrawGui())
       {
         ClearHoverState();
         return;
@@ -52,13 +51,13 @@ namespace Astralum.WorldComponents
       Ray ray = skyboxCamera.ScreenPointToRay(Verse.UI.MousePositionOnUI * Prefs.UIScale);
       
       if (!WorldUtils.TryRaySphereIntersectionForHoverInfo(ray, skyboxCamera.transform.position,
-            DistanceToCelestialObjects, out Vector3 hitWorld))
+            CelestialObjectDataUtil.SkyDistance, out Vector3 hitWorld))
       {
         ClearHoverState();
         return;
       }
       
-      Vector3 localHit = Quaternion.Inverse(WorldUtils.GetCurrentRotationForWorldSpace()) 
+      Vector3 localHit = Quaternion.Inverse(CelestialTransformUtil.GetCurrentRotationForWorldSpace()) 
                          * (hitWorld - skyboxCamera.transform.position);
       
       FindHoveredObjects(objects, localHit);

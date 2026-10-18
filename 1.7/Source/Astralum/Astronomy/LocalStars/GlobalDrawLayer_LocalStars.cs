@@ -80,7 +80,7 @@ namespace Astralum.Astronomy.LocalStars
     private static void RegisterLocalStarForInteraction(SavedLocalStar localStar, Vector3 position, float renderSize)
     {
       Vector3 dir = position.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.LocalStar,
@@ -88,9 +88,9 @@ namespace Astralum.Astronomy.LocalStars
         localStar.DisplayName,
         position,
         renderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

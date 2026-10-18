@@ -1,4 +1,5 @@
-﻿using Astralum.WorldComponents;
+﻿using Astralum.API;
+using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
 
@@ -16,7 +17,7 @@ namespace Astralum.Astronomy.Constellations
         return null;
       
       Vector3 observerDir = ObserverWorldDirection(pawn);
-      Quaternion skyRotation = WorldUtils.GetCurrentRotationForWorldSpace();
+      Quaternion skyRotation = CelestialTransformUtil.GetCurrentRotationForWorldSpace();
       
       SavedConstellation bestVisible = null;
       float bestVisibleScore = float.MinValue;

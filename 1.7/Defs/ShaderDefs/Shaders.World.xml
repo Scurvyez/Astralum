@@ -2,20 +2,6 @@
 <Defs>
 
   <ShaderDef>
-    <defName>Astra_GalacticDustLane01</defName>
-    <shaderProgram>
-      <vertexShaderFileName>Skybox.vert.glsl</vertexShaderFileName>
-      <fragmentShaderFileName>Astra_GalacticDustLane01.frag.glsl</fragmentShaderFileName>
-      <useTexture>false</useTexture>
-      <blendMode>Additive</blendMode>
-      <depthTest>false</depthTest>
-      <depthWrite>false</depthWrite>
-      <cullMode>None</cullMode>
-      <renderQueue>1001</renderQueue>
-    </shaderProgram>
-  </ShaderDef>
-
-  <ShaderDef>
     <defName>Astra_Nebulae01</defName>
     <shaderProgram>
       <vertexShaderFileName>Skybox.vert.glsl</vertexShaderFileName>

@@ -28,7 +28,7 @@ const float NightLight = 0.018;
 const float DayLight = 0.20;
 const float TerminatorSoftness = 0.25;
 const float SunwardPower = 1.7;
-const float SunwardBoost = 0.15;
+const float SunwardBoost = 0.12;
 const vec3 GlowColor = vec3(0.706, 0.839, 1.0);
 
 void main()

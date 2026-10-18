@@ -5,7 +5,6 @@ namespace Astralum.Astronomy.SkyGrid
 {
   public static class SkyGridDrawUtil
   {
-    public const float DistanceToGrid = 20f;
     public const int Segments = 192;
 
     public static void PrintGreatCircle(LayerSubMesh subMesh, Vector3 normal, float width)
@@ -21,8 +20,8 @@ namespace Astralum.Astronomy.SkyGrid
 
         PrintLineSegment(
           subMesh,
-          previous * DistanceToGrid,
-          current * DistanceToGrid,
+          previous * CelestialObjectDataUtil.SkyDistance,
+          current * CelestialObjectDataUtil.SkyDistance,
           width
         );
 
@@ -49,8 +48,8 @@ namespace Astralum.Astronomy.SkyGrid
 
         PrintLineSegment(
           subMesh,
-          previous * DistanceToGrid,
-          current * DistanceToGrid,
+          previous * CelestialObjectDataUtil.SkyDistance,
+          current * CelestialObjectDataUtil.SkyDistance,
           width
         );
 
@@ -78,8 +77,8 @@ namespace Astralum.Astronomy.SkyGrid
         
         Vector3 tickDir = pole.normalized;
 
-        Vector3 start = (equatorDir - tickDir * tickLength * 0.5f).normalized * DistanceToGrid;
-        Vector3 end = (equatorDir + tickDir * tickLength * 0.5f).normalized * DistanceToGrid;
+        Vector3 start = (equatorDir - tickDir * tickLength * 0.5f).normalized * CelestialObjectDataUtil.SkyDistance;
+        Vector3 end = (equatorDir + tickDir * tickLength * 0.5f).normalized * CelestialObjectDataUtil.SkyDistance;
 
         PrintLineSegment(subMesh, start, end, width);
       }

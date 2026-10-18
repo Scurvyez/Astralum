@@ -99,7 +99,7 @@ namespace Astralum.Astronomy.Constellations
     private static void PrintConstellationQuad(Vector3 centerDir, float size, float rotationDegrees, 
       LayerSubMesh subMesh)
     {
-      Vector3 center = centerDir.normalized * ConstellationGenerationUtil.DistanceToConstellations;
+      Vector3 center = centerDir.normalized * CelestialObjectDataUtil.SkyDistance;
       
       ConstellationGenerationUtil.GetConstellationBasis(centerDir, rotationDegrees,
         out Vector3 tangentA, out Vector3 tangentB);
@@ -135,7 +135,7 @@ namespace Astralum.Astronomy.Constellations
     private static void RegisterConstellationForInteraction(SavedConstellation constellation)
     {
       Vector3 dir = constellation.LocalSkyPosition;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
 
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.Constellation,
@@ -143,9 +143,9 @@ namespace Astralum.Astronomy.Constellations
         constellation.DisplayName,
         constellation.LocalSkyPosition,
         constellation.RenderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees));
     }
   }
 }

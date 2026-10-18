@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using Astralum.WorldComponents;
+using Astralum.API;
 using UnityEngine;
 using Verse;
 
@@ -7,8 +7,6 @@ namespace Astralum.Astronomy.SkyGrid
 {
   public static class SkyGridLabelUtil
   {
-    private const float DistanceToLabels = 20f;
-
     private static readonly Vector2 DefaultOffset = new(24f, -24f);
     private static readonly Vector2 EquatorDeclinationOffset = new(24f, 24f);
     private static readonly Vector2 NorthSkyOffset = new(24f, 24f);
@@ -17,7 +15,7 @@ namespace Astralum.Astronomy.SkyGrid
     {
       List<SkyGridLabel> labels = [];
 
-      Vector3 pole = WorldUtils.GalacticPole.normalized;
+      Vector3 pole = CelestialTransformUtil.GalacticPole.normalized;
       GetCircleBasis(pole, out Vector3 a, out Vector3 b);
 
       // RA hour labels around the equator
@@ -27,7 +25,7 @@ namespace Astralum.Astronomy.SkyGrid
         Vector3 dir = (Mathf.Cos(angle) * a + Mathf.Sin(angle) * b).normalized;
 
         labels.Add(new SkyGridLabel($"{hour:00}h",
-          dir * DistanceToLabels, DefaultOffset, 1.5f));
+          dir * CelestialObjectDataUtil.SkyDistance, DefaultOffset, 1.5f));
       }
 
       // declination labels
@@ -38,9 +36,9 @@ namespace Astralum.Astronomy.SkyGrid
       AddDeclinationLabels(labels, pole, a, b, -60f, DefaultOffset);
 
       labels.Add(new SkyGridLabel("Astra_Hemisphere_NorthernSky".Translate(),
-        pole * DistanceToLabels, NorthSkyOffset, 1.85f));
+        pole * CelestialObjectDataUtil.SkyDistance, NorthSkyOffset, 1.85f));
       labels.Add(new SkyGridLabel("Astra_Hemisphere_SouthernSky".Translate(), 
-        -pole * DistanceToLabels, DefaultOffset, 1.85f));
+        -pole * CelestialObjectDataUtil.SkyDistance, DefaultOffset, 1.85f));
 
       return labels;
     }
@@ -64,7 +62,7 @@ namespace Astralum.Astronomy.SkyGrid
         Vector3 equatorDir = DirectionOnCircle(a, b, angle);
         Vector3 dir = LatitudeDirection(pole, equatorDir, degrees);
 
-        labels.Add(new SkyGridLabel(text, dir * DistanceToLabels, offset, 1.5f));
+        labels.Add(new SkyGridLabel(text, dir * CelestialObjectDataUtil.SkyDistance, offset, 1.5f));
       }
     }
 

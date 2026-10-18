@@ -95,13 +95,13 @@ namespace Astralum.Harmony
       bool hasOneStar = stars is { Count: >= 1 };
       bool hasTwoStars = stars is { Count: >= 2 };
 
-      Vector3 dir = WorldUtils.GetCurrentRotationForWorldSpace() * constellation.centerDir.normalized;
+      Vector3 dir = CelestialTransformUtil.GetCurrentRotationForWorldSpace() * constellation.centerDir.normalized;
 
-      string hemisphere = WorldUtils.SkyHemisphere(dir);
+      string hemisphere = SkyCoordUtil.SkyHemisphere(dir);
       
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
-      string ra = WorldUtils.FormatRightAscension(coord.RightAscensionHours);
-      string dec = WorldUtils.FormatDeclination(coord.DeclinationDegrees);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
+      string ra = SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours);
+      string dec = SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees);
 
       int maxPattern = hasTwoStars ? 8 : hasOneStar ? 6 : 2;
       int pattern = Rand.RangeInclusive(0, maxPattern);

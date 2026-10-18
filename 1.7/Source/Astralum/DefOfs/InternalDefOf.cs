@@ -36,7 +36,6 @@ namespace Astralum.DefOfs
 
     #region ShaderDefs
     
-    public static ShaderDef Astra_GalacticDustLane01;
     public static ShaderDef Astra_Nebulae01;
     public static ShaderDef Astra_BackgroundStar01;
     public static ShaderDef Astra_Constellation01;
@@ -52,7 +51,6 @@ namespace Astralum.DefOfs
 
     #region GlobalWorldDrawLayerDefs
 
-    public static GlobalWorldDrawLayerDef Astra_GalacticDustLanes;
     public static GlobalWorldDrawLayerDef Astra_BackgroundStars;
     public static GlobalWorldDrawLayerDef Astra_Nebulae;
     public static GlobalWorldDrawLayerDef Astra_Constellations;

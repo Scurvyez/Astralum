@@ -14,7 +14,6 @@ namespace Astralum.Astronomy.Constellations
     private const int DefaultConstellationCountMin = 11;
     private const int DefaultConstellationCountMax = 15;
     
-    public const float DistanceToConstellations = 20f;
     private const float MinCenterAngularDistance = 0.75f;
     private const int DefaultMaxPlacementAttempts = 80;
     private const float DefaultBaseStarSize = 0.25f;
@@ -141,7 +140,7 @@ namespace Astralum.Astronomy.Constellations
       if (uvPoints.NullOrEmpty())
         return;
       
-      Vector3 center = constellation.centerDir.normalized * DistanceToConstellations;
+      Vector3 center = constellation.centerDir.normalized * CelestialObjectDataUtil.SkyDistance;
       
       GetConstellationBasis(constellation.centerDir, constellation.Rotation, out Vector3 tangentA, out Vector3 tangentB);
       

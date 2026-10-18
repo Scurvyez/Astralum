@@ -16,8 +16,6 @@ namespace Astralum.Astronomy.LocalStars
     private const float SolLuminosityWatts = 3.828e+26f;
     private const float BaseLocalStarRenderSize = 7.5f;
     
-    public const float DistanceToLocalStars = 20f;
-    
     public static void EnsureGenerated()
     {
       WorldComponent_CelestialObjectDataCache data = LocalStarDataUtil.Data;
@@ -48,7 +46,7 @@ namespace Astralum.Astronomy.LocalStars
       string systemName = StellarNamingUtil.GenerateSystemName();
       int starCount = GenerateStarCount();
 
-      Vector3 systemCenter = Vector3.forward * DistanceToLocalStars;
+      Vector3 systemCenter = Vector3.forward * CelestialObjectDataUtil.SkyDistance;
       
       for (int i = 0; i < starCount; i++)
       {

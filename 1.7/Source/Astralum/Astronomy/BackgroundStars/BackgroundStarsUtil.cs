@@ -1,4 +1,5 @@
-﻿using Astralum.Astronomy.LocalStars;
+﻿using Astralum.API;
+using Astralum.Astronomy.LocalStars;
 using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -16,7 +17,7 @@ namespace Astralum.Astronomy.BackgroundStars
         Mathf.Clamp(ext.starCount.min, 5000, 50000),
         Mathf.Clamp(ext.starCount.max, 5000, 250000));
     }
-    
+
     public static BackgroundStarsGenerationData GetGenerationData(int worldSeed, IntRange starCountRange)
     {
       Rand.PushState();
@@ -135,7 +136,7 @@ namespace Astralum.Astronomy.BackgroundStars
           return dir;
       }
 
-      return WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+      return CelestialTransformUtil.RandomGalacticPlaneDirection(galacticPlaneBounds);
     }
 
     /// <summary>
@@ -159,13 +160,13 @@ namespace Astralum.Astronomy.BackgroundStars
       
       for (int i = 0; i < 32; i++)
       {
-        Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+        Vector3 dir = CelestialTransformUtil.RandomGalacticPlaneDirection(galacticPlaneBounds);
 
         if (Rand.Value <= GalacticPlaneBandMask(dir, galacticPlaneMaskOffset))
           return dir;
       }
       
-      return WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+      return CelestialTransformUtil.RandomGalacticPlaneDirection(galacticPlaneBounds);
     }
 
     /// <summary>
@@ -177,7 +178,7 @@ namespace Astralum.Astronomy.BackgroundStars
     /// <returns>A float value between 0 and 1 representing the relative density of stars in the specified direction.</returns>
     private static float StarDensity(Vector3 dir, SpectralClass spectralClass)
     {
-      float galacticLatitude = Mathf.Abs(Vector3.Dot(dir.normalized, WorldUtils.GalacticPole.normalized));
+      float galacticLatitude = Mathf.Abs(Vector3.Dot(dir.normalized, CelestialTransformUtil.GalacticPole.normalized));
       float galacticPlane = 1f - galacticLatitude;
 
       // higher = sharper plane concentration
@@ -239,7 +240,7 @@ namespace Astralum.Astronomy.BackgroundStars
     /// <returns>A normalized value from 0 to 1 representing position along the galactic plane.</returns>
     private static float GalacticPlaneLongitude01(Vector3 dir, float offset = 0f)
     {
-      Vector3 pole = WorldUtils.GalacticPole.normalized;
+      Vector3 pole = CelestialTransformUtil.GalacticPole.normalized;
       Vector3 reference = Vector3.ProjectOnPlane(Vector3.forward, pole).normalized;
       
       if (reference.sqrMagnitude <= 0.0001f)
@@ -267,7 +268,7 @@ namespace Astralum.Astronomy.BackgroundStars
     private static float GalacticPlaneBandMask(Vector3 dir, float offset = 0f)
     {
       Vector3 normalizedDir = dir.normalized;
-      float latitude = Vector3.Dot(normalizedDir, WorldUtils.GalacticPole.normalized);
+      float latitude = Vector3.Dot(normalizedDir, CelestialTransformUtil.GalacticPole.normalized);
       float longitude = GalacticPlaneLongitude01(normalizedDir, offset);
       float seed = offset * 997.31f;
 

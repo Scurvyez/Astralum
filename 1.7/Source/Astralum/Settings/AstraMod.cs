@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Astralum.Debugging;
 using Astralum.UI;
+using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -79,6 +80,7 @@ namespace Astralum.Settings
       rightList.Gap(NewSectionGap);
       
       DoCameraSettings(rightList);
+      DoSkyboxColorSettings(rightList);
       
       rightList.End();
       Widgets.EndScrollView();
@@ -183,6 +185,66 @@ namespace Astralum.Settings
       TooltipHandler.TipRegion(durationRect, "Astra_CameraPanAnimationDurationDesc".Translate());
       
       list.Gap(Spacing);
+    }
+    
+    private void DoSkyboxColorSettings(Listing_Standard list)
+    {
+      DrawSectionTitle(list, "Astra_Settings_SkyboxColor");
+
+      const float swatchSize = 32f;
+      const float checkboxSize = 24f;
+      const float optionWidth = 48f;
+      const float optionSpacing = 8f;
+
+      SkyboxColorPreset[] presets =
+      [
+        SkyboxColorPreset.Vanilla,
+        SkyboxColorPreset.DeepSpace,
+        SkyboxColorPreset.Charcoal,
+        SkyboxColorPreset.MidnightViolet,
+        SkyboxColorPreset.Neutral,
+        SkyboxColorPreset.Black
+      ];
+      
+      Rect rowRect = list.GetRect(checkboxSize + swatchSize + 8f);
+      
+      for (int i = 0; i < presets.Length; i++)
+      {
+        SkyboxColorPreset preset = presets[i];
+        
+        float x = rowRect.x + i * (optionWidth + optionSpacing);
+        
+        Rect checkboxRect = new(x + (optionWidth - checkboxSize) * 0.5f, rowRect.y, 
+          checkboxSize, checkboxSize);
+        Rect swatchRect = new(x + (optionWidth - swatchSize) * 0.5f, rowRect.y + checkboxSize + 8f, 
+          swatchSize, swatchSize);
+        
+        bool selected = _settings._skyboxColor == preset;
+        bool newSelected = selected;
+        
+        Widgets.Checkbox(checkboxRect.position, ref newSelected, checkboxSize);
+        
+        if (newSelected && !selected)
+        {
+          _settings._skyboxColor = preset;
+          SkyboxColorUtil.Apply(preset);
+        }
+        
+        Color swatchColor = SkyboxColorUtil.GetColor(preset);
+
+        Widgets.DrawBoxSolid(swatchRect, swatchColor);
+        Widgets.DrawBox(swatchRect);
+        TooltipHandler.TipRegion(checkboxRect, SkyboxColorUtil.GetLabel(preset));
+        TooltipHandler.TipRegion(swatchRect, SkyboxColorUtil.GetLabel(preset));
+        
+        if (Widgets.ButtonInvisible(swatchRect))
+        {
+          _settings._skyboxColor = preset;
+          SkyboxColorUtil.Apply(preset);
+        }
+      }
+      
+      list.Gap(NewSectionGap);
     }
     
     private static void DrawSectionTitle(Listing_Standard list, string translationKey)

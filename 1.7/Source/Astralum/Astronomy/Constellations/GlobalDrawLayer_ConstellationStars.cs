@@ -90,7 +90,7 @@ namespace Astralum.Astronomy.Constellations
       SavedConstellation constellation)
     {
       Vector3 dir = star.LocalSkyPosition;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.ConstellationStar,
@@ -98,9 +98,9 @@ namespace Astralum.Astronomy.Constellations
         star.DisplayName,
         star.LocalSkyPosition,
         star.RenderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees),
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees),
         star.spectralClass, 
         constellation.DisplayName);
     }

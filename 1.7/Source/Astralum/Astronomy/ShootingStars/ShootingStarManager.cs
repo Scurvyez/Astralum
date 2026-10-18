@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -7,7 +8,6 @@ namespace Astralum.Astronomy.ShootingStars
 {
   public static class ShootingStarManager
   {
-    private const float DistanceToShootingStars = 20f;
     private static readonly List<ShootingStar> Active = [];
 
     public static IReadOnlyList<ShootingStar> ActiveStars => Active;
@@ -49,8 +49,8 @@ namespace Astralum.Astronomy.ShootingStars
     
     private static void SpawnRandom(ModExt_ShootingStars ext)
     {
-      Vector3 dir = WorldUtils.RandomGalacticPlaneDirection(ext.galacticPlaneBounds);
-      Vector3 origin = dir * DistanceToShootingStars;
+      Vector3 dir = CelestialTransformUtil.RandomGalacticPlaneDirection(ext.galacticPlaneBounds);
+      Vector3 origin = dir * CelestialObjectDataUtil.SkyDistance;
       Vector3 tangent = Vector3.Cross(dir, Rand.UnitVector3);
       
       if (tangent.sqrMagnitude < 0.001f)

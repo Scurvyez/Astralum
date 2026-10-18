@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -25,7 +26,7 @@ namespace Astralum.Astronomy.BlackHoles
     {
       for (int attempt = 0; attempt < MaxPlacementAttempts; attempt++)
       {
-        dir = WorldUtils.RandomGalacticPlaneDirection(galacticPlaneBounds);
+        dir = CelestialTransformUtil.RandomGalacticPlaneDirection(galacticPlaneBounds);
         size = blackHoleSize.RandomInRange * blackHoleCanvasScale;
         rotation = 0f;
         

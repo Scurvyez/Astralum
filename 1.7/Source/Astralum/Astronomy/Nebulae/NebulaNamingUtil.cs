@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Astronomy.LocalStars;
 using Astralum.DefOfs;
 using Astralum.WorldComponents;
@@ -59,7 +60,7 @@ namespace Astralum.Astronomy.Nebulae
     private static string GenerateCoordinateName(Vector3 localSkyPos)
     {
       Vector3 dir = localSkyPos.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       int raHour = Mathf.FloorToInt(Mathf.Repeat(coord.RightAscensionHours, 24f));
       int raMinute = Mathf.FloorToInt(

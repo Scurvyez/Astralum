@@ -1,7 +1,6 @@
 ﻿using System.Collections;
+using Astralum.API;
 using Astralum.DefOfs;
-using Astralum.Materials;
-using Astralum.WorldComponents;
 using RimWorld;
 using RimWorld.Planet;
 using UnityEngine;
@@ -54,20 +53,20 @@ namespace Astralum.Astronomy.SkyGrid
       Material mat = MaterialPool.MatFrom(InternalDefOf.Astra_SkyCoordinateGrid01.Shader);
       LayerSubMesh subMesh = GetSubMesh(mat);
 
-      Vector3 pole = WorldUtils.GalacticPole.normalized;
+      Vector3 pole = CelestialTransformUtil.GalacticPole.normalized;
 
       // galactic plane
       SkyGridDrawUtil.PrintGreatCircle(subMesh, pole, MajorWidth);
 
       // hemisphere boundaries
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.NorthernSkyThreshold, MediumWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SouthernSkyThreshold, MediumWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.NorthernSkyThreshold, MediumWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.SouthernSkyThreshold, MediumWidth);
 
       // declination lines
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(30f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(-30f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(60f), MinorWidth);
-      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, WorldUtils.SkyLatitudeHeight(-60f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.SkyLatitudeHeight(30f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.SkyLatitudeHeight(-30f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.SkyLatitudeHeight(60f), MinorWidth);
+      SkyGridDrawUtil.PrintLatitudeCircle(subMesh, pole, SkyCoordUtil.SkyLatitudeHeight(-60f), MinorWidth);
 
       // RA / longitude meridians
       SkyGridDrawUtil.PrintMeridian(subMesh, pole, Vector3.forward, MediumWidth);

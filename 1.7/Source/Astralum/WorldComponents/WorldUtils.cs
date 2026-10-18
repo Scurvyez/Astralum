@@ -1,5 +1,4 @@
-﻿using RimWorld;
-using RimWorld.Planet;
+﻿using RimWorld.Planet;
 using UnityEngine;
 using Verse;
 
@@ -7,99 +6,9 @@ namespace Astralum.WorldComponents
 {
   public static class WorldUtils
   {
-    public const float NorthernSkyThreshold = 0.15f;
-    public const float SouthernSkyThreshold = -0.15f;
     public const float PlanetRadius = 100f;
-
-    public static Vector3 GalacticPole => Quaternion.Euler(GenCelestial.CurSunPositionInWorldSpace()) * Vector3.up;
     
-    public static Quaternion GetCurrentRotationForWorldSpace()
-    {
-      return Current.ProgramState == ProgramState.Entry 
-        ? Quaternion.identity 
-        : Quaternion.LookRotation(GenCelestial.CurSunPositionInWorldSpace());
-    }
-    
-    public static Vector3 RandomGalacticPlaneDirection(FloatRange bounds = default)
-    {
-      if (bounds == default)
-        bounds = new FloatRange(-0.2f, 0.2f);
-      
-      float angle = Rand.Range(0f, Mathf.PI * 2f);
-      float localY = Mathf.Clamp(bounds.RandomInRange, -1f, 1f);
-      
-      float radius = Mathf.Sqrt(1f - localY * localY);
-      
-      Vector3 localDir = new Vector3(
-        Mathf.Cos(angle) * radius,
-        localY,
-        Mathf.Sin(angle) * radius
-      ).normalized;
-      
-      Quaternion planeRotation = Quaternion.FromToRotation(Vector3.up, GalacticPole.normalized);
-      
-      return (planeRotation * localDir).normalized;
-    }
-    
-    public static SkyCoord DirectionToSkyCoord(Vector3 direction)
-    {
-      direction.Normalize();
-      
-      float raDegrees = Mathf.Atan2(direction.z, direction.x) * Mathf.Rad2Deg;
-      
-      if (raDegrees < 0f)
-        raDegrees += 360f;
-      
-      float declinationDegrees = Mathf.Asin(direction.y) * Mathf.Rad2Deg;
-      float raHours = raDegrees / 15f;
-      
-      return new SkyCoord(raHours, declinationDegrees);
-    }
-
-    public static string FormatRightAscension(float hours)
-    {
-      hours = Mathf.Repeat(hours, 24f);
-      
-      int h = Mathf.FloorToInt(hours);
-      int m = FractionalMinutes(hours, h);
-      
-      return $"{h:00}h {m:00}m";
-    }
-
-    public static string FormatDeclination(float degrees)
-    {
-      string sign = degrees >= 0f ? "+" : "-";
-      degrees = Mathf.Abs(degrees);
-      
-      int d = Mathf.FloorToInt(degrees);
-      int m = FractionalMinutes(degrees, d);
-      
-      return $"{sign}{d:00}° {m:00}'";
-    }
-    
-    private static int FractionalMinutes(float value, int wholeUnits)
-    {
-      return Mathf.FloorToInt((value - wholeUnits) * 60f);
-    }
-    
-    public static float SkyLatitudeHeight(float degrees)
-    {
-      return Mathf.Sin(degrees * Mathf.Deg2Rad);
-    }
-
-    public static string SkyHemisphere(Vector3 direction)
-    {
-      direction.Normalize();
-
-      return direction.y switch
-      {
-        > NorthernSkyThreshold => "Astra_Hemisphere_NorthernSky".Translate(),
-        < SouthernSkyThreshold => "Astra_Hemisphere_SouthernSky".Translate(),
-        _ => "Astra_Hemisphere_EquatorialSky".Translate()
-      };
-    }
-    
-    public static bool ShouldDrawGUI()
+    public static bool ShouldDrawGui()
     {
       Camera worldCamera = Find.WorldCamera;
 

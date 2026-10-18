@@ -47,6 +47,7 @@
   <Astra_Settings_LocalStars>Local Stars</Astra_Settings_LocalStars>
   <Astra_Settings_LocalMapLighting>Local Map Lighting</Astra_Settings_LocalMapLighting>
   <Astra_Settings_Camera>Camera</Astra_Settings_Camera>
+  <Astra_Settings_SkyboxColor>Skybox Background Color</Astra_Settings_SkyboxColor>
 
   <Astra_GameRestartRequired>Requires a game restart.</Astra_GameRestartRequired>
   <Astra_Deterministic>(Deterministic based on the world seed.)</Astra_Deterministic>
@@ -117,6 +118,14 @@
   <Astra_CameraPanEasing_Quadratic>Quadratic</Astra_CameraPanEasing_Quadratic>
   <Astra_CameraPanEasing_Cubic>Cubic</Astra_CameraPanEasing_Cubic>
   <Astra_CameraPanEasing_Quartic>Quartic</Astra_CameraPanEasing_Quartic>
+  
+  <!-- MOD SETTINGS (skybox coloring) -->
+  <Astra_SkyboxColorPreset_00>Vanilla</Astra_SkyboxColorPreset_00>
+  <Astra_SkyboxColorPreset_01>Deep Space</Astra_SkyboxColorPreset_01>
+  <Astra_SkyboxColorPreset_02>Charcoal</Astra_SkyboxColorPreset_02>
+  <Astra_SkyboxColorPreset_03>Midnight Violet</Astra_SkyboxColorPreset_03>
+  <Astra_SkyboxColorPreset_04>Neutral</Astra_SkyboxColorPreset_04>
+  <Astra_SkyboxColorPreset_05>Pure Black</Astra_SkyboxColorPreset_05>
 
   <!-- NAME GENERATION -->
   <Astra_NameGenerator_Unknown>Unknown</Astra_NameGenerator_Unknown>

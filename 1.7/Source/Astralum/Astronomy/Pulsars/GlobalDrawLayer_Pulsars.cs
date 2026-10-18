@@ -180,7 +180,7 @@ namespace Astralum.Astronomy.Pulsars
     private static void RegisterPulsarForInteraction(SavedPulsar pulsar)
     {
       Vector3 dir = pulsar.LocalSkyPosition.normalized;
-      SkyCoord coord = WorldUtils.DirectionToSkyCoord(dir);
+      SkyCoord coord = SkyCoordUtil.DirectionToSkyCoord(dir);
       
       CelestialObjectInteractionRegistry.Register(
         CelestialObjectType.Pulsar,
@@ -188,9 +188,9 @@ namespace Astralum.Astronomy.Pulsars
         pulsar.DisplayName,
         pulsar.LocalSkyPosition,
         pulsar.RenderSize,
-        WorldUtils.SkyHemisphere(dir),
-        WorldUtils.FormatRightAscension(coord.RightAscensionHours),
-        WorldUtils.FormatDeclination(coord.DeclinationDegrees));
+        SkyCoordUtil.SkyHemisphere(dir),
+        SkyCoordUtil.FormatRightAscension(coord.RightAscensionHours),
+        SkyCoordUtil.FormatDeclination(coord.DeclinationDegrees));
     }
     
     private static Vector3 RandomPulsarDirection()
@@ -200,7 +200,7 @@ namespace Astralum.Astronomy.Pulsars
       var radius = Mathf.Sqrt(1f - localY * localY);
       
       Vector3 localDir = new(Mathf.Cos(angle) * radius, localY, Mathf.Sin(angle) * radius);
-      var planeRotation = Quaternion.FromToRotation(Vector3.up, WorldUtils.GalacticPole.normalized);
+      var planeRotation = Quaternion.FromToRotation(Vector3.up, CelestialTransformUtil.GalacticPole.normalized);
 
       return (planeRotation * localDir).normalized;
     }

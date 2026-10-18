@@ -39,23 +39,22 @@ layout(set = 2, binding = 0) uniform MaterialUniforms
     float _FocusShimmerIntensity;       // @default = 10.0
 } u;
 
-
 void main()
 {
     // flip the texture coordinates right-side-up
     vec2 uv = vec2(vUv.x, 1.0 - vUv.y);
-    
+
     vec2 centeredUv = uv - vec2(0.5);
     centeredUv /= max(u._ScalingFactor, 0.0001);
-    
+
     // basic radial star shape
     float dist = length(centeredUv);
     float baseRadial = clamp(1.0 - dist * 2.0, 0.0, 1.0);
-    
+
     // chromaticity / stellar core
     float chromaticityMask = pow(baseRadial, u._ChromaticityFalloffPower);
     vec3 chromaticity = u._Chromaticity.rgb * chromaticityMask * u._ChromaticityIntensity;
-    
+
     // surface noise
     // preserve the original high-frequency appearance while using our shared value-noise implementation
     float surfaceNoise = value_noise_2d(uv * 128.0);
@@ -83,16 +82,16 @@ void main()
 
     float rotationsPerSecond = u._CoronaRotationSpeed / visualDayLengthSeconds;
     float flow = u._Time.y * rotationsPerSecond * visualRotationScale;
-    
+
     float surfaceX = centeredUv.x;
     float surfaceY = centeredUv.y / max(projectedDepth, 0.15);
-    
+
     vec2 coronaFlowUv = vec2(surfaceX * 2.0, surfaceY + flow);
 
     // corona surface variation
     float coronaNoiseA = value_noise_2d(coronaFlowUv * 5.0);
     float coronaNoiseB = value_noise_2d(coronaFlowUv * 11.0 + vec2(17.3));
-    
+
     float coronaVariation = mix(coronaNoiseA, coronaNoiseB, 0.35);
     coronaVariation = mix(0.85, 1.15, coronaVariation);
     coronaVariation = mix(1.0, coronaVariation, sphereMask);
@@ -117,7 +116,7 @@ void main()
             u._FocusShimmerWidth,
             u._FocusShimmerSoftness
     );
-    
+
     shimmer *= u._FocusShimmer;
     shimmer *= max(chromaticityMask, visibleCoronaMask);
 
@@ -129,7 +128,7 @@ void main()
     // final coverage
     float coronaAlpha = visibleCoronaMask * u._Corona.a;
     float alpha = max(coreAlpha, coronaAlpha);
-    
+
     vec3 outputColor = finalColor * alpha;
     outColor = vec4(clamp(outputColor * 1.25, 0.0, 1.0), alpha);
 }

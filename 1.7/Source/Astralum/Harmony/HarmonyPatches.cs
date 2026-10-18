@@ -34,27 +34,19 @@ namespace Astralum.Harmony
       PatchGlobalDrawLayerStars(harmony);
     }
     
-    /// <summary>
-    /// Patches the world interface to draw the world info window.
-    /// </summary>
     private static void PatchWorldInterfaceOnGUI(HarmonyLib.Harmony harmony)
     {
-      MethodInfo worldInterfaceOnGUI = HarmonyPatchesUtil.Method(
-        typeof(WorldInterface), "WorldInterfaceOnGUI",
-        "World interface GUI patch");
+      MethodInfo worldInterfaceOnGui = HarmonyPatchesUtil.Method(typeof(WorldInterface),
+        "WorldInterfaceOnGUI", "World interface GUI patch");
 
-      harmony.Patch(worldInterfaceOnGUI,
+      harmony.Patch(worldInterfaceOnGui,
         postfix: new HarmonyMethod(typeof(HarmonyPatches), nameof(WorldInterface_WorldInterfaceOnGUI_Postfix)));
     }
     
-    /// <summary>
-    /// Patches the play settings to add a toggleable sky coordinate grid.
-    /// </summary>
     private static void PatchPlaySettings(HarmonyLib.Harmony harmony)
     {
-      MethodInfo globalControls = HarmonyPatchesUtil.Method(
-        typeof(PlaySettings), "DoPlaySettingsGlobalControls",
-        "Play settings patch");
+      MethodInfo globalControls = HarmonyPatchesUtil.Method(typeof(PlaySettings), 
+        "DoPlaySettingsGlobalControls", "Play settings patch");
 
       if (HarmonyPatchesUtil.Missing(globalControls))
         return;
@@ -65,9 +57,8 @@ namespace Astralum.Harmony
 
     private static void PatchWorldGridGizmos(HarmonyLib.Harmony harmony)
     {
-      MethodInfo worldGridGizmos = HarmonyPatchesUtil.Method(
-        typeof(WorldGrid), "GetGizmos",
-        "Get gizmos patch");
+      MethodInfo worldGridGizmos = HarmonyPatchesUtil.Method(typeof(WorldGrid),
+        "GetGizmos", "Get gizmos patch");
 
       if (HarmonyPatchesUtil.Missing(worldGridGizmos))
         return;
@@ -78,9 +69,8 @@ namespace Astralum.Harmony
 
     private static void PatchSelectStartingSiteDoCustomBottomButtons(HarmonyLib.Harmony harmony)
     {
-      MethodInfo doCustomBottomButtons = HarmonyPatchesUtil.Method(
-        typeof(Page_SelectStartingSite), "DoCustomBottomButtons",
-        "Settlement selection screen bottom buttons patch");
+      MethodInfo doCustomBottomButtons = HarmonyPatchesUtil.Method(typeof(Page_SelectStartingSite), 
+        "DoCustomBottomButtons", "Settlement selection screen bottom buttons patch");
 
       if (HarmonyPatchesUtil.Missing(doCustomBottomButtons))
         return;
@@ -90,14 +80,10 @@ namespace Astralum.Harmony
           nameof(Page_SelectStartingSite_DoCustomBottomButtons_Postfix)));
     }
     
-    /// <summary>
-    /// Patches the "use telescope" job to output the currently viewed constellation or star(s) within. 
-    /// </summary>
     private static void PatchJobDriverGetReport(HarmonyLib.Harmony harmony)
     {
-      MethodInfo getReport = HarmonyPatchesUtil.Method(
-        typeof(JobDriver), "GetReport",
-        "Get report patch");
+      MethodInfo getReport = HarmonyPatchesUtil.Method(typeof(JobDriver),
+        "GetReport", "Get report patch");
 
       if (HarmonyPatchesUtil.Missing(getReport))
         return;
@@ -108,9 +94,8 @@ namespace Astralum.Harmony
     
     private static void PatchSkygazeMakeNewToils(HarmonyLib.Harmony harmony)
     {
-      MethodInfo makeNewToils = HarmonyPatchesUtil.Method(
-        typeof(JobDriver_Skygaze), "MakeNewToils",
-        "Skygaze observation hook patch");
+      MethodInfo makeNewToils = HarmonyPatchesUtil.Method(typeof(JobDriver_Skygaze), 
+        "MakeNewToils", "Skygaze observation hook patch");
       
       if (HarmonyPatchesUtil.Missing(makeNewToils))
         return;
@@ -121,9 +106,8 @@ namespace Astralum.Harmony
     
     private static void PatchMemoryUtility(HarmonyLib.Harmony harmony)
     {
-      MethodInfo clearAllMapsAndWorld = HarmonyPatchesUtil.Method(
-        typeof(MemoryUtility), "ClearAllMapsAndWorld",
-        "Clear all custom Unity Materials patch");
+      MethodInfo clearAllMapsAndWorld = HarmonyPatchesUtil.Method(typeof(MemoryUtility), 
+        "ClearAllMapsAndWorld", "Clear all custom Unity Materials patch");
       
       if (HarmonyPatchesUtil.Missing(clearAllMapsAndWorld))
         return;
@@ -134,9 +118,8 @@ namespace Astralum.Harmony
     
     private static void PatchGlobalDrawLayerSun(HarmonyLib.Harmony harmony)
     {
-      MethodInfo regenerate = HarmonyPatchesUtil.Method(
-        typeof(GlobalDrawLayer_Sun), "Regenerate",
-        "Regenerate cancellation patch");
+      MethodInfo regenerate = HarmonyPatchesUtil.Method(typeof(GlobalDrawLayer_Sun), 
+        "Regenerate", "Regenerate cancellation patch");
       
       if (HarmonyPatchesUtil.Missing(regenerate))
         return;
@@ -147,9 +130,8 @@ namespace Astralum.Harmony
     
     private static void PatchGlobalDrawLayerStars(HarmonyLib.Harmony harmony)
     {
-      MethodInfo regenerate = HarmonyPatchesUtil.Method(
-        typeof(GlobalDrawLayer_Stars), "Regenerate",
-        "Regenerate cancellation patch");
+      MethodInfo regenerate = HarmonyPatchesUtil.Method(typeof(GlobalDrawLayer_Stars),
+        "Regenerate", "Regenerate cancellation patch");
       
       if (HarmonyPatchesUtil.Missing(regenerate))
         return;
@@ -157,7 +139,7 @@ namespace Astralum.Harmony
       harmony.Patch(regenerate,
         prefix: new HarmonyMethod(typeof(HarmonyPatches), nameof(GlobalDrawLayer_Stars_Regenerate_Prefix)));
     }
-    
+
     public static void WorldInterface_WorldInterfaceOnGUI_Postfix()
     {
       CelestialCatalogueDialogUtil.Update(true);
@@ -283,7 +265,6 @@ namespace Astralum.Harmony
       LocalStarsMatsUtil.Clear();
       BlackHoleMatsUtil.Clear();
       ConstellationsMatsUtil.Clear();
-      GalacticDustLaneMatsUtil.Clear();
       NebulaeMatsUtil.Clear();
       PulsarMatsUtil.Clear();
     }
