@@ -35,8 +35,7 @@ namespace Astralum.Materials
     private static Material CreateMaterial(string id)
     {
       var shader = InternalDefOf.Astra_Pulsar01.Shader;
-      
-      Material material = new(shader)
+      var material = new Material(shader)
       {
         name = $"Astralum_Pulsar01_{id}"
       };

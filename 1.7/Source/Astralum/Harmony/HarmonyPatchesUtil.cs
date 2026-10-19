@@ -175,7 +175,7 @@ namespace Astralum.Harmony
     public static void NotifySkygazeObservation(Pawn pawn)
     {
       Map map = pawn.MapHeld;
-      bool darkEnoughOutside = TwilightUtility.SunAltitude(map) < TwilightUtility.CivilTwilightAltitude;
+      bool darkEnoughOutside = TwilightUtil.SunAltitude(map) < TwilightUtil.CivilTwilightAltitude;
       
       if (map.TileInfo.Layer.Def.isSpace || darkEnoughOutside)
       {

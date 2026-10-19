@@ -97,8 +97,7 @@ namespace Astralum.Astronomy.Nebulae
     {
       data.ClearNebulae();
       
-      GlobalWorldDrawLayerDef backgroundStarsDef = InternalDefOf.Astra_BackgroundStars;
-      ModExt_BackgroundStars backgroundStarsExt = backgroundStarsDef?.GetModExtension<ModExt_BackgroundStars>();
+      var backgroundStarsExt = InternalDefOf.Astra_BackgroundStars?.GetModExtension<ModExt_BackgroundStars>();
       
       IntRange backgroundStarCountRange = BackgroundStarsUtil.ResolvedStarCountRange(backgroundStarsExt);
       
@@ -116,8 +115,8 @@ namespace Astralum.Astronomy.Nebulae
         float size = _nebulaSizeRange.RandomInRange;
         float rotation = Rand.Range(0f, 360f);
         string id = $"nebulae_{Find.World.info.seedString}_{i}";
-          
-        data.Nebulae.Add(NebulaDataUtil.Create(id, dir, size, rotation, usedNames));
+        
+        data.Nebulae.Add(NebulaDataUtil.Create(id, dir, size, rotation, usedNames, _ext));
       }
     }
     

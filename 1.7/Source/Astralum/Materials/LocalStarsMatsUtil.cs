@@ -29,14 +29,14 @@ namespace Astralum.Materials
     
     private static Material CreateMaterial(SavedLocalStar star)
     {
-      Shader shader = InternalDefOf.Astra_LocalStar01.Shader;
-      
-      Material material = new Material(shader)
+      var shader = InternalDefOf.Astra_LocalStar01.Shader;
+      var material = new Material(shader)
       {
         name = $"Astralum_LocalStar01_{star.Id}"
       };
       
       ApplyStarProperties(material, star);
+      
       Object.DontDestroyOnLoad(material);
       
       return material;

@@ -119,13 +119,6 @@ namespace Astralum.Materials
     
     #endregion
     
-    #region Galactice Dust Band Properties
-    
-    public static readonly int EdgeFadeStart = Shader.PropertyToID("_EdgeFadeStart");
-    public static readonly int EdgeFadeEnd = Shader.PropertyToID("_EdgeFadeEnd");
-    
-    #endregion
-    
     #region Focus Shimmer Properties
     
     public static readonly int FocusShimmer = Shader.PropertyToID("_FocusShimmer");
@@ -143,11 +136,6 @@ namespace Astralum.Materials
     public static readonly int AuroraColorBottom = Shader.PropertyToID("_AuroraColorBottom");
     public static readonly int AuroraColorMiddle = Shader.PropertyToID("_AuroraColorMiddle");
     public static readonly int AuroraColorTop = Shader.PropertyToID("_AuroraColorTop");
-    /*public static readonly int RayFrequency = Shader.PropertyToID("_RayFrequency");
-    public static readonly int RayStrength = Shader.PropertyToID("_RayStrength");
-    public static readonly int AnimationSpeed = Shader.PropertyToID("_AnimationSpeed");
-    public static readonly int WiggleStrength = Shader.PropertyToID("_WiggleStrength");
-    public static readonly int WiggleSpeed =  Shader.PropertyToID("_WiggleSpeed");*/
     
     #endregion
   }

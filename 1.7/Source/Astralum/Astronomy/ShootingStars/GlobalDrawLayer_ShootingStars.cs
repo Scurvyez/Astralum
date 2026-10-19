@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using Astralum.DefOfs;
-using Astralum.Materials;
 using Astralum.Settings;
 using RimWorld;
 using RimWorld.Planet;

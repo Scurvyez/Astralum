@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Astralum.Materials;
 using Astralum.WorldComponents;
 using UnityEngine;
 using Verse;
@@ -11,9 +10,9 @@ namespace Astralum.Astronomy.Nebulae
     public static WorldComponent_CelestialObjectDataCache Data => Find.World.GetComponent<WorldComponent_CelestialObjectDataCache>();
 
     public static SavedNebula Create(string id, Vector3 dir, float size, float rotationDegrees, 
-      HashSet<string> usedNames)
+      HashSet<string> usedNames, ModExt_Nebulae ext)
     {
-      Color[] palette = CelestialColorGetter.TryGetRandomNebulaPalette();
+      NebulaeColorPalette palette = ext.colorPalettes.RandomElementByWeight(p => Mathf.Max(0f, p.weight));
       float colorStopB = Rand.Range(0.18f, 0.48f);
       float colorStopC = Rand.Range(colorStopB + 0.15f, 1f);
       string generatedName = NebulaNamingUtil.GenerateUniqueName(usedNames, id, dir);
@@ -22,10 +21,10 @@ namespace Astralum.Astronomy.Nebulae
         nebula =>
         {
           nebula.rotationDegrees = rotationDegrees;
-          nebula.colorA = palette[0];
-          nebula.colorB = palette[1];
-          nebula.colorC = palette[2];
-          nebula.colorD = palette[3];
+          nebula.colorA = palette.colorA;
+          nebula.colorB = palette.colorB;
+          nebula.colorC = palette.colorC;
+          nebula.colorD = palette.colorD;
           nebula.colorStopB = colorStopB;
           nebula.colorStopC = colorStopC;
           nebula.colorBandSharpness = Rand.Range(0.25f, 8f);

@@ -231,7 +231,7 @@ namespace Astralum.Harmony
       TelescopeReportData reportData = HarmonyPatchesUtil.TelescopeReports.GetValue(
         job, _ => HarmonyPatchesUtil.CreateTelescopeReportData(__instance.pawn));
       
-      if (!reportData.UseConstellationReport || reportData.Report.NullOrEmpty())
+      if (reportData is not { UseConstellationReport: true } || reportData.Report.NullOrEmpty())
         return;
       
       __result = reportData.Report;

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Astronomy.LocalStars;
-using Astralum.Debugging;
 using Astralum.DefOfs;
 using UnityEngine;
 using Verse;
@@ -31,8 +31,7 @@ namespace Astralum.Materials
     private static void CreateMaterial(SpectralClass spectralClass)
     {
       var shader = InternalDefOf.Astra_BackgroundStar01.Shader;
-
-      Material material = new Material(shader)
+      var material = new Material(shader)
       {
         name = $"Astralum_BackgroundStar{spectralClass}"
       };

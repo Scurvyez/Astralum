@@ -25,8 +25,7 @@ namespace Astralum.Materials
     private static Material CreateMaterial(string id)
     {
       var shader = InternalDefOf.Astra_Nebulae01.Shader;
-
-      Material material = new(shader)
+      var material = new Material(shader)
       {
         name = $"Astralum_Astra_Nebulae01_{id}"
       };

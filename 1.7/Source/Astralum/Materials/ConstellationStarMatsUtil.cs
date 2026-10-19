@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Astralum.API;
 using Astralum.Astronomy.LocalStars;
 using Astralum.DefOfs;
 using UnityEngine;
@@ -30,8 +31,7 @@ namespace Astralum.Materials
     private static void CreateMaterial(SpectralClass spectralClass)
     {
       var shader = InternalDefOf.Astra_ConstellationStar01.Shader;
-      
-      Material material = new(shader)
+      var material = new Material(shader)
       {
         name = $"Astralum_ConstellationStar{spectralClass}"
       };

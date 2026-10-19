@@ -29,6 +29,184 @@
         <nebulaCount>0~50</nebulaCount>
         <nebulaSizeRange>4~14</nebulaSizeRange>
         <galacticPlaneBounds>-0.18~0.18</galacticPlaneBounds>
+        <colorPalettes>
+          <li>
+            <name>BlueMagenta</name>
+            <colorA>(0.04, 0.06, 0.12, 1)</colorA>
+            <colorB>(0.16, 0.28, 0.75, 1)</colorB>
+            <colorC>(0.65, 0.20, 0.85, 1)</colorC>
+            <colorD>(1.00, 0.62, 0.28, 1)</colorD>
+            <weight>1.0</weight>
+          </li>
+          <li>
+            <name>DustyAmber</name>
+            <colorA>(0.08, 0.055, 0.035, 1)</colorA>
+            <colorB>(0.35, 0.18, 0.08, 1)</colorB>
+            <colorC>(0.85, 0.38, 0.12, 1)</colorC>
+            <colorD>(1.00, 0.78, 0.35, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>CyanViolet</name>
+            <colorA>(0.035, 0.07, 0.09, 1)</colorA>
+            <colorB>(0.08, 0.48, 0.65, 1)</colorB>
+            <colorC>(0.35, 0.22, 0.95, 1)</colorC>
+            <colorD>(0.85, 0.65, 1.00, 1)</colorD>
+            <weight>2.0</weight>
+          </li>
+          <li>
+            <name>MutedDustCloud</name>
+            <colorA>(0.035, 0.035, 0.04, 1)</colorA>
+            <colorB>(0.16, 0.13, 0.10, 1)</colorB>
+            <colorC>(0.38, 0.28, 0.20, 1)</colorC>
+            <colorD>(0.70, 0.55, 0.38, 1)</colorD>
+            <weight>1.5</weight>
+          </li>
+          <li>
+            <name>RedPurpleEmission</name>
+            <colorA>(0.08, 0.02, 0.04, 1)</colorA>
+            <colorB>(0.45, 0.05, 0.12, 1)</colorB>
+            <colorC>(0.78, 0.18, 0.55, 1)</colorC>
+            <colorD>(1.00, 0.55, 0.82, 1)</colorD>
+            <weight>2.0</weight>
+          </li>
+          <li>
+            <name>GreenTeal</name>
+            <colorA>(0.02, 0.06, 0.05, 1)</colorA>
+            <colorB>(0.05, 0.35, 0.25, 1)</colorB>
+            <colorC>(0.10, 0.72, 0.58, 1)</colorC>
+            <colorD>(0.70, 1.00, 0.88, 1)</colorD>
+            <weight>1.0</weight>
+          </li>
+          <li>
+            <name>MagentaPink</name>
+            <colorA>(0.06, 0.02, 0.08, 1)</colorA>
+            <colorB>(0.38, 0.08, 0.45, 1)</colorB>
+            <colorC>(0.90, 0.20, 0.75, 1)</colorC>
+            <colorD>(1.00, 0.72, 0.92, 1)</colorD>
+            <weight>1.5</weight>
+          </li>
+          <li>
+            <name>GreenBlue</name>
+            <colorA>(0.02, 0.05, 0.08, 1)</colorA>
+            <colorB>(0.04, 0.22, 0.45, 1)</colorB>
+            <colorC>(0.08, 0.62, 0.48, 1)</colorC>
+            <colorD>(0.72, 0.95, 1.00, 1)</colorD>
+            <weight>1.0</weight>
+          </li>
+          <li>
+            <name>GoldViolet</name>
+            <colorA>(0.05, 0.035, 0.08, 1)</colorA>
+            <colorB>(0.32, 0.16, 0.55, 1)</colorB>
+            <colorC>(0.95, 0.58, 0.18, 1)</colorC>
+            <colorD>(1.00, 0.92, 0.55, 1)</colorD>
+            <weight>1.0</weight>
+          </li>
+          <li>
+            <name>CrimsonOrangeSmoke</name>
+            <colorA>(0.07, 0.025, 0.018, 1)</colorA>
+            <colorB>(0.42, 0.05, 0.035, 1)</colorB>
+            <colorC>(0.95, 0.28, 0.08, 1)</colorC>
+            <colorD>(1.00, 0.78, 0.38, 1)</colorD>
+            <weight>1.5</weight>
+          </li>
+          <li>
+            <name>IcyBlueWhite</name>
+            <colorA>(0.025, 0.04, 0.08, 1)</colorA>
+            <colorB>(0.08, 0.28, 0.62, 1)</colorB>
+            <colorC>(0.38, 0.78, 1.00, 1)</colorC>
+            <colorD>(0.92, 0.98, 1.00, 1)</colorD>
+            <weight>2.0</weight>
+          </li>
+          <li>
+            <name>ToxicGreenYellow</name>
+            <colorA>(0.025, 0.055, 0.025, 1)</colorA>
+            <colorB>(0.12, 0.42, 0.10, 1)</colorB>
+            <colorC>(0.62, 0.95, 0.18, 1)</colorC>
+            <colorD>(1.00, 0.92, 0.35, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>CobaltRustPearl</name>
+            <colorA>(0.015, 0.025, 0.09, 1)</colorA>
+            <colorB>(0.04, 0.22, 0.85, 1)</colorB>
+            <colorC>(0.95, 0.28, 0.06, 1)</colorC>
+            <colorD>(0.98, 0.90, 0.74, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>EmeraldVioletEmber</name>
+            <colorA>(0.015, 0.06, 0.035, 1)</colorA>
+            <colorB>(0.00, 0.72, 0.38, 1)</colorB>
+            <colorC>(0.48, 0.10, 0.92, 1)</colorC>
+            <colorD>(1.00, 0.36, 0.08, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>IndigoAcidGreenRose</name>
+            <colorA>(0.025, 0.018, 0.10, 1)</colorA>
+            <colorB>(0.18, 0.08, 0.78, 1)</colorB>
+            <colorC>(0.58, 1.00, 0.08, 1)</colorC>
+            <colorD>(1.00, 0.34, 0.62, 1)</colorD>
+            <weight>0.25</weight>
+          </li>
+          <li>
+            <name>BlackTealSolarOrangeCyan</name>
+            <colorA>(0.010, 0.045, 0.055, 1)</colorA>
+            <colorB>(0.00, 0.55, 0.62, 1)</colorB>
+            <colorC>(1.00, 0.44, 0.04, 1)</colorC>
+            <colorD>(0.70, 1.00, 0.96, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>DeepPurpleLimeHotMagenta</name>
+            <colorA>(0.055, 0.015, 0.075, 1)</colorA>
+            <colorB>(0.34, 0.04, 0.72, 1)</colorB>
+            <colorC>(0.74, 0.98, 0.12, 1)</colorC>
+            <colorD>(1.00, 0.18, 0.82, 1)</colorD>
+            <weight>0.25</weight>
+          </li>
+          <li>
+            <name>NavyCopperGlacier</name>
+            <colorA>(0.012, 0.022, 0.065, 1)</colorA>
+            <colorB>(0.08, 0.18, 0.52, 1)</colorB>
+            <colorC>(0.86, 0.34, 0.10, 1)</colorC>
+            <colorD>(0.78, 0.96, 1.00, 1)</colorD>
+            <weight>1.0</weight>
+          </li>
+          <li>
+            <name>BloodRedCyanLightning</name>
+            <colorA>(0.075, 0.008, 0.012, 1)</colorA>
+            <colorB>(0.58, 0.015, 0.035, 1)</colorB>
+            <colorC>(0.02, 0.78, 0.95, 1)</colorC>
+            <colorD>(1.00, 0.72, 0.48, 1)</colorD>
+            <weight>0.25</weight>
+          </li>
+          <li>
+            <name>JadeUltramarineGold</name>
+            <colorA>(0.012, 0.055, 0.045, 1)</colorA>
+            <colorB>(0.00, 0.58, 0.42, 1)</colorB>
+            <colorC>(0.06, 0.12, 0.95, 1)</colorC>
+            <colorD>(1.00, 0.82, 0.16, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+          <li>
+            <name>VioletShadowOrangeMint</name>
+            <colorA>(0.045, 0.018, 0.070, 1)</colorA>
+            <colorB>(0.44, 0.06, 0.82, 1)</colorB>
+            <colorC>(1.00, 0.48, 0.06, 1)</colorC>
+            <colorD>(0.58, 1.00, 0.74, 1)</colorD>
+            <weight>0.25</weight>
+          </li>
+          <li>
+            <name>SapphireCrimsonPaleGold</name>
+            <colorA>(0.010, 0.028, 0.085, 1)</colorA>
+            <colorB>(0.02, 0.32, 0.95, 1)</colorB>
+            <colorC>(0.88, 0.04, 0.16, 1)</colorC>
+            <colorD>(1.00, 0.88, 0.42, 1)</colorD>
+            <weight>0.5</weight>
+          </li>
+        </colorPalettes>
       </li>
     </modExtensions>
   </GlobalWorldDrawLayerDef>

@@ -9,7 +9,7 @@ namespace Astralum.API
   /// Provides utility methods and threshold constants for calculating solar altitude
   /// and evaluating twilight and daylight phases across maps and planet tiles.
   /// </summary>
-  public static class TwilightUtility
+  public static class TwilightUtil
   {
     /// <summary>
     /// The solar altitude angle threshold (in degrees) defining the boundary of civil twilight (-6°).
